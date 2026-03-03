@@ -1,3 +1,4 @@
+import React from 'react';
 import { ChevronDown, ChevronRight, Clock, Flag, AlertTriangle, Paperclip } from 'lucide-react';
 import { useGanttContext } from '../../context/GanttContext';
 import { C, HEADER_H, LEFT_W, ROW_H, STEP_PALETTE } from '../../utils/constants';

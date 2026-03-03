@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { ChevronDown, Clock, Flag, MessageCircle, Plus } from 'lucide-react';
 import { useGanttContext } from '../../context/GanttContext';
 import { C, STEP_PALETTE } from '../../utils/constants';

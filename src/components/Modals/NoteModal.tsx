@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Loader2, Link2, Upload, Paperclip, X } from "lucide-react";
 import type { PredecessorType, DependencyType } from "../../types";
 
