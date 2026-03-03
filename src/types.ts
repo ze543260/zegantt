@@ -57,3 +57,56 @@ export interface GanttDependency {
     type: DependencyType;
     lag: number;
 }
+
+/** Compatible task shape exposed through callbacks */
+export interface GanttTask {
+    id: string;
+    name: string;
+    start: Date;
+    end: Date;
+    type: string;
+    progress: number;
+}
+
+export interface CreateDependencyParams {
+    predecessorId: string;
+    predecessorType: PredecessorType;
+    successorId: string;
+    successorType: PredecessorType;
+    type: DependencyType;
+    lag: number;
+}
+
+export interface ProjectGanttProps {
+    steps: GanttStep[];
+    milestones?: GanttMilestone[];
+    events?: GanttEvent[];
+    notes?: GanttNote[];
+    dependencies?: GanttDependency[];
+    loading?: boolean;
+    projectName?: string;
+    /** Object containing localized strings or a translation function */
+    translations?: Record<string, string> | ((key: string, fallback?: string) => string);
+    /** When true renders one project-header row per project and groups tasks by project */
+    groupByProject?: boolean;
+    onTaskChange?: (task: GanttTask) => void;
+    onTaskClick?: (task: GanttTask) => void;
+    onAddNewStage?: (date?: Date, projectId?: string) => void;
+    onViewStage?: (task: GanttTask) => void;
+    onEditStage?: (task: GanttTask) => void;
+    onDeleteStage?: (taskId: string) => void;
+    onCreateDependency?: (params: CreateDependencyParams) => Promise<void>;
+    onDeleteDependency?: (dependencyId: string) => Promise<void>;
+    onAddMilestone?: (date?: Date, projectId?: string) => void;
+    onAddEvent?: (date?: Date, projectId?: string) => void;
+    onAddNote?: (date?: Date, projectId?: string) => void;
+    onSaveNote?: (data: {
+        title: string;
+        description: string;
+        color: string;
+        date: string;
+        predecessorId: string;
+        dependencyType: DependencyType;
+        files: File[];
+    }) => Promise<void>;
+}
