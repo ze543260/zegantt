@@ -15,7 +15,7 @@ export default defineConfig({
       fileName: 'zegantt',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react'],
       output: {
         globals: {
           react: 'React',
