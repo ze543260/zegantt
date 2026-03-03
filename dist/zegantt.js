@@ -1,266 +1,7 @@
-import Wt, { forwardRef as zt, createElement as pt, useState as W, useRef as Be, useMemo as be, useCallback as q, useEffect as ve } from "react";
-var et = { exports: {} }, Oe = {};
-var Rt;
-function sr() {
-  if (Rt) return Oe;
-  Rt = 1;
-  var d = /* @__PURE__ */ Symbol.for("react.transitional.element"), m = /* @__PURE__ */ Symbol.for("react.fragment");
-  function y(T, x, g) {
-    var w = null;
-    if (g !== void 0 && (w = "" + g), x.key !== void 0 && (w = "" + x.key), "key" in x) {
-      g = {};
-      for (var $ in x)
-        $ !== "key" && (g[$] = x[$]);
-    } else g = x;
-    return x = g.ref, {
-      $$typeof: d,
-      type: T,
-      key: w,
-      ref: x !== void 0 ? x : null,
-      props: g
-    };
-  }
-  return Oe.Fragment = m, Oe.jsx = y, Oe.jsxs = y, Oe;
-}
-var Ye = {};
-var Dt;
-function nr() {
-  return Dt || (Dt = 1, process.env.NODE_ENV !== "production" && (function() {
-    function d(n) {
-      if (n == null) return null;
-      if (typeof n == "function")
-        return n.$$typeof === b ? null : n.displayName || n.name || null;
-      if (typeof n == "string") return n;
-      switch (n) {
-        case ee:
-          return "Fragment";
-        case c:
-          return "Profiler";
-        case ie:
-          return "StrictMode";
-        case ae:
-          return "Suspense";
-        case le:
-          return "SuspenseList";
-        case tt:
-          return "Activity";
-      }
-      if (typeof n == "object")
-        switch (typeof n.tag == "number" && console.error(
-          "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
-        ), n.$$typeof) {
-          case Y:
-            return "Portal";
-          case v:
-            return n.displayName || "Context";
-          case Z:
-            return (n._context.displayName || "Context") + ".Consumer";
-          case U:
-            var f = n.render;
-            return n = n.displayName, n || (n = f.displayName || f.name || "", n = n !== "" ? "ForwardRef(" + n + ")" : "ForwardRef"), n;
-          case Re:
-            return f = n.displayName || null, f !== null ? f : d(n.type) || "Memo";
-          case A:
-            f = n._payload, n = n._init;
-            try {
-              return d(n(f));
-            } catch {
-            }
-        }
-      return null;
-    }
-    function m(n) {
-      return "" + n;
-    }
-    function y(n) {
-      try {
-        m(n);
-        var f = !1;
-      } catch {
-        f = !0;
-      }
-      if (f) {
-        f = console;
-        var I = f.error, L = typeof Symbol == "function" && Symbol.toStringTag && n[Symbol.toStringTag] || n.constructor.name || "Object";
-        return I.call(
-          f,
-          "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-          L
-        ), m(n);
-      }
-    }
-    function T(n) {
-      if (n === ee) return "<>";
-      if (typeof n == "object" && n !== null && n.$$typeof === A)
-        return "<...>";
-      try {
-        var f = d(n);
-        return f ? "<" + f + ">" : "<...>";
-      } catch {
-        return "<...>";
-      }
-    }
-    function x() {
-      var n = De.A;
-      return n === null ? null : n.getOwner();
-    }
-    function g() {
-      return Error("react-stack-top-frame");
-    }
-    function w(n) {
-      if (de.call(n, "key")) {
-        var f = Object.getOwnPropertyDescriptor(n, "key").get;
-        if (f && f.isReactWarning) return !1;
-      }
-      return n.key !== void 0;
-    }
-    function $(n, f) {
-      function I() {
-        Ne || (Ne = !0, console.error(
-          "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-          f
-        ));
-      }
-      I.isReactWarning = !0, Object.defineProperty(n, "key", {
-        get: I,
-        configurable: !0
-      });
-    }
-    function z() {
-      var n = d(this.type);
-      return j[n] || (j[n] = !0, console.error(
-        "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
-      )), n = this.props.ref, n !== void 0 ? n : null;
-    }
-    function k(n, f, I, L, B, we) {
-      var E = I.ref;
-      return n = {
-        $$typeof: Q,
-        type: n,
-        key: f,
-        props: I,
-        _owner: L
-      }, (E !== void 0 ? E : null) !== null ? Object.defineProperty(n, "ref", {
-        enumerable: !1,
-        get: z
-      }) : Object.defineProperty(n, "ref", { enumerable: !1, value: null }), n._store = {}, Object.defineProperty(n._store, "validated", {
-        configurable: !1,
-        enumerable: !1,
-        writable: !0,
-        value: 0
-      }), Object.defineProperty(n, "_debugInfo", {
-        configurable: !1,
-        enumerable: !1,
-        writable: !0,
-        value: null
-      }), Object.defineProperty(n, "_debugStack", {
-        configurable: !1,
-        enumerable: !1,
-        writable: !0,
-        value: B
-      }), Object.defineProperty(n, "_debugTask", {
-        configurable: !1,
-        enumerable: !1,
-        writable: !0,
-        value: we
-      }), Object.freeze && (Object.freeze(n.props), Object.freeze(n)), n;
-    }
-    function R(n, f, I, L, B, we) {
-      var E = f.children;
-      if (E !== void 0)
-        if (L)
-          if (Xe(E)) {
-            for (L = 0; L < E.length; L++)
-              D(E[L]);
-            Object.freeze && Object.freeze(E);
-          } else
-            console.error(
-              "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
-            );
-        else D(E);
-      if (de.call(f, "key")) {
-        E = d(n);
-        var se = Object.keys(f).filter(function(Ue) {
-          return Ue !== "key";
-        });
-        L = 0 < se.length ? "{key: someKey, " + se.join(": ..., ") + ": ...}" : "{key: someKey}", He[E + L] || (se = 0 < se.length ? "{" + se.join(": ..., ") + ": ...}" : "{}", console.error(
-          `A props object containing a "key" prop is being spread into JSX:
-  let props = %s;
-  <%s {...props} />
-React keys must be passed directly to JSX without using spread:
-  let props = %s;
-  <%s key={someKey} {...props} />`,
-          L,
-          E,
-          se,
-          E
-        ), He[E + L] = !0);
-      }
-      if (E = null, I !== void 0 && (y(I), E = "" + I), w(f) && (y(f.key), E = "" + f.key), "key" in f) {
-        I = {};
-        for (var he in f)
-          he !== "key" && (I[he] = f[he]);
-      } else I = f;
-      return E && $(
-        I,
-        typeof n == "function" ? n.displayName || n.name || "Unknown" : n
-      ), k(
-        n,
-        E,
-        I,
-        x(),
-        B,
-        we
-      );
-    }
-    function D(n) {
-      O(n) ? n._store && (n._store.validated = 1) : typeof n == "object" && n !== null && n.$$typeof === A && (n._payload.status === "fulfilled" ? O(n._payload.value) && n._payload.value._store && (n._payload.value._store.validated = 1) : n._store && (n._store.validated = 1));
-    }
-    function O(n) {
-      return typeof n == "object" && n !== null && n.$$typeof === Q;
-    }
-    var N = Wt, Q = /* @__PURE__ */ Symbol.for("react.transitional.element"), Y = /* @__PURE__ */ Symbol.for("react.portal"), ee = /* @__PURE__ */ Symbol.for("react.fragment"), ie = /* @__PURE__ */ Symbol.for("react.strict_mode"), c = /* @__PURE__ */ Symbol.for("react.profiler"), Z = /* @__PURE__ */ Symbol.for("react.consumer"), v = /* @__PURE__ */ Symbol.for("react.context"), U = /* @__PURE__ */ Symbol.for("react.forward_ref"), ae = /* @__PURE__ */ Symbol.for("react.suspense"), le = /* @__PURE__ */ Symbol.for("react.suspense_list"), Re = /* @__PURE__ */ Symbol.for("react.memo"), A = /* @__PURE__ */ Symbol.for("react.lazy"), tt = /* @__PURE__ */ Symbol.for("react.activity"), b = /* @__PURE__ */ Symbol.for("react.client.reference"), De = N.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, de = Object.prototype.hasOwnProperty, Xe = Array.isArray, S = console.createTask ? console.createTask : function() {
-      return null;
-    };
-    N = {
-      react_stack_bottom_frame: function(n) {
-        return n();
-      }
-    };
-    var Ne, j = {}, Me = N.react_stack_bottom_frame.bind(
-      N,
-      g
-    )(), ke = S(T(g)), He = {};
-    Ye.Fragment = ee, Ye.jsx = function(n, f, I) {
-      var L = 1e4 > De.recentlyCreatedOwnerStacks++;
-      return R(
-        n,
-        f,
-        I,
-        !1,
-        L ? Error("react-stack-top-frame") : Me,
-        L ? S(T(n)) : ke
-      );
-    }, Ye.jsxs = function(n, f, I) {
-      var L = 1e4 > De.recentlyCreatedOwnerStacks++;
-      return R(
-        n,
-        f,
-        I,
-        !0,
-        L ? Error("react-stack-top-frame") : Me,
-        L ? S(T(n)) : ke
-      );
-    };
-  })()), Ye;
-}
-var Nt;
-function ir() {
-  return Nt || (Nt = 1, process.env.NODE_ENV === "production" ? et.exports = sr() : et.exports = nr()), et.exports;
-}
-var e = ir();
-const ar = (d) => d.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase(), Bt = (...d) => d.filter((m, y, T) => !!m && m.trim() !== "" && T.indexOf(m) === y).join(" ").trim();
-var lr = {
+import { jsx as o, jsxs as s, Fragment as Ce } from "react/jsx-runtime";
+import Qt, { forwardRef as Mt, createElement as rt, useState as C, useRef as Ne, useMemo as ue, useCallback as F, useEffect as he } from "react";
+const er = (u) => u.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase(), Lt = (...u) => u.filter((x, m, T) => !!x && x.trim() !== "" && T.indexOf(x) === m).join(" ").trim();
+var tr = {
   xmlns: "http://www.w3.org/2000/svg",
   width: 24,
   height: 24,
@@ -271,52 +12,52 @@ var lr = {
   strokeLinecap: "round",
   strokeLinejoin: "round"
 };
-const dr = zt(
+const rr = Mt(
   ({
-    color: d = "currentColor",
-    size: m = 24,
-    strokeWidth: y = 2,
+    color: u = "currentColor",
+    size: x = 24,
+    strokeWidth: m = 2,
     absoluteStrokeWidth: T,
-    className: x = "",
-    children: g,
-    iconNode: w,
-    ...$
-  }, z) => pt(
+    className: g = "",
+    children: k,
+    iconNode: S,
+    ...D
+  }, W) => rt(
     "svg",
     {
-      ref: z,
-      ...lr,
-      width: m,
-      height: m,
-      stroke: d,
-      strokeWidth: T ? Number(y) * 24 / Number(m) : y,
-      className: Bt("lucide", x),
-      ...$
+      ref: W,
+      ...tr,
+      width: x,
+      height: x,
+      stroke: u,
+      strokeWidth: T ? Number(m) * 24 / Number(x) : m,
+      className: Lt("lucide", g),
+      ...D
     },
     [
-      ...w.map(([k, R]) => pt(k, R)),
-      ...Array.isArray(g) ? g : [g]
+      ...S.map(([b, E]) => rt(b, E)),
+      ...Array.isArray(k) ? k : [k]
     ]
   )
 );
-const oe = (d, m) => {
-  const y = zt(
-    ({ className: T, ...x }, g) => pt(dr, {
-      ref: g,
-      iconNode: m,
-      className: Bt(`lucide-${ar(d)}`, T),
-      ...x
+const J = (u, x) => {
+  const m = Mt(
+    ({ className: T, ...g }, k) => rt(rr, {
+      ref: k,
+      iconNode: x,
+      className: Lt(`lucide-${er(u)}`, T),
+      ...g
     })
   );
-  return y.displayName = `${d}`, y;
+  return m.displayName = `${u}`, m;
 };
-const cr = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]], at = oe("ChevronDown", cr);
-const pr = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]], Mt = oe("ChevronRight", pr);
-const ur = [
+const or = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]], Ze = J("ChevronDown", or);
+const nr = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]], $t = J("ChevronRight", nr);
+const sr = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["polyline", { points: "12 6 12 12 16 14", key: "68esgv" }]
-], $e = oe("Clock", ur);
-const xr = [
+], ve = J("Clock", sr);
+const ir = [
   [
     "path",
     {
@@ -325,16 +66,16 @@ const xr = [
     }
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
-], fr = oe("Eye", xr);
-const hr = [
+], ar = J("Eye", ir);
+const lr = [
   ["path", { d: "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z", key: "i9b6wo" }],
   ["line", { x1: "4", x2: "4", y1: "22", y2: "15", key: "1cm3nv" }]
-], Ie = oe("Flag", hr);
-const gr = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]], mr = oe("LoaderCircle", gr);
-const yr = [
+], ke = J("Flag", lr);
+const dr = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]], cr = J("LoaderCircle", dr);
+const pr = [
   ["path", { d: "M7.9 20A9 9 0 1 0 4 16.1L2 22Z", key: "vv11sd" }]
-], Ft = oe("MessageCircle", yr);
-const br = [
+], Ct = J("MessageCircle", pr);
+const ur = [
   ["path", { d: "M13.234 20.252 21 12.3", key: "1cbrk9" }],
   [
     "path",
@@ -343,8 +84,8 @@ const br = [
       key: "1pkts6"
     }
   ]
-], lt = oe("Paperclip", br);
-const vr = [
+], Qe = J("Paperclip", ur);
+const hr = [
   [
     "path",
     {
@@ -352,19 +93,19 @@ const vr = [
       key: "1a8usu"
     }
   ]
-], jr = oe("Pen", vr);
-const kr = [
+], gr = J("Pen", hr);
+const fr = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "M12 5v14", key: "s699le" }]
-], dt = oe("Plus", kr);
-const wr = [
+], et = J("Plus", fr);
+const xr = [
   ["path", { d: "M3 6h18", key: "d0wm0j" }],
   ["path", { d: "M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6", key: "4alrt4" }],
   ["path", { d: "M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2", key: "v07s0e" }],
   ["line", { x1: "10", x2: "10", y1: "11", y2: "17", key: "1uufr5" }],
   ["line", { x1: "14", x2: "14", y1: "11", y2: "17", key: "xtxkd" }]
-], Sr = oe("Trash2", wr);
-const Er = [
+], yr = J("Trash2", xr);
+const mr = [
   [
     "path",
     {
@@ -374,7 +115,7 @@ const Er = [
   ],
   ["path", { d: "M12 9v4", key: "juzpu7" }],
   ["path", { d: "M12 17h.01", key: "p32p05" }]
-], Lt = oe("TriangleAlert", Er), G = {
+], It = J("TriangleAlert", mr), Y = {
   white: "#FFFFFF",
   dark_gray: "#4F4F4F",
   gray: "#7B7B7B",
@@ -385,45 +126,45 @@ const Er = [
   orange: "#CD6200",
   yellow: "#FFBB1C",
   red: "#FF0000"
-}, t = {
+}, e = {
   pageBg: "#F8FAFB",
-  surface: G.white,
+  surface: Y.white,
   // subtle alternating row
   headerBg: "#F2F5F3",
   // soft green-tinted header
-  textTitle: G.dark_green,
+  textTitle: Y.dark_green,
   // #1A3C30
-  textPrimary: G.dark_gray,
+  textPrimary: Y.dark_gray,
   // #4F4F4F
-  textSecondary: G.gray,
+  textSecondary: Y.gray,
   // #7B7B7B
-  textMuted: G.light_gray,
+  textMuted: Y.light_gray,
   // #D9D9D9
-  group: G.dark_green,
+  group: Y.dark_green,
   // #1A3C30
-  groupLight: G.water_green,
+  groupLight: Y.water_green,
   // #A0D8A8 (bar border)
-  milestone: G.dark_green,
+  milestone: Y.dark_green,
   // #1A3C30
-  milestoneRing: G.light_green,
+  milestoneRing: Y.light_green,
   // #A0D8A8
-  event: G.orange,
+  event: Y.orange,
   // yellow translucent
-  note: G.yellow,
+  note: Y.yellow,
   // #FFBB1C
-  border: G.light_gray,
+  border: Y.light_gray,
   // #D9D9D9
   borderLight: "#ECECEC",
   weekendBg: "#F4F6F5",
-  today: G.red,
+  today: Y.red,
   // #FF0000
   todayBg: "#FF000008",
   // today column tint
-  arrow: G.gray,
+  arrow: Y.gray,
   // #7B7B7B
-  arrowHover: G.dark_green
+  arrowHover: Y.dark_green
   // #1A3C30
-}, C = 50, ut = 32, Tr = ut * 2, $r = 460, ne = 26, Fe = 28, xt = 120, Ir = 90, Rr = 44, Dr = 40, Nr = 3.5, K = [
+}, M = 50, ot = 32, br = ot * 2, vr = 460, Z = 26, Me = 28, nt = 120, kr = 90, wr = 44, Sr = 40, $r = 3.5, U = [
   { bar: "#D1D8A0", barBorder: "#A0D8A8", progress: "#1A3C30" },
   // sistema (light_yellow)
   { bar: "#A0D8C8", barBorder: "#6BBFA8", progress: "#14534A" },
@@ -444,12 +185,12 @@ const Er = [
   // violet
   { bar: "#A0D8B0", barBorder: "#70C888", progress: "#1A5030" }
   // mint
-], _t = {
+], Tt = {
   step: "Etapas",
   milestone: "Marcos",
   event: "Eventos",
   note: "Notas"
-}, Ot = 864e5, J = (d, m) => new Date(d.getTime() + m * Ot), je = (d, m) => Math.round((m.getTime() - d.getTime()) / Ot), Ct = (d) => d.getDay() === 0 || d.getDay() === 6, At = (d) => new Date(d.getFullYear(), d.getMonth(), 1), ct = (d) => new Date(d.getFullYear(), d.getMonth() + 1, 0), re = (d) => `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`, Pt = {
+}, Rt = 864e5, O = (u, x) => new Date(u.getTime() + x * Rt), ge = (u, x) => Math.round((x.getTime() - u.getTime()) / Rt), Dt = (u) => u.getDay() === 0 || u.getDay() === 6, Et = (u) => new Date(u.getFullYear(), u.getMonth(), 1), tt = (u) => new Date(u.getFullYear(), u.getMonth() + 1, 0), K = (u) => `${String(u.getDate()).padStart(2, "0")}/${String(u.getMonth() + 1).padStart(2, "0")}/${u.getFullYear()}`, Nt = {
   0: "JANEIRO",
   1: "FEVEREIRO",
   2: "MARÇO",
@@ -463,606 +204,606 @@ const Er = [
   10: "NOVEMBRO",
   11: "DEZEMBRO"
 };
-function Mr(d, m) {
-  const y = m === "month" ? Dr : Nr;
-  if (d.length === 0) {
-    const R = /* @__PURE__ */ new Date(), D = At(R), O = ct(R), N = je(D, O) + 1;
+function Ir(u, x) {
+  const m = x === "month" ? Sr : $r;
+  if (u.length === 0) {
+    const E = /* @__PURE__ */ new Date(), N = Et(E), X = tt(E), R = ge(N, X) + 1;
     return {
-      start: D,
-      end: O,
-      totalDays: N,
-      dayWidth: y,
-      totalWidth: N * y,
-      months: [{ date: D, label: `${Pt[D.getMonth()]} DE ${D.getFullYear()}`, startDay: 0, days: N }]
+      start: N,
+      end: X,
+      totalDays: R,
+      dayWidth: m,
+      totalWidth: R * m,
+      months: [{ date: N, label: `${Nt[N.getMonth()]} DE ${N.getFullYear()}`, startDay: 0, days: R }]
     };
   }
-  let T = new Date(d[0].start), x = new Date(d[0].end);
-  d.forEach((R) => {
-    R.start < T && (T = new Date(R.start)), R.end > x && (x = new Date(R.end));
+  let T = new Date(u[0].start), g = new Date(u[0].end);
+  u.forEach((E) => {
+    E.start < T && (T = new Date(E.start)), E.end > g && (g = new Date(E.end));
   });
-  const g = At(J(T, -14)), w = ct(J(x, 14)), $ = je(g, w) + 1, z = [];
-  let k = new Date(g);
-  for (; k <= w; ) {
-    const R = ct(k), D = R > w ? w : R, O = je(g, k), N = je(k, D) + 1;
-    z.push({
-      date: new Date(k),
-      label: `${Pt[k.getMonth()]} DE ${k.getFullYear()}`,
-      startDay: O,
-      days: N
-    }), k = new Date(k.getFullYear(), k.getMonth() + 1, 1);
+  const k = Et(O(T, -14)), S = tt(O(g, 14)), D = ge(k, S) + 1, W = [];
+  let b = new Date(k);
+  for (; b <= S; ) {
+    const E = tt(b), N = E > S ? S : E, X = ge(k, b), R = ge(b, N) + 1;
+    W.push({
+      date: new Date(b),
+      label: `${Nt[b.getMonth()]} DE ${b.getFullYear()}`,
+      startDay: X,
+      days: R
+    }), b = new Date(b.getFullYear(), b.getMonth() + 1, 1);
   }
-  return { start: g, end: w, totalDays: $, dayWidth: y, totalWidth: $ * y, months: z };
+  return { start: k, end: S, totalDays: D, dayWidth: m, totalWidth: D * m, months: W };
 }
-function te(d, m) {
-  return je(m.start, d) * m.dayWidth;
+function G(u, x) {
+  return ge(x.start, u) * x.dayWidth;
 }
-function Lr(d, m, y, T) {
-  const x = /* @__PURE__ */ new Map();
-  return d.forEach((g) => x.set(g.id, g)), m.map((g) => {
-    const w = x.get(g.predecessorId), $ = x.get(g.successorId);
-    if (!w || !$) return null;
-    const z = T.get(w.id), k = T.get($.id);
-    if (z == null || k == null) return null;
-    const R = w.originalType !== "step", D = $.originalType !== "step", O = R ? te(w.start, y) + xt : te(w.end, y), N = z * C + C / 2, Q = D ? te($.start, y) - 10 : te($.start, y), Y = k * C + C / 2, ee = 14, ie = Math.max(O + ee, Q - ee), c = N === Y ? `M${O},${N} L${Q - 6},${Y}` : `M${O},${N} L${ie},${N} L${ie},${Y} L${Q - 6},${Y}`;
-    return { predId: w.id, succId: $.id, path: c, headX: Q - 6, headY: Y };
+function Tr(u, x, m, T) {
+  const g = /* @__PURE__ */ new Map();
+  return u.forEach((k) => g.set(k.id, k)), x.map((k) => {
+    const S = g.get(k.predecessorId), D = g.get(k.successorId);
+    if (!S || !D) return null;
+    const W = T.get(S.id), b = T.get(D.id);
+    if (W == null || b == null) return null;
+    const E = S.originalType !== "step", N = D.originalType !== "step", X = E ? G(S.start, m) + nt : G(S.end, m), R = W * M + M / 2, Q = N ? G(D.start, m) - 10 : G(D.start, m), P = b * M + M / 2, se = 14, le = Math.max(X + se, Q - se), d = R === P ? `M${X},${R} L${Q - 6},${P}` : `M${X},${R} L${le},${R} L${le},${P} L${Q - 6},${P}`;
+    return { predId: S.id, succId: D.id, path: d, headX: Q - 6, headY: P };
   }).filter(Boolean);
 }
-function _r(d, m) {
-  if (d.length === 0 || m.length === 0) return /* @__PURE__ */ new Set();
-  const y = /* @__PURE__ */ new Map();
-  d.forEach((c) => y.set(c.id, c));
-  const T = new Set(d.map((c) => c.id)), x = m.filter((c) => T.has(c.predecessorId) && T.has(c.successorId));
-  if (x.length === 0) return /* @__PURE__ */ new Set();
-  const g = /* @__PURE__ */ new Map(), w = /* @__PURE__ */ new Map();
-  x.forEach((c) => {
-    g.has(c.predecessorId) || g.set(c.predecessorId, []), g.get(c.predecessorId).push(c.successorId), w.has(c.successorId) || w.set(c.successorId, []), w.get(c.successorId).push(c.predecessorId);
+function Dr(u, x) {
+  if (u.length === 0 || x.length === 0) return /* @__PURE__ */ new Set();
+  const m = /* @__PURE__ */ new Map();
+  u.forEach((d) => m.set(d.id, d));
+  const T = new Set(u.map((d) => d.id)), g = x.filter((d) => T.has(d.predecessorId) && T.has(d.successorId));
+  if (g.length === 0) return /* @__PURE__ */ new Set();
+  const k = /* @__PURE__ */ new Map(), S = /* @__PURE__ */ new Map();
+  g.forEach((d) => {
+    k.has(d.predecessorId) || k.set(d.predecessorId, []), k.get(d.predecessorId).push(d.successorId), S.has(d.successorId) || S.set(d.successorId, []), S.get(d.successorId).push(d.predecessorId);
   });
-  const $ = (c) => Math.max(1, je(c.start, c.end)), z = /* @__PURE__ */ new Set(), k = [];
-  function R(c) {
-    z.has(c) || (z.add(c), (g.get(c) || []).forEach(R), k.unshift(c));
+  const D = (d) => Math.max(1, ge(d.start, d.end)), W = /* @__PURE__ */ new Set(), b = [];
+  function E(d) {
+    W.has(d) || (W.add(d), (k.get(d) || []).forEach(E), b.unshift(d));
   }
-  d.forEach((c) => R(c.id));
-  const D = /* @__PURE__ */ new Map(), O = /* @__PURE__ */ new Map();
-  for (const c of k) {
-    const Z = y.get(c), v = w.get(c) || [];
-    let U = 0;
-    for (const le of v) U = Math.max(U, O.get(le) || 0);
-    const ae = v.length > 0 ? U : 0;
-    D.set(c, ae), O.set(c, ae + $(Z));
+  u.forEach((d) => E(d.id));
+  const N = /* @__PURE__ */ new Map(), X = /* @__PURE__ */ new Map();
+  for (const d of b) {
+    const q = m.get(d), y = S.get(d) || [];
+    let H = 0;
+    for (const ce of y) H = Math.max(H, X.get(ce) || 0);
+    const de = y.length > 0 ? H : 0;
+    N.set(d, de), X.set(d, de + D(q));
   }
-  let N = 0;
-  O.forEach((c) => {
-    c > N && (N = c);
+  let R = 0;
+  X.forEach((d) => {
+    d > R && (R = d);
   });
-  const Q = /* @__PURE__ */ new Map(), Y = /* @__PURE__ */ new Map();
-  for (let c = k.length - 1; c >= 0; c--) {
-    const Z = k[c], v = y.get(Z), U = g.get(Z) || [];
-    let ae = N;
-    for (const le of U) ae = Math.min(ae, Q.get(le) ?? N);
-    Y.set(Z, U.length > 0 ? ae : N), Q.set(Z, (Y.get(Z) || 0) - $(v));
+  const Q = /* @__PURE__ */ new Map(), P = /* @__PURE__ */ new Map();
+  for (let d = b.length - 1; d >= 0; d--) {
+    const q = b[d], y = m.get(q), H = k.get(q) || [];
+    let de = R;
+    for (const ce of H) de = Math.min(de, Q.get(ce) ?? R);
+    P.set(q, H.length > 0 ? de : R), Q.set(q, (P.get(q) || 0) - D(y));
   }
-  const ee = /* @__PURE__ */ new Set();
-  x.forEach((c) => {
-    ee.add(c.predecessorId), ee.add(c.successorId);
+  const se = /* @__PURE__ */ new Set();
+  g.forEach((d) => {
+    se.add(d.predecessorId), se.add(d.successorId);
   });
-  const ie = /* @__PURE__ */ new Set();
-  for (const c of k) {
-    if (!ee.has(c)) continue;
-    const Z = (Q.get(c) || 0) - (D.get(c) || 0);
-    Math.abs(Z) < 0.5 && ie.add(c);
+  const le = /* @__PURE__ */ new Set();
+  for (const d of b) {
+    if (!se.has(d)) continue;
+    const q = (Q.get(d) || 0) - (N.get(d) || 0);
+    Math.abs(q) < 0.5 && le.add(d);
   }
-  return ie;
+  return le;
 }
-function Pr({
-  steps: d,
-  milestones: m,
-  events: y,
+function Lr({
+  steps: u,
+  milestones: x,
+  events: m,
   notes: T,
-  dependencies: x,
-  loading: g,
-  projectName: w,
-  translations: $,
-  groupByProject: z,
-  onTaskChange: k,
-  onTaskClick: R,
-  onAddNewStage: D,
-  onViewStage: O,
-  onEditStage: N,
+  dependencies: g,
+  loading: k,
+  projectName: S,
+  translations: D,
+  groupByProject: W,
+  onTaskChange: b,
+  onTaskClick: E,
+  onAddNewStage: N,
+  onViewStage: X,
+  onEditStage: R,
   onDeleteStage: Q,
-  onCreateDependency: Y,
-  onDeleteDependency: ee,
-  onAddMilestone: ie,
-  onAddEvent: c,
-  onAddNote: Z
+  onCreateDependency: P,
+  onDeleteDependency: se,
+  onAddMilestone: le,
+  onAddEvent: d,
+  onAddNote: q
 }) {
-  const v = (r, s) => typeof $ == "function" ? $(r, s) : $ && typeof $ == "object" ? $[r] || s || r : s || r, [U, ae] = W("month"), [le, Re] = W(null), [A, tt] = W(null), [b, De] = W(null), [de, Xe] = W({ isOpen: !1, position: { x: 0, y: 0 }, task: null }), [S, Ne] = W(null), [j, Me] = W(null), [ke, He] = W(
+  const y = (t, n) => typeof D == "function" ? D(t, n) : D && typeof D == "object" ? D[t] || n || t : n || t, [H, de] = C("month"), [ce, Re] = C(null), [_, jt] = C(null), [f, st] = C(null), [fe, it] = C({ isOpen: !1, position: { x: 0, y: 0 }, task: null }), [w, Oe] = C(null), [v, Xe] = C(null), [je, zt] = C(
     /* @__PURE__ */ new Set(["step", "milestone", "event", "note"])
-  ), [n, f] = W(/* @__PURE__ */ new Set()), [I, L] = W(/* @__PURE__ */ new Set()), [B, we] = W(null), [E, se] = W(null), [he, Ue] = W("FS"), [rt, ft] = W(0), [Le, ht] = W(!1), [Yt, gt] = W(null), [X, ye] = W(null), [Ve, _e] = W(!1), mt = Be(null), ce = Be(null), ge = Be(null), me = Be(null), V = be(() => {
-    const r = [];
-    let s = 0;
-    return d.forEach((o) => {
-      const i = !!(o.startDate && o.finishDate), u = o.startDate || o.previsionStartDate, l = o.finishDate || o.previsionFinishDate;
-      if (!u || !l) return;
-      const a = new Date(u), h = new Date(l);
+  ), [He, Bt] = C(/* @__PURE__ */ new Set()), [at, Wt] = C(/* @__PURE__ */ new Set()), [V, Ue] = C(null), [xe, ze] = C(null), [Le, lt] = C("FS"), [Ve, dt] = C(0), [we, ct] = C(!1), [At, pt] = C(null), [z, pe] = C(null), [Be, Se] = C(!1), ut = Ne(null), ee = Ne(null), ie = Ne(null), ae = Ne(null), A = ue(() => {
+    const t = [];
+    let n = 0;
+    return u.forEach((r) => {
+      const i = !!(r.startDate && r.finishDate), p = r.startDate || r.previsionStartDate, l = r.finishDate || r.previsionFinishDate;
+      if (!p || !l) return;
+      const a = new Date(p), h = new Date(l);
       if (isNaN(a.getTime()) || isNaN(h.getTime())) return;
       h <= a && h.setDate(h.getDate() + 1);
-      let P, F;
-      if (o.previsionStartDate && o.previsionFinishDate) {
-        const H = new Date(o.previsionStartDate), ue = new Date(o.previsionFinishDate);
-        !isNaN(H.getTime()) && !isNaN(ue.getTime()) && (P = H, F = ue <= H ? J(H, 1) : ue);
+      let L, j;
+      if (r.previsionStartDate && r.previsionFinishDate) {
+        const B = new Date(r.previsionStartDate), re = new Date(r.previsionFinishDate);
+        !isNaN(B.getTime()) && !isNaN(re.getTime()) && (L = B, j = re <= B ? O(B, 1) : re);
       }
-      const _ = x?.filter((H) => H.successorId === o.id).map((H) => H.predecessorId) || [];
-      r.push({
-        id: o.id,
-        name: o.name,
+      const I = g?.filter((B) => B.successorId === r.id).map((B) => B.predecessorId) || [];
+      t.push({
+        id: r.id,
+        name: r.name,
         start: a,
         end: h,
-        progress: o.conclusionPercent ? Number(o.conclusionPercent) * 100 : 0,
+        progress: r.conclusionPercent ? Number(r.conclusionPercent) * 100 : 0,
         originalType: "step",
-        deps: _,
-        colorIdx: s % K.length,
-        previsionStart: P,
-        previsionEnd: F,
+        deps: I,
+        colorIdx: n % U.length,
+        previsionStart: L,
+        previsionEnd: j,
         hasActualDates: i,
-        projectId: o.projectId || void 0,
-        projectTitle: o.projectTitle || void 0
-      }), s++;
-    }), m?.forEach((o) => {
-      if (!o.date) return;
-      const i = new Date(o.date);
+        projectId: r.projectId || void 0,
+        projectTitle: r.projectTitle || void 0
+      }), n++;
+    }), x?.forEach((r) => {
+      if (!r.date) return;
+      const i = new Date(r.date);
       if (isNaN(i.getTime())) return;
-      const u = x?.filter((l) => l.successorId === o.id).map((l) => l.predecessorId) || [];
-      r.push({
-        id: o.id,
-        name: o.name,
+      const p = g?.filter((l) => l.successorId === r.id).map((l) => l.predecessorId) || [];
+      t.push({
+        id: r.id,
+        name: r.name,
         start: i,
         end: i,
-        progress: o.finished ? 100 : 0,
+        progress: r.finished ? 100 : 0,
         originalType: "milestone",
-        deps: u,
-        projectId: o.projectId || void 0,
-        projectTitle: o.projectTitle || void 0
+        deps: p,
+        projectId: r.projectId || void 0,
+        projectTitle: r.projectTitle || void 0
       });
-    }), y?.forEach((o) => {
-      if (!o.date) return;
-      const i = new Date(o.date);
+    }), m?.forEach((r) => {
+      if (!r.date) return;
+      const i = new Date(r.date);
       if (isNaN(i.getTime())) return;
-      const u = x?.filter((l) => l.successorId === o.id).map((l) => l.predecessorId) || [];
-      r.push({
-        id: o.id,
-        name: o.title,
+      const p = g?.filter((l) => l.successorId === r.id).map((l) => l.predecessorId) || [];
+      t.push({
+        id: r.id,
+        name: r.title,
         start: i,
         end: i,
-        progress: o.finished ? 100 : 0,
+        progress: r.finished ? 100 : 0,
         originalType: "event",
-        deps: u,
-        projectId: o.projectId || void 0,
-        projectTitle: o.projectTitle || void 0
+        deps: p,
+        projectId: r.projectId || void 0,
+        projectTitle: r.projectTitle || void 0
       });
-    }), T?.forEach((o) => {
-      if (!o.date) return;
-      const i = new Date(o.date);
-      isNaN(i.getTime()) || r.push({
-        id: o.id,
-        name: o.title || "Nota",
+    }), T?.forEach((r) => {
+      if (!r.date) return;
+      const i = new Date(r.date);
+      isNaN(i.getTime()) || t.push({
+        id: r.id,
+        name: r.title || "Nota",
         start: i,
         end: i,
         progress: 0,
         originalType: "note",
         deps: [],
         noteCount: 1,
-        noteColor: o.color || t.note,
-        filesCount: o.filesCount || 0,
-        noteProjectTitle: o.projectTitle || void 0,
-        projectId: o.projectId || void 0,
-        projectTitle: o.projectTitle || void 0
+        noteColor: r.color || e.note,
+        filesCount: r.filesCount || 0,
+        noteProjectTitle: r.projectTitle || void 0,
+        projectId: r.projectId || void 0,
+        projectTitle: r.projectTitle || void 0
       });
-    }), r;
-  }, [d, m, y, T, x]), p = be(() => Mr(V, U), [V, U]), pe = be(() => {
-    const r = [], s = ["step", "milestone", "event", "note"];
-    if (z) {
-      const o = /* @__PURE__ */ new Map();
-      V.forEach((i) => {
-        i.projectId && !o.has(i.projectId) && o.set(i.projectId, i.projectTitle || i.projectId);
+    }), t;
+  }, [u, x, m, T, g]), c = ue(() => Ir(A, H), [A, H]), te = ue(() => {
+    const t = [], n = ["step", "milestone", "event", "note"];
+    if (W) {
+      const r = /* @__PURE__ */ new Map();
+      A.forEach((i) => {
+        i.projectId && !r.has(i.projectId) && r.set(i.projectId, i.projectTitle || i.projectId);
       });
-      for (const [i, u] of Array.from(o.entries())) {
-        const l = I.has(i);
-        if (r.push({ kind: "projectHeader", projectId: i, projectTitle: u, collapsed: l }), !l) {
-          const a = V.filter((h) => h.projectId === i);
-          for (const h of s) {
-            if (!ke.has(h)) continue;
-            const P = a.filter((H) => H.originalType === h);
-            if (P.length === 0) continue;
-            const F = `${i}-${h}`, _ = n.has(F);
-            r.push({ kind: "group", groupType: h, label: _t[h], count: P.length, collapsed: _, projectId: i }), _ || P.forEach((H) => r.push({ kind: "task", task: H }));
+      for (const [i, p] of Array.from(r.entries())) {
+        const l = at.has(i);
+        if (t.push({ kind: "projectHeader", projectId: i, projectTitle: p, collapsed: l }), !l) {
+          const a = A.filter((h) => h.projectId === i);
+          for (const h of n) {
+            if (!je.has(h)) continue;
+            const L = a.filter((B) => B.originalType === h);
+            if (L.length === 0) continue;
+            const j = `${i}-${h}`, I = He.has(j);
+            t.push({ kind: "group", groupType: h, label: Tt[h], count: L.length, collapsed: I, projectId: i }), I || L.forEach((B) => t.push({ kind: "task", task: B }));
           }
         }
       }
     } else
-      for (const o of s) {
-        if (!ke.has(o)) continue;
-        const i = V.filter((l) => l.originalType === o);
+      for (const r of n) {
+        if (!je.has(r)) continue;
+        const i = A.filter((l) => l.originalType === r);
         if (i.length === 0) continue;
-        const u = n.has(o);
-        r.push({ kind: "group", groupType: o, label: _t[o], count: i.length, collapsed: u }), u || i.forEach((l) => r.push({ kind: "task", task: l }));
+        const p = He.has(r);
+        t.push({ kind: "group", groupType: r, label: Tt[r], count: i.length, collapsed: p }), p || i.forEach((l) => t.push({ kind: "task", task: l }));
       }
-    return r;
-  }, [V, ke, n, I, z]), yt = be(() => {
-    const r = /* @__PURE__ */ new Map();
-    return pe.forEach((s, o) => {
-      s.kind === "task" && r.set(s.task.id, o);
-    }), r;
-  }, [pe]), Xt = be(
-    () => Lr(V, x || [], p, yt),
-    [V, x, p, yt]
-  ), ot = be(() => _r(V, x || []), [V, x]), st = be(() => {
-    const r = /* @__PURE__ */ new Set(), s = /* @__PURE__ */ new Date();
-    return V.forEach((o) => {
-      o.originalType === "step" && o.end < s && o.progress < 100 && r.add(o.id);
-    }), r;
-  }, [V]), Ce = be(() => {
-    if (!A || !x?.length) return /* @__PURE__ */ new Set();
-    const r = /* @__PURE__ */ new Set(), s = [A];
-    for (; s.length; ) {
-      const o = s.shift();
-      for (const i of x)
-        i.predecessorId === o && !r.has(i.successorId) && (r.add(i.successorId), s.push(i.successorId)), i.successorId === o && !r.has(i.predecessorId) && (r.add(i.predecessorId), s.push(i.predecessorId));
+    return t;
+  }, [A, je, He, at, W]), ht = ue(() => {
+    const t = /* @__PURE__ */ new Map();
+    return te.forEach((n, r) => {
+      n.kind === "task" && t.set(n.task.id, r);
+    }), t;
+  }, [te]), Ft = ue(
+    () => Tr(A, g || [], c, ht),
+    [A, g, c, ht]
+  ), Ge = ue(() => Dr(A, g || []), [A, g]), qe = ue(() => {
+    const t = /* @__PURE__ */ new Set(), n = /* @__PURE__ */ new Date();
+    return A.forEach((r) => {
+      r.originalType === "step" && r.end < n && r.progress < 100 && t.add(r.id);
+    }), t;
+  }, [A]), $e = ue(() => {
+    if (!_ || !g?.length) return /* @__PURE__ */ new Set();
+    const t = /* @__PURE__ */ new Set(), n = [_];
+    for (; n.length; ) {
+      const r = n.shift();
+      for (const i of g)
+        i.predecessorId === r && !t.has(i.successorId) && (t.add(i.successorId), n.push(i.successorId)), i.successorId === r && !t.has(i.predecessorId) && (t.add(i.predecessorId), n.push(i.predecessorId));
     }
-    return r;
-  }, [A, x]), Ae = Be(!1), Ht = q(() => {
-    if (Ae.current) return;
-    Ae.current = !0;
-    const r = ge.current;
-    r && ce.current && (ce.current.scrollTop = r.scrollTop), r && me.current && (me.current.scrollLeft = r.scrollLeft), Ae.current = !1;
-  }, []), Ut = q(() => {
-    Ae.current || (Ae.current = !0, ce.current && ge.current && (ge.current.scrollTop = ce.current.scrollTop), Ae.current = !1);
-  }, []), bt = Be(!1);
-  ve(() => {
-    if (bt.current || !p.totalWidth) return;
-    const r = ge.current;
-    if (!r) return;
-    const s = te(/* @__PURE__ */ new Date(), p);
-    if (s >= 0 && s <= p.totalWidth) {
-      const o = s - r.clientWidth / 2;
-      r.scrollLeft = Math.max(0, o), me.current && (me.current.scrollLeft = r.scrollLeft), bt.current = !0;
+    return t;
+  }, [_, g]), Ie = Ne(!1), Pt = F(() => {
+    if (Ie.current) return;
+    Ie.current = !0;
+    const t = ie.current;
+    t && ee.current && (ee.current.scrollTop = t.scrollTop), t && ae.current && (ae.current.scrollLeft = t.scrollLeft), Ie.current = !1;
+  }, []), _t = F(() => {
+    Ie.current || (Ie.current = !0, ee.current && ie.current && (ie.current.scrollTop = ee.current.scrollTop), Ie.current = !1);
+  }, []), gt = Ne(!1);
+  he(() => {
+    if (gt.current || !c.totalWidth) return;
+    const t = ie.current;
+    if (!t) return;
+    const n = G(/* @__PURE__ */ new Date(), c);
+    if (n >= 0 && n <= c.totalWidth) {
+      const r = n - t.clientWidth / 2;
+      t.scrollLeft = Math.max(0, r), ae.current && (ae.current.scrollLeft = t.scrollLeft), gt.current = !0;
     }
-  }, [p]);
-  const [Se, nt] = W(null), Vt = q((r) => {
-    if (j || S || r.button === 2) return;
-    const s = ge.current;
-    s && (r.preventDefault(), nt({ startX: r.clientX, startY: r.clientY, scrollLeft: s.scrollLeft, scrollTop: s.scrollTop }));
-  }, [j, S]);
-  ve(() => {
-    if (!Se) return;
-    const r = (o) => {
-      const i = ge.current;
+  }, [c]);
+  const [ye, Ke] = C(null), Yt = F((t) => {
+    if (v || w || t.button === 2) return;
+    const n = ie.current;
+    n && (t.preventDefault(), Ke({ startX: t.clientX, startY: t.clientY, scrollLeft: n.scrollLeft, scrollTop: n.scrollTop }));
+  }, [v, w]);
+  he(() => {
+    if (!ye) return;
+    const t = (r) => {
+      const i = ie.current;
       if (!i) return;
-      const u = o.clientX - Se.startX, l = o.clientY - Se.startY;
-      i.scrollLeft = Se.scrollLeft - u, i.scrollTop = Se.scrollTop - l, ce.current && (ce.current.scrollTop = i.scrollTop), me.current && (me.current.scrollLeft = i.scrollLeft);
-    }, s = () => nt(null);
-    return document.addEventListener("mousemove", r), document.addEventListener("mouseup", s), () => {
-      document.removeEventListener("mousemove", r), document.removeEventListener("mouseup", s);
+      const p = r.clientX - ye.startX, l = r.clientY - ye.startY;
+      i.scrollLeft = ye.scrollLeft - p, i.scrollTop = ye.scrollTop - l, ee.current && (ee.current.scrollTop = i.scrollTop), ae.current && (ae.current.scrollLeft = i.scrollLeft);
+    }, n = () => Ke(null);
+    return document.addEventListener("mousemove", t), document.addEventListener("mouseup", n), () => {
+      document.removeEventListener("mousemove", t), document.removeEventListener("mouseup", n);
     };
-  }, [Se]);
-  const qt = q((r) => {
-    const s = ge.current;
-    if (s)
-      if (r.preventDefault(), r.shiftKey || Math.abs(r.deltaX) > Math.abs(r.deltaY)) {
-        const o = r.shiftKey ? r.deltaY : r.deltaX;
-        s.scrollLeft += o, me.current && (me.current.scrollLeft = s.scrollLeft);
+  }, [ye]);
+  const Ot = F((t) => {
+    const n = ie.current;
+    if (n)
+      if (t.preventDefault(), t.shiftKey || Math.abs(t.deltaX) > Math.abs(t.deltaY)) {
+        const r = t.shiftKey ? t.deltaY : t.deltaX;
+        n.scrollLeft += r, ae.current && (ae.current.scrollLeft = n.scrollLeft);
       } else
-        s.scrollTop += r.deltaY, ce.current && (ce.current.scrollTop = s.scrollTop);
-  }, []), vt = q((r) => {
-    const s = ge.current;
-    if (!s) return /* @__PURE__ */ new Date();
-    const o = s.getBoundingClientRect(), i = r - o.left + s.scrollLeft, u = Math.max(0, Math.floor(i / p.dayWidth));
-    return J(p.start, u);
-  }, [p]), jt = q((r) => {
-    if (!z) return;
-    const s = ce.current;
-    if (!s) return;
-    const o = s.getBoundingClientRect(), i = r - o.top + s.scrollTop, u = Math.max(0, Math.floor(i / C));
-    for (let l = Math.min(u, pe.length - 1); l >= 0; l--) {
-      const a = pe[l];
+        n.scrollTop += t.deltaY, ee.current && (ee.current.scrollTop = n.scrollTop);
+  }, []), ft = F((t) => {
+    const n = ie.current;
+    if (!n) return /* @__PURE__ */ new Date();
+    const r = n.getBoundingClientRect(), i = t - r.left + n.scrollLeft, p = Math.max(0, Math.floor(i / c.dayWidth));
+    return O(c.start, p);
+  }, [c]), xt = F((t) => {
+    if (!W) return;
+    const n = ee.current;
+    if (!n) return;
+    const r = n.getBoundingClientRect(), i = t - r.top + n.scrollTop, p = Math.max(0, Math.floor(i / M));
+    for (let l = Math.min(p, te.length - 1); l >= 0; l--) {
+      const a = te[l];
       if (a.kind === "projectHeader") return a.projectId;
       if (a.kind === "task" && a.task.projectId) return a.task.projectId;
       if (a.kind === "group" && a.projectId) return a.projectId;
     }
-  }, [z, pe]), kt = q((r) => {
-    r.preventDefault(), r.stopPropagation();
-    const s = jt(r.clientY);
-    ye({ x: r.clientX, y: r.clientY, date: vt(r.clientX), projectId: s }), nt(null);
-  }, [vt, jt]);
-  ve(() => {
-    if (!X) return;
-    const r = (i) => {
-      i.key === "Escape" && ye(null);
-    }, s = (i) => {
-      i.target.closest('[data-menu="chart-create"]') || ye(null);
-    }, o = () => ye(null);
-    return document.addEventListener("keydown", r), document.addEventListener("click", s), window.addEventListener("scroll", o, !0), () => {
-      document.removeEventListener("keydown", r), document.removeEventListener("click", s), window.removeEventListener("scroll", o, !0);
+  }, [W, te]), yt = F((t) => {
+    t.preventDefault(), t.stopPropagation();
+    const n = xt(t.clientY);
+    pe({ x: t.clientX, y: t.clientY, date: ft(t.clientX), projectId: n }), Ke(null);
+  }, [ft, xt]);
+  he(() => {
+    if (!z) return;
+    const t = (i) => {
+      i.key === "Escape" && pe(null);
+    }, n = (i) => {
+      i.target.closest('[data-menu="chart-create"]') || pe(null);
+    }, r = () => pe(null);
+    return document.addEventListener("keydown", t), document.addEventListener("click", n), window.addEventListener("scroll", r, !0), () => {
+      document.removeEventListener("keydown", t), document.removeEventListener("click", n), window.removeEventListener("scroll", r, !0);
     };
-  }, [X]), ve(() => {
-    if (!Ve) return;
-    const r = (s) => {
-      mt.current?.contains(s.target) || _e(!1);
+  }, [z]), he(() => {
+    if (!Be) return;
+    const t = (n) => {
+      ut.current?.contains(n.target) || Se(!1);
     };
-    return document.addEventListener("click", r), () => document.removeEventListener("click", r);
-  }, [Ve]);
-  const Gt = q((r, s) => {
-    r.preventDefault(), r.stopPropagation(), Ne({
-      task: s,
-      startMouseX: r.clientX,
-      originalStart: new Date(s.start),
-      originalEnd: new Date(s.end),
+    return document.addEventListener("click", t), () => document.removeEventListener("click", t);
+  }, [Be]);
+  const Xt = F((t, n) => {
+    t.preventDefault(), t.stopPropagation(), Oe({
+      task: n,
+      startMouseX: t.clientX,
+      originalStart: new Date(n.start),
+      originalEnd: new Date(n.end),
       offsetDays: 0
     });
   }, []);
-  ve(() => {
-    if (!S) return;
-    const r = (o) => {
-      const i = o.clientX - S.startMouseX, u = Math.round(i / p.dayWidth);
-      u !== S.offsetDays && Ne((l) => l ? { ...l, offsetDays: u } : null);
-    }, s = () => {
-      S.offsetDays !== 0 && k && k({
-        id: S.task.id,
-        name: S.task.name,
-        start: J(S.originalStart, S.offsetDays),
-        end: J(S.originalEnd, S.offsetDays),
-        type: S.task.originalType === "step" ? "task" : "milestone",
-        progress: S.task.progress
-      }), Ne(null);
+  he(() => {
+    if (!w) return;
+    const t = (r) => {
+      const i = r.clientX - w.startMouseX, p = Math.round(i / c.dayWidth);
+      p !== w.offsetDays && Oe((l) => l ? { ...l, offsetDays: p } : null);
+    }, n = () => {
+      w.offsetDays !== 0 && b && b({
+        id: w.task.id,
+        name: w.task.name,
+        start: O(w.originalStart, w.offsetDays),
+        end: O(w.originalEnd, w.offsetDays),
+        type: w.task.originalType === "step" ? "task" : "milestone",
+        progress: w.task.progress
+      }), Oe(null);
     };
-    return document.addEventListener("mousemove", r), document.addEventListener("mouseup", s), () => {
-      document.removeEventListener("mousemove", r), document.removeEventListener("mouseup", s);
+    return document.addEventListener("mousemove", t), document.addEventListener("mouseup", n), () => {
+      document.removeEventListener("mousemove", t), document.removeEventListener("mouseup", n);
     };
-  }, [S, p.dayWidth, k]);
-  const wt = q((r, s, o) => {
-    r.preventDefault(), r.stopPropagation(), Me({
-      task: s,
-      edge: o,
-      startMouseX: r.clientX,
-      originalStart: new Date(s.start),
-      originalEnd: new Date(s.end),
+  }, [w, c.dayWidth, b]);
+  const mt = F((t, n, r) => {
+    t.preventDefault(), t.stopPropagation(), Xe({
+      task: n,
+      edge: r,
+      startMouseX: t.clientX,
+      originalStart: new Date(n.start),
+      originalEnd: new Date(n.end),
       offsetDays: 0
     });
   }, []);
-  ve(() => {
-    if (!j) return;
-    const r = (o) => {
-      const i = o.clientX - j.startMouseX, u = Math.round(i / p.dayWidth);
-      u !== j.offsetDays && Me((l) => l ? { ...l, offsetDays: u } : null);
-    }, s = () => {
-      if (j.offsetDays !== 0 && k) {
-        const o = j.edge === "left" ? J(j.originalStart, j.offsetDays) : j.originalStart, i = j.edge === "right" ? J(j.originalEnd, j.offsetDays) : j.originalEnd;
-        i > o && k({
-          id: j.task.id,
-          name: j.task.name,
-          start: o,
+  he(() => {
+    if (!v) return;
+    const t = (r) => {
+      const i = r.clientX - v.startMouseX, p = Math.round(i / c.dayWidth);
+      p !== v.offsetDays && Xe((l) => l ? { ...l, offsetDays: p } : null);
+    }, n = () => {
+      if (v.offsetDays !== 0 && b) {
+        const r = v.edge === "left" ? O(v.originalStart, v.offsetDays) : v.originalStart, i = v.edge === "right" ? O(v.originalEnd, v.offsetDays) : v.originalEnd;
+        i > r && b({
+          id: v.task.id,
+          name: v.task.name,
+          start: r,
           end: i,
           type: "task",
-          progress: j.task.progress
+          progress: v.task.progress
         });
       }
-      Me(null);
+      Xe(null);
     };
-    return document.addEventListener("mousemove", r), document.addEventListener("mouseup", s), () => {
-      document.removeEventListener("mousemove", r), document.removeEventListener("mouseup", s);
+    return document.addEventListener("mousemove", t), document.addEventListener("mouseup", n), () => {
+      document.removeEventListener("mousemove", t), document.removeEventListener("mouseup", n);
     };
-  }, [j, p.dayWidth, k]);
-  const qe = q((r, s, o) => {
-    r.preventDefault(), r.stopPropagation(), we({
-      fromTaskId: s.id,
-      fromEdge: o,
-      fromScreenX: r.clientX,
-      fromScreenY: r.clientY,
-      currentScreenX: r.clientX,
-      currentScreenY: r.clientY,
+  }, [v, c.dayWidth, b]);
+  const We = F((t, n, r) => {
+    t.preventDefault(), t.stopPropagation(), Ue({
+      fromTaskId: n.id,
+      fromEdge: r,
+      fromScreenX: t.clientX,
+      fromScreenY: t.clientY,
+      currentScreenX: t.clientX,
+      currentScreenY: t.clientY,
       hoverTargetId: null
     });
   }, []);
-  ve(() => {
-    if (!B) return;
-    const r = (o) => {
-      const i = document.elementsFromPoint(o.clientX, o.clientY);
-      let u = null;
+  he(() => {
+    if (!V) return;
+    const t = (r) => {
+      const i = document.elementsFromPoint(r.clientX, r.clientY);
+      let p = null;
       for (const l of i) {
         const a = l.dataset?.taskId;
-        if (a && a !== B.fromTaskId) {
-          u = a;
+        if (a && a !== V.fromTaskId) {
+          p = a;
           break;
         }
       }
-      we((l) => l ? { ...l, currentScreenX: o.clientX, currentScreenY: o.clientY, hoverTargetId: u } : null);
-    }, s = (o) => {
-      const i = document.elementsFromPoint(o.clientX, o.clientY);
-      let u = null;
+      Ue((l) => l ? { ...l, currentScreenX: r.clientX, currentScreenY: r.clientY, hoverTargetId: p } : null);
+    }, n = (r) => {
+      const i = document.elementsFromPoint(r.clientX, r.clientY);
+      let p = null;
       for (const l of i) {
         const a = l.dataset?.taskId;
-        if (a && a !== B.fromTaskId) {
-          u = a;
+        if (a && a !== V.fromTaskId) {
+          p = a;
           break;
         }
       }
-      u && Y && (se({ fromTaskId: B.fromTaskId, fromEdge: B.fromEdge, toTaskId: u }), Ue("FS"), ft(0)), we(null);
+      p && P && (ze({ fromTaskId: V.fromTaskId, fromEdge: V.fromEdge, toTaskId: p }), lt("FS"), dt(0)), Ue(null);
     };
-    return document.addEventListener("mousemove", r), document.addEventListener("mouseup", s), () => {
-      document.removeEventListener("mousemove", r), document.removeEventListener("mouseup", s);
+    return document.addEventListener("mousemove", t), document.addEventListener("mouseup", n), () => {
+      document.removeEventListener("mousemove", t), document.removeEventListener("mouseup", n);
     };
-  }, [B?.fromTaskId, B?.fromEdge, Y]);
-  const Jt = q(async () => {
-    if (!E || !Y) return;
-    const r = new Map(V.map((a) => [a.id, a])), s = r.get(E.fromTaskId), o = r.get(E.toTaskId);
-    if (!s || !o) return;
-    const i = (a) => a.originalType === "step" ? "STEP" : "MILESTONE", u = E.fromEdge === "right" ? s : o, l = E.fromEdge === "right" ? o : s;
-    ht(!0);
+  }, [V?.fromTaskId, V?.fromEdge, P]);
+  const Ht = F(async () => {
+    if (!xe || !P) return;
+    const t = new Map(A.map((a) => [a.id, a])), n = t.get(xe.fromTaskId), r = t.get(xe.toTaskId);
+    if (!n || !r) return;
+    const i = (a) => a.originalType === "step" ? "STEP" : "MILESTONE", p = xe.fromEdge === "right" ? n : r, l = xe.fromEdge === "right" ? r : n;
+    ct(!0);
     try {
-      await Y({
-        predecessorId: u.id,
-        predecessorType: i(u),
+      await P({
+        predecessorId: p.id,
+        predecessorType: i(p),
         successorId: l.id,
         successorType: i(l),
-        type: he,
-        lag: rt
-      }), se(null);
+        type: Le,
+        lag: Ve
+      }), ze(null);
     } finally {
-      ht(!1);
+      ct(!1);
     }
-  }, [E, V, Y, he, rt]), Zt = q((r) => {
-    f((s) => {
-      const o = new Set(s);
-      return o.has(r) ? o.delete(r) : o.add(r), o;
+  }, [xe, A, P, Le, Ve]), Ut = F((t) => {
+    Bt((n) => {
+      const r = new Set(n);
+      return r.has(t) ? r.delete(t) : r.add(t), r;
     });
-  }, []), Kt = q((r) => {
-    L((s) => {
-      const o = new Set(s);
-      return o.has(r) ? o.delete(r) : o.add(r), o;
+  }, []), Vt = F((t) => {
+    Wt((n) => {
+      const r = new Set(n);
+      return r.has(t) ? r.delete(t) : r.add(t), r;
     });
-  }, []), Qt = q((r) => {
-    He((s) => {
-      const o = new Set(s);
-      return o.has(r) ? o.delete(r) : o.add(r), o;
+  }, []), Gt = F((t) => {
+    zt((n) => {
+      const r = new Set(n);
+      return r.has(t) ? r.delete(t) : r.add(t), r;
     });
-  }, []), it = (r) => ({
-    id: r.id,
-    name: r.name,
-    start: r.start,
-    end: r.end,
-    type: r.originalType === "step" ? "task" : "milestone",
-    progress: r.progress
-  }), er = q((r, s) => {
-    Xe({ isOpen: !0, position: { x: r.clientX, y: r.clientY }, task: s });
-  }, []), St = q((r) => {
-    R?.(it(r));
-  }, [R]), Pe = () => {
-    Xe({ isOpen: !1, position: { x: 0, y: 0 }, task: null });
+  }, []), Je = (t) => ({
+    id: t.id,
+    name: t.name,
+    start: t.start,
+    end: t.end,
+    type: t.originalType === "step" ? "task" : "milestone",
+    progress: t.progress
+  }), qt = F((t, n) => {
+    it({ isOpen: !0, position: { x: t.clientX, y: t.clientY }, task: n });
+  }, []), bt = F((t) => {
+    E?.(Je(t));
+  }, [E]), Te = () => {
+    it({ isOpen: !1, position: { x: 0, y: 0 }, task: null });
   };
-  ve(() => {
-    if (!de.isOpen) return;
-    const r = (i) => {
-      i.key === "Escape" && Pe();
-    }, s = (i) => {
-      i.target.closest('[data-popup="gantt-action"]') || Pe();
-    }, o = () => Pe();
-    return document.addEventListener("keydown", r), document.addEventListener("mousedown", s), window.addEventListener("scroll", o, !0), () => {
-      document.removeEventListener("keydown", r), document.removeEventListener("mousedown", s), window.removeEventListener("scroll", o, !0);
+  he(() => {
+    if (!fe.isOpen) return;
+    const t = (i) => {
+      i.key === "Escape" && Te();
+    }, n = (i) => {
+      i.target.closest('[data-popup="gantt-action"]') || Te();
+    }, r = () => Te();
+    return document.addEventListener("keydown", t), document.addEventListener("mousedown", n), window.addEventListener("scroll", r, !0), () => {
+      document.removeEventListener("keydown", t), document.removeEventListener("mousedown", n), window.removeEventListener("scroll", r, !0);
     };
-  }, [de.isOpen]);
-  const Et = (r) => S?.task.id === r.id ? J(S.originalStart, S.offsetDays) : j?.task.id === r.id && j.edge === "left" ? J(j.originalStart, j.offsetDays) : r.start, Tt = (r) => S?.task.id === r.id ? J(S.originalEnd, S.offsetDays) : j?.task.id === r.id && j.edge === "right" ? J(j.originalEnd, j.offsetDays) : r.end;
-  if (g)
-    return /* @__PURE__ */ e.jsx("div", { className: "h-64 flex items-center justify-center rounded-xl", style: { background: t.surface, border: `1px solid ${t.border}`, boxShadow: "0 2px 12px rgb(0 0 0 / 0.06)" }, children: /* @__PURE__ */ e.jsx(mr, { className: "animate-spin", size: 28, style: { color: t.group } }) });
-  if (!d?.length)
-    return /* @__PURE__ */ e.jsxs("div", { className: "text-center p-10 rounded-xl flex flex-col items-center gap-4", style: { background: t.surface, border: `1px solid ${t.border}`, color: t.textSecondary, boxShadow: "0 2px 12px rgb(0 0 0 / 0.06)" }, children: [
-      /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.noStepsFound") }),
-      D && /* @__PURE__ */ e.jsxs(
+  }, [fe.isOpen]);
+  const vt = (t) => w?.task.id === t.id ? O(w.originalStart, w.offsetDays) : v?.task.id === t.id && v.edge === "left" ? O(v.originalStart, v.offsetDays) : t.start, kt = (t) => w?.task.id === t.id ? O(w.originalEnd, w.offsetDays) : v?.task.id === t.id && v.edge === "right" ? O(v.originalEnd, v.offsetDays) : t.end;
+  if (k)
+    return /* @__PURE__ */ o("div", { className: "h-64 flex items-center justify-center rounded-xl", style: { background: e.surface, border: `1px solid ${e.border}`, boxShadow: "0 2px 12px rgb(0 0 0 / 0.06)" }, children: /* @__PURE__ */ o(cr, { className: "animate-spin", size: 28, style: { color: e.group } }) });
+  if (!u?.length)
+    return /* @__PURE__ */ s("div", { className: "text-center p-10 rounded-xl flex flex-col items-center gap-4", style: { background: e.surface, border: `1px solid ${e.border}`, color: e.textSecondary, boxShadow: "0 2px 12px rgb(0 0 0 / 0.06)" }, children: [
+      /* @__PURE__ */ o("span", { children: y("charts.gantt.noStepsFound") }),
+      N && /* @__PURE__ */ s(
         "button",
         {
-          onClick: () => D(),
+          onClick: () => N(),
           className: "flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium text-white transition-opacity hover:opacity-90",
-          style: { background: t.group },
+          style: { background: e.group },
           children: [
-            /* @__PURE__ */ e.jsx(dt, { size: 16 }),
-            v("charts.gantt.createFirstStep", "Criar primeira etapa")
+            /* @__PURE__ */ o(et, { size: 16 }),
+            y("charts.gantt.createFirstStep", "Criar primeira etapa")
           ]
         }
       )
     ] });
-  if (!V.length)
-    return /* @__PURE__ */ e.jsxs("div", { className: "text-center p-10 rounded-xl flex flex-col items-center gap-4", style: { background: t.surface, border: `1px solid ${t.border}`, color: t.textSecondary, boxShadow: "0 2px 12px rgb(0 0 0 / 0.06)" }, children: [
-      /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.noStepsWithDates") }),
-      D && /* @__PURE__ */ e.jsxs(
+  if (!A.length)
+    return /* @__PURE__ */ s("div", { className: "text-center p-10 rounded-xl flex flex-col items-center gap-4", style: { background: e.surface, border: `1px solid ${e.border}`, color: e.textSecondary, boxShadow: "0 2px 12px rgb(0 0 0 / 0.06)" }, children: [
+      /* @__PURE__ */ o("span", { children: y("charts.gantt.noStepsWithDates") }),
+      N && /* @__PURE__ */ s(
         "button",
         {
-          onClick: () => D(),
+          onClick: () => N(),
           className: "flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium text-white transition-opacity hover:opacity-90",
-          style: { background: t.group },
+          style: { background: e.group },
           children: [
-            /* @__PURE__ */ e.jsx(dt, { size: 16 }),
-            v("charts.gantt.createFirstStep", "Criar primeira etapa")
+            /* @__PURE__ */ o(et, { size: 16 }),
+            y("charts.gantt.createFirstStep", "Criar primeira etapa")
           ]
         }
       )
     ] });
-  const We = te(/* @__PURE__ */ new Date(), p), tr = We >= 0 && We <= p.totalWidth, Ee = pe.length * C, $t = 540;
-  return /* @__PURE__ */ e.jsxs("div", { style: { fontFamily: "'Inter', sans-serif" }, children: [
-    /* @__PURE__ */ e.jsxs(
+  const De = G(/* @__PURE__ */ new Date(), c), Kt = De >= 0 && De <= c.totalWidth, me = te.length * M, wt = 540;
+  return /* @__PURE__ */ s("div", { style: { fontFamily: "'Inter', sans-serif" }, children: [
+    /* @__PURE__ */ s(
       "div",
       {
         className: "rounded-xl overflow-hidden",
         style: {
-          background: t.surface,
-          border: `1px solid ${t.border}`,
+          background: e.surface,
+          border: `1px solid ${e.border}`,
           boxShadow: "0 2px 16px 0 rgb(0 0 0 / 0.06), 0 0 0 1px rgb(0 0 0 / 0.02)"
         },
         children: [
-          /* @__PURE__ */ e.jsxs(
+          /* @__PURE__ */ s(
             "div",
             {
               className: "flex items-center justify-between px-6 py-5",
-              style: { borderBottom: `1px solid ${t.border}`, background: `linear-gradient(180deg, ${t.headerBg} 0%, ${t.surface} 100%)` },
+              style: { borderBottom: `1px solid ${e.border}`, background: `linear-gradient(180deg, ${e.headerBg} 0%, ${e.surface} 100%)` },
               children: [
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-4", children: [
-                  /* @__PURE__ */ e.jsxs("div", { children: [
-                    /* @__PURE__ */ e.jsx("h3", { className: "text-sm font-bold uppercase tracking-widest", style: { color: t.textTitle }, children: v("planning.gantt", "PLANEJAMENTO DA OBRA") }),
-                    /* @__PURE__ */ e.jsx("div", { className: "h-[2.5px] w-16 mt-1.5 rounded-full", style: { background: `linear-gradient(90deg, ${t.group}, ${t.milestoneRing})` } })
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-4", children: [
+                  /* @__PURE__ */ s("div", { children: [
+                    /* @__PURE__ */ o("h3", { className: "text-sm font-bold uppercase tracking-widest", style: { color: e.textTitle }, children: y("planning.gantt", "PLANEJAMENTO DA OBRA") }),
+                    /* @__PURE__ */ o("div", { className: "h-[2.5px] w-16 mt-1.5 rounded-full", style: { background: `linear-gradient(90deg, ${e.group}, ${e.milestoneRing})` } })
                   ] }),
-                  w && /* @__PURE__ */ e.jsx(
+                  S && /* @__PURE__ */ o(
                     "span",
                     {
                       className: "text-xs font-medium px-3 py-1 rounded-full",
-                      style: { color: t.textSecondary, background: t.surface, border: `1px solid ${t.border}` },
-                      children: w
+                      style: { color: e.textSecondary, background: e.surface, border: `1px solid ${e.border}` },
+                      children: S
                     }
                   )
                 ] }),
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-3", children: [
-                  /* @__PURE__ */ e.jsx("div", { className: "flex p-1 rounded-lg", style: { background: "rgba(122,122,122,0.07)", border: `1px solid ${t.borderLight}` }, children: ["month", "year"].map((r) => /* @__PURE__ */ e.jsx(
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-3", children: [
+                  /* @__PURE__ */ o("div", { className: "flex p-1 rounded-lg", style: { background: "rgba(122,122,122,0.07)", border: `1px solid ${e.borderLight}` }, children: ["month", "year"].map((t) => /* @__PURE__ */ o(
                     "button",
                     {
-                      onClick: () => ae(r),
+                      onClick: () => de(t),
                       className: "px-5 py-1.5 text-xs font-semibold rounded-md transition-all duration-200",
-                      style: U === r ? { background: t.surface, color: t.group, boxShadow: "0 1px 3px rgb(0 0 0 / 0.08)" } : { color: t.textSecondary },
-                      children: r === "month" ? v("charts.gantt.month", "Mês") : v("charts.gantt.year", "Ano")
+                      style: H === t ? { background: e.surface, color: e.group, boxShadow: "0 1px 3px rgb(0 0 0 / 0.08)" } : { color: e.textSecondary },
+                      children: t === "month" ? y("charts.gantt.month", "Mês") : y("charts.gantt.year", "Ano")
                     },
-                    r
+                    t
                   )) }),
-                  /* @__PURE__ */ e.jsx("div", { className: "flex p-1 rounded-lg gap-0.5", style: { background: "rgba(122,122,122,0.07)", border: `1px solid ${t.borderLight}` }, children: [
-                    { type: "step", label: "Etapas", icon: /* @__PURE__ */ e.jsx("div", { className: "w-2.5 h-2.5 rounded-sm", style: { background: K[0].bar, border: `1px solid ${K[0].barBorder}` } }) },
-                    { type: "milestone", label: "Marcos", icon: /* @__PURE__ */ e.jsx(Ie, { size: 11, style: { color: t.milestone } }) },
-                    { type: "event", label: "Eventos", icon: /* @__PURE__ */ e.jsx($e, { size: 11, style: { color: t.event } }) },
-                    { type: "note", label: "Notas", icon: /* @__PURE__ */ e.jsx(Ft, { size: 11, style: { color: t.note } }) }
-                  ].map((r) => {
-                    const s = ke.has(r.type);
-                    return /* @__PURE__ */ e.jsxs(
+                  /* @__PURE__ */ o("div", { className: "flex p-1 rounded-lg gap-0.5", style: { background: "rgba(122,122,122,0.07)", border: `1px solid ${e.borderLight}` }, children: [
+                    { type: "step", label: "Etapas", icon: /* @__PURE__ */ o("div", { className: "w-2.5 h-2.5 rounded-sm", style: { background: U[0].bar, border: `1px solid ${U[0].barBorder}` } }) },
+                    { type: "milestone", label: "Marcos", icon: /* @__PURE__ */ o(ke, { size: 11, style: { color: e.milestone } }) },
+                    { type: "event", label: "Eventos", icon: /* @__PURE__ */ o(ve, { size: 11, style: { color: e.event } }) },
+                    { type: "note", label: "Notas", icon: /* @__PURE__ */ o(Ct, { size: 11, style: { color: e.note } }) }
+                  ].map((t) => {
+                    const n = je.has(t.type);
+                    return /* @__PURE__ */ s(
                       "button",
                       {
-                        onClick: () => Qt(r.type),
+                        onClick: () => Gt(t.type),
                         className: "flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-semibold rounded-md transition-all duration-200",
-                        style: s ? { background: t.surface, color: t.group, boxShadow: "0 1px 3px rgb(0 0 0 / 0.08)" } : { color: t.textMuted, opacity: 0.5 },
+                        style: n ? { background: e.surface, color: e.group, boxShadow: "0 1px 3px rgb(0 0 0 / 0.08)" } : { color: e.textMuted, opacity: 0.5 },
                         children: [
-                          r.icon,
-                          /* @__PURE__ */ e.jsx("span", { children: r.label })
+                          t.icon,
+                          /* @__PURE__ */ o("span", { children: t.label })
                         ]
                       },
-                      r.type
+                      t.type
                     );
                   }) }),
-                  D && /* @__PURE__ */ e.jsxs("div", { ref: mt, style: { position: "relative" }, children: [
-                    /* @__PURE__ */ e.jsxs(
+                  N && /* @__PURE__ */ s("div", { ref: ut, style: { position: "relative" }, children: [
+                    /* @__PURE__ */ s(
                       "button",
                       {
-                        onClick: () => _e((r) => !r),
+                        onClick: () => Se((t) => !t),
                         className: "flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-200 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]",
-                        style: { background: `linear-gradient(135deg, ${t.group}, ${t.group}dd)` },
+                        style: { background: `linear-gradient(135deg, ${e.group}, ${e.group}dd)` },
                         children: [
-                          /* @__PURE__ */ e.jsx(dt, { size: 16 }),
-                          /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.newAction", "Nova Ação") }),
-                          /* @__PURE__ */ e.jsx(at, { size: 14, style: { opacity: 0.7, transform: Ve ? "rotate(180deg)" : "none", transition: "transform 0.18s" } })
+                          /* @__PURE__ */ o(et, { size: 16 }),
+                          /* @__PURE__ */ o("span", { children: y("charts.gantt.newAction", "Nova Ação") }),
+                          /* @__PURE__ */ o(Ze, { size: 14, style: { opacity: 0.7, transform: Be ? "rotate(180deg)" : "none", transition: "transform 0.18s" } })
                         ]
                       }
                     ),
-                    Ve && /* @__PURE__ */ e.jsx(
+                    Be && /* @__PURE__ */ o(
                       "div",
                       {
                         style: {
@@ -1073,45 +814,45 @@ function Pr({
                           background: "#fff",
                           borderRadius: 10,
                           boxShadow: "0 12px 40px rgba(0,0,0,0.15), 0 3px 10px rgba(0,0,0,0.08)",
-                          border: `1.5px solid ${t.borderLight}`,
+                          border: `1.5px solid ${e.borderLight}`,
                           width: 200,
                           overflow: "hidden",
                           padding: "5px 5px"
                         },
-                        onClick: (r) => r.stopPropagation(),
+                        onClick: (t) => t.stopPropagation(),
                         children: [
                           {
                             label: "Etapa",
-                            icon: /* @__PURE__ */ e.jsx("div", { style: { width: 14, height: 14, borderRadius: 3, background: K[0].bar, border: `1.5px solid ${K[0].barBorder}`, flexShrink: 0 } }),
+                            icon: /* @__PURE__ */ o("div", { style: { width: 14, height: 14, borderRadius: 3, background: U[0].bar, border: `1.5px solid ${U[0].barBorder}`, flexShrink: 0 } }),
                             action: () => {
-                              D?.(), _e(!1);
+                              N?.(), Se(!1);
                             }
                           },
                           {
                             label: "Marco",
-                            icon: /* @__PURE__ */ e.jsx("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${t.milestoneRing}30`, border: `1.5px solid ${t.milestoneRing}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ e.jsx(Ie, { size: 11, style: { color: t.milestone } }) }),
+                            icon: /* @__PURE__ */ o("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${e.milestoneRing}30`, border: `1.5px solid ${e.milestoneRing}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ o(ke, { size: 11, style: { color: e.milestone } }) }),
                             action: () => {
-                              ie?.(), _e(!1);
+                              le?.(), Se(!1);
                             }
                           },
                           {
                             label: "Evento",
-                            icon: /* @__PURE__ */ e.jsx("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${t.event}18`, border: `1.5px solid ${t.event}55`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ e.jsx($e, { size: 11, style: { color: t.event } }) }),
+                            icon: /* @__PURE__ */ o("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${e.event}18`, border: `1.5px solid ${e.event}55`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ o(ve, { size: 11, style: { color: e.event } }) }),
                             action: () => {
-                              c?.(), _e(!1);
+                              d?.(), Se(!1);
                             }
                           },
                           {
                             label: "Nota",
-                            icon: /* @__PURE__ */ e.jsx("div", { style: { width: 16, height: 20, background: t.note, borderRadius: 2, boxShadow: "1px 1px 3px rgba(0,0,0,0.14)", position: "relative", overflow: "visible", flexShrink: 0 }, children: /* @__PURE__ */ e.jsx("div", { style: { position: "absolute", top: -2, left: "50%", transform: "translateX(-50%)", width: 10, height: 4, background: "rgba(255,255,255,0.55)", borderRadius: 1 } }) }),
+                            icon: /* @__PURE__ */ o("div", { style: { width: 16, height: 20, background: e.note, borderRadius: 2, boxShadow: "1px 1px 3px rgba(0,0,0,0.14)", position: "relative", overflow: "visible", flexShrink: 0 }, children: /* @__PURE__ */ o("div", { style: { position: "absolute", top: -2, left: "50%", transform: "translateX(-50%)", width: 10, height: 4, background: "rgba(255,255,255,0.55)", borderRadius: 1 } }) }),
                             action: () => {
-                              Z?.(), _e(!1);
+                              q?.(), Se(!1);
                             }
                           }
-                        ].map((r) => /* @__PURE__ */ e.jsxs(
+                        ].map((t) => /* @__PURE__ */ s(
                           "button",
                           {
-                            onClick: r.action,
+                            onClick: t.action,
                             style: {
                               display: "flex",
                               alignItems: "center",
@@ -1124,22 +865,22 @@ function Pr({
                               cursor: "pointer",
                               fontSize: 13,
                               fontWeight: 500,
-                              color: t.textPrimary,
+                              color: e.textPrimary,
                               textAlign: "left",
                               transition: "background 0.12s"
                             },
-                            onMouseEnter: (s) => {
-                              s.currentTarget.style.background = t.headerBg;
+                            onMouseEnter: (n) => {
+                              n.currentTarget.style.background = e.headerBg;
                             },
-                            onMouseLeave: (s) => {
-                              s.currentTarget.style.background = "transparent";
+                            onMouseLeave: (n) => {
+                              n.currentTarget.style.background = "transparent";
                             },
                             children: [
-                              r.icon,
-                              r.label
+                              t.icon,
+                              t.label
                             ]
                           },
-                          r.label
+                          t.label
                         ))
                       }
                     )
@@ -1148,309 +889,309 @@ function Pr({
               ]
             }
           ),
-          /* @__PURE__ */ e.jsxs("div", { className: "flex", children: [
-            /* @__PURE__ */ e.jsxs("div", { style: { width: $r, flexShrink: 0, borderRight: `1px solid ${t.border}` }, children: [
-              /* @__PURE__ */ e.jsxs(
+          /* @__PURE__ */ s("div", { className: "flex", children: [
+            /* @__PURE__ */ s("div", { style: { width: vr, flexShrink: 0, borderRight: `1px solid ${e.border}` }, children: [
+              /* @__PURE__ */ s(
                 "div",
                 {
                   className: "flex items-center px-4",
-                  style: { height: Tr, background: t.headerBg, borderBottom: `1px solid ${t.border}` },
+                  style: { height: br, background: e.headerBg, borderBottom: `1px solid ${e.border}` },
                   children: [
-                    /* @__PURE__ */ e.jsx("div", { className: "flex-1 text-[11px] font-bold uppercase tracking-wider", style: { color: t.textSecondary }, children: v("charts.gantt.stepName", "NOME DA ETAPA") }),
-                    /* @__PURE__ */ e.jsx("div", { className: "w-[80px] text-[11px] font-bold uppercase tracking-wider text-center", style: { color: t.textSecondary }, children: v("charts.gantt.start", "INÍCIO") }),
-                    /* @__PURE__ */ e.jsx("div", { className: "w-[80px] text-[11px] font-bold uppercase tracking-wider text-center", style: { color: t.textSecondary }, children: v("charts.gantt.end", "FIM") })
+                    /* @__PURE__ */ o("div", { className: "flex-1 text-[11px] font-bold uppercase tracking-wider", style: { color: e.textSecondary }, children: y("charts.gantt.stepName", "NOME DA ETAPA") }),
+                    /* @__PURE__ */ o("div", { className: "w-[80px] text-[11px] font-bold uppercase tracking-wider text-center", style: { color: e.textSecondary }, children: y("charts.gantt.start", "INÍCIO") }),
+                    /* @__PURE__ */ o("div", { className: "w-[80px] text-[11px] font-bold uppercase tracking-wider text-center", style: { color: e.textSecondary }, children: y("charts.gantt.end", "FIM") })
                   ]
                 }
               ),
-              /* @__PURE__ */ e.jsx(
+              /* @__PURE__ */ o(
                 "div",
                 {
-                  ref: ce,
-                  onScroll: Ut,
+                  ref: ee,
+                  onScroll: _t,
                   className: "overflow-y-auto overflow-x-hidden",
-                  style: { maxHeight: $t, scrollbarWidth: "none" },
-                  children: pe.map((r) => {
-                    if (r.kind === "projectHeader")
-                      return /* @__PURE__ */ e.jsx(
+                  style: { maxHeight: wt, scrollbarWidth: "none" },
+                  children: te.map((t) => {
+                    if (t.kind === "projectHeader")
+                      return /* @__PURE__ */ o(
                         "div",
                         {
                           className: "flex items-center px-4 cursor-pointer select-none",
-                          style: { height: C, borderBottom: `1.5px solid ${t.group}44`, background: `${t.group}0E` },
-                          onClick: () => Kt(r.projectId),
-                          children: /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-2 flex-1 min-w-0", children: [
-                            r.collapsed ? /* @__PURE__ */ e.jsx(Mt, { size: 15, style: { color: t.group, flexShrink: 0 } }) : /* @__PURE__ */ e.jsx(at, { size: 15, style: { color: t.group, flexShrink: 0 } }),
-                            /* @__PURE__ */ e.jsx("span", { className: "text-[12px] font-bold uppercase tracking-widest truncate", style: { color: t.group }, children: r.projectTitle })
+                          style: { height: M, borderBottom: `1.5px solid ${e.group}44`, background: `${e.group}0E` },
+                          onClick: () => Vt(t.projectId),
+                          children: /* @__PURE__ */ s("div", { className: "flex items-center gap-2 flex-1 min-w-0", children: [
+                            t.collapsed ? /* @__PURE__ */ o($t, { size: 15, style: { color: e.group, flexShrink: 0 } }) : /* @__PURE__ */ o(Ze, { size: 15, style: { color: e.group, flexShrink: 0 } }),
+                            /* @__PURE__ */ o("span", { className: "text-[12px] font-bold uppercase tracking-widest truncate", style: { color: e.group }, children: t.projectTitle })
                           ] })
                         },
-                        `ph-${r.projectId}`
+                        `ph-${t.projectId}`
                       );
-                    if (r.kind === "group") {
-                      const _ = r.projectId ? `${r.projectId}-${r.groupType}` : r.groupType;
-                      return /* @__PURE__ */ e.jsx(
+                    if (t.kind === "group") {
+                      const I = t.projectId ? `${t.projectId}-${t.groupType}` : t.groupType;
+                      return /* @__PURE__ */ o(
                         "div",
                         {
                           className: "flex items-center px-4 cursor-pointer select-none",
-                          style: { height: C, borderBottom: `1px solid ${t.border}`, background: t.headerBg },
-                          onClick: () => Zt(_),
-                          children: /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-2 flex-1 min-w-0", children: [
-                            r.collapsed ? /* @__PURE__ */ e.jsx(Mt, { size: 14, style: { color: t.textSecondary, flexShrink: 0 } }) : /* @__PURE__ */ e.jsx(at, { size: 14, style: { color: t.textSecondary, flexShrink: 0 } }),
-                            /* @__PURE__ */ e.jsx("span", { className: "text-[11px] font-bold uppercase tracking-wider", style: { color: t.textTitle }, children: r.label }),
-                            /* @__PURE__ */ e.jsx("span", { className: "text-[10px] font-semibold px-1.5 py-0.5 rounded-full", style: { background: "rgba(0,0,0,0.06)", color: t.textSecondary }, children: r.count })
+                          style: { height: M, borderBottom: `1px solid ${e.border}`, background: e.headerBg },
+                          onClick: () => Ut(I),
+                          children: /* @__PURE__ */ s("div", { className: "flex items-center gap-2 flex-1 min-w-0", children: [
+                            t.collapsed ? /* @__PURE__ */ o($t, { size: 14, style: { color: e.textSecondary, flexShrink: 0 } }) : /* @__PURE__ */ o(Ze, { size: 14, style: { color: e.textSecondary, flexShrink: 0 } }),
+                            /* @__PURE__ */ o("span", { className: "text-[11px] font-bold uppercase tracking-wider", style: { color: e.textTitle }, children: t.label }),
+                            /* @__PURE__ */ o("span", { className: "text-[10px] font-semibold px-1.5 py-0.5 rounded-full", style: { background: "rgba(0,0,0,0.06)", color: e.textSecondary }, children: t.count })
                           ] })
                         },
-                        `g-${_}`
+                        `g-${I}`
                       );
                     }
-                    const s = r.task, o = A === s.id, i = le === s.id, u = s.originalType !== "step", l = st.has(s.id), a = ot.has(s.id), h = A !== null && s.id !== A && !Ce.has(s.id), P = A !== null && Ce.has(s.id), F = l ? "#FFF5F5" : o ? t.groupLight : P ? `${t.groupLight}99` : i ? t.pageBg : t.surface;
-                    return /* @__PURE__ */ e.jsxs(
+                    const n = t.task, r = _ === n.id, i = ce === n.id, p = n.originalType !== "step", l = qe.has(n.id), a = Ge.has(n.id), h = _ !== null && n.id !== _ && !$e.has(n.id), L = _ !== null && $e.has(n.id), j = l ? "#FFF5F5" : r ? e.groupLight : L ? `${e.groupLight}99` : i ? e.pageBg : e.surface;
+                    return /* @__PURE__ */ s(
                       "div",
                       {
                         className: "flex items-center px-4 cursor-pointer transition-colors duration-150",
                         style: {
-                          height: C,
-                          borderBottom: `1px solid ${t.borderLight}`,
-                          background: F,
-                          borderLeft: o ? `3px solid ${t.group}` : P ? `3px solid ${t.group}66` : a ? `3px solid ${t.today}` : void 0,
+                          height: M,
+                          borderBottom: `1px solid ${e.borderLight}`,
+                          background: j,
+                          borderLeft: r ? `3px solid ${e.group}` : L ? `3px solid ${e.group}66` : a ? `3px solid ${e.today}` : void 0,
                           opacity: h ? 0.3 : 1,
                           transition: "opacity 0.18s, background 0.15s"
                         },
-                        onClick: () => tt((_) => _ === s.id ? null : s.id),
-                        onDoubleClick: () => St(s),
-                        onMouseEnter: () => Re(s.id),
+                        onClick: () => jt((I) => I === n.id ? null : n.id),
+                        onDoubleClick: () => bt(n),
+                        onMouseEnter: () => Re(n.id),
                         onMouseLeave: () => Re(null),
                         children: [
-                          /* @__PURE__ */ e.jsxs("div", { className: "flex-1 flex items-center gap-2 min-w-0 pr-2", children: [
-                            s.originalType === "step" && /* @__PURE__ */ e.jsx("div", { className: "flex-shrink-0 rounded", style: { width: 14, height: 14, background: K[s.colorIdx ?? 0].bar, border: `1.5px solid ${K[s.colorIdx ?? 0].barBorder}` } }),
-                            s.originalType === "milestone" && /* @__PURE__ */ e.jsx("div", { className: "flex-shrink-0 flex items-center justify-center rounded-full", style: { width: 22, height: 22, background: `${t.milestoneRing}30`, border: `1.5px solid ${t.milestoneRing}` }, children: /* @__PURE__ */ e.jsx(Ie, { size: 11, style: { color: t.milestone } }) }),
-                            s.originalType === "event" && /* @__PURE__ */ e.jsx("div", { className: "flex-shrink-0 flex items-center justify-center rounded-full", style: { width: 22, height: 22, background: `${t.event}18`, border: `1.5px solid ${t.event}55` }, children: /* @__PURE__ */ e.jsx($e, { size: 11, style: { color: t.event } }) }),
-                            s.originalType === "note" && /* @__PURE__ */ e.jsx("div", { className: "flex-shrink-0", style: { width: 16, height: 20, background: s.noteColor || t.note, borderRadius: 2, boxShadow: "1px 1px 3px rgba(0,0,0,0.14)", position: "relative", overflow: "visible" }, children: /* @__PURE__ */ e.jsx("div", { style: { position: "absolute", top: -2, left: "50%", transform: "translateX(-50%)", width: 10, height: 4, background: "rgba(255,255,255,0.55)", borderRadius: 1 } }) }),
-                            /* @__PURE__ */ e.jsxs("div", { className: "flex-1 flex flex-col min-w-0", children: [
-                              /* @__PURE__ */ e.jsx(
+                          /* @__PURE__ */ s("div", { className: "flex-1 flex items-center gap-2 min-w-0 pr-2", children: [
+                            n.originalType === "step" && /* @__PURE__ */ o("div", { className: "flex-shrink-0 rounded", style: { width: 14, height: 14, background: U[n.colorIdx ?? 0].bar, border: `1.5px solid ${U[n.colorIdx ?? 0].barBorder}` } }),
+                            n.originalType === "milestone" && /* @__PURE__ */ o("div", { className: "flex-shrink-0 flex items-center justify-center rounded-full", style: { width: 22, height: 22, background: `${e.milestoneRing}30`, border: `1.5px solid ${e.milestoneRing}` }, children: /* @__PURE__ */ o(ke, { size: 11, style: { color: e.milestone } }) }),
+                            n.originalType === "event" && /* @__PURE__ */ o("div", { className: "flex-shrink-0 flex items-center justify-center rounded-full", style: { width: 22, height: 22, background: `${e.event}18`, border: `1.5px solid ${e.event}55` }, children: /* @__PURE__ */ o(ve, { size: 11, style: { color: e.event } }) }),
+                            n.originalType === "note" && /* @__PURE__ */ o("div", { className: "flex-shrink-0", style: { width: 16, height: 20, background: n.noteColor || e.note, borderRadius: 2, boxShadow: "1px 1px 3px rgba(0,0,0,0.14)", position: "relative", overflow: "visible" }, children: /* @__PURE__ */ o("div", { style: { position: "absolute", top: -2, left: "50%", transform: "translateX(-50%)", width: 10, height: 4, background: "rgba(255,255,255,0.55)", borderRadius: 1 } }) }),
+                            /* @__PURE__ */ s("div", { className: "flex-1 flex flex-col min-w-0", children: [
+                              /* @__PURE__ */ o(
                                 "span",
                                 {
                                   className: "text-[13px] truncate font-medium leading-tight",
-                                  style: { color: o ? t.group : l ? t.today : t.textPrimary },
-                                  children: s.name
+                                  style: { color: r ? e.group : l ? e.today : e.textPrimary },
+                                  children: n.name
                                 }
                               ),
-                              s.originalType === "note" && s.noteProjectTitle && /* @__PURE__ */ e.jsx("span", { className: "text-[10px] truncate", style: { color: t.textSecondary, marginTop: 1 }, children: s.noteProjectTitle })
+                              n.originalType === "note" && n.noteProjectTitle && /* @__PURE__ */ o("span", { className: "text-[10px] truncate", style: { color: e.textSecondary, marginTop: 1 }, children: n.noteProjectTitle })
                             ] }),
-                            s.originalType === "note" && (s.filesCount || 0) > 0 && /* @__PURE__ */ e.jsxs("span", { className: "flex-shrink-0 flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded-full", style: { color: t.textSecondary, background: t.headerBg, border: `1px solid ${t.borderLight}` }, children: [
-                              /* @__PURE__ */ e.jsx(lt, { size: 9 }),
-                              s.filesCount
+                            n.originalType === "note" && (n.filesCount || 0) > 0 && /* @__PURE__ */ s("span", { className: "flex-shrink-0 flex items-center gap-0.5 text-[10px] px-1.5 py-0.5 rounded-full", style: { color: e.textSecondary, background: e.headerBg, border: `1px solid ${e.borderLight}` }, children: [
+                              /* @__PURE__ */ o(Qe, { size: 9 }),
+                              n.filesCount
                             ] }),
-                            l && /* @__PURE__ */ e.jsx(Lt, { size: 12, className: "flex-shrink-0", style: { color: t.today } })
+                            l && /* @__PURE__ */ o(It, { size: 12, className: "flex-shrink-0", style: { color: e.today } })
                           ] }),
-                          /* @__PURE__ */ e.jsx("div", { className: "w-[80px] text-[11px] font-medium text-center tabular-nums", style: { color: l ? t.today : t.textMuted }, children: re(Et(s)) }),
-                          /* @__PURE__ */ e.jsx("div", { className: "w-[80px] text-[11px] font-medium text-center tabular-nums", style: { color: l ? t.today : t.textMuted }, children: u ? "—" : re(Tt(s)) })
+                          /* @__PURE__ */ o("div", { className: "w-[80px] text-[11px] font-medium text-center tabular-nums", style: { color: l ? e.today : e.textMuted }, children: K(vt(n)) }),
+                          /* @__PURE__ */ o("div", { className: "w-[80px] text-[11px] font-medium text-center tabular-nums", style: { color: l ? e.today : e.textMuted }, children: p ? "—" : K(kt(n)) })
                         ]
                       },
-                      s.id
+                      n.id
                     );
                   })
                 }
               )
             ] }),
-            /* @__PURE__ */ e.jsxs("div", { className: "flex-1 flex flex-col overflow-hidden", children: [
-              /* @__PURE__ */ e.jsx(
+            /* @__PURE__ */ s("div", { className: "flex-1 flex flex-col overflow-hidden", children: [
+              /* @__PURE__ */ o(
                 "div",
                 {
-                  ref: me,
+                  ref: ae,
                   className: "overflow-hidden flex-shrink-0",
-                  style: { borderBottom: `1px solid ${t.border}` },
-                  children: /* @__PURE__ */ e.jsxs("div", { style: { width: p.totalWidth }, children: [
-                    /* @__PURE__ */ e.jsx("div", { className: "flex", style: { height: ut, background: t.headerBg }, children: p.months.map((r, s) => /* @__PURE__ */ e.jsx(
+                  style: { borderBottom: `1px solid ${e.border}` },
+                  children: /* @__PURE__ */ s("div", { style: { width: c.totalWidth }, children: [
+                    /* @__PURE__ */ o("div", { className: "flex", style: { height: ot, background: e.headerBg }, children: c.months.map((t, n) => /* @__PURE__ */ o(
                       "div",
                       {
                         className: "flex items-center justify-center text-[10px] font-bold uppercase tracking-wider select-none",
                         style: {
-                          width: r.days * p.dayWidth,
-                          color: t.textTitle,
-                          borderRight: `1px solid ${t.border}`,
+                          width: t.days * c.dayWidth,
+                          color: e.textTitle,
+                          borderRight: `1px solid ${e.border}`,
                           letterSpacing: "0.1em"
                         },
-                        children: r.label
+                        children: t.label
                       },
-                      s
+                      n
                     )) }),
-                    /* @__PURE__ */ e.jsx("div", { className: "flex", style: { height: ut, background: t.surface }, children: Array.from({ length: p.totalDays }, (r, s) => {
-                      const o = J(p.start, s), i = o.getDate(), u = Ct(o), l = o.toDateString() === (/* @__PURE__ */ new Date()).toDateString();
-                      return /* @__PURE__ */ e.jsx(
+                    /* @__PURE__ */ o("div", { className: "flex", style: { height: ot, background: e.surface }, children: Array.from({ length: c.totalDays }, (t, n) => {
+                      const r = O(c.start, n), i = r.getDate(), p = Dt(r), l = r.toDateString() === (/* @__PURE__ */ new Date()).toDateString();
+                      return /* @__PURE__ */ o(
                         "div",
                         {
                           className: "flex items-center justify-center text-[9px] select-none",
                           style: {
-                            width: p.dayWidth,
-                            color: l ? t.today : u ? t.textMuted : t.textSecondary,
+                            width: c.dayWidth,
+                            color: l ? e.today : p ? e.textMuted : e.textSecondary,
                             fontWeight: l ? 800 : i === 1 ? 700 : 500,
-                            background: l ? t.todayBg : u ? t.weekendBg : void 0,
-                            borderRight: i === 1 ? `1px solid ${t.border}` : void 0,
+                            background: l ? e.todayBg : p ? e.weekendBg : void 0,
+                            borderRight: i === 1 ? `1px solid ${e.border}` : void 0,
                             borderRadius: l ? 4 : void 0
                           },
-                          children: U === "month" ? i : ""
+                          children: H === "month" ? i : ""
                         },
-                        s
+                        n
                       );
                     }) })
                   ] })
                 }
               ),
-              /* @__PURE__ */ e.jsx(
+              /* @__PURE__ */ o(
                 "div",
                 {
-                  ref: ge,
-                  onScroll: Ht,
-                  onMouseDown: Vt,
-                  onDoubleClick: kt,
-                  onContextMenu: kt,
-                  onWheel: qt,
+                  ref: ie,
+                  onScroll: Pt,
+                  onMouseDown: Yt,
+                  onDoubleClick: yt,
+                  onContextMenu: yt,
+                  onWheel: Ot,
                   className: "flex-1 overflow-auto",
                   style: {
-                    maxHeight: $t,
+                    maxHeight: wt,
                     scrollbarWidth: "thin",
-                    scrollbarColor: `${t.border} transparent`,
-                    cursor: Se ? "grabbing" : "grab"
+                    scrollbarColor: `${e.border} transparent`,
+                    cursor: ye ? "grabbing" : "grab"
                   },
-                  children: /* @__PURE__ */ e.jsxs("div", { style: { width: p.totalWidth, height: Ee, position: "relative" }, children: [
-                    /* @__PURE__ */ e.jsxs(
+                  children: /* @__PURE__ */ s("div", { style: { width: c.totalWidth, height: me, position: "relative" }, children: [
+                    /* @__PURE__ */ s(
                       "svg",
                       {
-                        width: p.totalWidth,
-                        height: Ee,
+                        width: c.totalWidth,
+                        height: me,
                         style: { position: "absolute", inset: 0, pointerEvents: "none" },
                         children: [
-                          pe.map((r, s) => r.kind === "projectHeader" ? /* @__PURE__ */ e.jsx("rect", { x: 0, y: s * C, width: p.totalWidth, height: C, fill: `${t.group}0E` }, `rpb${s}`) : r.kind === "group" ? /* @__PURE__ */ e.jsx("rect", { x: 0, y: s * C, width: p.totalWidth, height: C, fill: t.headerBg }, `rb${s}`) : null),
-                          Array.from({ length: p.totalDays }, (r, s) => {
-                            const o = J(p.start, s);
-                            return Ct(o) ? /* @__PURE__ */ e.jsx("rect", { x: s * p.dayWidth, y: 0, width: p.dayWidth, height: Ee, fill: "rgba(0,0,0,0.025)" }, `we${s}`) : null;
+                          te.map((t, n) => t.kind === "projectHeader" ? /* @__PURE__ */ o("rect", { x: 0, y: n * M, width: c.totalWidth, height: M, fill: `${e.group}0E` }, `rpb${n}`) : t.kind === "group" ? /* @__PURE__ */ o("rect", { x: 0, y: n * M, width: c.totalWidth, height: M, fill: e.headerBg }, `rb${n}`) : null),
+                          Array.from({ length: c.totalDays }, (t, n) => {
+                            const r = O(c.start, n);
+                            return Dt(r) ? /* @__PURE__ */ o("rect", { x: n * c.dayWidth, y: 0, width: c.dayWidth, height: me, fill: "rgba(0,0,0,0.025)" }, `we${n}`) : null;
                           }),
-                          U === "month" ? Array.from({ length: p.totalDays }, (r, s) => {
-                            const i = J(p.start, s).getDate() === 1;
-                            return /* @__PURE__ */ e.jsx(
+                          H === "month" ? Array.from({ length: c.totalDays }, (t, n) => {
+                            const i = O(c.start, n).getDate() === 1;
+                            return /* @__PURE__ */ o(
                               "line",
                               {
-                                x1: s * p.dayWidth,
+                                x1: n * c.dayWidth,
                                 y1: 0,
-                                x2: s * p.dayWidth,
-                                y2: Ee,
-                                stroke: i ? t.border : t.borderLight,
+                                x2: n * c.dayWidth,
+                                y2: me,
+                                stroke: i ? e.border : e.borderLight,
                                 strokeWidth: i ? 1 : 0.5
                               },
-                              `vl${s}`
+                              `vl${n}`
                             );
-                          }) : p.months.map((r, s) => /* @__PURE__ */ e.jsx(
+                          }) : c.months.map((t, n) => /* @__PURE__ */ o(
                             "line",
                             {
-                              x1: r.startDay * p.dayWidth,
+                              x1: t.startDay * c.dayWidth,
                               y1: 0,
-                              x2: r.startDay * p.dayWidth,
-                              y2: Ee,
-                              stroke: t.border,
+                              x2: t.startDay * c.dayWidth,
+                              y2: me,
+                              stroke: e.border,
                               strokeWidth: 1
                             },
-                            `ml${s}`
+                            `ml${n}`
                           )),
-                          pe.map((r, s) => /* @__PURE__ */ e.jsx(
+                          te.map((t, n) => /* @__PURE__ */ o(
                             "line",
                             {
                               x1: 0,
-                              y1: (s + 1) * C,
-                              x2: p.totalWidth,
-                              y2: (s + 1) * C,
-                              stroke: t.borderLight,
+                              y1: (n + 1) * M,
+                              x2: c.totalWidth,
+                              y2: (n + 1) * M,
+                              stroke: e.borderLight,
                               strokeWidth: 0.5
                             },
-                            `hl${s}`
+                            `hl${n}`
                           )),
-                          tr && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-                            /* @__PURE__ */ e.jsx("line", { x1: We, y1: 0, x2: We, y2: Ee, stroke: t.today, strokeWidth: 2, strokeDasharray: "6 3", opacity: 0.6 }),
-                            /* @__PURE__ */ e.jsx("rect", { x: We - 22, y: 0, width: 44, height: 18, rx: 9, fill: t.today }),
-                            /* @__PURE__ */ e.jsx("text", { x: We, y: 13, textAnchor: "middle", fill: "#fff", fontSize: 9, fontWeight: 700, fontFamily: "Inter, sans-serif", children: "HOJE" })
+                          Kt && /* @__PURE__ */ s(Ce, { children: [
+                            /* @__PURE__ */ o("line", { x1: De, y1: 0, x2: De, y2: me, stroke: e.today, strokeWidth: 2, strokeDasharray: "6 3", opacity: 0.6 }),
+                            /* @__PURE__ */ o("rect", { x: De - 22, y: 0, width: 44, height: 18, rx: 9, fill: e.today }),
+                            /* @__PURE__ */ o("text", { x: De, y: 13, textAnchor: "middle", fill: "#fff", fontSize: 9, fontWeight: 700, fontFamily: "Inter, sans-serif", children: "HOJE" })
                           ] })
                         ]
                       }
                     ),
-                    pe.map((r, s) => {
-                      if (r.kind === "group" || r.kind === "projectHeader")
+                    te.map((t, n) => {
+                      if (t.kind === "group" || t.kind === "projectHeader")
                         return null;
-                      const o = r.task, i = Et(o), u = Tt(o), l = te(i, p), a = s * C, h = le === o.id, P = S?.task.id === o.id, F = j?.task.id === o.id, _ = ot.has(o.id), H = st.has(o.id), ue = B?.hoverTargetId === o.id, It = (h || ue) && !!Y, Ge = A !== null && o.id !== A && !Ce.has(o.id), Je = A !== null && (o.id === A || Ce.has(o.id)), Ze = {
-                        onMouseDown: (M) => Gt(M, o),
-                        onClick: (M) => er(M, o),
-                        onDoubleClick: () => St(o),
-                        onMouseEnter: () => Re(o.id),
+                      const r = t.task, i = vt(r), p = kt(r), l = G(i, c), a = n * M, h = ce === r.id, L = w?.task.id === r.id, j = v?.task.id === r.id, I = Ge.has(r.id), B = qe.has(r.id), re = V?.hoverTargetId === r.id, St = (h || re) && !!P, Ae = _ !== null && r.id !== _ && !$e.has(r.id), Fe = _ !== null && (r.id === _ || $e.has(r.id)), Pe = {
+                        onMouseDown: ($) => Xt($, r),
+                        onClick: ($) => qt($, r),
+                        onDoubleClick: () => bt(r),
+                        onMouseEnter: () => Re(r.id),
                         onMouseLeave: () => {
-                          Re(null), De(null);
+                          Re(null), st(null);
                         },
-                        onMouseMove: (M) => {
-                          !S && !j && De({ task: o, x: M.clientX, y: M.clientY });
+                        onMouseMove: ($) => {
+                          !w && !v && st({ task: r, x: $.clientX, y: $.clientY });
                         }
                       };
-                      if (o.originalType === "step") {
-                        const M = K[o.colorIdx ?? 0], xe = Math.max(te(u, p) - l, U === "month" ? p.dayWidth : 6), fe = xe * (o.progress / 100), Ke = a + (C - ne) / 2, ze = !!(o.previsionStart && o.previsionEnd), Qe = ze ? te(o.previsionStart, p) : 0, rr = ze ? Math.max(te(o.previsionEnd, p) - Qe, U === "month" ? p.dayWidth : 6) : 0, or = Ke + ne + 3;
-                        return /* @__PURE__ */ e.jsxs(Wt.Fragment, { children: [
-                          ze && /* @__PURE__ */ e.jsx(
+                      if (r.originalType === "step") {
+                        const $ = U[r.colorIdx ?? 0], oe = Math.max(G(p, c) - l, H === "month" ? c.dayWidth : 6), ne = oe * (r.progress / 100), _e = a + (M - Z) / 2, Ee = !!(r.previsionStart && r.previsionEnd), Ye = Ee ? G(r.previsionStart, c) : 0, Jt = Ee ? Math.max(G(r.previsionEnd, c) - Ye, H === "month" ? c.dayWidth : 6) : 0, Zt = _e + Z + 3;
+                        return /* @__PURE__ */ s(Qt.Fragment, { children: [
+                          Ee && /* @__PURE__ */ o(
                             "div",
                             {
-                              title: `Previsto: ${re(o.previsionStart)} → ${re(o.previsionEnd)}`,
+                              title: `Previsto: ${K(r.previsionStart)} → ${K(r.previsionEnd)}`,
                               style: {
                                 position: "absolute",
-                                left: Qe,
-                                top: or,
-                                width: rr,
+                                left: Ye,
+                                top: Zt,
+                                width: Jt,
                                 height: 5,
                                 borderRadius: 3,
-                                background: `${M.progress}33`,
-                                border: `1.5px solid ${M.progress}66`,
-                                boxShadow: `inset 0 0 0 1px ${M.progress}22`,
+                                background: `${$.progress}33`,
+                                border: `1.5px solid ${$.progress}66`,
+                                boxShadow: `inset 0 0 0 1px ${$.progress}22`,
                                 pointerEvents: "none",
                                 zIndex: 5
                               }
                             }
                           ),
-                          /* @__PURE__ */ e.jsxs(
+                          /* @__PURE__ */ s(
                             "div",
                             {
-                              "data-task-id": o.id,
-                              ...Ze,
+                              "data-task-id": r.id,
+                              ...Pe,
                               style: {
                                 position: "absolute",
                                 left: l,
-                                top: Ke,
-                                width: xe,
-                                height: ne,
-                                borderRadius: ne / 2,
-                                background: H ? "linear-gradient(135deg, #fdd, #fee)" : M.bar,
-                                border: _ ? `2px solid ${t.today}` : H ? `1.5px solid ${t.today}88` : `1.5px solid ${M.barBorder}`,
-                                cursor: P || F ? "grabbing" : "grab",
-                                zIndex: h || ue ? 20 : 10,
-                                boxShadow: ue ? `0 0 0 2px ${t.group}, 0 4px 16px ${t.group}33` : _ ? `0 0 0 1px ${t.today}44, 0 3px 12px ${t.today}22` : Je && !h ? `0 0 0 2px ${t.group}99, 0 3px 14px ${t.group}33` : h ? `0 3px 12px ${M.progress}22` : "none",
+                                top: _e,
+                                width: oe,
+                                height: Z,
+                                borderRadius: Z / 2,
+                                background: B ? "linear-gradient(135deg, #fdd, #fee)" : $.bar,
+                                border: I ? `2px solid ${e.today}` : B ? `1.5px solid ${e.today}88` : `1.5px solid ${$.barBorder}`,
+                                cursor: L || j ? "grabbing" : "grab",
+                                zIndex: h || re ? 20 : 10,
+                                boxShadow: re ? `0 0 0 2px ${e.group}, 0 4px 16px ${e.group}33` : I ? `0 0 0 1px ${e.today}44, 0 3px 12px ${e.today}22` : Fe && !h ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : h ? `0 3px 12px ${$.progress}22` : "none",
                                 transform: h ? "scaleY(1.06)" : "scaleY(1)",
-                                opacity: Ge ? 0.15 : 1,
-                                transition: P || F ? "none" : "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
+                                opacity: Ae ? 0.15 : 1,
+                                transition: L || j ? "none" : "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
                                 overflow: "visible"
                               },
                               children: [
-                                /* @__PURE__ */ e.jsxs("div", { style: {
+                                /* @__PURE__ */ s("div", { style: {
                                   position: "absolute",
                                   left: 0,
                                   top: 0,
-                                  width: xe,
+                                  width: oe,
                                   height: "100%",
-                                  borderRadius: ne / 2,
+                                  borderRadius: Z / 2,
                                   overflow: "hidden",
                                   pointerEvents: "none"
                                 }, children: [
-                                  /* @__PURE__ */ e.jsx("div", { style: {
+                                  /* @__PURE__ */ o("div", { style: {
                                     position: "absolute",
                                     left: 0,
                                     top: 0,
-                                    width: fe,
+                                    width: ne,
                                     height: "100%",
-                                    background: H ? `linear-gradient(90deg, ${t.today}cc, ${t.today}88)` : `linear-gradient(90deg, ${M.progress}, ${M.progress}cc)`,
-                                    borderRadius: `${ne / 2}px 0 0 ${ne / 2}px`,
-                                    transition: P || F ? "none" : "width 0.3s"
+                                    background: B ? `linear-gradient(90deg, ${e.today}cc, ${e.today}88)` : `linear-gradient(90deg, ${$.progress}, ${$.progress}cc)`,
+                                    borderRadius: `${Z / 2}px 0 0 ${Z / 2}px`,
+                                    transition: L || j ? "none" : "width 0.3s"
                                   } }),
-                                  xe > 50 && /* @__PURE__ */ e.jsxs("span", { style: {
+                                  oe > 50 && /* @__PURE__ */ s("span", { style: {
                                     position: "absolute",
                                     inset: 0,
                                     display: "flex",
@@ -1459,34 +1200,34 @@ function Pr({
                                     fontSize: 10,
                                     fontWeight: 700,
                                     letterSpacing: "0.05em",
-                                    color: o.progress > 50 ? "#fff" : H ? t.today : M.progress,
+                                    color: r.progress > 50 ? "#fff" : B ? e.today : $.progress,
                                     zIndex: 1,
                                     pointerEvents: "none"
                                   }, children: [
-                                    Math.round(o.progress),
+                                    Math.round(r.progress),
                                     "%"
                                   ] })
                                 ] }),
-                                /* @__PURE__ */ e.jsx(
+                                /* @__PURE__ */ o(
                                   "div",
                                   {
-                                    onMouseDown: (Te) => wt(Te, o, "left"),
-                                    style: { position: "absolute", left: 0, top: 0, width: 8, height: "100%", cursor: "col-resize", zIndex: 2, borderRadius: `${ne / 2}px 0 0 ${ne / 2}px` }
+                                    onMouseDown: (be) => mt(be, r, "left"),
+                                    style: { position: "absolute", left: 0, top: 0, width: 8, height: "100%", cursor: "col-resize", zIndex: 2, borderRadius: `${Z / 2}px 0 0 ${Z / 2}px` }
                                   }
                                 ),
-                                /* @__PURE__ */ e.jsx(
+                                /* @__PURE__ */ o(
                                   "div",
                                   {
-                                    onMouseDown: (Te) => wt(Te, o, "right"),
-                                    style: { position: "absolute", right: 0, top: 0, width: 8, height: "100%", cursor: "col-resize", zIndex: 2, borderRadius: `0 ${ne / 2}px ${ne / 2}px 0` }
+                                    onMouseDown: (be) => mt(be, r, "right"),
+                                    style: { position: "absolute", right: 0, top: 0, width: 8, height: "100%", cursor: "col-resize", zIndex: 2, borderRadius: `0 ${Z / 2}px ${Z / 2}px 0` }
                                   }
                                 ),
-                                It && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-                                  /* @__PURE__ */ e.jsx(
+                                St && /* @__PURE__ */ s(Ce, { children: [
+                                  /* @__PURE__ */ o(
                                     "div",
                                     {
-                                      "data-task-id": o.id,
-                                      onMouseDown: (Te) => qe(Te, o, "left"),
+                                      "data-task-id": r.id,
+                                      onMouseDown: (be) => We(be, r, "left"),
                                       style: {
                                         position: "absolute",
                                         left: -7,
@@ -1495,7 +1236,7 @@ function Pr({
                                         width: 14,
                                         height: 14,
                                         borderRadius: "50%",
-                                        background: t.group,
+                                        background: e.group,
                                         border: "2.5px solid #fff",
                                         boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
                                         cursor: "crosshair",
@@ -1504,11 +1245,11 @@ function Pr({
                                       }
                                     }
                                   ),
-                                  /* @__PURE__ */ e.jsx(
+                                  /* @__PURE__ */ o(
                                     "div",
                                     {
-                                      "data-task-id": o.id,
-                                      onMouseDown: (Te) => qe(Te, o, "right"),
+                                      "data-task-id": r.id,
+                                      onMouseDown: (be) => We(be, r, "right"),
                                       style: {
                                         position: "absolute",
                                         right: -7,
@@ -1517,7 +1258,7 @@ function Pr({
                                         width: 14,
                                         height: 14,
                                         borderRadius: "50%",
-                                        background: t.group,
+                                        background: e.group,
                                         border: "2.5px solid #fff",
                                         boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
                                         cursor: "crosshair",
@@ -1529,59 +1270,59 @@ function Pr({
                                 ] })
                               ]
                             },
-                            o.id
+                            r.id
                           )
-                        ] }, o.id);
+                        ] }, r.id);
                       }
-                      if (o.originalType === "milestone") {
-                        const M = te(i, p), xe = a + (C - Fe) / 2;
-                        return /* @__PURE__ */ e.jsxs(
+                      if (r.originalType === "milestone") {
+                        const $ = G(i, c), oe = a + (M - Me) / 2;
+                        return /* @__PURE__ */ s(
                           "div",
                           {
-                            "data-task-id": o.id,
-                            ...Ze,
+                            "data-task-id": r.id,
+                            ...Pe,
                             style: {
                               position: "absolute",
-                              left: M - 6,
-                              top: xe,
-                              height: Fe,
-                              minWidth: xt,
-                              borderRadius: Fe / 2,
-                              background: _ ? "linear-gradient(135deg, #fee, #fff5f5)" : "linear-gradient(135deg, #e8f5ee, #f0f8f4)",
-                              border: ue ? `2px solid ${t.group}` : _ ? `2px solid ${t.today}` : `1.5px solid ${t.milestoneRing}`,
+                              left: $ - 6,
+                              top: oe,
+                              height: Me,
+                              minWidth: nt,
+                              borderRadius: Me / 2,
+                              background: I ? "linear-gradient(135deg, #fee, #fff5f5)" : "linear-gradient(135deg, #e8f5ee, #f0f8f4)",
+                              border: re ? `2px solid ${e.group}` : I ? `2px solid ${e.today}` : `1.5px solid ${e.milestoneRing}`,
                               display: "flex",
                               alignItems: "center",
                               gap: 6,
                               paddingLeft: 4,
                               paddingRight: 12,
-                              cursor: P ? "grabbing" : "grab",
-                              zIndex: h || ue ? 20 : 10,
-                              boxShadow: ue ? `0 0 0 2px ${t.group}, 0 4px 16px ${t.group}33` : _ ? `0 0 0 1px ${t.today}44, 0 3px 12px ${t.today}22` : Je && !h ? `0 0 0 2px ${t.group}99, 0 3px 14px ${t.group}33` : h ? `0 3px 12px ${t.milestone}22` : "0 1px 3px rgba(0,0,0,0.06)",
-                              opacity: Ge ? 0.15 : 1,
+                              cursor: L ? "grabbing" : "grab",
+                              zIndex: h || re ? 20 : 10,
+                              boxShadow: re ? `0 0 0 2px ${e.group}, 0 4px 16px ${e.group}33` : I ? `0 0 0 1px ${e.today}44, 0 3px 12px ${e.today}22` : Fe && !h ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : h ? `0 3px 12px ${e.milestone}22` : "0 1px 3px rgba(0,0,0,0.06)",
+                              opacity: Ae ? 0.15 : 1,
                               transition: "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
                               transform: h ? "translateY(-1px)" : "none",
                               whiteSpace: "nowrap",
                               overflow: "visible"
                             },
                             children: [
-                              /* @__PURE__ */ e.jsx("div", { style: {
+                              /* @__PURE__ */ o("div", { style: {
                                 width: 20,
                                 height: 20,
                                 borderRadius: "50%",
-                                background: _ ? t.today : t.milestone,
+                                background: I ? e.today : e.milestone,
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
                                 flexShrink: 0
-                              }, children: /* @__PURE__ */ e.jsx(Ie, { size: 11, color: "#fff", strokeWidth: 2.5 }) }),
-                              /* @__PURE__ */ e.jsx("span", { style: { fontSize: 11, fontWeight: 600, color: _ ? t.today : t.milestone, overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }, children: o.name }),
-                              o.progress >= 100 && /* @__PURE__ */ e.jsx("span", { style: { fontSize: 9, fontWeight: 700, color: "#fff", background: t.milestoneRing, borderRadius: 6, padding: "1px 5px" }, children: "✓" }),
-                              It && /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-                                /* @__PURE__ */ e.jsx(
+                              }, children: /* @__PURE__ */ o(ke, { size: 11, color: "#fff", strokeWidth: 2.5 }) }),
+                              /* @__PURE__ */ o("span", { style: { fontSize: 11, fontWeight: 600, color: I ? e.today : e.milestone, overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }, children: r.name }),
+                              r.progress >= 100 && /* @__PURE__ */ o("span", { style: { fontSize: 9, fontWeight: 700, color: "#fff", background: e.milestoneRing, borderRadius: 6, padding: "1px 5px" }, children: "✓" }),
+                              St && /* @__PURE__ */ s(Ce, { children: [
+                                /* @__PURE__ */ o(
                                   "div",
                                   {
-                                    "data-task-id": o.id,
-                                    onMouseDown: (fe) => qe(fe, o, "left"),
+                                    "data-task-id": r.id,
+                                    onMouseDown: (ne) => We(ne, r, "left"),
                                     style: {
                                       position: "absolute",
                                       left: -7,
@@ -1590,7 +1331,7 @@ function Pr({
                                       width: 14,
                                       height: 14,
                                       borderRadius: "50%",
-                                      background: t.group,
+                                      background: e.group,
                                       border: "2.5px solid #fff",
                                       boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
                                       cursor: "crosshair",
@@ -1598,11 +1339,11 @@ function Pr({
                                     }
                                   }
                                 ),
-                                /* @__PURE__ */ e.jsx(
+                                /* @__PURE__ */ o(
                                   "div",
                                   {
-                                    "data-task-id": o.id,
-                                    onMouseDown: (fe) => qe(fe, o, "right"),
+                                    "data-task-id": r.id,
+                                    onMouseDown: (ne) => We(ne, r, "right"),
                                     style: {
                                       position: "absolute",
                                       right: -7,
@@ -1611,7 +1352,7 @@ function Pr({
                                       width: 14,
                                       height: 14,
                                       borderRadius: "50%",
-                                      background: t.group,
+                                      background: e.group,
                                       border: "2.5px solid #fff",
                                       boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
                                       cursor: "crosshair",
@@ -1622,72 +1363,72 @@ function Pr({
                               ] })
                             ]
                           },
-                          o.id
+                          r.id
                         );
                       }
-                      if (o.originalType === "event") {
-                        const M = te(i, p), xe = a + (C - Fe) / 2;
-                        return /* @__PURE__ */ e.jsxs(
+                      if (r.originalType === "event") {
+                        const $ = G(i, c), oe = a + (M - Me) / 2;
+                        return /* @__PURE__ */ s(
                           "div",
                           {
-                            ...Ze,
+                            ...Pe,
                             style: {
                               position: "absolute",
-                              left: M - 6,
-                              top: xe,
-                              height: Fe,
-                              minWidth: xt,
-                              borderRadius: Fe / 2,
+                              left: $ - 6,
+                              top: oe,
+                              height: Me,
+                              minWidth: nt,
+                              borderRadius: Me / 2,
                               background: "linear-gradient(135deg, #fef3e2, #fef8f0)",
-                              border: `1.5px solid ${t.event}66`,
+                              border: `1.5px solid ${e.event}66`,
                               display: "flex",
                               alignItems: "center",
                               gap: 6,
                               paddingLeft: 4,
                               paddingRight: 12,
-                              cursor: P ? "grabbing" : "grab",
+                              cursor: L ? "grabbing" : "grab",
                               zIndex: h ? 20 : 10,
-                              boxShadow: Je && !h ? `0 0 0 2px ${t.group}99, 0 3px 14px ${t.group}33` : h ? `0 3px 12px ${t.event}22` : "0 1px 3px rgba(0,0,0,0.06)",
-                              opacity: Ge ? 0.15 : 1,
+                              boxShadow: Fe && !h ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : h ? `0 3px 12px ${e.event}22` : "0 1px 3px rgba(0,0,0,0.06)",
+                              opacity: Ae ? 0.15 : 1,
                               transition: "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
                               transform: h ? "translateY(-1px)" : "none",
                               whiteSpace: "nowrap"
                             },
                             children: [
-                              /* @__PURE__ */ e.jsx("div", { style: {
+                              /* @__PURE__ */ o("div", { style: {
                                 width: 20,
                                 height: 20,
                                 borderRadius: "50%",
-                                background: t.event,
+                                background: e.event,
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
                                 flexShrink: 0
-                              }, children: /* @__PURE__ */ e.jsx($e, { size: 11, color: "#fff", strokeWidth: 2.5 }) }),
-                              /* @__PURE__ */ e.jsx("span", { style: { fontSize: 11, fontWeight: 600, color: t.event, overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }, children: o.name })
+                              }, children: /* @__PURE__ */ o(ve, { size: 11, color: "#fff", strokeWidth: 2.5 }) }),
+                              /* @__PURE__ */ o("span", { style: { fontSize: 11, fontWeight: 600, color: e.event, overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }, children: r.name })
                             ]
                           },
-                          o.id
+                          r.id
                         );
                       }
-                      if (o.originalType === "note") {
-                        const M = te(i, p), xe = o.noteColor || t.note, fe = "#2a2a2a", Ke = (o.filesCount || 0) > 0, ze = Rr + 10, Qe = a + (C - ze) / 2;
-                        return /* @__PURE__ */ e.jsxs(
+                      if (r.originalType === "note") {
+                        const $ = G(i, c), oe = r.noteColor || e.note, ne = "#2a2a2a", _e = (r.filesCount || 0) > 0, Ee = wr + 10, Ye = a + (M - Ee) / 2;
+                        return /* @__PURE__ */ s(
                           "div",
                           {
-                            ...Ze,
+                            ...Pe,
                             style: {
                               position: "absolute",
-                              left: M - 4,
-                              top: Qe,
-                              width: Ir,
-                              height: ze,
+                              left: $ - 4,
+                              top: Ye,
+                              width: kr,
+                              height: Ee,
                               borderRadius: 3,
-                              background: xe,
-                              boxShadow: Je && !h ? `0 0 0 2px ${t.group}99, 2px 4px 12px rgba(0,0,0,0.18)` : h ? "3px 4px 14px rgba(0,0,0,0.2), inset 0 -1px 0 rgba(0,0,0,0.06)" : "1px 2px 5px rgba(0,0,0,0.13), inset 0 -1px 0 rgba(0,0,0,0.04)",
-                              cursor: P ? "grabbing" : "grab",
+                              background: oe,
+                              boxShadow: Fe && !h ? `0 0 0 2px ${e.group}99, 2px 4px 12px rgba(0,0,0,0.18)` : h ? "3px 4px 14px rgba(0,0,0,0.2), inset 0 -1px 0 rgba(0,0,0,0.06)" : "1px 2px 5px rgba(0,0,0,0.13), inset 0 -1px 0 rgba(0,0,0,0.04)",
+                              cursor: L ? "grabbing" : "grab",
                               zIndex: h ? 20 : 10,
-                              opacity: Ge ? 0.15 : 1,
+                              opacity: Ae ? 0.15 : 1,
                               transition: "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
                               transform: h ? "translateY(-2px) rotate(-0.8deg)" : "none",
                               display: "flex",
@@ -1696,7 +1437,7 @@ function Pr({
                               overflow: "hidden"
                             },
                             children: [
-                              /* @__PURE__ */ e.jsx("div", { style: {
+                              /* @__PURE__ */ o("div", { style: {
                                 position: "absolute",
                                 top: -3,
                                 left: "50%",
@@ -1707,10 +1448,10 @@ function Pr({
                                 borderRadius: 1,
                                 boxShadow: "0 1px 2px rgba(0,0,0,0.06)"
                               } }),
-                              /* @__PURE__ */ e.jsx("span", { style: {
+                              /* @__PURE__ */ o("span", { style: {
                                 fontSize: 10,
                                 fontWeight: 700,
-                                color: fe,
+                                color: ne,
                                 lineHeight: "13px",
                                 overflow: "hidden",
                                 display: "-webkit-box",
@@ -1719,164 +1460,164 @@ function Pr({
                                 textOverflow: "ellipsis",
                                 wordBreak: "break-word",
                                 flex: 1
-                              }, children: o.name }),
-                              o.noteProjectTitle && /* @__PURE__ */ e.jsx("span", { style: {
+                              }, children: r.name }),
+                              r.noteProjectTitle && /* @__PURE__ */ o("span", { style: {
                                 fontSize: 7.5,
                                 fontWeight: 600,
-                                color: fe,
+                                color: ne,
                                 opacity: 0.65,
                                 marginTop: 2,
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
                                 whiteSpace: "nowrap"
-                              }, children: o.noteProjectTitle }),
-                              /* @__PURE__ */ e.jsxs("div", { style: {
+                              }, children: r.noteProjectTitle }),
+                              /* @__PURE__ */ s("div", { style: {
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "space-between",
                                 marginTop: 3,
                                 gap: 4
                               }, children: [
-                                /* @__PURE__ */ e.jsx("span", { style: { fontSize: 8, color: fe, opacity: 0.55, fontWeight: 500 }, children: re(i) }),
-                                Ke && /* @__PURE__ */ e.jsxs("span", { style: {
+                                /* @__PURE__ */ o("span", { style: { fontSize: 8, color: ne, opacity: 0.55, fontWeight: 500 }, children: K(i) }),
+                                _e && /* @__PURE__ */ s("span", { style: {
                                   display: "flex",
                                   alignItems: "center",
                                   gap: 2,
                                   fontSize: 8,
-                                  color: fe,
+                                  color: ne,
                                   opacity: 0.6,
                                   fontWeight: 600,
                                   background: "rgba(0,0,0,0.06)",
                                   borderRadius: 3,
                                   padding: "1px 3px"
                                 }, children: [
-                                  /* @__PURE__ */ e.jsx(lt, { size: 7 }),
-                                  o.filesCount
+                                  /* @__PURE__ */ o(Qe, { size: 7 }),
+                                  r.filesCount
                                 ] })
                               ] })
                             ]
                           },
-                          o.id
+                          r.id
                         );
                       }
                       return null;
                     }),
-                    /* @__PURE__ */ e.jsx(
+                    /* @__PURE__ */ o(
                       "svg",
                       {
-                        width: p.totalWidth,
-                        height: Ee,
+                        width: c.totalWidth,
+                        height: me,
                         style: { position: "absolute", inset: 0, pointerEvents: "none" },
-                        children: Xt.map((r, s) => {
-                          const o = le === r.predId || le === r.succId, i = !A || r.predId === A || r.succId === A || Ce.has(r.predId) || Ce.has(r.succId), u = A !== null && i, l = o ? t.arrowHover : u ? t.group : t.arrow;
-                          return /* @__PURE__ */ e.jsxs("g", { style: { opacity: i ? u ? 1 : void 0 : 0.08, transition: "opacity 0.18s" }, children: [
-                            /* @__PURE__ */ e.jsx(
+                        children: Ft.map((t, n) => {
+                          const r = ce === t.predId || ce === t.succId, i = !_ || t.predId === _ || t.succId === _ || $e.has(t.predId) || $e.has(t.succId), p = _ !== null && i, l = r ? e.arrowHover : p ? e.group : e.arrow;
+                          return /* @__PURE__ */ s("g", { style: { opacity: i ? p ? 1 : void 0 : 0.08, transition: "opacity 0.18s" }, children: [
+                            /* @__PURE__ */ o(
                               "path",
                               {
-                                d: r.path,
+                                d: t.path,
                                 fill: "none",
                                 stroke: l,
-                                strokeWidth: u ? 2.5 : o ? 2 : 1.5,
+                                strokeWidth: p ? 2.5 : r ? 2 : 1.5,
                                 style: { transition: "stroke 0.2s, stroke-width 0.2s" }
                               }
                             ),
-                            /* @__PURE__ */ e.jsx(
+                            /* @__PURE__ */ o(
                               "polygon",
                               {
-                                points: `${r.headX},${r.headY} ${r.headX - 6},${r.headY - 4} ${r.headX - 6},${r.headY + 4}`,
+                                points: `${t.headX},${t.headY} ${t.headX - 6},${t.headY - 4} ${t.headX - 6},${t.headY + 4}`,
                                 fill: l,
                                 style: { transition: "fill 0.2s" }
                               }
                             )
-                          ] }, s);
+                          ] }, n);
                         })
                       }
                     ),
-                    b && !S && /* @__PURE__ */ e.jsx("div", { style: { position: "fixed", left: b.x + 16, top: b.y - 10, zIndex: 9999, pointerEvents: "none" }, children: /* @__PURE__ */ e.jsxs(
+                    f && !w && /* @__PURE__ */ o("div", { style: { position: "fixed", left: f.x + 16, top: f.y - 10, zIndex: 9999, pointerEvents: "none" }, children: /* @__PURE__ */ s(
                       "div",
                       {
                         className: "rounded-xl px-4 py-3 min-w-[220px] max-w-[340px] backdrop-blur-sm",
-                        style: { background: `${t.surface}f5`, border: `1px solid ${t.borderLight}`, boxShadow: "0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)" },
+                        style: { background: `${e.surface}f5`, border: `1px solid ${e.borderLight}`, boxShadow: "0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)" },
                         children: [
-                          /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-2 mb-1.5", children: [
-                            Cr(b.task.originalType, b.task.colorIdx),
-                            /* @__PURE__ */ e.jsx("span", { className: "text-xs font-bold truncate", style: { color: t.textTitle }, children: b.task.name })
+                          /* @__PURE__ */ s("div", { className: "flex items-center gap-2 mb-1.5", children: [
+                            Er(f.task.originalType, f.task.colorIdx),
+                            /* @__PURE__ */ o("span", { className: "text-xs font-bold truncate", style: { color: e.textTitle }, children: f.task.name })
                           ] }),
-                          /* @__PURE__ */ e.jsx("div", { className: "flex flex-col gap-1 text-[11px]", style: { color: t.textSecondary }, children: b.task.originalType === "step" ? /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-                            b.task.previsionStart && b.task.previsionEnd && /* @__PURE__ */ e.jsxs("div", { style: { background: `${t.headerBg}`, borderRadius: 6, padding: "4px 6px", marginBottom: 2 }, children: [
-                              /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1 mb-1", children: [
-                                /* @__PURE__ */ e.jsx("div", { style: { width: 20, height: 4, borderRadius: 2, background: `${t.textSecondary}44`, border: `1.5px solid ${t.textSecondary}66` } }),
-                                /* @__PURE__ */ e.jsx("span", { style: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: t.textSecondary }, children: "Previsto" })
+                          /* @__PURE__ */ o("div", { className: "flex flex-col gap-1 text-[11px]", style: { color: e.textSecondary }, children: f.task.originalType === "step" ? /* @__PURE__ */ s(Ce, { children: [
+                            f.task.previsionStart && f.task.previsionEnd && /* @__PURE__ */ s("div", { style: { background: `${e.headerBg}`, borderRadius: 6, padding: "4px 6px", marginBottom: 2 }, children: [
+                              /* @__PURE__ */ s("div", { className: "flex items-center gap-1 mb-1", children: [
+                                /* @__PURE__ */ o("div", { style: { width: 20, height: 4, borderRadius: 2, background: `${e.textSecondary}44`, border: `1.5px solid ${e.textSecondary}66` } }),
+                                /* @__PURE__ */ o("span", { style: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: e.textSecondary }, children: "Previsto" })
                               ] }),
-                              /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                                /* @__PURE__ */ e.jsx("span", { children: "Início:" }),
-                                /* @__PURE__ */ e.jsx("span", { className: "font-semibold tabular-nums", style: { color: t.textPrimary }, children: re(b.task.previsionStart) })
+                              /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                                /* @__PURE__ */ o("span", { children: "Início:" }),
+                                /* @__PURE__ */ o("span", { className: "font-semibold tabular-nums", style: { color: e.textPrimary }, children: K(f.task.previsionStart) })
                               ] }),
-                              /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                                /* @__PURE__ */ e.jsx("span", { children: "Fim:" }),
-                                /* @__PURE__ */ e.jsx("span", { className: "font-semibold tabular-nums", style: { color: t.textPrimary }, children: re(b.task.previsionEnd) })
+                              /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                                /* @__PURE__ */ o("span", { children: "Fim:" }),
+                                /* @__PURE__ */ o("span", { className: "font-semibold tabular-nums", style: { color: e.textPrimary }, children: K(f.task.previsionEnd) })
                               ] }),
-                              /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                                /* @__PURE__ */ e.jsx("span", { children: "Duração:" }),
-                                /* @__PURE__ */ e.jsxs("span", { className: "font-semibold tabular-nums", style: { color: t.textPrimary }, children: [
-                                  je(b.task.previsionStart, b.task.previsionEnd),
+                              /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                                /* @__PURE__ */ o("span", { children: "Duração:" }),
+                                /* @__PURE__ */ s("span", { className: "font-semibold tabular-nums", style: { color: e.textPrimary }, children: [
+                                  ge(f.task.previsionStart, f.task.previsionEnd),
                                   "d"
                                 ] })
                               ] })
                             ] }),
-                            /* @__PURE__ */ e.jsxs("div", { style: { background: b.task.hasActualDates ? `${t.groupLight}22` : "transparent", borderRadius: 6, padding: "4px 6px" }, children: [
-                              /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1 mb-1", children: [
-                                /* @__PURE__ */ e.jsx("div", { style: { width: 20, height: 4, borderRadius: 2, background: K[b.task.colorIdx ?? 0].progress } }),
-                                /* @__PURE__ */ e.jsx("span", { style: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: b.task.hasActualDates ? t.group : t.textSecondary }, children: b.task.hasActualDates ? "Real" : "Previsto (em uso)" })
+                            /* @__PURE__ */ s("div", { style: { background: f.task.hasActualDates ? `${e.groupLight}22` : "transparent", borderRadius: 6, padding: "4px 6px" }, children: [
+                              /* @__PURE__ */ s("div", { className: "flex items-center gap-1 mb-1", children: [
+                                /* @__PURE__ */ o("div", { style: { width: 20, height: 4, borderRadius: 2, background: U[f.task.colorIdx ?? 0].progress } }),
+                                /* @__PURE__ */ o("span", { style: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: f.task.hasActualDates ? e.group : e.textSecondary }, children: f.task.hasActualDates ? "Real" : "Previsto (em uso)" })
                               ] }),
-                              /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                                /* @__PURE__ */ e.jsx("span", { children: "Início:" }),
-                                /* @__PURE__ */ e.jsx("span", { className: "font-semibold tabular-nums", style: { color: t.textPrimary }, children: re(b.task.start) })
+                              /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                                /* @__PURE__ */ o("span", { children: "Início:" }),
+                                /* @__PURE__ */ o("span", { className: "font-semibold tabular-nums", style: { color: e.textPrimary }, children: K(f.task.start) })
                               ] }),
-                              /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                                /* @__PURE__ */ e.jsx("span", { children: "Fim:" }),
-                                /* @__PURE__ */ e.jsx("span", { className: "font-semibold tabular-nums", style: { color: t.textPrimary }, children: re(b.task.end) })
+                              /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                                /* @__PURE__ */ o("span", { children: "Fim:" }),
+                                /* @__PURE__ */ o("span", { className: "font-semibold tabular-nums", style: { color: e.textPrimary }, children: K(f.task.end) })
                               ] }),
-                              /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                                /* @__PURE__ */ e.jsx("span", { children: "Duração:" }),
-                                /* @__PURE__ */ e.jsxs("span", { className: "font-semibold tabular-nums", style: { color: t.textPrimary }, children: [
-                                  je(b.task.start, b.task.end),
+                              /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                                /* @__PURE__ */ o("span", { children: "Duração:" }),
+                                /* @__PURE__ */ s("span", { className: "font-semibold tabular-nums", style: { color: e.textPrimary }, children: [
+                                  ge(f.task.start, f.task.end),
                                   "d"
                                 ] })
                               ] })
                             ] }),
-                            /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4 pt-1 mt-1", style: { borderTop: `1px solid ${t.borderLight}` }, children: [
-                              /* @__PURE__ */ e.jsxs("span", { children: [
-                                v("charts.gantt.progress", "Progresso"),
+                            /* @__PURE__ */ s("div", { className: "flex justify-between gap-4 pt-1 mt-1", style: { borderTop: `1px solid ${e.borderLight}` }, children: [
+                              /* @__PURE__ */ s("span", { children: [
+                                y("charts.gantt.progress", "Progresso"),
                                 ":"
                               ] }),
-                              /* @__PURE__ */ e.jsxs("span", { className: "font-bold", style: { color: t.group }, children: [
-                                Math.round(b.task.progress),
+                              /* @__PURE__ */ s("span", { className: "font-bold", style: { color: e.group }, children: [
+                                Math.round(f.task.progress),
                                 "%"
                               ] })
                             ] })
-                          ] }) : b.task.originalType === "note" ? /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
-                            b.task.noteProjectTitle && /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 mb-1", children: [
-                              /* @__PURE__ */ e.jsx("div", { style: { width: 8, height: 8, borderRadius: 2, background: b.task.noteColor || t.note, flexShrink: 0 } }),
-                              /* @__PURE__ */ e.jsx("span", { className: "text-[11px] font-semibold truncate", style: { color: t.textPrimary }, children: b.task.noteProjectTitle })
+                          ] }) : f.task.originalType === "note" ? /* @__PURE__ */ s(Ce, { children: [
+                            f.task.noteProjectTitle && /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 mb-1", children: [
+                              /* @__PURE__ */ o("div", { style: { width: 8, height: 8, borderRadius: 2, background: f.task.noteColor || e.note, flexShrink: 0 } }),
+                              /* @__PURE__ */ o("span", { className: "text-[11px] font-semibold truncate", style: { color: e.textPrimary }, children: f.task.noteProjectTitle })
                             ] }),
-                            /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                              /* @__PURE__ */ e.jsx("span", { children: "Data:" }),
-                              /* @__PURE__ */ e.jsx("span", { className: "font-semibold tabular-nums", style: { color: t.textPrimary }, children: re(b.task.start) })
+                            /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                              /* @__PURE__ */ o("span", { children: "Data:" }),
+                              /* @__PURE__ */ o("span", { className: "font-semibold tabular-nums", style: { color: e.textPrimary }, children: K(f.task.start) })
                             ] }),
-                            (b.task.filesCount || 0) > 0 && /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                              /* @__PURE__ */ e.jsx("span", { children: "Anexos:" }),
-                              /* @__PURE__ */ e.jsxs("span", { className: "font-semibold flex items-center gap-1", style: { color: t.textPrimary }, children: [
-                                /* @__PURE__ */ e.jsx(lt, { size: 10 }),
-                                b.task.filesCount
+                            (f.task.filesCount || 0) > 0 && /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                              /* @__PURE__ */ o("span", { children: "Anexos:" }),
+                              /* @__PURE__ */ s("span", { className: "font-semibold flex items-center gap-1", style: { color: e.textPrimary }, children: [
+                                /* @__PURE__ */ o(Qe, { size: 10 }),
+                                f.task.filesCount
                               ] })
                             ] })
-                          ] }) : /* @__PURE__ */ e.jsxs("div", { className: "flex justify-between gap-4", children: [
-                            /* @__PURE__ */ e.jsxs("span", { children: [
-                              v("charts.gantt.start", "Início"),
+                          ] }) : /* @__PURE__ */ s("div", { className: "flex justify-between gap-4", children: [
+                            /* @__PURE__ */ s("span", { children: [
+                              y("charts.gantt.start", "Início"),
                               ":"
                             ] }),
-                            /* @__PURE__ */ e.jsx("span", { className: "font-semibold tabular-nums", style: { color: t.textPrimary }, children: re(b.task.start) })
+                            /* @__PURE__ */ o("span", { className: "font-semibold tabular-nums", style: { color: e.textPrimary }, children: K(f.task.start) })
                           ] }) })
                         ]
                       }
@@ -1886,51 +1627,51 @@ function Pr({
               )
             ] })
           ] }),
-          /* @__PURE__ */ e.jsxs(
+          /* @__PURE__ */ s(
             "div",
             {
               className: "flex flex-wrap items-center gap-2.5 px-6 py-3.5",
-              style: { borderTop: `1px solid ${t.border}`, background: t.headerBg },
+              style: { borderTop: `1px solid ${e.border}`, background: e.headerBg },
               children: [
-                /* @__PURE__ */ e.jsx("span", { className: "text-[10px] font-bold uppercase tracking-widest mr-1", style: { color: t.textSecondary }, children: v("charts.gantt.legend", "Legenda") }),
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.textPrimary, background: t.surface, border: `1px solid ${t.borderLight}` }, children: [
-                  /* @__PURE__ */ e.jsx("div", { className: "flex gap-0.5", children: K.slice(0, 5).map((r, s) => /* @__PURE__ */ e.jsx("div", { className: "w-2 h-3 rounded-sm", style: { background: r.bar, border: `1px solid ${r.barBorder}` } }, s)) }),
-                  /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.taskLabel", "Etapas") })
+                /* @__PURE__ */ o("span", { className: "text-[10px] font-bold uppercase tracking-widest mr-1", style: { color: e.textSecondary }, children: y("charts.gantt.legend", "Legenda") }),
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.textPrimary, background: e.surface, border: `1px solid ${e.borderLight}` }, children: [
+                  /* @__PURE__ */ o("div", { className: "flex gap-0.5", children: U.slice(0, 5).map((t, n) => /* @__PURE__ */ o("div", { className: "w-2 h-3 rounded-sm", style: { background: t.bar, border: `1px solid ${t.barBorder}` } }, n)) }),
+                  /* @__PURE__ */ o("span", { children: y("charts.gantt.taskLabel", "Etapas") })
                 ] }),
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.textPrimary, background: t.surface, border: `1px solid ${t.borderLight}` }, children: [
-                  /* @__PURE__ */ e.jsx("div", { className: "flex items-center justify-center rounded-full", style: { width: 14, height: 14, background: t.milestone }, children: /* @__PURE__ */ e.jsx(Ie, { size: 8, color: "#fff" }) }),
-                  /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.milestoneLabel", "Marco (Entrega)") })
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.textPrimary, background: e.surface, border: `1px solid ${e.borderLight}` }, children: [
+                  /* @__PURE__ */ o("div", { className: "flex items-center justify-center rounded-full", style: { width: 14, height: 14, background: e.milestone }, children: /* @__PURE__ */ o(ke, { size: 8, color: "#fff" }) }),
+                  /* @__PURE__ */ o("span", { children: y("charts.gantt.milestoneLabel", "Marco (Entrega)") })
                 ] }),
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.textPrimary, background: t.surface, border: `1px solid ${t.borderLight}` }, children: [
-                  /* @__PURE__ */ e.jsx("div", { className: "flex items-center justify-center rounded-full", style: { width: 14, height: 14, background: t.event }, children: /* @__PURE__ */ e.jsx($e, { size: 8, color: "#fff" }) }),
-                  /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.eventLabel", "Evento Pontual") })
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.textPrimary, background: e.surface, border: `1px solid ${e.borderLight}` }, children: [
+                  /* @__PURE__ */ o("div", { className: "flex items-center justify-center rounded-full", style: { width: 14, height: 14, background: e.event }, children: /* @__PURE__ */ o(ve, { size: 8, color: "#fff" }) }),
+                  /* @__PURE__ */ o("span", { children: y("charts.gantt.eventLabel", "Evento Pontual") })
                 ] }),
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.textPrimary, background: t.surface, border: `1px solid ${t.borderLight}` }, children: [
-                  /* @__PURE__ */ e.jsx("div", { style: { width: 12, height: 14, background: t.note, borderRadius: 2, boxShadow: "1px 1px 2px rgba(0,0,0,0.1)" } }),
-                  /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.noteLabel", "Nota") })
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.textPrimary, background: e.surface, border: `1px solid ${e.borderLight}` }, children: [
+                  /* @__PURE__ */ o("div", { style: { width: 12, height: 14, background: e.note, borderRadius: 2, boxShadow: "1px 1px 2px rgba(0,0,0,0.1)" } }),
+                  /* @__PURE__ */ o("span", { children: y("charts.gantt.noteLabel", "Nota") })
                 ] }),
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.textPrimary, background: t.surface, border: `1px solid ${t.borderLight}` }, children: [
-                  /* @__PURE__ */ e.jsxs("svg", { width: "18", height: "10", viewBox: "0 0 18 10", children: [
-                    /* @__PURE__ */ e.jsx("path", { d: "M0,5 L10,5", stroke: t.arrow, strokeWidth: "1.5" }),
-                    /* @__PURE__ */ e.jsx("polygon", { points: "10,5 14,2.5 14,7.5", fill: t.arrow })
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.textPrimary, background: e.surface, border: `1px solid ${e.borderLight}` }, children: [
+                  /* @__PURE__ */ s("svg", { width: "18", height: "10", viewBox: "0 0 18 10", children: [
+                    /* @__PURE__ */ o("path", { d: "M0,5 L10,5", stroke: e.arrow, strokeWidth: "1.5" }),
+                    /* @__PURE__ */ o("polygon", { points: "10,5 14,2.5 14,7.5", fill: e.arrow })
                   ] }),
-                  /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.dependencyLabel", "Dependência") })
+                  /* @__PURE__ */ o("span", { children: y("charts.gantt.dependencyLabel", "Dependência") })
                 ] }),
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.textPrimary, background: t.surface, border: `1px solid ${t.borderLight}` }, children: [
-                  /* @__PURE__ */ e.jsx("div", { className: "w-0.5 h-3.5 rounded-full", style: { background: t.today } }),
-                  /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.todayLabel", "Hoje") })
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.textPrimary, background: e.surface, border: `1px solid ${e.borderLight}` }, children: [
+                  /* @__PURE__ */ o("div", { className: "w-0.5 h-3.5 rounded-full", style: { background: e.today } }),
+                  /* @__PURE__ */ o("span", { children: y("charts.gantt.todayLabel", "Hoje") })
                 ] }),
-                /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.textPrimary, background: t.surface, border: `1px solid ${t.borderLight}` }, children: [
-                  /* @__PURE__ */ e.jsx("div", { style: { width: 20, height: 4, borderRadius: 2, background: `${t.textSecondary}44`, border: `1.5px solid ${t.textSecondary}66` } }),
-                  /* @__PURE__ */ e.jsx("span", { children: v("charts.gantt.baselineLabel", "Previsto") })
+                /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.textPrimary, background: e.surface, border: `1px solid ${e.borderLight}` }, children: [
+                  /* @__PURE__ */ o("div", { style: { width: 20, height: 4, borderRadius: 2, background: `${e.textSecondary}44`, border: `1.5px solid ${e.textSecondary}66` } }),
+                  /* @__PURE__ */ o("span", { children: y("charts.gantt.baselineLabel", "Previsto") })
                 ] }),
-                ot.size > 0 && /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.today, background: t.surface, border: `1px solid ${t.today}44` }, children: [
-                  /* @__PURE__ */ e.jsx("div", { className: "w-3 h-2.5 rounded-sm", style: { border: `2px solid ${t.today}`, background: "transparent" } }),
-                  /* @__PURE__ */ e.jsx("span", { children: "Caminho Crítico" })
+                Ge.size > 0 && /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.today, background: e.surface, border: `1px solid ${e.today}44` }, children: [
+                  /* @__PURE__ */ o("div", { className: "w-3 h-2.5 rounded-sm", style: { border: `2px solid ${e.today}`, background: "transparent" } }),
+                  /* @__PURE__ */ o("span", { children: "Caminho Crítico" })
                 ] }),
-                st.size > 0 && /* @__PURE__ */ e.jsxs("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: t.today, background: "#FFF5F5", border: `1px solid ${t.today}44` }, children: [
-                  /* @__PURE__ */ e.jsx(Lt, { size: 11 }),
-                  /* @__PURE__ */ e.jsx("span", { children: "Atrasado" })
+                qe.size > 0 && /* @__PURE__ */ s("div", { className: "flex items-center gap-1.5 text-[11px] px-2.5 py-1 rounded-full", style: { color: e.today, background: "#FFF5F5", border: `1px solid ${e.today}44` }, children: [
+                  /* @__PURE__ */ o(It, { size: 11 }),
+                  /* @__PURE__ */ o("span", { children: "Atrasado" })
                 ] })
               ]
             }
@@ -1938,47 +1679,47 @@ function Pr({
         ]
       }
     ),
-    de.task && de.isOpen && (() => {
-      const r = de.task, s = (x || []).filter(
-        (a) => a.predecessorId === r.id || a.successorId === r.id
-      ), o = {
+    fe.task && fe.isOpen && (() => {
+      const t = fe.task, n = (g || []).filter(
+        (a) => a.predecessorId === t.id || a.successorId === t.id
+      ), r = {
         FS: "Início após Fim",
         SS: "Inícios simultâneos",
         FF: "Fins simultâneos",
         SF: "Fim após Início"
-      }, i = s.length > 0 ? 300 : 220, u = Math.min(de.position.x, window.innerWidth - i - 16), l = de.position.y + 8;
-      return /* @__PURE__ */ e.jsxs(
+      }, i = n.length > 0 ? 300 : 220, p = Math.min(fe.position.x, window.innerWidth - i - 16), l = fe.position.y + 8;
+      return /* @__PURE__ */ s(
         "div",
         {
           "data-popup": "gantt-action",
           style: {
             position: "fixed",
-            left: u,
+            left: p,
             top: l,
             zIndex: 9999,
             background: "#fff",
             borderRadius: 4,
             boxShadow: "0 12px 40px rgba(0,0,0,0.14), 0 3px 10px rgba(0,0,0,0.07)",
-            border: `1.5px solid ${t.borderLight}`,
+            border: `1.5px solid ${e.borderLight}`,
             width: i,
             overflow: "hidden"
           },
           onMouseDown: (a) => a.stopPropagation(),
           children: [
-            /* @__PURE__ */ e.jsx("div", { style: { padding: "12px 14px 10px", borderBottom: `1px solid ${t.borderLight}` }, children: /* @__PURE__ */ e.jsx(
+            /* @__PURE__ */ o("div", { style: { padding: "12px 14px 10px", borderBottom: `1px solid ${e.borderLight}` }, children: /* @__PURE__ */ o(
               "p",
               {
-                style: { fontSize: 13, fontWeight: 700, color: t.group, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
-                title: r.name,
-                children: r.name
+                style: { fontSize: 13, fontWeight: 700, color: e.group, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
+                title: t.name,
+                children: t.name
               }
             ) }),
-            /* @__PURE__ */ e.jsxs("div", { style: { display: "flex", flexDirection: "column", gap: 2, padding: "8px 6px" }, children: [
-              /* @__PURE__ */ e.jsxs(
+            /* @__PURE__ */ s("div", { style: { display: "flex", flexDirection: "column", gap: 2, padding: "8px 6px" }, children: [
+              /* @__PURE__ */ s(
                 "button",
                 {
                   onClick: () => {
-                    O?.(it(r)), Pe();
+                    X?.(Je(t)), Te();
                   },
                   style: {
                     display: "flex",
@@ -1993,26 +1734,26 @@ function Pr({
                     width: "100%",
                     fontSize: 13,
                     fontWeight: 500,
-                    color: t.textPrimary,
+                    color: e.textPrimary,
                     transition: "background 0.12s"
                   },
                   onMouseEnter: (a) => {
-                    a.currentTarget.style.background = t.groupLight;
+                    a.currentTarget.style.background = e.groupLight;
                   },
                   onMouseLeave: (a) => {
                     a.currentTarget.style.background = "transparent";
                   },
                   children: [
-                    /* @__PURE__ */ e.jsx(fr, { size: 15 }),
-                    /* @__PURE__ */ e.jsx("span", { children: v("projects.stepAction.viewDetails", "Ver detalhes") })
+                    /* @__PURE__ */ o(ar, { size: 15 }),
+                    /* @__PURE__ */ o("span", { children: y("projects.stepAction.viewDetails", "Ver detalhes") })
                   ]
                 }
               ),
-              /* @__PURE__ */ e.jsxs(
+              /* @__PURE__ */ s(
                 "button",
                 {
                   onClick: () => {
-                    N?.(it(r)), Pe();
+                    R?.(Je(t)), Te();
                   },
                   style: {
                     display: "flex",
@@ -2027,26 +1768,26 @@ function Pr({
                     width: "100%",
                     fontSize: 13,
                     fontWeight: 500,
-                    color: t.textPrimary,
+                    color: e.textPrimary,
                     transition: "background 0.12s"
                   },
                   onMouseEnter: (a) => {
-                    a.currentTarget.style.background = t.groupLight;
+                    a.currentTarget.style.background = e.groupLight;
                   },
                   onMouseLeave: (a) => {
                     a.currentTarget.style.background = "transparent";
                   },
                   children: [
-                    /* @__PURE__ */ e.jsx(jr, { size: 15 }),
-                    /* @__PURE__ */ e.jsx("span", { children: v("projects.stepAction.edit", "Editar") })
+                    /* @__PURE__ */ o(gr, { size: 15 }),
+                    /* @__PURE__ */ o("span", { children: y("projects.stepAction.edit", "Editar") })
                   ]
                 }
               ),
-              /* @__PURE__ */ e.jsxs(
+              /* @__PURE__ */ s(
                 "button",
                 {
                   onClick: () => {
-                    Q?.(r.id), Pe();
+                    Q?.(t.id), Te();
                   },
                   style: {
                     display: "flex",
@@ -2071,60 +1812,60 @@ function Pr({
                     a.currentTarget.style.background = "transparent";
                   },
                   children: [
-                    /* @__PURE__ */ e.jsx(Sr, { size: 15 }),
-                    /* @__PURE__ */ e.jsx("span", { children: v("projects.stepAction.delete", "Excluir") })
+                    /* @__PURE__ */ o(yr, { size: 15 }),
+                    /* @__PURE__ */ o("span", { children: y("projects.stepAction.delete", "Excluir") })
                   ]
                 }
               )
             ] }),
-            s.length > 0 && /* @__PURE__ */ e.jsxs("div", { style: { borderTop: `1px solid ${t.borderLight}`, padding: "10px 14px 12px" }, children: [
-              /* @__PURE__ */ e.jsxs("div", { style: { fontSize: 10, fontWeight: 700, color: t.textSecondary, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }, children: [
+            n.length > 0 && /* @__PURE__ */ s("div", { style: { borderTop: `1px solid ${e.borderLight}`, padding: "10px 14px 12px" }, children: [
+              /* @__PURE__ */ s("div", { style: { fontSize: 10, fontWeight: 700, color: e.textSecondary, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }, children: [
                 "Relações (",
-                s.length,
+                n.length,
                 ")"
               ] }),
-              /* @__PURE__ */ e.jsx("div", { style: { display: "flex", flexDirection: "column", gap: 5 }, children: s.map((a) => {
-                const h = a.predecessorId === r.id, P = h ? a.successorName : a.predecessorName, F = Yt === a.id;
-                return /* @__PURE__ */ e.jsxs("div", { style: {
+              /* @__PURE__ */ o("div", { style: { display: "flex", flexDirection: "column", gap: 5 }, children: n.map((a) => {
+                const h = a.predecessorId === t.id, L = h ? a.successorName : a.predecessorName, j = At === a.id;
+                return /* @__PURE__ */ s("div", { style: {
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
                   padding: "6px 8px",
                   borderRadius: 8,
                   background: "#f8fafb",
-                  border: `1px solid ${t.borderLight}`
+                  border: `1px solid ${e.borderLight}`
                 }, children: [
-                  /* @__PURE__ */ e.jsxs("div", { style: { flex: 1, minWidth: 0 }, children: [
-                    /* @__PURE__ */ e.jsxs("div", { style: { fontSize: 10, fontWeight: 700, color: t.group, marginBottom: 2 }, children: [
-                      /* @__PURE__ */ e.jsx("span", { style: { background: `${t.group}15`, borderRadius: 4, padding: "1px 5px" }, children: a.type }),
+                  /* @__PURE__ */ s("div", { style: { flex: 1, minWidth: 0 }, children: [
+                    /* @__PURE__ */ s("div", { style: { fontSize: 10, fontWeight: 700, color: e.group, marginBottom: 2 }, children: [
+                      /* @__PURE__ */ o("span", { style: { background: `${e.group}15`, borderRadius: 4, padding: "1px 5px" }, children: a.type }),
                       " ",
-                      /* @__PURE__ */ e.jsx("span", { style: { color: t.textSecondary, fontWeight: 500 }, children: h ? "→ " : "← " }),
-                      /* @__PURE__ */ e.jsx("span", { style: { color: t.textMuted, fontWeight: 400, fontSize: 9 }, children: o[a.type] ?? a.type })
+                      /* @__PURE__ */ o("span", { style: { color: e.textSecondary, fontWeight: 500 }, children: h ? "→ " : "← " }),
+                      /* @__PURE__ */ o("span", { style: { color: e.textMuted, fontWeight: 400, fontSize: 9 }, children: r[a.type] ?? a.type })
                     ] }),
-                    /* @__PURE__ */ e.jsx(
+                    /* @__PURE__ */ o(
                       "div",
                       {
-                        style: { fontSize: 11, color: t.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
-                        title: P,
-                        children: P || (h ? a.successorId : a.predecessorId)
+                        style: { fontSize: 11, color: e.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
+                        title: L,
+                        children: L || (h ? a.successorId : a.predecessorId)
                       }
                     ),
-                    a.lag > 0 && /* @__PURE__ */ e.jsxs("div", { style: { fontSize: 9, color: t.textMuted, marginTop: 1 }, children: [
+                    a.lag > 0 && /* @__PURE__ */ s("div", { style: { fontSize: 9, color: e.textMuted, marginTop: 1 }, children: [
                       "Lag: ",
                       a.lag,
                       "d"
                     ] })
                   ] }),
-                  ee && /* @__PURE__ */ e.jsx(
+                  se && /* @__PURE__ */ o(
                     "button",
                     {
-                      disabled: !!F,
+                      disabled: !!j,
                       onClick: async () => {
-                        gt(a.id);
+                        pt(a.id);
                         try {
-                          await ee(a.id);
+                          await se(a.id);
                         } finally {
-                          gt(null);
+                          pt(null);
                         }
                       },
                       style: {
@@ -2132,21 +1873,21 @@ function Pr({
                         padding: "4px 6px",
                         borderRadius: 6,
                         border: "none",
-                        background: F ? "#fee2e2" : "transparent",
-                        cursor: F ? "wait" : "pointer",
+                        background: j ? "#fee2e2" : "transparent",
+                        cursor: j ? "wait" : "pointer",
                         color: "#ef4444",
                         fontSize: 14,
-                        opacity: F ? 0.5 : 1,
+                        opacity: j ? 0.5 : 1,
                         transition: "background 0.12s"
                       },
-                      onMouseEnter: (_) => {
-                        F || (_.currentTarget.style.background = "#fef2f2");
+                      onMouseEnter: (I) => {
+                        j || (I.currentTarget.style.background = "#fef2f2");
                       },
-                      onMouseLeave: (_) => {
-                        F || (_.currentTarget.style.background = "transparent");
+                      onMouseLeave: (I) => {
+                        j || (I.currentTarget.style.background = "transparent");
                       },
                       title: "Excluir relação",
-                      children: F ? "⟳" : "🗑"
+                      children: j ? "⟳" : "🗑"
                     }
                   )
                 ] }, a.id);
@@ -2157,64 +1898,64 @@ function Pr({
         }
       );
     })(),
-    X && /* @__PURE__ */ e.jsxs(
+    z && /* @__PURE__ */ s(
       "div",
       {
         "data-menu": "chart-create",
         style: {
           position: "fixed",
-          left: Math.min(X.x, window.innerWidth - 220),
-          top: Math.min(X.y, window.innerHeight - 220),
+          left: Math.min(z.x, window.innerWidth - 220),
+          top: Math.min(z.y, window.innerHeight - 220),
           zIndex: 99999,
           background: "#fff",
           borderRadius: 10,
           boxShadow: "0 12px 40px rgba(0,0,0,0.15), 0 3px 10px rgba(0,0,0,0.08)",
-          border: `1.5px solid ${t.borderLight}`,
+          border: `1.5px solid ${e.borderLight}`,
           width: 200,
           overflow: "hidden"
         },
-        onClick: (r) => r.stopPropagation(),
+        onClick: (t) => t.stopPropagation(),
         children: [
-          /* @__PURE__ */ e.jsxs("div", { style: { padding: "9px 13px 8px", borderBottom: `1px solid ${t.borderLight}`, background: t.headerBg }, children: [
-            /* @__PURE__ */ e.jsxs("p", { style: { margin: 0, fontSize: 10, fontWeight: 700, color: t.textSecondary, textTransform: "uppercase", letterSpacing: "0.08em" }, children: [
+          /* @__PURE__ */ s("div", { style: { padding: "9px 13px 8px", borderBottom: `1px solid ${e.borderLight}`, background: e.headerBg }, children: [
+            /* @__PURE__ */ s("p", { style: { margin: 0, fontSize: 10, fontWeight: 700, color: e.textSecondary, textTransform: "uppercase", letterSpacing: "0.08em" }, children: [
               "Adicionar em ",
-              re(X.date)
+              K(z.date)
             ] }),
-            X.projectId && z && /* @__PURE__ */ e.jsx("p", { style: { margin: "2px 0 0", fontSize: 9, color: t.textSecondary, opacity: 0.75, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: V.find((r) => r.projectId === X.projectId)?.projectTitle || X.projectId })
+            z.projectId && W && /* @__PURE__ */ o("p", { style: { margin: "2px 0 0", fontSize: 9, color: e.textSecondary, opacity: 0.75, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: A.find((t) => t.projectId === z.projectId)?.projectTitle || z.projectId })
           ] }),
-          /* @__PURE__ */ e.jsx("div", { style: { padding: "5px 5px" }, children: [
+          /* @__PURE__ */ o("div", { style: { padding: "5px 5px" }, children: [
             {
               label: "Etapa",
-              icon: /* @__PURE__ */ e.jsx("div", { style: { width: 14, height: 14, borderRadius: 3, background: K[0].bar, border: `1.5px solid ${K[0].barBorder}`, flexShrink: 0 } }),
+              icon: /* @__PURE__ */ o("div", { style: { width: 14, height: 14, borderRadius: 3, background: U[0].bar, border: `1.5px solid ${U[0].barBorder}`, flexShrink: 0 } }),
               action: () => {
-                D?.(X.date, X.projectId), ye(null);
+                N?.(z.date, z.projectId), pe(null);
               }
             },
             {
               label: "Marco",
-              icon: /* @__PURE__ */ e.jsx("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${t.milestoneRing}30`, border: `1.5px solid ${t.milestoneRing}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ e.jsx(Ie, { size: 11, style: { color: t.milestone } }) }),
+              icon: /* @__PURE__ */ o("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${e.milestoneRing}30`, border: `1.5px solid ${e.milestoneRing}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ o(ke, { size: 11, style: { color: e.milestone } }) }),
               action: () => {
-                ie?.(X.date, X.projectId), ye(null);
+                le?.(z.date, z.projectId), pe(null);
               }
             },
             {
               label: "Evento",
-              icon: /* @__PURE__ */ e.jsx("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${t.event}18`, border: `1.5px solid ${t.event}55`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ e.jsx($e, { size: 11, style: { color: t.event } }) }),
+              icon: /* @__PURE__ */ o("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${e.event}18`, border: `1.5px solid ${e.event}55`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ o(ve, { size: 11, style: { color: e.event } }) }),
               action: () => {
-                c?.(X.date, X.projectId), ye(null);
+                d?.(z.date, z.projectId), pe(null);
               }
             },
             {
               label: "Nota",
-              icon: /* @__PURE__ */ e.jsx("div", { style: { width: 16, height: 20, background: t.note, borderRadius: 2, boxShadow: "1px 1px 3px rgba(0,0,0,0.14)", position: "relative", overflow: "visible", flexShrink: 0 }, children: /* @__PURE__ */ e.jsx("div", { style: { position: "absolute", top: -2, left: "50%", transform: "translateX(-50%)", width: 10, height: 4, background: "rgba(255,255,255,0.55)", borderRadius: 1 } }) }),
+              icon: /* @__PURE__ */ o("div", { style: { width: 16, height: 20, background: e.note, borderRadius: 2, boxShadow: "1px 1px 3px rgba(0,0,0,0.14)", position: "relative", overflow: "visible", flexShrink: 0 }, children: /* @__PURE__ */ o("div", { style: { position: "absolute", top: -2, left: "50%", transform: "translateX(-50%)", width: 10, height: 4, background: "rgba(255,255,255,0.55)", borderRadius: 1 } }) }),
               action: () => {
-                Z?.(X.date, X.projectId), ye(null);
+                q?.(z.date, z.projectId), pe(null);
               }
             }
-          ].map((r) => /* @__PURE__ */ e.jsxs(
+          ].map((t) => /* @__PURE__ */ s(
             "button",
             {
-              onClick: r.action,
+              onClick: t.action,
               style: {
                 display: "flex",
                 alignItems: "center",
@@ -2227,28 +1968,28 @@ function Pr({
                 cursor: "pointer",
                 fontSize: 13,
                 fontWeight: 500,
-                color: t.textPrimary,
+                color: e.textPrimary,
                 opacity: 1,
                 textAlign: "left",
                 transition: "background 0.12s"
               },
-              onMouseEnter: (s) => {
-                s.currentTarget.style.background = t.headerBg;
+              onMouseEnter: (n) => {
+                n.currentTarget.style.background = e.headerBg;
               },
-              onMouseLeave: (s) => {
-                s.currentTarget.style.background = "transparent";
+              onMouseLeave: (n) => {
+                n.currentTarget.style.background = "transparent";
               },
               children: [
-                r.icon,
-                r.label
+                t.icon,
+                t.label
               ]
             },
-            r.label
+            t.label
           )) })
         ]
       }
     ),
-    B && /* @__PURE__ */ e.jsxs(
+    V && /* @__PURE__ */ s(
       "svg",
       {
         style: {
@@ -2260,15 +2001,15 @@ function Pr({
           zIndex: 99999
         },
         children: [
-          /* @__PURE__ */ e.jsx("defs", { children: /* @__PURE__ */ e.jsx("marker", { id: "connect-arrow", markerWidth: "8", markerHeight: "8", refX: "6", refY: "3", orient: "auto", children: /* @__PURE__ */ e.jsx("path", { d: "M0,0 L0,6 L6,3 z", fill: t.group }) }) }),
-          /* @__PURE__ */ e.jsx(
+          /* @__PURE__ */ o("defs", { children: /* @__PURE__ */ o("marker", { id: "connect-arrow", markerWidth: "8", markerHeight: "8", refX: "6", refY: "3", orient: "auto", children: /* @__PURE__ */ o("path", { d: "M0,0 L0,6 L6,3 z", fill: e.group }) }) }),
+          /* @__PURE__ */ o(
             "line",
             {
-              x1: B.fromScreenX,
-              y1: B.fromScreenY,
-              x2: B.currentScreenX,
-              y2: B.currentScreenY,
-              stroke: t.group,
+              x1: V.fromScreenX,
+              y1: V.fromScreenY,
+              x2: V.currentScreenX,
+              y2: V.currentScreenY,
+              stroke: e.group,
               strokeWidth: 2.5,
               strokeDasharray: "8 5",
               markerEnd: "url(#connect-arrow)",
@@ -2278,11 +2019,11 @@ function Pr({
               }
             }
           ),
-          /* @__PURE__ */ e.jsx("style", { children: "@keyframes gantt-dash { to { stroke-dashoffset: -13; } }" })
+          /* @__PURE__ */ o("style", { children: "@keyframes gantt-dash { to { stroke-dashoffset: -13; } }" })
         ]
       }
     ),
-    E && /* @__PURE__ */ e.jsx(
+    xe && /* @__PURE__ */ o(
       "div",
       {
         style: {
@@ -2295,8 +2036,8 @@ function Pr({
           justifyContent: "center",
           zIndex: 99998
         },
-        onClick: () => se(null),
-        children: /* @__PURE__ */ e.jsxs(
+        onClick: () => ze(null),
+        children: /* @__PURE__ */ s(
           "div",
           {
             style: {
@@ -2306,106 +2047,106 @@ function Pr({
               width: 420,
               boxShadow: "0 24px 80px rgba(0,0,0,0.18), 0 6px 24px rgba(0,0,0,0.08)"
             },
-            onClick: (r) => r.stopPropagation(),
+            onClick: (t) => t.stopPropagation(),
             children: [
-              /* @__PURE__ */ e.jsxs("div", { style: { marginBottom: 20 }, children: [
-                /* @__PURE__ */ e.jsx("h3", { style: { fontSize: 18, fontWeight: 700, color: t.textTitle, marginBottom: 4 }, children: "Tipo de Relação" }),
-                /* @__PURE__ */ e.jsx("p", { style: { fontSize: 13, color: t.textSecondary }, children: "Escolha como as duas tarefas se relacionam" })
+              /* @__PURE__ */ s("div", { style: { marginBottom: 20 }, children: [
+                /* @__PURE__ */ o("h3", { style: { fontSize: 18, fontWeight: 700, color: e.textTitle, marginBottom: 4 }, children: "Tipo de Relação" }),
+                /* @__PURE__ */ o("p", { style: { fontSize: 13, color: e.textSecondary }, children: "Escolha como as duas tarefas se relacionam" })
               ] }),
-              /* @__PURE__ */ e.jsx("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }, children: [
+              /* @__PURE__ */ o("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }, children: [
                 { type: "FS", label: "Início após Fim", desc: "B começa quando A termina", icon: "A ──► B" },
                 { type: "SS", label: "Inícios simultâneos", desc: "A e B começam juntos", icon: "A═╗ B" },
                 { type: "FF", label: "Fins simultâneos", desc: "A e B terminam juntos", icon: "A ╚═B" },
                 { type: "SF", label: "Fim após Início", desc: "B termina quando A começa", icon: "B ──► A end" }
-              ].map((r) => /* @__PURE__ */ e.jsxs(
+              ].map((t) => /* @__PURE__ */ s(
                 "button",
                 {
-                  onClick: () => Ue(r.type),
+                  onClick: () => lt(t.type),
                   style: {
-                    border: he === r.type ? `2px solid ${t.group}` : `1.5px solid ${t.borderLight}`,
+                    border: Le === t.type ? `2px solid ${e.group}` : `1.5px solid ${e.borderLight}`,
                     borderRadius: 12,
                     padding: "12px 14px",
                     textAlign: "left",
                     cursor: "pointer",
-                    background: he === r.type ? `${t.group}0d` : "#fafafa",
+                    background: Le === t.type ? `${e.group}0d` : "#fafafa",
                     transition: "all 0.15s"
                   },
                   children: [
-                    /* @__PURE__ */ e.jsx("div", { style: {
+                    /* @__PURE__ */ o("div", { style: {
                       fontSize: 11,
                       fontFamily: "monospace",
                       fontWeight: 700,
-                      color: t.group,
+                      color: e.group,
                       marginBottom: 4,
-                      background: he === r.type ? `${t.group}20` : `${t.group}0d`,
+                      background: Le === t.type ? `${e.group}20` : `${e.group}0d`,
                       borderRadius: 6,
                       padding: "2px 6px",
                       display: "inline-block"
-                    }, children: r.type }),
-                    /* @__PURE__ */ e.jsx("div", { style: { fontSize: 13, fontWeight: 600, color: t.textTitle, marginBottom: 2 }, children: r.label }),
-                    /* @__PURE__ */ e.jsx("div", { style: { fontSize: 11, color: t.textSecondary }, children: r.desc })
+                    }, children: t.type }),
+                    /* @__PURE__ */ o("div", { style: { fontSize: 13, fontWeight: 600, color: e.textTitle, marginBottom: 2 }, children: t.label }),
+                    /* @__PURE__ */ o("div", { style: { fontSize: 11, color: e.textSecondary }, children: t.desc })
                   ]
                 },
-                r.type
+                t.type
               )) }),
-              /* @__PURE__ */ e.jsxs("div", { style: { marginBottom: 24 }, children: [
-                /* @__PURE__ */ e.jsx("label", { style: { fontSize: 12, fontWeight: 600, color: t.textTitle, display: "block", marginBottom: 6 }, children: "Lag (dias de folga)" }),
-                /* @__PURE__ */ e.jsx(
+              /* @__PURE__ */ s("div", { style: { marginBottom: 24 }, children: [
+                /* @__PURE__ */ o("label", { style: { fontSize: 12, fontWeight: 600, color: e.textTitle, display: "block", marginBottom: 6 }, children: "Lag (dias de folga)" }),
+                /* @__PURE__ */ o(
                   "input",
                   {
                     type: "number",
                     min: 0,
-                    value: rt,
-                    onChange: (r) => ft(parseInt(r.target.value) || 0),
+                    value: Ve,
+                    onChange: (t) => dt(parseInt(t.target.value) || 0),
                     style: {
                       width: "100%",
                       padding: "8px 12px",
                       borderRadius: 8,
-                      border: `1.5px solid ${t.borderLight}`,
+                      border: `1.5px solid ${e.borderLight}`,
                       fontSize: 14,
-                      color: t.textPrimary,
+                      color: e.textPrimary,
                       outline: "none",
                       boxSizing: "border-box"
                     }
                   }
                 )
               ] }),
-              /* @__PURE__ */ e.jsxs("div", { style: { display: "flex", gap: 10 }, children: [
-                /* @__PURE__ */ e.jsx(
+              /* @__PURE__ */ s("div", { style: { display: "flex", gap: 10 }, children: [
+                /* @__PURE__ */ o(
                   "button",
                   {
-                    onClick: () => se(null),
+                    onClick: () => ze(null),
                     style: {
                       flex: 1,
                       padding: "10px 0",
                       borderRadius: 10,
-                      border: `1.5px solid ${t.borderLight}`,
+                      border: `1.5px solid ${e.borderLight}`,
                       background: "#fff",
                       fontSize: 14,
                       fontWeight: 600,
-                      color: t.textSecondary,
+                      color: e.textSecondary,
                       cursor: "pointer",
                       transition: "all 0.15s"
                     },
                     children: "Cancelar"
                   }
                 ),
-                /* @__PURE__ */ e.jsxs(
+                /* @__PURE__ */ s(
                   "button",
                   {
-                    onClick: Jt,
-                    disabled: Le,
+                    onClick: Ht,
+                    disabled: we,
                     style: {
                       flex: 2,
                       padding: "10px 0",
                       borderRadius: 10,
                       border: "none",
-                      background: Le ? `${t.group}88` : `linear-gradient(135deg, ${t.group}, ${t.group}cc)`,
+                      background: we ? `${e.group}88` : `linear-gradient(135deg, ${e.group}, ${e.group}cc)`,
                       fontSize: 14,
                       fontWeight: 700,
                       color: "#fff",
-                      cursor: Le ? "wait" : "pointer",
-                      boxShadow: Le ? "none" : `0 4px 16px ${t.group}33`,
+                      cursor: we ? "wait" : "pointer",
+                      boxShadow: we ? "none" : `0 4px 16px ${e.group}33`,
                       transition: "all 0.15s",
                       display: "flex",
                       alignItems: "center",
@@ -2413,8 +2154,8 @@ function Pr({
                       gap: 8
                     },
                     children: [
-                      Le && /* @__PURE__ */ e.jsx("span", { style: { fontSize: 12 }, children: "⟳" }),
-                      Le ? "Criando..." : "Criar Relação"
+                      we && /* @__PURE__ */ o("span", { style: { fontSize: 12 }, children: "⟳" }),
+                      we ? "Criando..." : "Criar Relação"
                     ]
                   }
                 )
@@ -2426,19 +2167,19 @@ function Pr({
     )
   ] });
 }
-function Cr(d, m) {
-  const y = (T, x) => /* @__PURE__ */ e.jsx("div", { className: "flex-shrink-0 flex items-center justify-center rounded-full", style: { width: 18, height: 18, background: T }, children: x });
-  switch (d) {
+function Er(u, x) {
+  const m = (T, g) => /* @__PURE__ */ o("div", { className: "flex-shrink-0 flex items-center justify-center rounded-full", style: { width: 18, height: 18, background: T }, children: g });
+  switch (u) {
     case "step":
-      return /* @__PURE__ */ e.jsx("div", { className: "w-3 h-3 rounded flex-shrink-0", style: { background: K[m ?? 0].bar, border: `1.5px solid ${K[m ?? 0].barBorder}` } });
+      return /* @__PURE__ */ o("div", { className: "w-3 h-3 rounded flex-shrink-0", style: { background: U[x ?? 0].bar, border: `1.5px solid ${U[x ?? 0].barBorder}` } });
     case "milestone":
-      return y(t.milestone, /* @__PURE__ */ e.jsx(Ie, { size: 10, color: "#fff" }));
+      return m(e.milestone, /* @__PURE__ */ o(ke, { size: 10, color: "#fff" }));
     case "event":
-      return y(t.event, /* @__PURE__ */ e.jsx($e, { size: 10, color: "#fff" }));
+      return m(e.event, /* @__PURE__ */ o(ve, { size: 10, color: "#fff" }));
     case "note":
-      return y(t.note, /* @__PURE__ */ e.jsx(Ft, { size: 10, color: "#fff" }));
+      return m(e.note, /* @__PURE__ */ o(Ct, { size: 10, color: "#fff" }));
   }
 }
 export {
-  Pr as ProjectGantt
+  Lr as ProjectGantt
 };
