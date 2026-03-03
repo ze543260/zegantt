@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Flag, Clock, Paperclip } from 'lucide-react';
 import { useGanttContext } from '../../context/GanttContext';
 import { C, BAR_H, PILL_H, PILL_MIN_W, ROW_H, STEP_PALETTE } from '../../utils/constants';
@@ -49,7 +49,7 @@ export function GanttTaskBar({
         const baseY = barY + BAR_H + 3;
 
         return (
-            <React.Fragment key={task.id}>
+            <>
                 {showBaseline && (
                     <div
                         title={`Previsto: ${fmtDateShort(task.previsionStart!)} → ${fmtDateShort(task.previsionEnd!)}`}
@@ -108,7 +108,7 @@ export function GanttTaskBar({
                         </>
                     )}
                 </div>
-            </React.Fragment>
+            </>
         );
     }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Flag, Clock, Eye, Edit2, Trash2, Paperclip } from 'lucide-react';
 import { useGanttContext } from '../../context/GanttContext';
 import { GanttTaskBar } from '../GanttTaskBar';

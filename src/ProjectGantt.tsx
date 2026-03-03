@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import type React from 'react';
 import { GanttProvider } from './context/GanttContext';
 import { GanttHeader } from './components/GanttHeader';
 import { GanttGrid } from './components/GanttGrid';
@@ -36,7 +37,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     // Chart Create Menu
     const [chartMenu, setChartMenu] = useState<{ x: number; y: number; date: Date; projectId?: string } | null>(null);
     const [newActionOpen, setNewActionOpen] = useState(false);
-    const newActionRef = React.useRef<HTMLDivElement>(null);
+    const newActionRef = useRef<HTMLDivElement>(null);
 
     // Visibility and Grouping
     const [visibleTypes, setVisibleTypes] = useState<Set<OriginalType>>(new Set(['step', 'milestone', 'event', 'note']));
@@ -108,7 +109,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
 
     // Global drag & drop effects (Mouse move/up on document)
     // Drag
-    React.useEffect(() => {
+    useEffect(() => {
         if (!dragState) return;
         const onMove = (e: MouseEvent) => {
             const dx = e.clientX - dragState.startMouseX;
@@ -132,7 +133,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     }, [dragState, data.timeline.dayWidth, props.onTaskChange]);
 
     // Resize
-    React.useEffect(() => {
+    useEffect(() => {
         if (!resizeState) return;
         const onMove = (e: MouseEvent) => {
             const dx = e.clientX - resizeState.startMouseX;
@@ -152,7 +153,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     }, [resizeState, data.timeline.dayWidth, props.onTaskChange]);
 
     // Connect
-    React.useEffect(() => {
+    useEffect(() => {
         if (!connectState) return;
         const onMove = (e: MouseEvent) => {
             let hoverTarget: string | null = null;
@@ -188,7 +189,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         setPanState({ startX: e.clientX, startY: e.clientY, scrollLeft: rb.scrollLeft, scrollTop: rb.scrollTop });
     }, [resizeState, dragState, scroll.rightBodyRef]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!panState) return;
         const onMove = (e: MouseEvent) => {
             const rb = scroll.rightBodyRef.current;
@@ -236,7 +237,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     }, [data.timeline, data.displayRows, props.groupByProject, scroll.rightBodyRef, scroll.leftBodyRef]);
 
     // Close Modals/Menus on outside click / escape
-    React.useEffect(() => {
+    useEffect(() => {
         if (!chartMenu) return;
         const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setChartMenu(null); };
         const onDown = (e: MouseEvent) => { if (!(e.target as HTMLElement).closest('[data-menu="chart-create"]')) setChartMenu(null); };

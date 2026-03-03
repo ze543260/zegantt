@@ -1,4 +1,6 @@
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
+import type React from 'react';
+import type { RefObject, ReactNode } from 'react';
 import type { ProjectGanttProps, DependencyType } from '../types';
 import type { ViewMode, InternalTask, OriginalType, ConnectState, PendingConnection, DisplayRow, TimelineInfo } from '../types/internal';
 import type { ArrowPath } from '../utils/dependencies';
@@ -60,10 +62,10 @@ export interface GanttContextState {
     relatedIds: Set<string>;
 
     // Refs and Callbacks from Scroll hook
-    leftBodyRef: React.RefObject<HTMLDivElement | null>;
-    rightBodyRef: React.RefObject<HTMLDivElement | null>;
-    timeHeaderRef: React.RefObject<HTMLDivElement | null>;
-    newActionRef: React.RefObject<HTMLDivElement | null>;
+    leftBodyRef: RefObject<HTMLDivElement | null>;
+    rightBodyRef: RefObject<HTMLDivElement | null>;
+    timeHeaderRef: RefObject<HTMLDivElement | null>;
+    newActionRef: RefObject<HTMLDivElement | null>;
     handleRightScroll: () => void;
     handleLeftScroll: () => void;
     handleChartMouseDown: (e: React.MouseEvent) => void;
@@ -79,7 +81,7 @@ export interface GanttContextState {
 
 const GanttContext = createContext<GanttContextState | undefined>(undefined);
 
-export function GanttProvider({ children, value }: { children: React.ReactNode; value: GanttContextState }) {
+export function GanttProvider({ children, value }: { children: ReactNode; value: GanttContextState }) {
     return <GanttContext.Provider value={value}>{children}</GanttContext.Provider>;
 }
 

@@ -1,4 +1,5 @@
-import React, { useRef, useCallback, useState, useEffect } from 'react';
+import { useRef, useCallback, useState, useEffect } from 'react';
+import type React from 'react';
 import type { TimelineInfo } from '../types/internal';
 import { dateToX } from '../utils/timeline';
 

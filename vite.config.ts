@@ -5,7 +5,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
-    react({ jsxRuntime: 'classic' }),
+    react(),
     dts({ tsconfigPath: './tsconfig.app.json', rollupTypes: true, insertTypesEntry: true })
   ],
   build: {
@@ -15,7 +15,7 @@ export default defineConfig({
       fileName: 'zegantt',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'lucide-react'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'lucide-react'],
       output: {
         globals: {
           react: 'React',

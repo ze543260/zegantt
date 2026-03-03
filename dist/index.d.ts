@@ -1,4 +1,4 @@
-import { default as default_2 } from 'react';
+import { JSX } from 'react/jsx-runtime';
 
 export declare interface CreateDependencyParams {
     predecessorId: string;
@@ -75,7 +75,7 @@ export declare interface GanttTask {
 
 export declare type PredecessorType = "STEP" | "MILESTONE";
 
-export declare function ProjectGantt(props: ProjectGanttProps): default_2.JSX.Element;
+export declare function ProjectGantt(props: ProjectGanttProps): JSX.Element;
 
 export declare interface ProjectGanttProps {
     steps: GanttStep[];

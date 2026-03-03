@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useGanttContext } from '../../context/GanttContext';
 import { C } from '../../utils/constants';
 
