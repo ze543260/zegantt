@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useState, useEffect } from 'react';
-import { TimelineInfo } from '../types/internal';
+import type { TimelineInfo } from '../types/internal';
 import { dateToX } from '../utils/timeline';
 
 export function useGanttScroll(timeline: TimelineInfo) {

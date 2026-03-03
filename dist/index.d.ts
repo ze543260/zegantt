@@ -75,7 +75,7 @@ export declare interface GanttTask {
 
 export declare type PredecessorType = "STEP" | "MILESTONE";
 
-export declare function ProjectGantt({ steps, milestones, events, notes, dependencies, loading, projectName, translations, groupByProject, onTaskChange, onTaskClick, onAddNewStage, onViewStage, onEditStage, onDeleteStage, onCreateDependency, onDeleteDependency, onAddMilestone, onAddEvent, onAddNote, }: ProjectGanttProps): JSX.Element;
+export declare function ProjectGantt(props: ProjectGanttProps): JSX.Element;
 
 export declare interface ProjectGanttProps {
     steps: GanttStep[];
@@ -100,6 +100,15 @@ export declare interface ProjectGanttProps {
     onAddMilestone?: (date?: Date, projectId?: string) => void;
     onAddEvent?: (date?: Date, projectId?: string) => void;
     onAddNote?: (date?: Date, projectId?: string) => void;
+    onSaveNote?: (data: {
+        title: string;
+        description: string;
+        color: string;
+        date: string;
+        predecessorId: string;
+        dependencyType: DependencyType;
+        files: File[];
+    }) => Promise<void>;
 }
 
 export { }

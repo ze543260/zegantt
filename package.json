@@ -12,9 +12,9 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/zegantt.js",
-      "require": "./dist/zegantt.umd.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/zegantt.umd.cjs"
     },
     "./style.css": "./dist/style.css"
   },

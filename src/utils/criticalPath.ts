@@ -1,5 +1,5 @@
-import { GanttDependency } from '../types';
-import { InternalTask } from '../types/internal';
+import type { GanttDependency } from '../types';
+import type { InternalTask } from '../types/internal';
 import { diffDays } from './date';
 
 export function computeCriticalPath(tasks: InternalTask[], deps: GanttDependency[]): Set<string> {

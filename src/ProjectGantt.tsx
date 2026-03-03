@@ -66,7 +66,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         collapsedGroups,
         collapsedProjects,
         groupByProject: props.groupByProject,
-        selectedTaskId: selectedTaskId || undefined
+        selectedTaskId: selectedTaskId || null
     });
     const scroll = useGanttScroll(data.timeline);
 

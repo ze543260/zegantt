@@ -1,5 +1,5 @@
-import { GanttDependency } from '../types';
-import { InternalTask, TimelineInfo } from '../types/internal';
+import type { GanttDependency } from '../types';
+import type { InternalTask, TimelineInfo } from '../types/internal';
 import { PILL_MIN_W, ROW_H } from './constants';
 import { dateToX } from './timeline';
 

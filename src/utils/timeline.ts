@@ -1,4 +1,4 @@
-import { InternalTask, TimelineInfo, ViewMode } from '../types/internal';
+import type { InternalTask, TimelineInfo, ViewMode } from '../types/internal';
 import { addDays, diffDays, endOfMonth, MONTH_NAMES_PT, startOfMonth } from './date';
 import { DAY_W_MONTH, DAY_W_YEAR } from './constants';
 
