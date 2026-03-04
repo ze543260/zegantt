@@ -14,6 +14,7 @@ interface UseGanttDataProps {
     notes?: GanttNote[];
     dependencies?: GanttDependency[];
     viewMode: ViewMode;
+    locale?: string;
     groupByProject?: boolean;
     visibleTypes: Set<OriginalType>;
     collapsedGroups: Set<string>;
@@ -28,6 +29,7 @@ export function useGanttData({
     notes,
     dependencies,
     viewMode,
+    locale,
     groupByProject,
     visibleTypes,
     collapsedGroups,
@@ -63,12 +65,13 @@ export function useGanttData({
                 ?.filter(d => d.successorId === step.id)
                 .map(d => d.predecessorId) || [];
 
+            const rawProg = step.conclusionPercent != null ? Number(step.conclusionPercent) : 0;
             result.push({
                 id: step.id,
                 name: step.name,
                 start: s,
                 end: e,
-                progress: step.conclusionPercent ? Number(step.conclusionPercent) * 100 : 0,
+                progress: rawProg > 1 ? Math.min(rawProg, 100) : rawProg * 100,
                 originalType: 'step',
                 deps: stepDeps,
                 colorIdx: stepColorCounter % STEP_PALETTE.length,
@@ -118,7 +121,7 @@ export function useGanttData({
             const d = new Date(n.date);
             if (isNaN(d.getTime())) return;
             result.push({
-                id: n.id, name: n.title || 'Nota', start: d, end: d,
+                id: n.id, name: n.title || 'Note', start: d, end: d,
                 progress: 0, originalType: 'note', deps: [],
                 noteCount: 1,
                 noteColor: n.color || C.note,
@@ -132,7 +135,7 @@ export function useGanttData({
         return result;
     }, [steps, milestones, events, notes, dependencies]);
 
-    const timeline = useMemo(() => computeTimeline(tasks, viewMode), [tasks, viewMode]);
+    const timeline = useMemo(() => computeTimeline(tasks, viewMode, locale), [tasks, viewMode, locale]);
 
     const displayRows: DisplayRow[] = useMemo(() => {
         const rows: DisplayRow[] = [];

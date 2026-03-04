@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState, useEffect } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import type React from 'react';
 import type { TimelineInfo } from '../types/internal';
 import { dateToX } from '../utils/timeline';
@@ -40,35 +40,6 @@ export function useGanttScroll(timeline: TimelineInfo) {
         }
     }, [timeline]);
 
-    const [panState, setPanState] = useState<{ startX: number; startY: number; scrollLeft: number; scrollTop: number } | null>(null);
-
-    const handleChartMouseDown = useCallback((e: React.MouseEvent, isResizingOrDragging: boolean) => {
-        if (isResizingOrDragging) return;
-        if (e.button === 2) return;
-        const rb = rightBodyRef.current;
-        if (!rb) return;
-        e.preventDefault();
-        setPanState({ startX: e.clientX, startY: e.clientY, scrollLeft: rb.scrollLeft, scrollTop: rb.scrollTop });
-    }, []);
-
-    useEffect(() => {
-        if (!panState) return;
-        const onMove = (e: MouseEvent) => {
-            const rb = rightBodyRef.current;
-            if (!rb) return;
-            const dx = e.clientX - panState.startX;
-            const dy = e.clientY - panState.startY;
-            rb.scrollLeft = panState.scrollLeft - dx;
-            rb.scrollTop = panState.scrollTop - dy;
-            if (leftBodyRef.current) leftBodyRef.current.scrollTop = rb.scrollTop;
-            if (timeHeaderRef.current) timeHeaderRef.current.scrollLeft = rb.scrollLeft;
-        };
-        const onUp = () => setPanState(null);
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-        return () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
-    }, [panState]);
-
     const handleChartWheel = useCallback((e: React.WheelEvent) => {
         const rb = rightBodyRef.current;
         if (!rb) return;
@@ -90,9 +61,6 @@ export function useGanttScroll(timeline: TimelineInfo) {
         timeHeaderRef,
         handleRightScroll,
         handleLeftScroll,
-        handleChartMouseDown,
         handleChartWheel,
-        panState,
-        setPanState
     };
 }

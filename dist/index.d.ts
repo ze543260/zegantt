@@ -73,6 +73,29 @@ export declare interface GanttTask {
     progress: number;
 }
 
+export declare function NoteModal({ isOpen, onClose, availableMilestones, initialDate, translations, onSaveNote }: NoteModalProps): JSX.Element | null;
+
+export declare interface NoteModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    availableMilestones?: {
+        id: string;
+        name: string;
+    }[];
+    initialDate?: string;
+    /** Translation map or lookup function. Falls back to English defaults. */
+    translations?: Record<string, string> | ((key: string, fallback: string) => string);
+    onSaveNote: (data: {
+        title: string;
+        description: string;
+        color: string;
+        date: string;
+        predecessorId: string;
+        dependencyType: DependencyType;
+        files: File[];
+    }) => Promise<void>;
+}
+
 export declare type PredecessorType = "STEP" | "MILESTONE";
 
 export declare function ProjectGantt(props: ProjectGanttProps): JSX.Element;
@@ -85,6 +108,8 @@ export declare interface ProjectGanttProps {
     dependencies?: GanttDependency[];
     loading?: boolean;
     projectName?: string;
+    /** BCP 47 locale tag used for date formatting (default: 'en') */
+    locale?: string;
     /** Object containing localized strings or a translation function */
     translations?: Record<string, string> | ((key: string, fallback?: string) => string);
     /** When true renders one project-header row per project and groups tasks by project */
@@ -110,5 +135,8 @@ export declare interface ProjectGanttProps {
         files: File[];
     }) => Promise<void>;
 }
+
+/** Portuguese (Brazil) translation strings for ZeGantt */
+export declare const ptBR: Record<string, string>;
 
 export { }

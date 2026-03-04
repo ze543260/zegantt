@@ -8,8 +8,5 @@ export const endOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth() + 
 export const fmtDateShort = (d: Date) =>
     `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
 
-export const MONTH_NAMES_PT: Record<number, string> = {
-    0: 'JANEIRO', 1: 'FEVEREIRO', 2: 'MARÇO', 3: 'ABRIL',
-    4: 'MAIO', 5: 'JUNHO', 6: 'JULHO', 7: 'AGOSTO',
-    8: 'SETEMBRO', 9: 'OUTUBRO', 10: 'NOVEMBRO', 11: 'DEZEMBRO',
-};
+export const getMonthName = (d: Date, locale = 'en'): string =>
+    new Intl.DateTimeFormat(locale, { month: 'long' }).format(d).toUpperCase();

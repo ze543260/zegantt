@@ -149,42 +149,34 @@ export function GanttTaskBar({
         );
     }
 
-    // ── EVENT (diamond/circle) ──
+    // ── EVENT (pill badge, same pattern as milestone) ──
     if (task.originalType === 'event') {
-        const evSize = 22;
-        const evY = y + (ROW_H - evSize) / 2;
+        const pillY = y + (ROW_H - PILL_H) / 2;
         return (
             <div
                 data-task-id={task.id}
                 {...commonEvents}
                 style={{
-                    position: 'absolute', left: x - evSize / 2, top: evY, width: evSize, height: evSize,
-                    borderRadius: '50%', background: isCritical ? `linear-gradient(135deg, #fee, #fff5f5)` : `linear-gradient(135deg, #fff7ed, #ffedd5)`,
+                    position: 'absolute', left: x - 6, top: pillY, height: PILL_H, minWidth: PILL_MIN_W,
+                    borderRadius: PILL_H / 2,
+                    background: isCritical ? `linear-gradient(135deg, #fee, #fff5f5)` : `linear-gradient(135deg, #fff7ed, #ffedd5)`,
                     border: isConnectTarget ? `2px solid ${C.group}` : isCritical ? `2px solid ${C.today}` : `1.5px solid ${C.event}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    display: 'flex', alignItems: 'center', gap: 6, paddingLeft: 4, paddingRight: 12,
                     cursor: isDrag ? 'grabbing' : 'grab', zIndex: isHov || isConnectTarget ? 20 : 10,
                     boxShadow: isConnectTarget ? `0 0 0 2px ${C.group}, 0 4px 16px ${C.group}33` : isCritical ? `0 0 0 1px ${C.today}44, 0 3px 12px ${C.today}22` : isBarHighlighted && !isHov ? `0 0 0 2px ${C.group}99, 0 3px 14px ${C.group}33` : isHov ? `0 3px 12px ${C.event}33` : '0 1px 3px rgba(0,0,0,0.06)',
                     opacity: isBarDimmed ? 0.15 : 1, transition: 'box-shadow 0.2s, transform 0.15s, opacity 0.18s',
-                    transform: isHov ? 'scale(1.15)' : 'none', overflow: 'visible',
+                    transform: isHov ? 'translateY(-1px)' : 'none', whiteSpace: 'nowrap', overflow: 'visible',
                 }}
             >
-                <div style={{ width: 14, height: 14, borderRadius: '50%', background: isCritical ? C.today : C.event, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Clock size={8} color="#fff" strokeWidth={3} />
+                <div style={{ width: 20, height: 20, borderRadius: '50%', background: isCritical ? C.today : C.event, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Clock size={11} color="#fff" strokeWidth={2.5} />
                 </div>
-                {task.progress >= 100 && (
-                    <div style={{ position: 'absolute', top: -5, right: -12, background: C.event, color: '#fff', fontSize: 8, fontWeight: 700, padding: '1px 4px', borderRadius: 4 }}>✓</div>
-                )}
-                {/* Fixed tooltip text */}
-                <div style={{
-                    position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)',
-                    marginTop: 4, background: 'rgba(255,255,255,0.9)', padding: '2px 6px',
-                    borderRadius: 4, border: `1px solid ${C.borderLight}`,
-                    fontSize: 9, fontWeight: 600, color: isCritical ? C.today : C.event,
-                    whiteSpace: 'nowrap', pointerEvents: 'none',
-                    opacity: isHov ? 1 : 0, transition: 'opacity 0.15s',
-                }}>
+                <span style={{ fontSize: 11, fontWeight: 600, color: isCritical ? C.today : C.event, overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 130 }}>
                     {task.name}
-                </div>
+                </span>
+                {task.progress >= 100 && (
+                    <span style={{ fontSize: 9, fontWeight: 700, color: '#fff', background: C.event, borderRadius: 6, padding: '1px 5px' }}>✓</span>
+                )}
                 {showDots && (
                     <>
                         <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
@@ -197,50 +189,83 @@ export function GanttTaskBar({
 
     // ── NOTE ("Post-it" style) ──
     if (task.originalType === 'note') {
-        const mw = 36; const mh = 44;
-        const noteY = y + (ROW_H - mh) / 2;
-        const bgColor = task.noteColor || C.note;
+        const noteW = 148;
+        const noteY = y + 4;
+        const bgColor = task.noteColor || '#FEF08A';
+        const files = task.filesCount || 0;
         return (
             <div
                 data-task-id={task.id}
                 {...commonEvents}
                 style={{
-                    position: 'absolute', left: x - mw / 2, top: noteY, width: mw, height: mh,
-                    background: bgColor, borderRadius: 2, cursor: isDrag ? 'grabbing' : 'grab',
+                    position: 'absolute', left: x, top: noteY,
+                    width: noteW, minHeight: 72,
+                    background: bgColor,
+                    borderRadius: 3,
+                    cursor: isDrag ? 'grabbing' : 'grab',
                     zIndex: isHov || isConnectTarget ? 20 : 10,
-                    boxShadow: isConnectTarget ? `0 0 0 2px ${C.group}, 0 4px 16px ${C.group}33` : isBarHighlighted && !isHov ? `0 0 0 2px ${C.group}99, 0 3px 14px ${C.group}33` : isHov ? '3px 4px 12px rgba(0,0,0,0.2)' : '1px 2px 5px rgba(0,0,0,0.15)',
-                    opacity: isBarDimmed ? 0.2 : 1, transition: 'box-shadow 0.2s, transform 0.15s, opacity 0.18s',
-                    transform: isHov ? 'rotate(-2deg) scale(1.05)' : 'none', overflow: 'visible',
-                    display: 'flex', flexDirection: 'column',
-                    border: '1px solid rgba(0,0,0,0.04)',
+                    boxShadow: isConnectTarget
+                        ? `0 0 0 2px ${C.group}, 4px 6px 16px rgba(0,0,0,0.22)`
+                        : isBarHighlighted && !isHov
+                            ? `0 0 0 2px ${C.group}99, 3px 4px 14px rgba(0,0,0,0.18)`
+                            : isHov
+                                ? '4px 6px 18px rgba(0,0,0,0.22)'
+                                : '2px 3px 8px rgba(0,0,0,0.13)',
+                    opacity: isBarDimmed ? 0.2 : 1,
+                    transition: isDrag ? 'none' : 'box-shadow 0.2s, transform 0.15s, opacity 0.18s',
+                    transform: isHov ? 'rotate(-1.5deg) scale(1.03) translateY(-2px)' : 'rotate(0deg)',
+                    border: '1px solid rgba(0,0,0,0.06)',
+                    padding: '12px 10px 10px',
+                    display: 'flex', flexDirection: 'column', gap: 2,
+                    userSelect: 'none',
                 }}
             >
                 {/* Tape */}
-                <div style={{ position: 'absolute', top: -5, left: '50%', transform: 'translateX(-50%)', width: 18, height: 6, background: 'rgba(255,255,255,0.6)', borderRadius: 1, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }} />
-                <div style={{ padding: '6px 4px 2px', flex: 1, overflow: 'hidden' }}>
-                    {/* Simulated text lines */}
-                    <div style={{ width: '80%', height: 2, background: 'rgba(0,0,0,0.1)', borderRadius: 1, marginBottom: 3 }} />
-                    <div style={{ width: '60%', height: 2, background: 'rgba(0,0,0,0.1)', borderRadius: 1, marginBottom: 3 }} />
-                    <div style={{ width: '90%', height: 2, background: 'rgba(0,0,0,0.1)', borderRadius: 1 }} />
-                </div>
-                {(task.filesCount || 0) > 0 && (
-                    <div style={{ position: 'absolute', bottom: -5, right: -5, background: C.headerBg, color: C.textSecondary, borderRadius: '50%', border: `1px solid ${C.borderLight}`, width: 16, height: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', zIndex: 2 }}>
-                        <Paperclip size={8} />
-                    </div>
-                )}
                 <div style={{
-                    position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)',
-                    marginTop: 6, background: 'rgba(255,255,255,0.95)', padding: '3px 8px', borderRadius: 4,
-                    border: `1px solid ${C.borderLight}`, fontSize: 10, fontWeight: 500, color: C.textPrimary,
-                    whiteSpace: 'nowrap', pointerEvents: 'none', opacity: isHov ? 1 : 0, transition: 'opacity 0.15s',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                    position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)',
+                    width: 40, height: 11, background: 'rgba(255,255,255,0.55)',
+                    borderRadius: 2, boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+                }} />
+
+                {/* Title */}
+                <span style={{
+                    fontSize: 13, fontWeight: 700, color: '#1a1a1a',
+                    lineHeight: '1.3', wordBreak: 'break-word',
+                    display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
                 }}>
                     {task.name}
+                </span>
+
+                {/* Project name */}
+                {task.projectTitle && (
+                    <span style={{
+                        fontSize: 10, fontWeight: 400, color: 'rgba(0,0,0,0.55)',
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }}>
+                        {task.projectTitle}
+                    </span>
+                )}
+
+                {/* Date row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
+                    <span style={{ fontSize: 9, fontWeight: 500, color: 'rgba(0,0,0,0.45)' }}>
+                        {fmtDateShort(task.start)}
+                    </span>
+                    {files > 0 && (
+                        <span style={{
+                            display: 'flex', alignItems: 'center', gap: 2,
+                            fontSize: 9, color: 'rgba(0,0,0,0.45)',
+                        }}>
+                            <Paperclip size={8} /> {files}
+                        </span>
+                    )}
                 </div>
+
                 {showDots && (
                     <>
-                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} style={{ position: 'absolute', left: -10, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
-                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} style={{ position: 'absolute', right: -10, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
                     </>
                 )}
             </div>

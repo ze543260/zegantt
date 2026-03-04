@@ -1,0 +1,48 @@
+/* ─── ZeGantt — base styles ─── */
+
+/* Spin animation for loading indicator */
+@keyframes zg-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Dash animation for dependency connector drag line */
+@keyframes zg-dash {
+  to { stroke-dashoffset: -13; }
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.zg-no-scrollbar {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+}
+.zg-no-scrollbar::-webkit-scrollbar {
+  display: none;                  /* Chrome/Safari/Opera */
+}
+
+/* Popup action button base style */
+.zg-popup-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4F4F4F;
+  text-align: left;
+  transition: background 0.12s;
+}
+.zg-popup-btn:hover {
+  background: #F2F5F3;
+}
+.zg-popup-btn-danger {
+  color: #ef4444;
+}
+.zg-popup-btn-danger:hover {
+  background: #fef2f2;
+}

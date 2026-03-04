@@ -63,6 +63,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         notes: props.notes,
         dependencies: props.dependencies,
         viewMode,
+        locale: props.locale,
         visibleTypes,
         collapsedGroups,
         collapsedProjects,
@@ -315,7 +316,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     if (props.loading) {
         return (
             <div style={{ padding: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: C.textSecondary }}>
-                <Loader2 size={32} style={{ animation: 'spin 1.5s linear infinite', color: C.group }} />
+                <Loader2 size={32} style={{ animation: 'zg-spin 1.5s linear infinite', color: C.group }} />
             </div>
         );
     }
@@ -323,11 +324,18 @@ export function ProjectGantt(props: ProjectGanttProps) {
     return (
         <GanttProvider value={contextValue}>
             <div
-                className="w-full flex flex-col mx-auto bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden"
-                style={{ height: 'calc(100vh - 48px)', minHeight: 600, border: `1px solid ${C.borderLight}` }}
+                style={{
+                    width: '100%', display: 'flex', flexDirection: 'column',
+                    marginLeft: 'auto', marginRight: 'auto',
+                    background: '#fff', borderRadius: 12,
+                    boxShadow: '0 8px 30px rgb(0,0,0,0.06)',
+                    overflow: 'hidden',
+                    height: 'calc(100vh - 48px)', minHeight: 600,
+                    border: `1px solid ${C.borderLight}`,
+                }}
             >
                 <GanttHeader />
-                <div className="flex flex-1 overflow-hidden relative" style={{ background: C.surfaceAlt }}>
+                <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative', background: C.surfaceAlt }}>
                     <GanttGrid />
                     <GanttChart />
                 </div>

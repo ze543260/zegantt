@@ -1,8 +1,8 @@
 import type { InternalTask, TimelineInfo, ViewMode } from '../types/internal';
-import { addDays, diffDays, endOfMonth, MONTH_NAMES_PT, startOfMonth } from './date';
+import { addDays, diffDays, endOfMonth, getMonthName, startOfMonth } from './date';
 import { DAY_W_MONTH, DAY_W_YEAR } from './constants';
 
-export function computeTimeline(tasks: InternalTask[], mode: ViewMode): TimelineInfo {
+export function computeTimeline(tasks: InternalTask[], mode: ViewMode, locale = 'en'): TimelineInfo {
     const dayW = mode === 'day' ? DAY_W_MONTH : DAY_W_YEAR;
 
     const buildDays = (s: Date, totalD: number) => {
@@ -31,7 +31,7 @@ export function computeTimeline(tasks: InternalTask[], mode: ViewMode): Timeline
         return {
             start: s, end: e, totalDays: totalD, dayWidth: dayW,
             totalWidth: totalD * dayW,
-            months: [{ date: s, label: `${MONTH_NAMES_PT[s.getMonth()]} DE ${s.getFullYear()}`, startDay: 0, days: totalD, width: totalD * dayW }],
+            months: [{ date: s, label: `${getMonthName(s, locale)} ${s.getFullYear()}`, startDay: 0, days: totalD, width: totalD * dayW }],
             years: [{ label: s.getFullYear().toString(), width: totalD * dayW }],
             days: daysArr,
             todayIndex
@@ -58,7 +58,7 @@ export function computeTimeline(tasks: InternalTask[], mode: ViewMode): Timeline
         const days = diffDays(cursor, clampedEnd) + 1;
         months.push({
             date: new Date(cursor),
-            label: `${MONTH_NAMES_PT[cursor.getMonth()]} DE ${cursor.getFullYear()}`,
+            label: `${getMonthName(cursor, locale)} ${cursor.getFullYear()}`,
             startDay,
             days,
             width: days * dayW,

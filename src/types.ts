@@ -85,6 +85,8 @@ export interface ProjectGanttProps {
     dependencies?: GanttDependency[];
     loading?: boolean;
     projectName?: string;
+    /** BCP 47 locale tag used for date formatting (default: 'en') */
+    locale?: string;
     /** Object containing localized strings or a translation function */
     translations?: Record<string, string> | ((key: string, fallback?: string) => string);
     /** When true renders one project-header row per project and groups tasks by project */

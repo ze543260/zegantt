@@ -54,7 +54,3 @@ export type DisplayRow =
     | { kind: 'group'; groupType: OriginalType; label: string; count: number; collapsed: boolean; projectId?: string }
     | { kind: 'projectHeader'; projectId: string; projectTitle: string; collapsed: boolean }
     | { kind: 'task'; task: InternalTask };
-
-export const GROUP_LABELS: Record<OriginalType, string> = {
-    step: 'Etapas', milestone: 'Marcos', event: 'Eventos', note: 'Notas',
-};

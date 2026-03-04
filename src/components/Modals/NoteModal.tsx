@@ -8,6 +8,8 @@ export interface NoteModalProps {
 
     availableMilestones?: { id: string; name: string }[];
     initialDate?: string;
+    /** Translation map or lookup function. Falls back to English defaults. */
+    translations?: Record<string, string> | ((key: string, fallback: string) => string);
     onSaveNote: (data: {
         title: string;
         description: string;
@@ -20,20 +22,20 @@ export interface NoteModalProps {
 }
 
 const COLOR_OPTIONS = [
-    { label: "Amarelo", value: "#FEF08A" },
-    { label: "Verde", value: "#BBF7D0" },
-    { label: "Azul", value: "#BFDBFE" },
-    { label: "Rosa", value: "#FBCFE8" },
-    { label: "Roxo", value: "#E9D5FF" },
-    { label: "Laranja", value: "#FED7AA" },
-    { label: "Branco", value: "#FFFFFF" },
+    { label: "Yellow", value: "#FEF08A" },
+    { label: "Green", value: "#BBF7D0" },
+    { label: "Blue", value: "#BFDBFE" },
+    { label: "Pink", value: "#FBCFE8" },
+    { label: "Purple", value: "#E9D5FF" },
+    { label: "Orange", value: "#FED7AA" },
+    { label: "White", value: "#FFFFFF" },
 ];
 
 const DEPENDENCY_TYPE_LABELS: Record<DependencyType, string> = {
-    FS: "Fim → Início (FS)",
-    SS: "Início → Início (SS)",
-    FF: "Fim → Fim (FF)",
-    SF: "Início → Fim (SF)",
+    FS: "Finish → Start (FS)",
+    SS: "Start → Start (SS)",
+    FF: "Finish → Finish (FF)",
+    SF: "Start → Finish (SF)",
 };
 
 export function NoteModal({
@@ -41,8 +43,15 @@ export function NoteModal({
     onClose,
     availableMilestones = [],
     initialDate,
+    translations,
     onSaveNote
 }: NoteModalProps) {
+    // Minimal translation helper
+    const t = (key: string, _def: string) => {
+        if (!translations) return _def;
+        if (typeof translations === 'function') return translations(key, _def);
+        return translations[key] || _def;
+    };
     const [formTitle, setFormTitle] = useState("");
     const [formContent, setFormContent] = useState("");
     const [formColor, setFormColor] = useState("#FEF08A"); // Default to Amarelo
@@ -73,7 +82,7 @@ export function NoteModal({
 
     const handleCreate = async () => {
         if (!formTitle.trim() && !formContent.trim()) {
-            setErrorMsg("Informe o título ou conteúdo da nota.");
+            setErrorMsg(t('noteModal.errorEmpty', 'Please provide a title or content for the note.'));
             return;
         }
         setErrorMsg("");
@@ -81,7 +90,7 @@ export function NoteModal({
         try {
             setFormSubmitting(true);
             await onSaveNote({
-                title: formTitle || "Sem título",
+                title: formTitle || t('noteModal.untitled', 'Untitled'),
                 description: formContent,
                 color: formColor,
                 date: formDate ? `${formDate}T00:00:00` : new Date().toISOString(),
@@ -92,7 +101,7 @@ export function NoteModal({
             onClose();
         } catch (error) {
             console.error(error);
-            setErrorMsg("Erro ao criar nota.");
+            setErrorMsg(t('noteModal.errorSave', 'Error creating note.'));
         } finally {
             setFormSubmitting(false);
         }
@@ -101,7 +110,7 @@ export function NoteModal({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] flex items-center justify-center z-[9999] p-4" onClick={onClose}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.2)', backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 16 }} onClick={onClose}>
             <div onClick={(e) => e.stopPropagation()} style={{
                 width: 400, maxHeight: '90vh', background: formColor || '#FFFACD', borderRadius: 4,
                 boxShadow: '4px 6px 20px rgba(0,0,0,0.18), 1px 1px 4px rgba(0,0,0,0.08)',
@@ -124,7 +133,7 @@ export function NoteModal({
                         type="text"
                         value={formTitle}
                         onChange={e => setFormTitle(e.target.value)}
-                        placeholder="Título da nota..."
+                        placeholder={t('noteModal.titlePlaceholder', 'Note title...')}
                         style={{
                             width: '100%', background: 'transparent', border: 'none', outline: 'none',
                             fontSize: 20, fontWeight: 800, color: '#2a2a2a', lineHeight: '1.3',
@@ -138,7 +147,7 @@ export function NoteModal({
                         value={formContent}
                         onChange={e => setFormContent(e.target.value)}
                         rows={6}
-                        placeholder="Escreva sua nota aqui..."
+                        placeholder={t('noteModal.contentPlaceholder', 'Write your note here...')}
                         style={{
                             width: '100%', background: 'transparent', border: 'none', outline: 'none',
                             fontSize: 14, color: '#3a3a3a', lineHeight: '1.6', resize: 'vertical',
@@ -174,7 +183,7 @@ export function NoteModal({
                             onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.05)')}
                         >
                             <Upload size={13} />
-                            Anexar arquivos
+                            {t('noteModal.attachFiles', 'Attach files')}
                         </button>
 
                         {formFiles.length > 0 && (
@@ -195,7 +204,7 @@ export function NoteModal({
                                             type="button"
                                             onClick={() => setFormFiles(prev => prev.filter((_, idx) => idx !== i))}
                                             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, display: 'flex', color: '#ef4444' }}
-                                            title="Remover"
+                                            title={t('noteModal.removeFile', 'Remove')}
                                         >
                                             <X size={12} />
                                         </button>
@@ -238,7 +247,7 @@ export function NoteModal({
                         <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(0,0,0,0.08)' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
                                 <Link2 size={14} style={{ color: 'rgba(58,58,58,0.5)' }} />
-                                <span style={{ fontSize: 11, color: 'rgba(58,58,58,0.5)', fontWeight: 600 }}>Dependência</span>
+                                <span style={{ fontSize: 11, color: 'rgba(58,58,58,0.5)', fontWeight: 600 }}>{t('noteModal.dependency', 'Dependency')}</span>
                             </div>
                             <select
                                 value={formPredecessorId}
@@ -249,9 +258,9 @@ export function NoteModal({
                                     outline: 'none', fontFamily: 'inherit', cursor: 'pointer',
                                 }}
                             >
-                                <option value="">Nenhuma</option>
+                                <option value="">{t('noteModal.none', 'None')}</option>
                                 {availableMilestones.length > 0 && (
-                                    <optgroup label="Marcos">
+                                    <optgroup label={t('noteModal.milestones', 'Milestones')}>
                                         {availableMilestones.map(m => (
                                             <option key={m.id} value={m.id}>{m.name}</option>
                                         ))}
@@ -279,12 +288,12 @@ export function NoteModal({
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, paddingTop: 16, marginTop: 12, borderTop: '1px solid rgba(0,0,0,0.08)' }}>
                         <button onClick={onClose}
                             style={{ padding: '8px 16px', fontSize: 13, color: '#3a3a3a', background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 8, cursor: 'pointer' }}>
-                            Cancelar
+                            {t('noteModal.cancel', 'Cancel')}
                         </button>
                         <button onClick={handleCreate} disabled={formSubmitting}
                             style={{ padding: '8px 20px', fontSize: 13, color: '#fff', background: '#1A3C30', border: 'none', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: formSubmitting ? 0.5 : 1 }}>
-                            {formSubmitting && <Loader2 className="animate-spin" size={16} />}
-                            Criar Nota
+                            {formSubmitting && <Loader2 size={16} style={{ animation: 'zg-spin 1s linear infinite' }} />}
+                            {t('noteModal.create', 'Create Note')}
                         </button>
                     </div>
                 </div>

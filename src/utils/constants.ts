@@ -69,8 +69,8 @@ export const STEP_PALETTE: { bar: string; barBorder: string; progress: string }[
 ];
 
 export const GROUP_LABELS: Record<string, string> = {
-    step: 'Etapas',
-    milestone: 'Marcos',
-    event: 'Eventos',
-    note: 'Notas'
+    step: 'Steps',
+    milestone: 'Milestones',
+    event: 'Events',
+    note: 'Notes'
 };
