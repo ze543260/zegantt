@@ -21,6 +21,14 @@ const getTouchClient = (event: TouchEvent | React.TouchEvent) => {
 };
 
 export function ProjectGantt(props: ProjectGanttProps) {
+    const {
+        onTaskChange,
+        onCreateDependency,
+        onDependencyError,
+        dependencies,
+        translations,
+    } = props;
+
     // State
     const [viewMode, setViewMode] = useState<ViewMode>('day');
     const [hoveredTaskId, setHoveredTaskId] = useState<string | null>(null);
@@ -125,7 +133,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     }, []);
 
     const handleCreateDependency = useCallback(async () => {
-        if (!pendingConnection || !props.onCreateDependency) return;
+        if (!pendingConnection || !onCreateDependency) return;
         const taskMap = new Map(data.tasks.map(t => [t.id, t]));
         const fromTask = taskMap.get(pendingConnection.fromTaskId);
         const toTask = taskMap.get(pendingConnection.toTaskId);
@@ -135,20 +143,20 @@ export function ProjectGantt(props: ProjectGanttProps) {
         const predTask = pendingConnection.fromEdge === 'right' ? fromTask : toTask;
         const succTask = pendingConnection.fromEdge === 'right' ? toTask : fromTask;
 
-        if (wouldCreateDependencyCycle(props.dependencies || [], predTask.id, succTask.id)) {
+        if (wouldCreateDependencyCycle(dependencies || [], predTask.id, succTask.id)) {
             const message = resolveTranslation(
-                props.translations,
+                translations,
                 'gantt.error.circularDependency',
                 'Circular dependency is not allowed.',
             );
-            props.onDependencyError?.({
+            onDependencyError?.({
                 code: 'CYCLIC_DEPENDENCY',
                 message,
                 predecessorId: predTask.id,
                 successorId: succTask.id,
             });
 
-            if (!props.onDependencyError) {
+            if (!onDependencyError) {
                 window.alert(message);
             }
 
@@ -158,12 +166,12 @@ export function ProjectGantt(props: ProjectGanttProps) {
 
         setDepCreating(true);
         try {
-            await props.onCreateDependency({ predecessorId: predTask.id, predecessorType: typeFromOrig(predTask), successorId: succTask.id, successorType: typeFromOrig(succTask), type: depModalType, lag: depModalLag });
+            await onCreateDependency({ predecessorId: predTask.id, predecessorType: typeFromOrig(predTask), successorId: succTask.id, successorType: typeFromOrig(succTask), type: depModalType, lag: depModalLag });
             setPendingConnection(null);
         } finally {
             setDepCreating(false);
         }
-    }, [pendingConnection, data.tasks, props, depModalType, depModalLag]);
+    }, [pendingConnection, data.tasks, onCreateDependency, dependencies, translations, onDependencyError, depModalType, depModalLag]);
 
     // Global drag & drop effects (Mouse move/up on document)
     // Drag
@@ -184,8 +192,8 @@ export function ProjectGantt(props: ProjectGanttProps) {
             if (d !== dragState.offsetDays) setDragState(prev => prev ? { ...prev, offsetDays: d } : null);
         };
         const onUp = () => {
-            if (dragState.offsetDays !== 0 && props.onTaskChange) {
-                props.onTaskChange({
+            if (dragState.offsetDays !== 0 && onTaskChange) {
+                onTaskChange({
                     id: dragState.task.id, name: dragState.task.name,
                     start: addDays(dragState.originalStart, dragState.offsetDays),
                     end: addDays(dragState.originalEnd, dragState.offsetDays),
@@ -205,7 +213,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
             document.removeEventListener('touchmove', onTouchMove);
             document.removeEventListener('touchend', onTouchEnd);
         };
-    }, [dragState, data.timeline.dayWidth, props.onTaskChange]);
+    }, [dragState, data.timeline.dayWidth, onTaskChange]);
 
     // Resize
     useEffect(() => {
@@ -225,10 +233,10 @@ export function ProjectGantt(props: ProjectGanttProps) {
             if (d !== resizeState.offsetDays) setResizeState(prev => prev ? { ...prev, offsetDays: d } : null);
         };
         const onUp = () => {
-            if (resizeState.offsetDays !== 0 && props.onTaskChange) {
+            if (resizeState.offsetDays !== 0 && onTaskChange) {
                 const newStart = resizeState.edge === 'left' ? addDays(resizeState.originalStart, resizeState.offsetDays) : resizeState.originalStart;
                 const newEnd = resizeState.edge === 'right' ? addDays(resizeState.originalEnd, resizeState.offsetDays) : resizeState.originalEnd;
-                if (newEnd > newStart) props.onTaskChange({ id: resizeState.task.id, name: resizeState.task.name, start: newStart, end: newEnd, type: 'task', progress: resizeState.task.progress });
+                if (newEnd > newStart) onTaskChange({ id: resizeState.task.id, name: resizeState.task.name, start: newStart, end: newEnd, type: 'task', progress: resizeState.task.progress });
             }
             setResizeState(null);
         };
@@ -242,18 +250,23 @@ export function ProjectGantt(props: ProjectGanttProps) {
             document.removeEventListener('touchmove', onTouchMove);
             document.removeEventListener('touchend', onTouchEnd);
         };
-    }, [resizeState, data.timeline.dayWidth, props.onTaskChange]);
+    }, [resizeState, data.timeline.dayWidth, onTaskChange]);
 
     // Connect
+    const connectFromTaskId = connectState?.fromTaskId;
+    const connectFromEdge = connectState?.fromEdge;
+
     useEffect(() => {
-        if (!connectState) return;
+        if (!connectFromTaskId || !connectFromEdge) return;
         const nonPassive = { passive: false } as AddEventListenerOptions;
+        const fromTaskId = connectFromTaskId;
+        const fromEdge = connectFromEdge;
 
         const onMove = (e: MouseEvent) => {
             let hoverTarget: string | null = null;
             for (const el of document.elementsFromPoint(e.clientX, e.clientY)) {
                 const tid = (el as HTMLElement).dataset?.taskId;
-                if (tid && tid !== connectState.fromTaskId) { hoverTarget = tid; break; }
+                if (tid && tid !== fromTaskId) { hoverTarget = tid; break; }
             }
             setConnectState(prev => prev ? { ...prev, currentScreenX: e.clientX, currentScreenY: e.clientY, hoverTargetId: hoverTarget } : null);
         };
@@ -263,7 +276,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
             let hoverTarget: string | null = null;
             for (const el of document.elementsFromPoint(touch.clientX, touch.clientY)) {
                 const tid = (el as HTMLElement).dataset?.taskId;
-                if (tid && tid !== connectState.fromTaskId) { hoverTarget = tid; break; }
+                if (tid && tid !== fromTaskId) { hoverTarget = tid; break; }
             }
             setConnectState(prev => prev ? { ...prev, currentScreenX: touch.clientX, currentScreenY: touch.clientY, hoverTargetId: hoverTarget } : null);
         };
@@ -271,10 +284,10 @@ export function ProjectGantt(props: ProjectGanttProps) {
             let targetId: string | null = null;
             for (const el of document.elementsFromPoint(e.clientX, e.clientY)) {
                 const tid = (el as HTMLElement).dataset?.taskId;
-                if (tid && tid !== connectState.fromTaskId) { targetId = tid; break; }
+                if (tid && tid !== fromTaskId) { targetId = tid; break; }
             }
-            if (targetId && props.onCreateDependency) {
-                setPendingConnection({ fromTaskId: connectState.fromTaskId, fromEdge: connectState.fromEdge, toTaskId: targetId });
+            if (targetId && onCreateDependency) {
+                setPendingConnection({ fromTaskId, fromEdge, toTaskId: targetId });
                 setDepModalType('FS'); setDepModalLag(0);
             }
             setConnectState(null);
@@ -284,10 +297,10 @@ export function ProjectGantt(props: ProjectGanttProps) {
             let targetId: string | null = null;
             for (const el of document.elementsFromPoint(touch.clientX, touch.clientY)) {
                 const tid = (el as HTMLElement).dataset?.taskId;
-                if (tid && tid !== connectState.fromTaskId) { targetId = tid; break; }
+                if (tid && tid !== fromTaskId) { targetId = tid; break; }
             }
-            if (targetId && props.onCreateDependency) {
-                setPendingConnection({ fromTaskId: connectState.fromTaskId, fromEdge: connectState.fromEdge, toTaskId: targetId });
+            if (targetId && onCreateDependency) {
+                setPendingConnection({ fromTaskId, fromEdge, toTaskId: targetId });
                 setDepModalType('FS'); setDepModalLag(0);
             }
             setConnectState(null);
@@ -301,7 +314,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
             document.removeEventListener('touchmove', onTouchMove);
             document.removeEventListener('touchend', onTouchEnd);
         };
-    }, [connectState?.fromTaskId, connectState?.fromEdge, props.onCreateDependency]);
+    }, [connectFromTaskId, connectFromEdge, onCreateDependency]);
 
     // Pan (grab-drag)
     const [panState, setPanState] = useState<{ startX: number; startY: number; scrollLeft: number; scrollTop: number } | null>(null);

@@ -33,6 +33,8 @@ export function GanttGrid() {
         progress: task.progress,
     });
 
+    // TanStack Virtual intentionally returns non-memoizable functions.
+    // eslint-disable-next-line react-hooks/incompatible-library
     const rowVirtualizer = useVirtualizer({
         count: displayRows.length,
         getScrollElement: () => leftBodyRef.current,
@@ -108,7 +110,7 @@ export function GanttGrid() {
                                         boxSizing: 'border-box',
                                         display: 'flex', alignItems: 'center', padding: '0 16px',
                                         cursor: 'pointer', userSelect: 'none',
-                                        borderBottom: `1.5px solid ${C.group}44`, background: `${C.group}0E`,
+                                        borderBottom: `1.5px solid ${C.groupBorderWeak}`, background: C.groupSoft,
                                     }}
                                     onClick={() => toggleProject(row.projectId)}
                                     onKeyDown={(e) => {
@@ -167,7 +169,7 @@ export function GanttGrid() {
                                         <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: C.textTitle }}>
                                             {t(`gantt.group.${row.groupType}`, row.label)}
                                         </span>
-                                        <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 6px', borderRadius: 9999, background: 'rgba(0,0,0,0.06)', color: C.textSecondary }}>
+                                        <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 6px', borderRadius: 9999, background: C.groupSoftStrong, color: C.textSecondary }}>
                                             {row.count}
                                         </span>
                                     </div>
@@ -183,7 +185,7 @@ export function GanttGrid() {
                         const isCritical = criticalIds.has(task.id);
                         const isLeftDimmed = selectedTaskId !== null && task.id !== selectedTaskId && !relatedIds.has(task.id);
                         const isLeftRelated = selectedTaskId !== null && relatedIds.has(task.id);
-                        const rowBg = isDelayed ? '#FFF5F5' : isSel ? C.groupLight : isLeftRelated ? `${C.groupLight}99` : isHov ? C.pageBg : C.surface;
+                        const rowBg = isDelayed ? C.dangerBgSoft : isSel ? C.groupLight : isLeftRelated ? C.groupLightStrong : isHov ? C.pageBg : C.surface;
 
                         return (
                             <div
@@ -195,7 +197,7 @@ export function GanttGrid() {
                                     cursor: 'pointer', transition: 'opacity 0.18s, background 0.15s',
                                     borderBottom: `1px solid ${C.borderLight}`,
                                     background: rowBg,
-                                    borderLeft: isSel ? `3px solid ${C.group}` : isLeftRelated ? `3px solid ${C.group}66` : isCritical ? `3px solid ${C.today}` : undefined,
+                                    borderLeft: isSel ? `3px solid ${C.group}` : isLeftRelated ? `3px solid ${C.groupGlow}` : isCritical ? `3px solid ${C.today}` : undefined,
                                     opacity: isLeftDimmed ? 0.3 : 1,
                                 }}
                                 onClick={() => setSelectedTaskId(p => p === task.id ? null : task.id)}
@@ -233,12 +235,12 @@ export function GanttGrid() {
                                         <div style={{ flexShrink: 0, borderRadius: 4, width: 14, height: 14, background: STEP_PALETTE[task.colorIdx ?? 0].bar, border: `1.5px solid ${STEP_PALETTE[task.colorIdx ?? 0].barBorder}` }} />
                                     )}
                                     {task.originalType === 'milestone' && (
-                                        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: `${C.milestoneRing}30`, border: `1.5px solid ${C.milestoneRing}` }}>
+                                        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: C.milestoneRingSoft, border: `1.5px solid ${C.milestoneRing}` }}>
                                             <Flag size={11} style={{ color: C.milestone }} />
                                         </div>
                                     )}
                                     {task.originalType === 'event' && (
-                                        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: `${C.event}18`, border: `1.5px solid ${C.event}55` }}>
+                                        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: C.eventSoft, border: `1.5px solid ${C.eventBorderSoft}` }}>
                                             <Clock size={11} style={{ color: C.event }} />
                                         </div>
                                     )}
@@ -262,8 +264,8 @@ export function GanttGrid() {
                                             style={{
                                                 flexShrink: 0, display: 'flex', alignItems: 'center', gap: 4,
                                                 fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 6,
-                                                color: '#1A3C30', background: '#FACC15', border: 'none',
-                                                cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                                color: C.noteBadgeText, background: C.noteBadgeBg, border: 'none',
+                                                cursor: 'pointer', boxShadow: C.shadowSmall,
                                                 transition: 'transform 0.12s ease',
                                             }}
                                             onClick={(e) => { e.stopPropagation(); setActivePinboardTask(task); }}

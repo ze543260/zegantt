@@ -57,7 +57,7 @@ export function GanttHeader() {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 {/* Segmented Control */}
-                <div style={{ display: 'flex', padding: 4, borderRadius: 8, background: 'rgba(122,122,122,0.07)', border: `1px solid ${C.borderLight}` }}>
+                <div style={{ display: 'flex', padding: 4, borderRadius: 8, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}` }}>
                     {(['day', 'month'] as ViewMode[]).map(m => (
                         <button
                             key={m}
@@ -66,7 +66,7 @@ export function GanttHeader() {
                                 padding: '6px 20px', fontSize: 12, fontWeight: 600, borderRadius: 6,
                                 transition: 'all 0.2s', border: 'none', cursor: 'pointer',
                                 ...(viewMode === m
-                                    ? { background: C.surface, color: C.group, boxShadow: '0 1px 3px rgb(0 0 0 / 0.08)' }
+                                    ? { background: C.surface, color: C.group, boxShadow: C.shadowTiny }
                                     : { background: 'transparent', color: C.textSecondary }),
                             }}
                         >
@@ -76,7 +76,7 @@ export function GanttHeader() {
                 </div>
 
                 {/* Type Filters */}
-                <div style={{ display: 'flex', padding: 4, borderRadius: 8, gap: 2, background: 'rgba(122,122,122,0.07)', border: `1px solid ${C.borderLight}` }}>
+                <div style={{ display: 'flex', padding: 4, borderRadius: 8, gap: 2, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}` }}>
                     {([
                         { type: 'step' as OriginalType, label: t('gantt.filter.steps', 'Steps'), icon: <div style={{ width: 10, height: 10, borderRadius: 2, background: STEP_PALETTE[0].bar, border: `1px solid ${STEP_PALETTE[0].barBorder}` }} /> },
                         { type: 'milestone' as OriginalType, label: t('gantt.filter.milestones', 'Milestones'), icon: <Flag size={11} style={{ color: C.milestone }} /> },
@@ -93,7 +93,7 @@ export function GanttHeader() {
                                     padding: '6px 12px', fontSize: 11, fontWeight: 600, borderRadius: 6,
                                     transition: 'all 0.2s', border: 'none', cursor: 'pointer',
                                     ...(active
-                                        ? { background: C.surface, color: C.group, boxShadow: '0 1px 3px rgb(0 0 0 / 0.08)' }
+                                        ? { background: C.surface, color: C.group, boxShadow: C.shadowTiny }
                                         : { background: 'transparent', color: C.textMuted, opacity: 0.5 }),
                                 }}
                             >
@@ -111,8 +111,8 @@ export function GanttHeader() {
                             style={{
                                 display: 'flex', alignItems: 'center', gap: 8,
                                 padding: '10px 20px', borderRadius: 8,
-                                fontSize: 14, fontWeight: 600, color: '#fff', border: 'none', cursor: 'pointer',
-                                background: `linear-gradient(135deg, ${C.group}, ${C.group}dd)`,
+                                fontSize: 14, fontWeight: 600, color: C.white, border: 'none', cursor: 'pointer',
+                                background: `linear-gradient(135deg, ${C.group}, ${C.groupGlowStrong})`,
                                 transition: 'all 0.2s',
                             }}
                         >
@@ -125,9 +125,9 @@ export function GanttHeader() {
                                 style={{
                                     position: 'absolute', top: 'calc(100% + 6px)', right: 0,
                                     zIndex: 99999,
-                                    background: '#fff',
+                                    background: C.surface,
                                     borderRadius: 10,
-                                    boxShadow: '0 12px 40px rgba(0,0,0,0.15), 0 3px 10px rgba(0,0,0,0.08)',
+                                    boxShadow: 'var(--zg-shadow-popover)',
                                     border: `1.5px solid ${C.borderLight}`,
                                     width: 200,
                                     overflow: 'hidden',
@@ -143,17 +143,17 @@ export function GanttHeader() {
                                     },
                                     {
                                         label: t('gantt.newAction.milestone', 'Milestone'),
-                                        icon: <div style={{ width: 22, height: 22, borderRadius: '50%', background: `${C.milestoneRing}30`, border: `1.5px solid ${C.milestoneRing}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Flag size={11} style={{ color: C.milestone }} /></div>,
+                                        icon: <div style={{ width: 22, height: 22, borderRadius: '50%', background: C.milestoneRingSoft, border: `1.5px solid ${C.milestoneRing}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Flag size={11} style={{ color: C.milestone }} /></div>,
                                         action: () => { onAddMilestone?.(); setNewActionOpen(false); },
                                     },
                                     {
                                         label: t('gantt.newAction.event', 'Event'),
-                                        icon: <div style={{ width: 22, height: 22, borderRadius: '50%', background: `${C.event}18`, border: `1.5px solid ${C.event}55`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Clock size={11} style={{ color: C.event }} /></div>,
+                                        icon: <div style={{ width: 22, height: 22, borderRadius: '50%', background: C.eventSoft, border: `1.5px solid ${C.eventBorderSoft}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Clock size={11} style={{ color: C.event }} /></div>,
                                         action: () => { onAddEvent?.(); setNewActionOpen(false); },
                                     },
                                     {
                                         label: t('gantt.newAction.note', 'Note'),
-                                        icon: <div style={{ width: 16, height: 20, background: C.note, borderRadius: 2, boxShadow: '1px 1px 3px rgba(0,0,0,0.14)', position: 'relative', overflow: 'visible', flexShrink: 0 }}><div style={{ position: 'absolute', top: -2, left: '50%', transform: 'translateX(-50%)', width: 10, height: 4, background: 'rgba(255,255,255,0.55)', borderRadius: 1 }} /></div>,
+                                        icon: <div style={{ width: 16, height: 20, background: C.note, borderRadius: 2, boxShadow: C.shadowTiny, position: 'relative', overflow: 'visible', flexShrink: 0 }}><div style={{ position: 'absolute', top: -2, left: '50%', transform: 'translateX(-50%)', width: 10, height: 4, background: C.stickyTape, borderRadius: 1 }} /></div>,
                                         action: () => { onAddNote?.(); setNewActionOpen(false); },
                                     },
                                 ] as const).map(opt => (

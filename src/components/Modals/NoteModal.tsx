@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Loader2, Link2, Upload, Paperclip, X } from "lucide-react";
 import type { PredecessorType, DependencyType } from "../../types";
+import { C } from "../../utils/constants";
 
 export interface NoteModalProps {
     isOpen: boolean;
@@ -110,21 +111,21 @@ export function NoteModal({
     if (!isOpen) return null;
 
     return (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.2)', backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 16 }} onClick={onClose}>
+        <div style={{ position: 'fixed', inset: 0, background: C.overlaySoft, backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 16 }} onClick={onClose}>
             <div onClick={(e) => e.stopPropagation()} style={{
-                width: 400, maxHeight: '90vh', background: formColor || '#FFFACD', borderRadius: 4,
-                boxShadow: '4px 6px 20px rgba(0,0,0,0.18), 1px 1px 4px rgba(0,0,0,0.08)',
+                width: 400, maxHeight: '90vh', background: formColor || C.noteDefaultBg, borderRadius: 4,
+                boxShadow: 'var(--zg-shadow-popover)',
                 transform: 'rotate(-1deg)', position: 'relative', display: 'flex', flexDirection: 'column',
                 fontFamily: "'Inter', sans-serif", overflow: 'hidden', transition: 'background 0.3s',
             }}>
-                <div style={{ position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)', width: 64, height: 16, background: 'rgba(255,255,255,0.55)', borderRadius: 2, boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }} />
-                <button onClick={onClose} style={{ position: 'absolute', top: 10, right: 10, width: 24, height: 24, borderRadius: '50%', background: 'rgba(0,0,0,0.08)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 14, color: '#3a3a3a' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(0,0,0,0.15)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(0,0,0,0.08)')}>✕</button>
+                <div style={{ position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)', width: 64, height: 16, background: C.stickyTape, borderRadius: 2, boxShadow: C.shadowTiny }} />
+                <button onClick={onClose} style={{ position: 'absolute', top: 10, right: 10, width: 24, height: 24, borderRadius: '50%', background: C.groupSoftStrong, border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 14, color: C.inkMedium }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = C.groupBorderWeak)}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = C.groupSoftStrong)}>✕</button>
                 <div style={{ padding: '28px 24px 20px', flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
 
                     {errorMsg && (
-                        <div style={{ background: 'rgba(255,0,0,0.1)', color: '#d32f2f', padding: '8px 12px', borderRadius: 6, fontSize: 12, marginBottom: 12, border: '1px solid rgba(255,0,0,0.2)' }}>
+                        <div style={{ background: C.todaySoft, color: C.dangerText, padding: '8px 12px', borderRadius: 6, fontSize: 12, marginBottom: 12, border: `1px solid ${C.todayMid}` }}>
                             {errorMsg}
                         </div>
                     )}
@@ -136,12 +137,12 @@ export function NoteModal({
                         placeholder={t('noteModal.titlePlaceholder', 'Note title...')}
                         style={{
                             width: '100%', background: 'transparent', border: 'none', outline: 'none',
-                            fontSize: 20, fontWeight: 800, color: '#2a2a2a', lineHeight: '1.3',
+                            fontSize: 20, fontWeight: 800, color: C.inkStrong, lineHeight: '1.3',
                             padding: 0, margin: 0, marginBottom: 14, fontFamily: 'inherit',
                         }}
                     />
 
-                    <div style={{ width: '100%', height: 1, background: 'rgba(0,0,0,0.08)', marginBottom: 14 }} />
+                    <div style={{ width: '100%', height: 1, background: C.groupSoftStrong, marginBottom: 14 }} />
 
                     <textarea
                         value={formContent}
@@ -150,12 +151,12 @@ export function NoteModal({
                         placeholder={t('noteModal.contentPlaceholder', 'Write your note here...')}
                         style={{
                             width: '100%', background: 'transparent', border: 'none', outline: 'none',
-                            fontSize: 14, color: '#3a3a3a', lineHeight: '1.6', resize: 'vertical',
+                            fontSize: 14, color: C.inkMedium, lineHeight: '1.6', resize: 'vertical',
                             padding: 0, margin: 0, fontFamily: 'inherit', flex: 1, minHeight: 100,
                         }}
                     />
 
-                    <div style={{ marginTop: 14, paddingTop: 10, borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+                    <div style={{ marginTop: 14, paddingTop: 10, borderTop: `1px solid ${C.groupSoftStrong}` }}>
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -175,12 +176,12 @@ export function NoteModal({
                             style={{
                                 display: 'flex', alignItems: 'center', gap: 6,
                                 padding: '6px 12px', borderRadius: 6,
-                                background: 'rgba(0,0,0,0.05)', border: '1px dashed rgba(0,0,0,0.15)',
-                                cursor: 'pointer', fontSize: 12, color: '#3a3a3a', fontWeight: 500,
+                                background: C.groupSoft, border: `1px dashed ${C.groupBorderWeak}`,
+                                cursor: 'pointer', fontSize: 12, color: C.inkMedium, fontWeight: 500,
                                 transition: 'background 0.15s', width: '100%', justifyContent: 'center',
                             }}
-                            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.08)')}
-                            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.05)')}
+                            onMouseEnter={e => (e.currentTarget.style.background = C.groupSoftStrong)}
+                            onMouseLeave={e => (e.currentTarget.style.background = C.groupSoft)}
                         >
                             <Upload size={13} />
                             {t('noteModal.attachFiles', 'Attach files')}
@@ -192,18 +193,18 @@ export function NoteModal({
                                     <div key={`file-${i}`} style={{
                                         display: 'flex', alignItems: 'center', gap: 6,
                                         padding: '4px 8px', borderRadius: 4,
-                                        background: 'rgba(255,255,255,0.5)',
-                                        fontSize: 11, color: '#3a3a3a',
+                                        background: C.surfaceFrost,
+                                        fontSize: 11, color: C.inkMedium,
                                     }}>
                                         <Paperclip size={10} style={{ flexShrink: 0 }} />
                                         <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.name}</span>
-                                        <span style={{ fontSize: 9, color: 'rgba(58,58,58,0.4)', flexShrink: 0 }}>
+                                        <span style={{ fontSize: 9, color: C.inkSoft4, flexShrink: 0 }}>
                                             {(f.size / 1024).toFixed(0)}KB
                                         </span>
                                         <button
                                             type="button"
                                             onClick={() => setFormFiles(prev => prev.filter((_, idx) => idx !== i))}
-                                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, display: 'flex', color: '#ef4444' }}
+                                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, display: 'flex', color: C.dangerText }}
                                             title={t('noteModal.removeFile', 'Remove')}
                                         >
                                             <X size={12} />
@@ -214,14 +215,14 @@ export function NoteModal({
                         )}
                     </div>
 
-                    <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+                    <div style={{ marginTop: 16, paddingTop: 12, borderTop: `1px solid ${C.groupSoftStrong}`, display: 'flex', alignItems: 'center', justifyItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
                         <input
                             type="date"
                             value={formDate}
                             onChange={e => setFormDate(e.target.value)}
                             style={{
                                 background: 'transparent', border: 'none', outline: 'none',
-                                fontSize: 12, color: 'rgba(58,58,58,0.5)', fontWeight: 500,
+                                fontSize: 12, color: C.inkSoft3, fontWeight: 500,
                                 fontFamily: 'inherit', padding: 0, cursor: 'pointer', width: 'auto'
                             }}
                         />
@@ -232,10 +233,10 @@ export function NoteModal({
                                     type="button"
                                     onClick={() => setFormColor(color.value)}
                                     style={{
-                                        width: 22, height: 22, borderRadius: '50%', border: formColor === color.value ? '2px solid #1A3C30' : '1.5px solid rgba(0,0,0,0.12)',
+                                        width: 22, height: 22, borderRadius: '50%', border: formColor === color.value ? `2px solid ${C.group}` : `1.5px solid ${C.groupSoftStrong}`,
                                         backgroundColor: color.value, cursor: 'pointer', padding: 0,
                                         transform: formColor === color.value ? 'scale(1.15)' : 'scale(1)',
-                                        transition: 'all 0.15s', boxShadow: formColor === color.value ? '0 1px 4px rgba(0,0,0,0.15)' : 'none',
+                                        transition: 'all 0.15s', boxShadow: formColor === color.value ? C.shadowSmall : 'none',
                                     }}
                                     title={color.label}
                                 />
@@ -244,17 +245,17 @@ export function NoteModal({
                     </div>
 
                     {dependencyOptions.length > 0 && (
-                        <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+                        <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.groupSoftStrong}` }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-                                <Link2 size={14} style={{ color: 'rgba(58,58,58,0.5)' }} />
-                                <span style={{ fontSize: 11, color: 'rgba(58,58,58,0.5)', fontWeight: 600 }}>{t('noteModal.dependency', 'Dependency')}</span>
+                                <Link2 size={14} style={{ color: C.inkSoft3 }} />
+                                <span style={{ fontSize: 11, color: C.inkSoft3, fontWeight: 600 }}>{t('noteModal.dependency', 'Dependency')}</span>
                             </div>
                             <select
                                 value={formPredecessorId}
                                 onChange={e => setFormPredecessorId(e.target.value)}
                                 style={{
-                                    width: '100%', background: 'rgba(255,255,255,0.3)', border: '1px solid rgba(0,0,0,0.08)',
-                                    borderRadius: 6, fontSize: 12, color: '#3a3a3a', padding: '6px 8px',
+                                    width: '100%', background: C.surfaceFrost, border: `1px solid ${C.groupSoftStrong}`,
+                                    borderRadius: 6, fontSize: 12, color: C.inkMedium, padding: '6px 8px',
                                     outline: 'none', fontFamily: 'inherit', cursor: 'pointer',
                                 }}
                             >
@@ -272,8 +273,8 @@ export function NoteModal({
                                     value={formDependencyType}
                                     onChange={e => setFormDependencyType(e.target.value as DependencyType)}
                                     style={{
-                                        width: '100%', background: 'rgba(255,255,255,0.3)', border: '1px solid rgba(0,0,0,0.08)',
-                                        borderRadius: 6, fontSize: 12, color: '#3a3a3a', padding: '6px 8px',
+                                        width: '100%', background: C.surfaceFrost, border: `1px solid ${C.groupSoftStrong}`,
+                                        borderRadius: 6, fontSize: 12, color: C.inkMedium, padding: '6px 8px',
                                         outline: 'none', fontFamily: 'inherit', cursor: 'pointer', marginTop: 6,
                                     }}
                                 >
@@ -285,13 +286,13 @@ export function NoteModal({
                         </div>
                     )}
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, paddingTop: 16, marginTop: 12, borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, paddingTop: 16, marginTop: 12, borderTop: `1px solid ${C.groupSoftStrong}` }}>
                         <button onClick={onClose}
-                            style={{ padding: '8px 16px', fontSize: 13, color: '#3a3a3a', background: 'rgba(255,255,255,0.5)', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 8, cursor: 'pointer' }}>
+                            style={{ padding: '8px 16px', fontSize: 13, color: C.inkMedium, background: C.surfaceFrost, border: `1px solid ${C.groupSoftStrong}`, borderRadius: 8, cursor: 'pointer' }}>
                             {t('noteModal.cancel', 'Cancel')}
                         </button>
                         <button onClick={handleCreate} disabled={formSubmitting}
-                            style={{ padding: '8px 20px', fontSize: 13, color: '#fff', background: '#1A3C30', border: 'none', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: formSubmitting ? 0.5 : 1 }}>
+                            style={{ padding: '8px 20px', fontSize: 13, color: C.white, background: C.group, border: 'none', borderRadius: 8, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, opacity: formSubmitting ? 0.5 : 1 }}>
                             {formSubmitting && <Loader2 size={16} style={{ animation: 'zg-spin 1s linear infinite' }} />}
                             {t('noteModal.create', 'Create Note')}
                         </button>

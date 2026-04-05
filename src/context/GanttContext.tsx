@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+
 import { createContext, useContext } from 'react';
 import type React from 'react';
 import type { RefObject, ReactNode } from 'react';

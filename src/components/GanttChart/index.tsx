@@ -24,9 +24,9 @@ const toGanttTask = (t: InternalTask): GanttTask => ({
 const task_icon = (type: string, colorIdx?: number) => {
     switch (type) {
         case 'step': return <div style={{ width: 12, height: 12, borderRadius: 2, background: STEP_PALETTE[colorIdx ?? 0].bar, border: `1.5px solid ${STEP_PALETTE[colorIdx ?? 0].barBorder}`, flexShrink: 0 }} />;
-        case 'milestone': return <div style={{ width: 16, height: 16, borderRadius: '50%', background: C.milestone, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Flag size={8} color="#fff" /></div>;
-        case 'event': return <div style={{ width: 16, height: 16, borderRadius: '50%', background: C.event, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Clock size={8} color="#fff" /></div>;
-        case 'note': return <div style={{ width: 12, height: 14, background: C.note, borderRadius: 2, boxShadow: '1px 1px 2px rgba(0,0,0,0.1)', flexShrink: 0 }} />;
+        case 'milestone': return <div style={{ width: 16, height: 16, borderRadius: '50%', background: C.milestone, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Flag size={8} color={C.white} /></div>;
+        case 'event': return <div style={{ width: 16, height: 16, borderRadius: '50%', background: C.event, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><Clock size={8} color={C.white} /></div>;
+        case 'note': return <div style={{ width: 12, height: 14, background: C.note, borderRadius: 2, boxShadow: C.shadowSmall, flexShrink: 0 }} />;
         default: return null;
     }
 };
@@ -120,7 +120,7 @@ export function GanttChart() {
                     overflow: 'hidden',
                     position: 'relative',
                     flexShrink: 0,
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
+                    boxShadow: C.shadowTiny,
                 }}
                 onWheel={handleChartWheel}
             >
@@ -236,7 +236,7 @@ export function GanttChart() {
                                 <div key={`bg-${virtualRow.index}`} style={{
                                     boxSizing: 'border-box',
                                     position: 'absolute', left: 0, top: virtualRow.start, width: '100%', height: ROW_H,
-                                    background: r.kind === 'projectHeader' ? C.headerBg : `${C.groupLight}15`,
+                                    background: r.kind === 'projectHeader' ? C.headerBg : C.groupLightSoft,
                                     borderBottom: `1px solid ${C.borderLight}`,
                                     pointerEvents: 'none'
                                 }} />
@@ -260,7 +260,7 @@ export function GanttChart() {
                             const e = isDrag || (isResize && resizeState.edge === 'right') ? addDays(task.end, (isDrag ? dragState!.offsetDays! : resizeState!.offsetDays!)) : task.end;
 
                             const isPoint = task.originalType !== 'step';
-                            let x = dateToX(s, timeline);
+                            const x = dateToX(s, timeline);
                             let w = 0;
                             let progW = 0;
 
@@ -354,8 +354,8 @@ export function GanttChart() {
                                 <div
                                     style={{
                                         borderRadius: 12, padding: '12px 16px', minWidth: 220, maxWidth: 340,
-                                        background: `${C.surface}f5`, border: `1px solid ${C.borderLight}`,
-                                        boxShadow: '0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)',
+                                        background: C.surfaceFrost, border: `1px solid ${C.borderLight}`,
+                                        boxShadow: 'var(--zg-shadow-popover)',
                                     }}
                                 >
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
@@ -371,7 +371,7 @@ export function GanttChart() {
                                                 {tooltip.task.previsionStart && tooltip.task.previsionEnd && (
                                                     <div style={{ background: `${C.headerBg}`, borderRadius: 6, padding: '4px 6px', marginBottom: 2 }}>
                                                         <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 4 }}>
-                                                            <div style={{ width: 20, height: 4, borderRadius: 2, background: `${C.textSecondary}44`, border: `1.5px solid ${C.textSecondary}66` }} />
+                                                            <div style={{ width: 20, height: 4, borderRadius: 2, background: C.textSecondarySoft, border: `1.5px solid ${C.textSecondaryMid}` }} />
                                                             <span style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.textSecondary }}>{t('gantt.tooltip.planned', 'Planned')}</span>
                                                         </div>
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
@@ -389,7 +389,7 @@ export function GanttChart() {
                                                     </div>
                                                 )}
                                                 {/* Actual / Real row */}
-                                                <div style={{ background: tooltip.task.hasActualDates ? `${C.groupLight}22` : 'transparent', borderRadius: 6, padding: '4px 6px' }}>
+                                                <div style={{ background: tooltip.task.hasActualDates ? C.groupLightSoft : 'transparent', borderRadius: 6, padding: '4px 6px' }}>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 4 }}>
                                                         <div style={{ width: 20, height: 4, borderRadius: 2, background: STEP_PALETTE[tooltip.task.colorIdx ?? 0].progress }} />
                                                         <span style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: tooltip.task.hasActualDates ? C.group : C.textSecondary }}>
@@ -479,7 +479,7 @@ export function GanttChart() {
                             <button onClick={() => { onEditStage?.(toGanttTask(t2)); closePopup(); }} className="zg-popup-btn" style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '8px 10px', borderRadius: 7, border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 500, color: C.textPrimary, textAlign: 'left' }}>
                                 <Edit2 size={15} /> <span style={{ flex: 1, textAlign: 'left' }}>{t('gantt.popup.edit', 'Edit')}</span>
                             </button>
-                            <button onClick={() => { onDeleteStage?.(t2.id); closePopup(); }} className="zg-popup-btn zg-popup-btn-danger" style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '8px 10px', borderRadius: 7, border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 500, color: '#ef4444', textAlign: 'left' }}>
+                            <button onClick={() => { onDeleteStage?.(t2.id); closePopup(); }} className="zg-popup-btn zg-popup-btn-danger" style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '8px 10px', borderRadius: 7, border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 500, color: C.dangerText, textAlign: 'left' }}>
                                 <Trash2 size={15} /> <span style={{ flex: 1, textAlign: 'left' }}>{t('gantt.popup.delete', 'Delete')}</span>
                             </button>
                         </div>
@@ -498,7 +498,7 @@ export function GanttChart() {
                                             <div key={dep.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 8px', borderRadius: 8, background: 'var(--zg-surface-alt)', border: `1px solid ${C.borderLight}` }}>
                                                 <div style={{ flex: 1, minWidth: 0 }}>
                                                     <div style={{ fontSize: 10, fontWeight: 700, color: C.group, marginBottom: 2 }}>
-                                                        <span style={{ background: `${C.group}15`, borderRadius: 4, padding: '1px 5px' }}>{dep.type}</span> <span style={{ color: C.textSecondary, fontWeight: 500 }}>{isPred ? '→ ' : '← '}</span>
+                                                        <span style={{ background: C.groupSoftStrong, borderRadius: 4, padding: '1px 5px' }}>{dep.type}</span> <span style={{ color: C.textSecondary, fontWeight: 500 }}>{isPred ? '→ ' : '← '}</span>
                                                         <span style={{ color: C.textMuted, fontWeight: 400, fontSize: 9 }}>{depTypeLabel[dep.type] ?? dep.type}</span>
                                                     </div>
                                                     <div style={{ fontSize: 11, color: C.textPrimary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={otherName}>{otherName}</div>
@@ -510,7 +510,7 @@ export function GanttChart() {
                                                             setDeletingDepId(dep.id);
                                                             try { await onDeleteDependency(dep.id); } finally { setDeletingDepId(null); }
                                                         }}
-                                                        style={{ flexShrink: 0, padding: '4px 6px', borderRadius: 6, border: 'none', background: isDeleting ? '#fee2e2' : 'transparent', cursor: isDeleting ? 'wait' : 'pointer', color: '#ef4444', fontSize: 14, opacity: isDeleting ? 0.5 : 1, transition: 'background 0.12s' }}
+                                                        style={{ flexShrink: 0, padding: '4px 6px', borderRadius: 6, border: 'none', background: isDeleting ? C.dangerBgSoft : 'transparent', cursor: isDeleting ? 'wait' : 'pointer', color: C.dangerText, fontSize: 14, opacity: isDeleting ? 0.5 : 1, transition: 'background 0.12s' }}
                                                     >
                                                         {isDeleting ? '⟳' : '🗑'}
                                                     </button>
@@ -573,8 +573,8 @@ export function GanttChart() {
 
             {/* ── DEPENDENCY MODAL ── */}
             {pendingConnection && (
-                <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99998 }} onClick={() => setPendingConnection(null)}>
-                    <div style={{ background: 'var(--zg-surface)', borderRadius: 20, padding: '32px 36px', width: 420, boxShadow: '0 24px 80px rgba(0,0,0,0.18), 0 6px 24px rgba(0,0,0,0.08)' }} onClick={e => e.stopPropagation()}>
+                <div style={{ position: 'fixed', inset: 0, background: C.overlayMedium, backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99998 }} onClick={() => setPendingConnection(null)}>
+                    <div style={{ background: 'var(--zg-surface)', borderRadius: 20, padding: '32px 36px', width: 420, boxShadow: 'var(--zg-shadow-popover)' }} onClick={e => e.stopPropagation()}>
                         <div style={{ marginBottom: 20 }}>
                             <h3 style={{ fontSize: 18, fontWeight: 700, color: C.textTitle, marginBottom: 4 }}>{t('gantt.depModal.title', 'Relation Type')}</h3>
                             <p style={{ fontSize: 13, color: C.textSecondary }}>{t('gantt.depModal.subtitle', 'Choose how the two tasks relate')}</p>
@@ -586,8 +586,8 @@ export function GanttChart() {
                                 { type: 'FF', label: t('gantt.depModal.ff', 'Finish to Finish'), desc: t('gantt.depModal.ffDesc', 'A and B finish together') },
                                 { type: 'SF', label: t('gantt.depModal.sf', 'Start to Finish'), desc: t('gantt.depModal.sfDesc', 'B finishes when A starts') },
                             ].map((opt) => (
-                                <button key={opt.type} onClick={() => setDepModalType(opt.type as DependencyType)} style={{ border: depModalType === opt.type ? `2px solid ${C.group}` : `1.5px solid ${C.borderLight}`, borderRadius: 12, padding: '12px 14px', textAlign: 'left', cursor: 'pointer', background: depModalType === opt.type ? `${C.group}0d` : 'var(--zg-surface-alt)' }}>
-                                    <div style={{ fontSize: 11, fontFamily: 'monospace', fontWeight: 700, color: C.group, marginBottom: 4, background: depModalType === opt.type ? `${C.group}20` : `${C.group}0d`, borderRadius: 6, padding: '2px 6px', display: 'inline-block' }}>{opt.type}</div>
+                                <button key={opt.type} onClick={() => setDepModalType(opt.type as DependencyType)} style={{ border: depModalType === opt.type ? `2px solid ${C.group}` : `1.5px solid ${C.borderLight}`, borderRadius: 12, padding: '12px 14px', textAlign: 'left', cursor: 'pointer', background: depModalType === opt.type ? C.groupSoft : 'var(--zg-surface-alt)' }}>
+                                    <div style={{ fontSize: 11, fontFamily: 'monospace', fontWeight: 700, color: C.group, marginBottom: 4, background: depModalType === opt.type ? C.groupSoftStrong : C.groupSoft, borderRadius: 6, padding: '2px 6px', display: 'inline-block' }}>{opt.type}</div>
                                     <div style={{ fontSize: 13, fontWeight: 600, color: C.textTitle, marginBottom: 2 }}>{opt.label}</div>
                                     <div style={{ fontSize: 11, color: C.textSecondary }}>{opt.desc}</div>
                                 </button>
@@ -599,7 +599,7 @@ export function GanttChart() {
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
                             <button onClick={() => setPendingConnection(null)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${C.borderLight}`, background: 'var(--zg-surface)', cursor: 'pointer', fontWeight: 600 }}>{t('gantt.depModal.cancel', 'Cancel')}</button>
-                            <button onClick={handleCreateDependency} disabled={depCreating} style={{ padding: '10px 16px', borderRadius: 8, border: 'none', background: C.group, color: '#fff', cursor: depCreating ? 'wait' : 'pointer', fontWeight: 600 }}>{depCreating ? t('gantt.depModal.saving', 'Saving...') : t('gantt.depModal.create', 'Create Dependency')}</button>
+                            <button onClick={handleCreateDependency} disabled={depCreating} style={{ padding: '10px 16px', borderRadius: 8, border: 'none', background: C.group, color: C.white, cursor: depCreating ? 'wait' : 'pointer', fontWeight: 600 }}>{depCreating ? t('gantt.depModal.saving', 'Saving...') : t('gantt.depModal.create', 'Create Dependency')}</button>
                         </div>
                     </div>
                 </div>

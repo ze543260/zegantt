@@ -21,7 +21,7 @@ export function PinboardDrawer() {
                         left: 0,
                         width: '100vw',
                         height: '100vh',
-                        backgroundColor: 'rgba(0,0,0,0.2)',
+                        backgroundColor: C.overlaySoft,
                         zIndex: 99,
                         backdropFilter: 'blur(2px)',
                         transition: 'opacity 0.3s ease',
@@ -35,9 +35,9 @@ export function PinboardDrawer() {
                 right: isPinboardOpen ? 0 : -450,
                 width: 400,
                 height: '100vh',
-                backgroundColor: 'var(--zg-surface, #FFFFFF)',
-                boxShadow: '-4px 0 24px rgba(0,0,0,0.1)',
-                borderLeft: '1px solid var(--zg-border, #D9D9D9)',
+                backgroundColor: C.surface,
+                boxShadow: 'var(--zg-shadow-drawer, var(--zg-shadow-large))',
+                borderLeft: `1px solid ${C.border}`,
                 transition: 'right 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -95,7 +95,7 @@ export function PinboardDrawer() {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 20,
-                    backgroundColor: '#FAFAFB'
+                    backgroundColor: C.surfaceAlt
                 }}>
                     {activePinboardTask?.attachedNotes?.map((note, idx) => (
                         <div
@@ -104,7 +104,7 @@ export function PinboardDrawer() {
                                 background: note.color || C.note,
                                 padding: '16px',
                                 borderRadius: '2px',
-                                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                                boxShadow: C.shadowLarge,
                                 transform: `rotate(${idx % 2 === 0 ? '-1deg' : '1deg'})`,
                                 position: 'relative',
                             }}
@@ -117,18 +117,18 @@ export function PinboardDrawer() {
                                 transform: 'translateX(-50%)',
                                 width: '40px',
                                 height: '12px',
-                                background: 'rgba(255,255,255,0.3)',
+                                background: C.stickyTape,
                                 borderRadius: '0 0 4px 4px'
                             }} />
 
-                            <h3 style={{ margin: '0 0 8px 0', fontSize: 14, fontWeight: 700, color: 'rgba(0,0,0,0.7)' }}>
+                            <h3 style={{ margin: '0 0 8px 0', fontSize: 14, fontWeight: 700, color: C.inkSoft }}>
                                 {note.title}
                             </h3>
-                            <p style={{ margin: 0, fontSize: 13, color: 'rgba(0,0,0,0.6)', lineHeight: 1.4 }}>
+                            <p style={{ margin: 0, fontSize: 13, color: C.inkSoft2, lineHeight: 1.4 }}>
                                 {note.description || ''}
                             </p>
                             {note.author && (
-                                <div style={{ marginTop: 12, fontSize: 11, fontWeight: 600, color: 'rgba(0,0,0,0.4)', textAlign: 'right' }}>
+                                <div style={{ marginTop: 12, fontSize: 11, fontWeight: 600, color: C.inkSoft4, textAlign: 'right' }}>
                                     — {note.author}
                                 </div>
                             )}
@@ -156,10 +156,10 @@ export function PinboardDrawer() {
                 </div>
 
                 {/* Footer do Pinboard */}
-                <div style={{ padding: '16px 24px', backgroundColor: 'var(--zg-surface, #FFFFFF)', borderTop: `1px solid ${C.borderLight}` }}>
+                <div style={{ padding: '16px 24px', backgroundColor: C.surface, borderTop: `1px solid ${C.borderLight}` }}>
                     <button style={{
                         width: '100%', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                        backgroundColor: C.group, color: 'white', border: 'none', borderRadius: 8,
+                        backgroundColor: C.group, color: C.white, border: 'none', borderRadius: 8,
                         fontSize: 14, fontWeight: 600, cursor: 'pointer'
                     }}>
                         <Plus size={18} /> {t('pinboard.newBtn', 'Nova Nota nesta Etapa')}

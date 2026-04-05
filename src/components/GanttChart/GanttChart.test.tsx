@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { ProjectGantt } from '../../ProjectGantt';
 import { GanttTaskBar } from '../GanttTaskBar';
 import { GanttProvider } from '../../context/GanttContext';
+import type { GanttContextState } from '../../context/GanttContext';
 import { fmtDateShort } from '../../utils/date';
 import { computeTimeline, dateToX } from '../../utils/timeline';
 import type { InternalTask } from '../../types/internal';
@@ -47,7 +48,7 @@ describe('ProjectGantt component behavior', () => {
           timeline,
           viewMode: 'day',
           props: { steps: [], locale: 'en-US' },
-        } as any}
+        } as unknown as GanttContextState}
       >
         <div style={{ position: 'relative', width: timeline.totalWidth, height: 100 }}>
           <GanttTaskBar
