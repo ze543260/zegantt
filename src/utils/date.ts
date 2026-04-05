@@ -5,8 +5,21 @@ export const isWeekend = (d: Date) => d.getDay() === 0 || d.getDay() === 6;
 export const startOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth(), 1);
 export const endOfMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth() + 1, 0);
 
-export const fmtDateShort = (d: Date) =>
-    `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+export const normalizeLocale = (locale?: string): string => {
+    if (!locale) return 'en-US';
+    try {
+        return new Intl.DateTimeFormat(locale).resolvedOptions().locale;
+    } catch {
+        return 'en-US';
+    }
+};
+
+export const fmtDateShort = (d: Date, locale = 'en-US') =>
+    new Intl.DateTimeFormat(normalizeLocale(locale), {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    }).format(d);
 
 export const getMonthName = (d: Date, locale = 'en'): string =>
-    new Intl.DateTimeFormat(locale, { month: 'long' }).format(d).toUpperCase();
+    new Intl.DateTimeFormat(normalizeLocale(locale), { month: 'long' }).format(d).toUpperCase();

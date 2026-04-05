@@ -78,3 +78,108 @@ export const ptBR: Record<string, string> = {
     'noteModal.errorSave': 'Erro ao criar nota.',
     'noteModal.untitled': 'Sem título',
 };
+
+/** English translation strings for ZeGantt */
+export const enUS: Record<string, string> = {
+    // GanttHeader
+    'planning.gantt': 'PROJECT PLANNING',
+    'charts.gantt.month': 'Month',
+    'charts.gantt.year': 'Year',
+    'charts.gantt.stepName': 'STEP NAME',
+    'charts.gantt.start': 'START',
+    'charts.gantt.end': 'END',
+    'charts.gantt.newAction': 'New Action',
+    'charts.gantt.progress': 'Progress',
+    'gantt.filter.steps': 'Steps',
+    'gantt.filter.milestones': 'Milestones',
+    'gantt.filter.events': 'Events',
+    'gantt.filter.notes': 'Notes',
+    'gantt.newAction.step': 'Step',
+    'gantt.newAction.milestone': 'Milestone',
+    'gantt.newAction.event': 'Event',
+    'gantt.newAction.note': 'Note',
+
+    // GanttGrid group labels
+    'gantt.group.step': 'Steps',
+    'gantt.group.milestone': 'Milestones',
+    'gantt.group.event': 'Events',
+    'gantt.group.note': 'Notes',
+
+    // GanttChart tooltips
+    'gantt.tooltip.planned': 'Planned',
+    'gantt.tooltip.actual': 'Actual',
+    'gantt.tooltip.plannedInUse': 'Planned (in use)',
+    'gantt.tooltip.start': 'Start',
+    'gantt.tooltip.end': 'End',
+    'gantt.tooltip.duration': 'Duration',
+    'gantt.tooltip.progress': 'Progress',
+    'gantt.tooltip.date': 'Date',
+    'gantt.tooltip.attachments': 'Attachments',
+
+    // GanttChart popup actions
+    'gantt.popup.viewDetails': 'View details',
+    'gantt.popup.edit': 'Edit',
+    'gantt.popup.delete': 'Delete',
+    'gantt.popup.relations': 'Relations',
+    'gantt.chart.addOn': 'Add on',
+
+    // GanttChart dependency type labels
+    'gantt.depType.fs': 'Finish to Start',
+    'gantt.depType.ss': 'Start to Start',
+    'gantt.depType.ff': 'Finish to Finish',
+    'gantt.depType.sf': 'Start to Finish',
+
+    // Dependency modal
+    'gantt.depModal.title': 'Relation Type',
+    'gantt.depModal.subtitle': 'Choose how the two tasks relate',
+    'gantt.depModal.fs': 'Finish to Start',
+    'gantt.depModal.fsDesc': 'B starts when A finishes',
+    'gantt.depModal.ss': 'Start to Start',
+    'gantt.depModal.ssDesc': 'A and B start together',
+    'gantt.depModal.ff': 'Finish to Finish',
+    'gantt.depModal.ffDesc': 'A and B finish together',
+    'gantt.depModal.sf': 'Start to Finish',
+    'gantt.depModal.sfDesc': 'B finishes when A starts',
+    'gantt.depModal.lagLabel': 'Lag (days)',
+    'gantt.depModal.cancel': 'Cancel',
+    'gantt.depModal.create': 'Create Dependency',
+    'gantt.depModal.saving': 'Saving...',
+
+    // NoteModal
+    'noteModal.titlePlaceholder': 'Note title...',
+    'noteModal.contentPlaceholder': 'Write your note here...',
+    'noteModal.attachFiles': 'Attach files',
+    'noteModal.removeFile': 'Remove',
+    'noteModal.dependency': 'Dependency',
+    'noteModal.none': 'None',
+    'noteModal.milestones': 'Milestones',
+    'noteModal.cancel': 'Cancel',
+    'noteModal.create': 'Create Note',
+    'noteModal.errorEmpty': 'Please provide a title or content for the note.',
+    'noteModal.errorSave': 'Error creating note.',
+    'noteModal.untitled': 'Untitled',
+
+    // Pinboard
+    'pinboard.description': 'Board with notes and files linked to this task.',
+    'pinboard.empty': 'No linked notes',
+    'pinboard.newBtn': 'New note for this task',
+
+    // Dependency business rules
+    'gantt.error.circularDependency': 'Circular dependency is not allowed.',
+};
+
+export function resolveTranslation(
+    translations: Record<string, string> | ((key: string, fallback?: string) => string) | undefined,
+    key: string,
+    fallback?: string,
+): string {
+    const englishFallback = enUS[key] || fallback || key;
+
+    if (!translations) return englishFallback;
+    if (typeof translations === 'function') {
+        const translated = translations(key, englishFallback);
+        return translated || englishFallback;
+    }
+
+    return translations[key] || englishFallback;
+}

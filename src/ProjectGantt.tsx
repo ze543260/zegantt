@@ -12,6 +12,13 @@ import { addDays } from './utils/date';
 import type { ProjectGanttProps, DependencyType } from './types';
 import type { OriginalType, InternalTask, ConnectState, PendingConnection, ViewMode } from './types/internal';
 import { PinboardDrawer } from './components/PinboardDrawer';
+import { resolveTranslation } from './translations';
+import { wouldCreateDependencyCycle } from './utils/dependencies';
+
+const getTouchClient = (event: TouchEvent | React.TouchEvent) => {
+    const touch = event.touches[0] || event.changedTouches[0];
+    return touch ? { clientX: touch.clientX, clientY: touch.clientY } : { clientX: 0, clientY: 0 };
+};
 
 export function ProjectGantt(props: ProjectGanttProps) {
     // State
@@ -81,14 +88,40 @@ export function ProjectGantt(props: ProjectGanttProps) {
         setDragState({ task, startMouseX: e.clientX, originalStart: new Date(task.start), originalEnd: new Date(task.end), offsetDays: 0 });
     }, []);
 
+    const handleBarTouchStart = useCallback((e: React.TouchEvent, task: InternalTask) => {
+        e.preventDefault(); e.stopPropagation();
+        const point = getTouchClient(e);
+        setDragState({ task, startMouseX: point.clientX, originalStart: new Date(task.start), originalEnd: new Date(task.end), offsetDays: 0 });
+    }, []);
+
     const handleResizeMouseDown = useCallback((e: React.MouseEvent, task: InternalTask, edge: 'left' | 'right') => {
         e.preventDefault(); e.stopPropagation();
         setResizeState({ task, edge, startMouseX: e.clientX, originalStart: new Date(task.start), originalEnd: new Date(task.end), offsetDays: 0 });
     }, []);
 
+    const handleResizeTouchStart = useCallback((e: React.TouchEvent, task: InternalTask, edge: 'left' | 'right') => {
+        e.preventDefault(); e.stopPropagation();
+        const point = getTouchClient(e);
+        setResizeState({ task, edge, startMouseX: point.clientX, originalStart: new Date(task.start), originalEnd: new Date(task.end), offsetDays: 0 });
+    }, []);
+
     const handleConnectDotMouseDown = useCallback((e: React.MouseEvent, task: InternalTask, edge: 'left' | 'right') => {
         e.preventDefault(); e.stopPropagation();
         setConnectState({ fromTaskId: task.id, fromEdge: edge, fromScreenX: e.clientX, fromScreenY: e.clientY, currentScreenX: e.clientX, currentScreenY: e.clientY, hoverTargetId: null });
+    }, []);
+
+    const handleConnectDotTouchStart = useCallback((e: React.TouchEvent, task: InternalTask, edge: 'left' | 'right') => {
+        e.preventDefault(); e.stopPropagation();
+        const point = getTouchClient(e);
+        setConnectState({
+            fromTaskId: task.id,
+            fromEdge: edge,
+            fromScreenX: point.clientX,
+            fromScreenY: point.clientY,
+            currentScreenX: point.clientX,
+            currentScreenY: point.clientY,
+            hoverTargetId: null,
+        });
     }, []);
 
     const handleCreateDependency = useCallback(async () => {
@@ -102,6 +135,27 @@ export function ProjectGantt(props: ProjectGanttProps) {
         const predTask = pendingConnection.fromEdge === 'right' ? fromTask : toTask;
         const succTask = pendingConnection.fromEdge === 'right' ? toTask : fromTask;
 
+        if (wouldCreateDependencyCycle(props.dependencies || [], predTask.id, succTask.id)) {
+            const message = resolveTranslation(
+                props.translations,
+                'gantt.error.circularDependency',
+                'Circular dependency is not allowed.',
+            );
+            props.onDependencyError?.({
+                code: 'CYCLIC_DEPENDENCY',
+                message,
+                predecessorId: predTask.id,
+                successorId: succTask.id,
+            });
+
+            if (!props.onDependencyError) {
+                window.alert(message);
+            }
+
+            setPendingConnection(null);
+            return;
+        }
+
         setDepCreating(true);
         try {
             await props.onCreateDependency({ predecessorId: predTask.id, predecessorType: typeFromOrig(predTask), successorId: succTask.id, successorType: typeFromOrig(succTask), type: depModalType, lag: depModalLag });
@@ -109,14 +163,23 @@ export function ProjectGantt(props: ProjectGanttProps) {
         } finally {
             setDepCreating(false);
         }
-    }, [pendingConnection, data.tasks, props.onCreateDependency, depModalType, depModalLag]);
+    }, [pendingConnection, data.tasks, props, depModalType, depModalLag]);
 
     // Global drag & drop effects (Mouse move/up on document)
     // Drag
     useEffect(() => {
         if (!dragState) return;
+        const nonPassive = { passive: false } as AddEventListenerOptions;
+
         const onMove = (e: MouseEvent) => {
             const dx = e.clientX - dragState.startMouseX;
+            const d = Math.round(dx / data.timeline.dayWidth);
+            if (d !== dragState.offsetDays) setDragState(prev => prev ? { ...prev, offsetDays: d } : null);
+        };
+        const onTouchMove = (e: TouchEvent) => {
+            if (e.cancelable) e.preventDefault();
+            const touch = getTouchClient(e);
+            const dx = touch.clientX - dragState.startMouseX;
             const d = Math.round(dx / data.timeline.dayWidth);
             if (d !== dragState.offsetDays) setDragState(prev => prev ? { ...prev, offsetDays: d } : null);
         };
@@ -132,15 +195,32 @@ export function ProjectGantt(props: ProjectGanttProps) {
             }
             setDragState(null);
         };
+        const onTouchEnd = () => onUp();
         document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
-        return () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+        document.addEventListener('touchmove', onTouchMove, nonPassive);
+        document.addEventListener('touchend', onTouchEnd);
+        return () => {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+        };
     }, [dragState, data.timeline.dayWidth, props.onTaskChange]);
 
     // Resize
     useEffect(() => {
         if (!resizeState) return;
+        const nonPassive = { passive: false } as AddEventListenerOptions;
+
         const onMove = (e: MouseEvent) => {
             const dx = e.clientX - resizeState.startMouseX;
+            const d = Math.round(dx / data.timeline.dayWidth);
+            if (d !== resizeState.offsetDays) setResizeState(prev => prev ? { ...prev, offsetDays: d } : null);
+        };
+        const onTouchMove = (e: TouchEvent) => {
+            if (e.cancelable) e.preventDefault();
+            const touch = getTouchClient(e);
+            const dx = touch.clientX - resizeState.startMouseX;
             const d = Math.round(dx / data.timeline.dayWidth);
             if (d !== resizeState.offsetDays) setResizeState(prev => prev ? { ...prev, offsetDays: d } : null);
         };
@@ -152,13 +232,23 @@ export function ProjectGantt(props: ProjectGanttProps) {
             }
             setResizeState(null);
         };
+        const onTouchEnd = () => onUp();
         document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
-        return () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+        document.addEventListener('touchmove', onTouchMove, nonPassive);
+        document.addEventListener('touchend', onTouchEnd);
+        return () => {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+        };
     }, [resizeState, data.timeline.dayWidth, props.onTaskChange]);
 
     // Connect
     useEffect(() => {
         if (!connectState) return;
+        const nonPassive = { passive: false } as AddEventListenerOptions;
+
         const onMove = (e: MouseEvent) => {
             let hoverTarget: string | null = null;
             for (const el of document.elementsFromPoint(e.clientX, e.clientY)) {
@@ -166,6 +256,16 @@ export function ProjectGantt(props: ProjectGanttProps) {
                 if (tid && tid !== connectState.fromTaskId) { hoverTarget = tid; break; }
             }
             setConnectState(prev => prev ? { ...prev, currentScreenX: e.clientX, currentScreenY: e.clientY, hoverTargetId: hoverTarget } : null);
+        };
+        const onTouchMove = (e: TouchEvent) => {
+            if (e.cancelable) e.preventDefault();
+            const touch = getTouchClient(e);
+            let hoverTarget: string | null = null;
+            for (const el of document.elementsFromPoint(touch.clientX, touch.clientY)) {
+                const tid = (el as HTMLElement).dataset?.taskId;
+                if (tid && tid !== connectState.fromTaskId) { hoverTarget = tid; break; }
+            }
+            setConnectState(prev => prev ? { ...prev, currentScreenX: touch.clientX, currentScreenY: touch.clientY, hoverTargetId: hoverTarget } : null);
         };
         const onUp = (e: MouseEvent) => {
             let targetId: string | null = null;
@@ -179,8 +279,28 @@ export function ProjectGantt(props: ProjectGanttProps) {
             }
             setConnectState(null);
         };
+        const onTouchEnd = (e: TouchEvent) => {
+            const touch = getTouchClient(e);
+            let targetId: string | null = null;
+            for (const el of document.elementsFromPoint(touch.clientX, touch.clientY)) {
+                const tid = (el as HTMLElement).dataset?.taskId;
+                if (tid && tid !== connectState.fromTaskId) { targetId = tid; break; }
+            }
+            if (targetId && props.onCreateDependency) {
+                setPendingConnection({ fromTaskId: connectState.fromTaskId, fromEdge: connectState.fromEdge, toTaskId: targetId });
+                setDepModalType('FS'); setDepModalLag(0);
+            }
+            setConnectState(null);
+        };
         document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
-        return () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+        document.addEventListener('touchmove', onTouchMove, nonPassive);
+        document.addEventListener('touchend', onTouchEnd);
+        return () => {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+        };
     }, [connectState?.fromTaskId, connectState?.fromEdge, props.onCreateDependency]);
 
     // Pan (grab-drag)
@@ -193,8 +313,18 @@ export function ProjectGantt(props: ProjectGanttProps) {
         setPanState({ startX: e.clientX, startY: e.clientY, scrollLeft: rb.scrollLeft, scrollTop: rb.scrollTop });
     }, [resizeState, dragState, scroll.rightBodyRef]);
 
+    const handleChartTouchStart = useCallback((e: React.TouchEvent) => {
+        if (resizeState || dragState || connectState) return;
+        const rb = scroll.rightBodyRef.current;
+        if (!rb) return;
+        const point = getTouchClient(e);
+        setPanState({ startX: point.clientX, startY: point.clientY, scrollLeft: rb.scrollLeft, scrollTop: rb.scrollTop });
+    }, [resizeState, dragState, connectState, scroll.rightBodyRef]);
+
     useEffect(() => {
         if (!panState) return;
+        const nonPassive = { passive: false } as AddEventListenerOptions;
+
         const onMove = (e: MouseEvent) => {
             const rb = scroll.rightBodyRef.current;
             if (!rb) return;
@@ -203,9 +333,27 @@ export function ProjectGantt(props: ProjectGanttProps) {
             if (scroll.leftBodyRef.current) scroll.leftBodyRef.current.scrollTop = rb.scrollTop;
             if (scroll.timeHeaderRef.current) scroll.timeHeaderRef.current.scrollLeft = rb.scrollLeft;
         };
+        const onTouchMove = (e: TouchEvent) => {
+            if (e.cancelable) e.preventDefault();
+            const rb = scroll.rightBodyRef.current;
+            if (!rb) return;
+            const point = getTouchClient(e);
+            rb.scrollLeft = panState.scrollLeft - (point.clientX - panState.startX);
+            rb.scrollTop = panState.scrollTop - (point.clientY - panState.startY);
+            if (scroll.leftBodyRef.current) scroll.leftBodyRef.current.scrollTop = rb.scrollTop;
+            if (scroll.timeHeaderRef.current) scroll.timeHeaderRef.current.scrollLeft = rb.scrollLeft;
+        };
         const onUp = () => setPanState(null);
+        const onTouchEnd = () => setPanState(null);
         document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
-        return () => { document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); };
+        document.addEventListener('touchmove', onTouchMove, nonPassive);
+        document.addEventListener('touchend', onTouchEnd);
+        return () => {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+        };
     }, [panState, scroll.rightBodyRef, scroll.leftBodyRef, scroll.timeHeaderRef]);
 
     // Chart Context Menu
@@ -245,14 +393,23 @@ export function ProjectGantt(props: ProjectGanttProps) {
         if (!chartMenu) return;
         const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setChartMenu(null); };
         const onDown = (e: MouseEvent) => { if (!(e.target as HTMLElement).closest('[data-menu="chart-create"]')) setChartMenu(null); };
+        const onTouchStart = (e: TouchEvent) => {
+            if (!(e.target as HTMLElement).closest('[data-menu="chart-create"]')) setChartMenu(null);
+        };
         const onScroll = () => setChartMenu(null);
-        document.addEventListener('keydown', onKey); document.addEventListener('click', onDown); window.addEventListener('scroll', onScroll, true);
-        return () => { document.removeEventListener('keydown', onKey); document.removeEventListener('click', onDown); window.removeEventListener('scroll', onScroll, true); };
+        document.addEventListener('keydown', onKey); document.addEventListener('click', onDown); document.addEventListener('touchstart', onTouchStart); window.addEventListener('scroll', onScroll, true);
+        return () => {
+            document.removeEventListener('keydown', onKey);
+            document.removeEventListener('click', onDown);
+            document.removeEventListener('touchstart', onTouchStart);
+            window.removeEventListener('scroll', onScroll, true);
+        };
     }, [chartMenu]);
 
     // Construct Context Value
     const contextValue = useMemo(() => ({
-        props, t: (k: string, d?: string) => props.translations ? (typeof props.translations === 'function' ? props.translations(k, d) : props.translations[k] || d || '') : (d || ''),
+        props,
+        t: (k: string, d?: string) => resolveTranslation(props.translations, k, d),
         viewMode, setViewMode,
         hoveredTaskId, setHoveredTaskId,
         selectedTaskId, setSelectedTaskId,
@@ -305,21 +462,29 @@ export function ProjectGantt(props: ProjectGanttProps) {
             return undefined;
         },
         handleChartMouseDown,
+        handleChartTouchStart,
         openChartMenu,
         handleBarMouseDown,
+        handleBarTouchStart,
         handleResizeMouseDown,
+        handleResizeTouchStart,
         handleConnectDotMouseDown,
+        handleConnectDotTouchStart,
         handleCreateDependency
     }), [
         props, viewMode, hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
         visibleTypes, collapsedGroups, collapsedProjects, pendingConnection, depModalType, depModalLag, depCreating,
         deletingDepId, chartMenu, newActionOpen, activePinboardTask, data, scroll, toggleVisibility, toggleGroup, toggleProject,
-        handleChartMouseDown, openChartMenu, handleBarMouseDown, handleResizeMouseDown, handleConnectDotMouseDown, handleCreateDependency
+        handleChartMouseDown, handleChartTouchStart, openChartMenu,
+        handleBarMouseDown, handleBarTouchStart,
+        handleResizeMouseDown, handleResizeTouchStart,
+        handleConnectDotMouseDown, handleConnectDotTouchStart,
+        handleCreateDependency
     ]);
 
     if (props.loading) {
         return (
-            <div style={{ padding: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: C.textSecondary }}>
+            <div role="status" aria-live="polite" style={{ padding: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: C.textSecondary }}>
                 <Loader2 size={32} style={{ animation: 'zg-spin 1.5s linear infinite', color: C.group }} />
             </div>
         );
@@ -328,11 +493,12 @@ export function ProjectGantt(props: ProjectGanttProps) {
     return (
         <GanttProvider value={contextValue}>
             <div
+                className="zg-root"
                 style={{
                     width: '100%', display: 'flex', flexDirection: 'column',
                     marginLeft: 'auto', marginRight: 'auto',
-                    background: '#fff', borderRadius: 12,
-                    boxShadow: '0 8px 30px rgb(0,0,0,0.06)',
+                    background: 'var(--zg-surface)', borderRadius: 12,
+                    boxShadow: 'var(--zg-shadow-panel)',
                     overflow: 'hidden',
                     height: 'calc(100vh - 48px)', minHeight: 600,
                     border: `1px solid ${C.borderLight}`,

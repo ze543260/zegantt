@@ -12,7 +12,8 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'ZeGantt',
-      fileName: 'zegantt',
+      formats: ['es', 'cjs'],
+      fileName: (format) => format === 'es' ? 'zegantt.js' : 'zegantt.cjs',
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'lucide-react'],

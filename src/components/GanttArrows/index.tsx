@@ -1,14 +1,21 @@
 
 import { useGanttContext } from '../../context/GanttContext';
 import { C } from '../../utils/constants';
+import type { ArrowPath } from '../../utils/dependencies';
 
-export function GanttArrows() {
+interface GanttArrowsProps {
+    arrows?: ArrowPath[];
+}
+
+export function GanttArrows({ arrows: arrowsProp }: GanttArrowsProps) {
     const {
-        arrows,
+        arrows: contextArrows,
         hoveredTaskId,
         selectedTaskId,
         relatedIds,
     } = useGanttContext();
+
+    const arrows = arrowsProp || contextArrows;
 
     return (
         <>

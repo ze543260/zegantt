@@ -1,5 +1,7 @@
 
+import { useCallback, useMemo } from 'react';
 import { ChevronDown, ChevronRight, Clock, Flag, AlertTriangle, Paperclip } from 'lucide-react';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { useGanttContext } from '../../context/GanttContext';
 import { C, HEADER_H, LEFT_W, ROW_H, STEP_PALETTE } from '../../utils/constants';
 import { fmtDateShort } from '../../utils/date';
@@ -31,6 +33,29 @@ export function GanttGrid() {
         progress: task.progress,
     });
 
+    const rowVirtualizer = useVirtualizer({
+        count: displayRows.length,
+        getScrollElement: () => leftBodyRef.current,
+        estimateSize: () => ROW_H,
+        overscan: 12,
+    });
+
+    const virtualRows = rowVirtualizer.getVirtualItems();
+    const contentHeight = Math.max(rowVirtualizer.getTotalSize(), 400) + 80;
+
+    const orderedTaskIds = useMemo(
+        () => displayRows.filter((row) => row.kind === 'task').map((row) => row.task.id),
+        [displayRows],
+    );
+
+    const selectRelativeTask = useCallback((fromTaskId: string, delta: number) => {
+        const idx = orderedTaskIds.indexOf(fromTaskId);
+        if (idx < 0) return;
+        const nextIdx = Math.min(Math.max(0, idx + delta), orderedTaskIds.length - 1);
+        const nextTaskId = orderedTaskIds[nextIdx];
+        if (nextTaskId) setSelectedTaskId(nextTaskId);
+    }, [orderedTaskIds, setSelectedTaskId]);
+
     return (
         <div style={{ width: LEFT_W, flexShrink: 0, borderRight: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column', height: '100%' }}>
             {/* Table header */}
@@ -58,21 +83,44 @@ export function GanttGrid() {
                 onScroll={handleLeftScroll}
                 className="zg-no-scrollbar"
                 style={{ overflowY: 'auto', overflowX: 'hidden', flex: 1 }}
+                role="grid"
+                aria-rowcount={displayRows.length}
             >
-                <div style={{ height: Math.max(displayRows.length * ROW_H, 400) + 80, position: 'relative' }}>
-                    {displayRows.map((row) => {
+                <div style={{ height: contentHeight, position: 'relative' }}>
+                    {virtualRows.map((virtualRow) => {
+                        const row = displayRows[virtualRow.index];
+                        if (!row) return null;
+                        const rowBaseStyle = {
+                            position: 'absolute' as const,
+                            top: virtualRow.start,
+                            left: 0,
+                            width: '100%',
+                            height: ROW_H,
+                        };
+
                         // Project header row
                         if (row.kind === 'projectHeader') {
                             return (
                                 <div
                                     key={`ph-${row.projectId}`}
                                     style={{
+                                        ...rowBaseStyle,
                                         boxSizing: 'border-box',
                                         display: 'flex', alignItems: 'center', padding: '0 16px',
                                         cursor: 'pointer', userSelect: 'none',
-                                        height: ROW_H, borderBottom: `1.5px solid ${C.group}44`, background: `${C.group}0E`,
+                                        borderBottom: `1.5px solid ${C.group}44`, background: `${C.group}0E`,
                                     }}
                                     onClick={() => toggleProject(row.projectId)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            toggleProject(row.projectId);
+                                        }
+                                    }}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-label={`Toggle project ${row.projectTitle}`}
+                                    aria-expanded={!row.collapsed}
                                 >
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
                                         {row.collapsed
@@ -94,12 +142,23 @@ export function GanttGrid() {
                                 <div
                                     key={`g-${groupKey}`}
                                     style={{
+                                        ...rowBaseStyle,
                                         boxSizing: 'border-box',
                                         display: 'flex', alignItems: 'center', padding: '0 16px',
                                         cursor: 'pointer', userSelect: 'none',
-                                        height: ROW_H, borderBottom: `1px solid ${C.border}`, background: C.headerBg,
+                                        borderBottom: `1px solid ${C.border}`, background: C.headerBg,
                                     }}
                                     onClick={() => toggleGroup(groupKey)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            toggleGroup(groupKey);
+                                        }
+                                    }}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-label={`Toggle group ${row.label}`}
+                                    aria-expanded={!row.collapsed}
                                 >
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
                                         {row.collapsed
@@ -130,10 +189,10 @@ export function GanttGrid() {
                             <div
                                 key={task.id}
                                 style={{
+                                    ...rowBaseStyle,
                                     boxSizing: 'border-box',
                                     display: 'flex', alignItems: 'center', padding: '0 16px',
                                     cursor: 'pointer', transition: 'opacity 0.18s, background 0.15s',
-                                    height: ROW_H,
                                     borderBottom: `1px solid ${C.borderLight}`,
                                     background: rowBg,
                                     borderLeft: isSel ? `3px solid ${C.group}` : isLeftRelated ? `3px solid ${C.group}66` : isCritical ? `3px solid ${C.today}` : undefined,
@@ -143,6 +202,31 @@ export function GanttGrid() {
                                 onDoubleClick={() => props.onTaskClick?.(toGanttTask(task))}
                                 onMouseEnter={() => setHoveredTaskId(task.id)}
                                 onMouseLeave={() => setHoveredTaskId(null)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        props.onTaskClick?.(toGanttTask(task));
+                                        return;
+                                    }
+                                    if (e.key === ' ') {
+                                        e.preventDefault();
+                                        setSelectedTaskId(p => p === task.id ? null : task.id);
+                                        return;
+                                    }
+                                    if (e.key === 'ArrowDown') {
+                                        e.preventDefault();
+                                        selectRelativeTask(task.id, 1);
+                                        return;
+                                    }
+                                    if (e.key === 'ArrowUp') {
+                                        e.preventDefault();
+                                        selectRelativeTask(task.id, -1);
+                                    }
+                                }}
+                                role="button"
+                                tabIndex={0}
+                                aria-selected={isSel}
+                                aria-label={`Task ${task.name}`}
                             >
                                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, paddingRight: 8 }}>
                                     {task.originalType === 'step' && (
@@ -173,16 +257,16 @@ export function GanttGrid() {
 
                                     {(task.attachedNotes?.length || 0) > 0 && (
                                         <button
+                                            className="zg-note-badge-btn"
+                                            aria-label={`Open ${task.attachedNotes?.length} linked notes`}
                                             style={{
                                                 flexShrink: 0, display: 'flex', alignItems: 'center', gap: 4,
                                                 fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 6,
                                                 color: '#1A3C30', background: '#FACC15', border: 'none',
                                                 cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                                                transition: 'transform 0.1s ease',
+                                                transition: 'transform 0.12s ease',
                                             }}
                                             onClick={(e) => { e.stopPropagation(); setActivePinboardTask(task); }}
-                                            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-                                            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                                         >
                                             <Paperclip size={12} />
                                             {task.attachedNotes?.length}
@@ -195,10 +279,10 @@ export function GanttGrid() {
                                 </div>
 
                                 <div style={{ width: 80, fontSize: 11, fontWeight: 500, textAlign: 'center', fontVariantNumeric: 'tabular-nums', color: isDelayed ? C.today : C.textMuted }}>
-                                    {fmtDateShort(task.start)}
+                                    {fmtDateShort(task.start, props.locale)}
                                 </div>
                                 <div style={{ width: 80, fontSize: 11, fontWeight: 500, textAlign: 'center', fontVariantNumeric: 'tabular-nums', color: isDelayed ? C.today : C.textMuted }}>
-                                    {isPoint ? '—' : fmtDateShort(task.end)}
+                                    {isPoint ? '—' : fmtDateShort(task.end, props.locale)}
                                 </div>
                             </div>
                         );

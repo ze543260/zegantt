@@ -4,7 +4,7 @@ import { C } from '../../utils/constants';
 import { fmtDateShort } from '../../utils/date';
 
 export function PinboardDrawer() {
-    const { activePinboardTask, setActivePinboardTask, t } = useGanttContext();
+    const { props, activePinboardTask, setActivePinboardTask, t } = useGanttContext();
     const isPinboardOpen = !!activePinboardTask;
 
     const handleClose = () => setActivePinboardTask(null);
@@ -68,8 +68,8 @@ export function PinboardDrawer() {
                             </span>
                             <span style={{ fontSize: 12, color: C.textSecondary, display: 'flex', alignItems: 'center', gap: 4 }}>
                                 <Calendar size={12} />
-                                {activePinboardTask && fmtDateShort(activePinboardTask.start)}
-                                {activePinboardTask?.originalType === 'step' && ` - ${fmtDateShort(activePinboardTask.end)}`}
+                                {activePinboardTask && fmtDateShort(activePinboardTask.start, props.locale)}
+                                {activePinboardTask?.originalType === 'step' && ` - ${fmtDateShort(activePinboardTask.end, props.locale)}`}
                             </span>
                         </div>
                         <button

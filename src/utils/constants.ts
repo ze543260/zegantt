@@ -13,11 +13,11 @@ export const tw = {
 };
 
 export const C = {
-    pageBg: '#F8FAFB',
-    surface: tw.white,         // #FFFFFF
-    surfaceAlt: '#F7FAF8',        // subtle alternating row
-    headerBg: '#F2F5F3',        // soft green-tinted header
-    textTitle: tw.dark_green,    // #1A3C30
+    pageBg: 'var(--zg-page-bg, #F8FAFB)',
+    surface: 'var(--zg-surface, #FFFFFF)',
+    surfaceAlt: 'var(--zg-surface-alt, #F7FAF8)',
+    headerBg: 'var(--zg-header-bg, #F2F5F3)',
+    textTitle: 'var(--zg-primary-color, #1A3C30)',
     textPrimary: tw.dark_gray,     // #4F4F4F
     textSecondary: tw.gray,          // #7B7B7B
     textMuted: tw.light_gray,    // #D9D9D9
@@ -31,10 +31,10 @@ export const C = {
     milestoneRing: tw.light_green,   // #A0D8A8
     event: tw.orange,        // #CD6200
     eventLight: `${tw.yellow}33`, // yellow translucent
-    note: tw.yellow,        // #FFBB1C
+    note: 'var(--zg-note-color, #FFBB1C)',
 
-    border: tw.light_gray,    // #D9D9D9
-    borderLight: '#ECECEC',
+    border: 'var(--zg-border, #D9D9D9)',
+    borderLight: 'var(--zg-border-light, #ECECEC)',
     weekendBg: '#F4F6F5',
 
     today: tw.red,           // #FF0000

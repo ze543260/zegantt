@@ -1,5 +1,30 @@
 /* ─── ZeGantt — base styles ─── */
 
+.zg-root {
+  --zg-surface: #ffffff;
+  --zg-surface-alt: #f7faf8;
+  --zg-header-bg: #f2f5f3;
+  --zg-border: #d9d9d9;
+  --zg-border-light: #ececec;
+  --zg-primary-color: #1a3c30;
+  --zg-primary-soft: #7ab7a3;
+  --zg-danger-color: #ff0000;
+  --zg-radius-sm: 8px;
+  --zg-radius-md: 12px;
+  --zg-radius-lg: 20px;
+  --zg-shadow-panel: 0 8px 30px rgba(0, 0, 0, 0.06);
+  --zg-shadow-popover: 0 12px 40px rgba(0, 0, 0, 0.14), 0 3px 10px rgba(0, 0, 0, 0.07);
+}
+
+.zg-root button:focus-visible,
+.zg-root [role='button']:focus-visible,
+.zg-root input:focus-visible,
+.zg-root select:focus-visible,
+.zg-root textarea:focus-visible {
+  outline: 2px solid var(--zg-primary-color);
+  outline-offset: 2px;
+}
+
 /* Spin animation for loading indicator */
 @keyframes zg-spin {
   from { transform: rotate(0deg); }
@@ -50,4 +75,12 @@
 }
 .zg-popup-btn-danger:hover {
   background: #fef2f2;
+}
+
+.zg-note-badge-btn:hover {
+  transform: scale(1.05);
+}
+
+.zg-note-badge-btn:active {
+  transform: scale(0.98);
 }

@@ -11,6 +11,16 @@ export declare interface CreateDependencyParams {
 
 export declare type DependencyType = "FS" | "SS" | "FF" | "SF";
 
+export declare interface DependencyValidationError {
+    code: 'CYCLIC_DEPENDENCY';
+    message: string;
+    predecessorId: string;
+    successorId: string;
+}
+
+/** English translation strings for ZeGantt */
+export declare const enUS: Record<string, string>;
+
 export declare interface GanttDependency {
     id: string;
     predecessorId: string;
@@ -126,6 +136,7 @@ export declare interface ProjectGanttProps {
     onDeleteStage?: (taskId: string) => void;
     onCreateDependency?: (params: CreateDependencyParams) => Promise<void>;
     onDeleteDependency?: (dependencyId: string) => Promise<void>;
+    onDependencyError?: (error: DependencyValidationError) => void;
     onAddMilestone?: (date?: Date, projectId?: string) => void;
     onAddEvent?: (date?: Date, projectId?: string) => void;
     onAddNote?: (date?: Date, projectId?: string) => void;

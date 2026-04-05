@@ -81,6 +81,13 @@ export interface CreateDependencyParams {
     lag: number;
 }
 
+export interface DependencyValidationError {
+    code: 'CYCLIC_DEPENDENCY';
+    message: string;
+    predecessorId: string;
+    successorId: string;
+}
+
 export interface ProjectGanttProps {
     steps: GanttStep[];
     milestones?: GanttMilestone[];
@@ -103,6 +110,7 @@ export interface ProjectGanttProps {
     onDeleteStage?: (taskId: string) => void;
     onCreateDependency?: (params: CreateDependencyParams) => Promise<void>;
     onDeleteDependency?: (dependencyId: string) => Promise<void>;
+    onDependencyError?: (error: DependencyValidationError) => void;
     onAddMilestone?: (date?: Date, projectId?: string) => void;
     onAddEvent?: (date?: Date, projectId?: string) => void;
     onAddNote?: (date?: Date, projectId?: string) => void;

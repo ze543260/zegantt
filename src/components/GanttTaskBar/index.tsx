@@ -23,15 +23,17 @@ interface GanttTaskBarProps {
     isBarHighlighted: boolean;
     commonEvents: any;
     handleResizeMouseDown: (e: React.MouseEvent, task: InternalTask, edge: 'left' | 'right') => void;
+    handleResizeTouchStart: (e: React.TouchEvent, task: InternalTask, edge: 'left' | 'right') => void;
     handleConnectDotMouseDown: (e: React.MouseEvent, task: InternalTask, edge: 'left' | 'right') => void;
+    handleConnectDotTouchStart: (e: React.TouchEvent, task: InternalTask, edge: 'left' | 'right') => void;
 }
 
 export function GanttTaskBar({
     task, x, y, w, progW,
     isHov, isDrag, isResize, isCritical, isDelayed, isConnectTarget, showDots, isBarDimmed, isBarHighlighted,
-    commonEvents, handleResizeMouseDown, handleConnectDotMouseDown
+    commonEvents, handleResizeMouseDown, handleResizeTouchStart, handleConnectDotMouseDown, handleConnectDotTouchStart
 }: GanttTaskBarProps) {
-    const { timeline, viewMode } = useGanttContext();
+    const { timeline, viewMode, props } = useGanttContext();
 
 
     // ── STEP BAR ──
@@ -52,7 +54,7 @@ export function GanttTaskBar({
             <>
                 {showBaseline && (
                     <div
-                        title={`Previsto: ${fmtDateShort(task.previsionStart!)} → ${fmtDateShort(task.previsionEnd!)}`}
+                        title={`Previsto: ${fmtDateShort(task.previsionStart!, props.locale)} → ${fmtDateShort(task.previsionEnd!, props.locale)}`}
                         style={{
                             position: 'absolute', left: baseX, top: baseY, width: baseW, height: 5,
                             borderRadius: 3, background: `${pal.progress}33`, border: `1.5px solid ${pal.progress}66`,
@@ -63,6 +65,9 @@ export function GanttTaskBar({
                 <div
                     data-task-id={task.id}
                     {...commonEvents}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Task bar ${task.name}`}
                     style={{
                         position: 'absolute', left: x, top: barY, width: w, height: BAR_H,
                         borderRadius: BAR_H / 2,
@@ -99,12 +104,12 @@ export function GanttTaskBar({
                             </span>
                         )}
                     </div>
-                    <div onMouseDown={ev => handleResizeMouseDown(ev, task, 'left')} style={{ position: 'absolute', left: 0, top: 0, width: 8, height: '100%', cursor: 'col-resize', zIndex: 2, borderRadius: `${BAR_H / 2}px 0 0 ${BAR_H / 2}px` }} />
-                    <div onMouseDown={ev => handleResizeMouseDown(ev, task, 'right')} style={{ position: 'absolute', right: 0, top: 0, width: 8, height: '100%', cursor: 'col-resize', zIndex: 2, borderRadius: `0 ${BAR_H / 2}px ${BAR_H / 2}px 0` }} />
+                    <div onMouseDown={ev => handleResizeMouseDown(ev, task, 'left')} onTouchStart={ev => handleResizeTouchStart(ev, task, 'left')} style={{ position: 'absolute', left: 0, top: 0, width: 8, height: '100%', cursor: 'col-resize', zIndex: 2, borderRadius: `${BAR_H / 2}px 0 0 ${BAR_H / 2}px` }} />
+                    <div onMouseDown={ev => handleResizeMouseDown(ev, task, 'right')} onTouchStart={ev => handleResizeTouchStart(ev, task, 'right')} style={{ position: 'absolute', right: 0, top: 0, width: 8, height: '100%', cursor: 'col-resize', zIndex: 2, borderRadius: `0 ${BAR_H / 2}px ${BAR_H / 2}px 0` }} />
                     {showDots && (
                         <>
-                            <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
-                            <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                            <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} onTouchStart={ev => handleConnectDotTouchStart(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                            <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} onTouchStart={ev => handleConnectDotTouchStart(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
                         </>
                     )}
                 </div>
@@ -119,6 +124,9 @@ export function GanttTaskBar({
             <div
                 data-task-id={task.id}
                 {...commonEvents}
+                role="button"
+                tabIndex={0}
+                aria-label={`Milestone ${task.name}`}
                 style={{
                     position: 'absolute', left: x - 6, top: pillY, height: PILL_H, minWidth: PILL_MIN_W,
                     borderRadius: PILL_H / 2, background: isCritical ? `linear-gradient(135deg, #fee, #fff5f5)` : `linear-gradient(135deg, #e8f5ee, #f0f8f4)`,
@@ -141,8 +149,8 @@ export function GanttTaskBar({
                 )}
                 {showDots && (
                     <>
-                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
-                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} onTouchStart={ev => handleConnectDotTouchStart(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} onTouchStart={ev => handleConnectDotTouchStart(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
                     </>
                 )}
             </div>
@@ -156,6 +164,9 @@ export function GanttTaskBar({
             <div
                 data-task-id={task.id}
                 {...commonEvents}
+                role="button"
+                tabIndex={0}
+                aria-label={`Event ${task.name}`}
                 style={{
                     position: 'absolute', left: x - 6, top: pillY, height: PILL_H, minWidth: PILL_MIN_W,
                     borderRadius: PILL_H / 2,
@@ -179,8 +190,8 @@ export function GanttTaskBar({
                 )}
                 {showDots && (
                     <>
-                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
-                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} onTouchStart={ev => handleConnectDotTouchStart(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} onTouchStart={ev => handleConnectDotTouchStart(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
                     </>
                 )}
             </div>
@@ -197,6 +208,9 @@ export function GanttTaskBar({
             <div
                 data-task-id={task.id}
                 {...commonEvents}
+                role="button"
+                tabIndex={0}
+                aria-label={`Note ${task.name}`}
                 style={{
                     position: 'absolute', left: x, top: noteY,
                     width: noteW, minHeight: 72,
@@ -250,7 +264,7 @@ export function GanttTaskBar({
                 {/* Date row */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
                     <span style={{ fontSize: 9, fontWeight: 500, color: 'rgba(0,0,0,0.45)' }}>
-                        {fmtDateShort(task.start)}
+                        {fmtDateShort(task.start, props.locale)}
                     </span>
                     {files > 0 && (
                         <span style={{
@@ -264,8 +278,8 @@ export function GanttTaskBar({
 
                 {showDots && (
                     <>
-                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
-                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'left')} onTouchStart={ev => handleConnectDotTouchStart(ev, task, 'left')} style={{ position: 'absolute', left: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
+                        <div data-task-id={task.id} onMouseDown={ev => handleConnectDotMouseDown(ev, task, 'right')} onTouchStart={ev => handleConnectDotTouchStart(ev, task, 'right')} style={{ position: 'absolute', right: -7, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, borderRadius: '50%', background: C.group, border: '2.5px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.25)', cursor: 'crosshair', zIndex: 30 }} />
                     </>
                 )}
             </div>

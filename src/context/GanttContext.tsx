@@ -72,13 +72,17 @@ export interface GanttContextState {
     handleRightScroll: () => void;
     handleLeftScroll: () => void;
     handleChartMouseDown: (e: React.MouseEvent) => void;
+    handleChartTouchStart: (e: React.TouchEvent) => void;
     handleChartWheel: (e: React.WheelEvent) => void;
     screenXToDate: (x: number) => Date;
     screenYToProjectId: (y: number) => string | undefined;
     openChartMenu: (e: React.MouseEvent) => void;
     handleBarMouseDown: (e: React.MouseEvent, task: InternalTask) => void;
+    handleBarTouchStart: (e: React.TouchEvent, task: InternalTask) => void;
     handleResizeMouseDown: (e: React.MouseEvent, task: InternalTask, edge: 'left' | 'right') => void;
+    handleResizeTouchStart: (e: React.TouchEvent, task: InternalTask, edge: 'left' | 'right') => void;
     handleConnectDotMouseDown: (e: React.MouseEvent, task: InternalTask, edge: 'left' | 'right') => void;
+    handleConnectDotTouchStart: (e: React.TouchEvent, task: InternalTask, edge: 'left' | 'right') => void;
     handleCreateDependency: () => void;
 }
 

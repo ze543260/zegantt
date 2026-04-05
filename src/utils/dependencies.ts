@@ -53,3 +53,42 @@ export function computeArrows(
         return { predId: pred.id, succId: succ.id, path: d, headX: sx - 6, headY: sy };
     }).filter(Boolean) as ArrowPath[];
 }
+
+/**
+ * Returns true when adding predecessorId -> successorId would create a cycle.
+ */
+export function wouldCreateDependencyCycle(
+    deps: GanttDependency[],
+    predecessorId: string,
+    successorId: string,
+): boolean {
+    if (predecessorId === successorId) return true;
+
+    const graph = new Map<string, string[]>();
+    for (const dep of deps) {
+        const list = graph.get(dep.predecessorId) || [];
+        list.push(dep.successorId);
+        graph.set(dep.predecessorId, list);
+    }
+
+    const next = graph.get(predecessorId) || [];
+    next.push(successorId);
+    graph.set(predecessorId, next);
+
+    const stack = [successorId];
+    const visited = new Set<string>();
+
+    while (stack.length > 0) {
+        const current = stack.pop()!;
+        if (current === predecessorId) return true;
+        if (visited.has(current)) continue;
+        visited.add(current);
+
+        const children = graph.get(current) || [];
+        for (const child of children) {
+            if (!visited.has(child)) stack.push(child);
+        }
+    }
+
+    return false;
+}
