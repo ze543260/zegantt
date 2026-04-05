@@ -16,6 +16,7 @@ export interface InternalTask {
     previsionStart?: Date;
     previsionEnd?: Date;
     hasActualDates?: boolean;
+    attachedNotes?: import('../types').GanttNote[];
     projectId?: string;
     projectTitle?: string;
 }

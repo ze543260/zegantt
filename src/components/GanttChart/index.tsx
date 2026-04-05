@@ -45,7 +45,7 @@ export function GanttChart() {
         deletingDepId, setDeletingDepId,
         chartMenu, setChartMenu,
         rightBodyRef, timeHeaderRef,
-        handleChartMouseDown, handleChartWheel, openChartMenu,
+        handleChartMouseDown, handleChartWheel, openChartMenu, handleRightScroll,
         hoveredTaskId, setHoveredTaskId,
         selectedTaskId, setSelectedTaskId,
         tooltip, setTooltip,
@@ -83,6 +83,7 @@ export function GanttChart() {
             <div
                 ref={timeHeaderRef}
                 style={{
+                    boxSizing: 'border-box',
                     height: HEADER_ROW_H * 2,
                     background: C.headerBg,
                     borderBottom: `1px solid ${C.borderLight}`,
@@ -135,6 +136,7 @@ export function GanttChart() {
                 ref={rightBodyRef}
                 className="zg-no-scrollbar"
                 style={{ flex: 1, overflow: 'auto', background: '#fff', position: 'relative' }}
+                onScroll={handleRightScroll}
                 onMouseDown={handleChartMouseDown}
                 onWheel={handleChartWheel}
                 onContextMenu={openChartMenu}
@@ -174,6 +176,7 @@ export function GanttChart() {
                         if (r.kind === 'group' || r.kind === 'projectHeader') {
                             return (
                                 <div key={`bg-${i}`} style={{
+                                    boxSizing: 'border-box',
                                     position: 'absolute', left: 0, top: i * ROW_H, width: '100%', height: ROW_H,
                                     background: r.kind === 'projectHeader' ? C.headerBg : `${C.groupLight}15`,
                                     borderBottom: `1px solid ${C.borderLight}`,
@@ -274,20 +277,20 @@ export function GanttChart() {
                         {/* ── Hover Tooltip ── */}
                         {tooltip && !dragState && (
                             <div style={{ position: 'fixed', left: tooltip.x + 16, top: tooltip.y - 10, zIndex: 9999, pointerEvents: 'none' }}>
-                                    <div
-                                        style={{
-                                            borderRadius: 12, padding: '12px 16px', minWidth: 220, maxWidth: 340,
-                                            background: `${C.surface}f5`, border: `1px solid ${C.borderLight}`,
-                                            boxShadow: '0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)',
-                                        }}
-                                    >
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                                            {task_icon(tooltip.task.originalType, tooltip.task.colorIdx)}
-                                            <span style={{ fontSize: 12, fontWeight: 700, color: C.textTitle, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                                {tooltip.task.name}
-                                            </span>
-                                        </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 11, color: C.textSecondary }}>
+                                <div
+                                    style={{
+                                        borderRadius: 12, padding: '12px 16px', minWidth: 220, maxWidth: 340,
+                                        background: `${C.surface}f5`, border: `1px solid ${C.borderLight}`,
+                                        boxShadow: '0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)',
+                                    }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                                        {task_icon(tooltip.task.originalType, tooltip.task.colorIdx)}
+                                        <span style={{ fontSize: 12, fontWeight: 700, color: C.textTitle, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                            {tooltip.task.name}
+                                        </span>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 11, color: C.textSecondary }}>
                                         {tooltip.task.originalType === 'step' ? (
                                             <>
                                                 {/* Planned / Prevision row */}
@@ -338,34 +341,34 @@ export function GanttChart() {
                                                 </div>
                                             </>
                                         ) : tooltip.task.originalType === 'note' ? (
-                                                <>
-                                                    {tooltip.task.noteProjectTitle && (
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                                                            <div style={{ width: 8, height: 8, borderRadius: 2, background: tooltip.task.noteColor || C.note, flexShrink: 0 }} />
-                                                            <span style={{ fontSize: 11, fontWeight: 600, color: C.textPrimary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                                                {tooltip.task.noteProjectTitle}
-                                                            </span>
-                                                        </div>
-                                                    )}
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                        <span>{t('gantt.tooltip.date', 'Date')}:</span>
-                                                        <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.start)}</span>
+                                            <>
+                                                {tooltip.task.noteProjectTitle && (
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                                                        <div style={{ width: 8, height: 8, borderRadius: 2, background: tooltip.task.noteColor || C.note, flexShrink: 0 }} />
+                                                        <span style={{ fontSize: 11, fontWeight: 600, color: C.textPrimary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                            {tooltip.task.noteProjectTitle}
+                                                        </span>
                                                     </div>
-                                                    {(tooltip.task.filesCount || 0) > 0 && (
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                            <span>{t('gantt.tooltip.attachments', 'Attachments')}:</span>
-                                                            <span style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, color: C.textPrimary }}>
-                                                                <Paperclip size={10} />
-                                                                {tooltip.task.filesCount}
-                                                            </span>
-                                                        </div>
-                                                    )}
-                                                </>
-                                        ) : (
+                                                )}
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                    <span>{t('charts.gantt.start', 'Start')}:</span>
+                                                    <span>{t('gantt.tooltip.date', 'Date')}:</span>
                                                     <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.start)}</span>
                                                 </div>
+                                                {(tooltip.task.filesCount || 0) > 0 && (
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                                                        <span>{t('gantt.tooltip.attachments', 'Attachments')}:</span>
+                                                        <span style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, color: C.textPrimary }}>
+                                                            <Paperclip size={10} />
+                                                            {tooltip.task.filesCount}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
+                                                <span>{t('charts.gantt.start', 'Start')}:</span>
+                                                <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.start)}</span>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
@@ -396,14 +399,14 @@ export function GanttChart() {
                         </div>
                         {/* Actions */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 2, padding: '8px 6px' }}>
-                            <button onClick={() => { onViewStage?.(toGanttTask(t2)); closePopup(); }} className="zg-popup-btn">
-                                <Eye size={15} /> <span>{t('gantt.popup.viewDetails', 'View details')}</span>
+                            <button onClick={() => { onViewStage?.(toGanttTask(t2)); closePopup(); }} className="zg-popup-btn" style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '8px 10px', borderRadius: 7, border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 500, color: C.textPrimary, textAlign: 'left' }}>
+                                <Eye size={15} /> <span style={{ flex: 1, textAlign: 'left' }}>{t('gantt.popup.viewDetails', 'View details')}</span>
                             </button>
-                            <button onClick={() => { onEditStage?.(toGanttTask(t2)); closePopup(); }} className="zg-popup-btn">
-                                <Edit2 size={15} /> <span>{t('gantt.popup.edit', 'Edit')}</span>
+                            <button onClick={() => { onEditStage?.(toGanttTask(t2)); closePopup(); }} className="zg-popup-btn" style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '8px 10px', borderRadius: 7, border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 500, color: C.textPrimary, textAlign: 'left' }}>
+                                <Edit2 size={15} /> <span style={{ flex: 1, textAlign: 'left' }}>{t('gantt.popup.edit', 'Edit')}</span>
                             </button>
-                            <button onClick={() => { onDeleteStage?.(t2.id); closePopup(); }} className="zg-popup-btn zg-popup-btn-danger">
-                                <Trash2 size={15} /> <span>{t('gantt.popup.delete', 'Delete')}</span>
+                            <button onClick={() => { onDeleteStage?.(t2.id); closePopup(); }} className="zg-popup-btn zg-popup-btn-danger" style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '8px 10px', borderRadius: 7, border: 'none', background: 'transparent', cursor: 'pointer', fontSize: 13, fontWeight: 500, color: '#ef4444', textAlign: 'left' }}>
+                                <Trash2 size={15} /> <span style={{ flex: 1, textAlign: 'left' }}>{t('gantt.popup.delete', 'Delete')}</span>
                             </button>
                         </div>
 

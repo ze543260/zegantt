@@ -51,6 +51,9 @@ export interface GanttContextState {
     newActionOpen: boolean;
     setNewActionOpen: (v: boolean | ((prev: boolean) => boolean)) => void;
 
+    activePinboardTask: InternalTask | null;
+    setActivePinboardTask: (task: InternalTask | null) => void;
+
     // Computed Data
     tasks: InternalTask[];
     timeline: TimelineInfo;

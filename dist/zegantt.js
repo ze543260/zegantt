@@ -1,17 +1,17 @@
-import { jsx as t, jsxs as o, Fragment as de } from "react/jsx-runtime";
-import { createContext as et, useContext as tt, useRef as pe, useCallback as J, useEffect as ge, useMemo as ae, useState as P } from "react";
-import { Flag as Se, Clock as ke, MessageCircle as nt, Plus as ot, ChevronDown as Be, ChevronRight as Pe, Paperclip as Fe, AlertTriangle as rt, Eye as it, Edit2 as at, Trash2 as st, Loader2 as _e, Upload as dt, X as lt, Link2 as ct } from "lucide-react";
-const He = et(void 0);
-function pt({ children: n, value: c }) {
-  return /* @__PURE__ */ t(He.Provider, { value: c, children: n });
+import { jsx as t, jsxs as o, Fragment as ce } from "react/jsx-runtime";
+import { createContext as ot, useContext as rt, useRef as he, useCallback as Z, useEffect as ue, useMemo as le, useState as Y } from "react";
+import { Flag as Te, Clock as De, MessageCircle as it, Plus as je, ChevronDown as Pe, ChevronRight as Ye, Paperclip as $e, AlertTriangle as at, Eye as st, Edit2 as dt, Trash2 as lt, Calendar as ct, X as Ge, Loader2 as Ve, Upload as pt, Link2 as gt } from "lucide-react";
+const Ue = ot(void 0);
+function ht({ children: n, value: p }) {
+  return /* @__PURE__ */ t(Ue.Provider, { value: p, children: n });
 }
-function Ie() {
-  const n = tt(He);
+function me() {
+  const n = rt(Ue);
   if (!n)
     throw new Error("useGanttContext must be used within a GanttProvider");
   return n;
 }
-const G = {
+const U = {
   white: "#FFFFFF",
   dark_gray: "#4F4F4F",
   gray: "#7B7B7B",
@@ -24,45 +24,45 @@ const G = {
   red: "#FF0000"
 }, e = {
   pageBg: "#F8FAFB",
-  surface: G.white,
+  surface: U.white,
   // #FFFFFF
   surfaceAlt: "#F7FAF8",
   // subtle alternating row
   headerBg: "#F2F5F3",
   // soft green-tinted header
-  textTitle: G.dark_green,
+  textTitle: U.dark_green,
   // #1A3C30
-  textPrimary: G.dark_gray,
+  textPrimary: U.dark_gray,
   // #4F4F4F
-  textSecondary: G.gray,
+  textSecondary: U.gray,
   // #7B7B7B
-  textMuted: G.light_gray,
+  textMuted: U.light_gray,
   // #D9D9D9
-  group: G.dark_green,
+  group: U.dark_green,
   // #1A3C30
-  groupLight: G.water_green,
+  groupLight: U.water_green,
   // #A0D8A8 (bar border)
-  milestone: G.dark_green,
+  milestone: U.dark_green,
   // #1A3C30
-  milestoneRing: G.light_green,
+  milestoneRing: U.light_green,
   // #A0D8A8
-  event: G.orange,
+  event: U.orange,
   // yellow translucent
-  note: G.yellow,
+  note: U.yellow,
   // #FFBB1C
-  border: G.light_gray,
+  border: U.light_gray,
   // #D9D9D9
   borderLight: "#ECECEC",
   weekendBg: "#F4F6F5",
-  today: G.red,
+  today: U.red,
   // #FF0000
   todayBg: "#FF000008",
   // today column tint
-  arrow: G.gray,
+  arrow: U.gray,
   // #7B7B7B
-  arrowHover: G.dark_green
+  arrowHover: U.dark_green
   // #1A3C30
-}, _ = 50, we = 32, gt = we * 2, ht = 460, ne = 26, fe = 28, Le = 120, ut = 40, ft = 3.5, oe = [
+}, G = 50, Ie = 32, ut = Ie * 2, ft = 460, ie = 26, xe = 28, Ne = 120, yt = 40, xt = 3.5, ae = [
   { bar: "#D1D8A0", barBorder: "#A0D8A8", progress: "#1A3C30" },
   // sistema (light_yellow)
   { bar: "#A0D8C8", barBorder: "#6BBFA8", progress: "#14534A" },
@@ -83,27 +83,27 @@ const G = {
   // violet
   { bar: "#A0D8B0", barBorder: "#70C888", progress: "#1A5030" }
   // mint
-], Ne = {
+], Oe = {
   step: "Steps",
   milestone: "Milestones",
   event: "Events",
   note: "Notes"
 };
-function yt() {
+function bt() {
   const {
     props: n,
-    t: c,
-    viewMode: p,
-    setViewMode: T,
+    t: p,
+    viewMode: l,
+    setViewMode: I,
     visibleTypes: h,
-    setVisibleTypes: w,
+    setVisibleTypes: u,
     newActionOpen: x,
-    setNewActionOpen: C,
-    newActionRef: M
-  } = Ie(), { projectName: f, onAddNewStage: E, onAddMilestone: b, onAddEvent: F, onAddNote: S } = n, B = (r) => {
-    w((i) => {
-      const I = new Set(i);
-      return I.has(r) ? I.delete(r) : I.add(r), I;
+    setNewActionOpen: M,
+    newActionRef: D
+  } = me(), { projectName: f, onAddNewStage: R, onAddMilestone: m, onAddEvent: A, onAddNote: w } = n, B = (c) => {
+    u((s) => {
+      const g = new Set(s);
+      return g.has(c) ? g.delete(c) : g.add(c), g;
     });
   };
   return /* @__PURE__ */ o(
@@ -120,7 +120,7 @@ function yt() {
       children: [
         /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 16 }, children: [
           /* @__PURE__ */ o("div", { children: [
-            /* @__PURE__ */ t("h3", { style: { margin: 0, fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: e.textTitle }, children: c("planning.gantt", "Project Planning") }),
+            /* @__PURE__ */ t("h3", { style: { margin: 0, fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: e.textTitle }, children: p("planning.gantt", "Project Planning") }),
             /* @__PURE__ */ t("div", { style: { height: 2.5, width: 64, marginTop: 6, borderRadius: 9999, background: `linear-gradient(90deg, ${e.group}, ${e.milestoneRing})` } })
           ] }),
           f && /* @__PURE__ */ t(
@@ -140,10 +140,10 @@ function yt() {
           )
         ] }),
         /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 12 }, children: [
-          /* @__PURE__ */ t("div", { style: { display: "flex", padding: 4, borderRadius: 8, background: "rgba(122,122,122,0.07)", border: `1px solid ${e.borderLight}` }, children: ["day", "month"].map((r) => /* @__PURE__ */ t(
+          /* @__PURE__ */ t("div", { style: { display: "flex", padding: 4, borderRadius: 8, background: "rgba(122,122,122,0.07)", border: `1px solid ${e.borderLight}` }, children: ["day", "month"].map((c) => /* @__PURE__ */ t(
             "button",
             {
-              onClick: () => T(r),
+              onClick: () => I(c),
               style: {
                 padding: "6px 20px",
                 fontSize: 12,
@@ -152,23 +152,23 @@ function yt() {
                 transition: "all 0.2s",
                 border: "none",
                 cursor: "pointer",
-                ...p === r ? { background: e.surface, color: e.group, boxShadow: "0 1px 3px rgb(0 0 0 / 0.08)" } : { background: "transparent", color: e.textSecondary }
+                ...l === c ? { background: e.surface, color: e.group, boxShadow: "0 1px 3px rgb(0 0 0 / 0.08)" } : { background: "transparent", color: e.textSecondary }
               },
-              children: r === "day" ? c("charts.gantt.month", "Month") : c("charts.gantt.year", "Year")
+              children: c === "day" ? p("charts.gantt.month", "Month") : p("charts.gantt.year", "Year")
             },
-            r
+            c
           )) }),
           /* @__PURE__ */ t("div", { style: { display: "flex", padding: 4, borderRadius: 8, gap: 2, background: "rgba(122,122,122,0.07)", border: `1px solid ${e.borderLight}` }, children: [
-            { type: "step", label: c("gantt.filter.steps", "Steps"), icon: /* @__PURE__ */ t("div", { style: { width: 10, height: 10, borderRadius: 2, background: oe[0].bar, border: `1px solid ${oe[0].barBorder}` } }) },
-            { type: "milestone", label: c("gantt.filter.milestones", "Milestones"), icon: /* @__PURE__ */ t(Se, { size: 11, style: { color: e.milestone } }) },
-            { type: "event", label: c("gantt.filter.events", "Events"), icon: /* @__PURE__ */ t(ke, { size: 11, style: { color: e.event } }) },
-            { type: "note", label: c("gantt.filter.notes", "Notes"), icon: /* @__PURE__ */ t(nt, { size: 11, style: { color: e.note } }) }
-          ].map((r) => {
-            const i = h.has(r.type);
+            { type: "step", label: p("gantt.filter.steps", "Steps"), icon: /* @__PURE__ */ t("div", { style: { width: 10, height: 10, borderRadius: 2, background: ae[0].bar, border: `1px solid ${ae[0].barBorder}` } }) },
+            { type: "milestone", label: p("gantt.filter.milestones", "Milestones"), icon: /* @__PURE__ */ t(Te, { size: 11, style: { color: e.milestone } }) },
+            { type: "event", label: p("gantt.filter.events", "Events"), icon: /* @__PURE__ */ t(De, { size: 11, style: { color: e.event } }) },
+            { type: "note", label: p("gantt.filter.notes", "Notes"), icon: /* @__PURE__ */ t(it, { size: 11, style: { color: e.note } }) }
+          ].map((c) => {
+            const s = h.has(c.type);
             return /* @__PURE__ */ o(
               "button",
               {
-                onClick: () => B(r.type),
+                onClick: () => B(c.type),
                 style: {
                   display: "flex",
                   alignItems: "center",
@@ -180,21 +180,21 @@ function yt() {
                   transition: "all 0.2s",
                   border: "none",
                   cursor: "pointer",
-                  ...i ? { background: e.surface, color: e.group, boxShadow: "0 1px 3px rgb(0 0 0 / 0.08)" } : { background: "transparent", color: e.textMuted, opacity: 0.5 }
+                  ...s ? { background: e.surface, color: e.group, boxShadow: "0 1px 3px rgb(0 0 0 / 0.08)" } : { background: "transparent", color: e.textMuted, opacity: 0.5 }
                 },
                 children: [
-                  r.icon,
-                  /* @__PURE__ */ t("span", { children: r.label })
+                  c.icon,
+                  /* @__PURE__ */ t("span", { children: c.label })
                 ]
               },
-              r.type
+              c.type
             );
           }) }),
-          E && /* @__PURE__ */ o("div", { ref: M, style: { position: "relative" }, children: [
+          R && /* @__PURE__ */ o("div", { ref: D, style: { position: "relative" }, children: [
             /* @__PURE__ */ o(
               "button",
               {
-                onClick: () => C((r) => !r),
+                onClick: () => M((c) => !c),
                 style: {
                   display: "flex",
                   alignItems: "center",
@@ -210,9 +210,9 @@ function yt() {
                   transition: "all 0.2s"
                 },
                 children: [
-                  /* @__PURE__ */ t(ot, { size: 16 }),
-                  /* @__PURE__ */ t("span", { children: c("charts.gantt.newAction", "New Action") }),
-                  /* @__PURE__ */ t(Be, { size: 14, style: { opacity: 0.7, transform: x ? "rotate(180deg)" : "none", transition: "transform 0.18s" } })
+                  /* @__PURE__ */ t(je, { size: 16 }),
+                  /* @__PURE__ */ t("span", { children: p("charts.gantt.newAction", "New Action") }),
+                  /* @__PURE__ */ t(Pe, { size: 14, style: { opacity: 0.7, transform: x ? "rotate(180deg)" : "none", transition: "transform 0.18s" } })
                 ]
               }
             ),
@@ -232,40 +232,40 @@ function yt() {
                   overflow: "hidden",
                   padding: "5px 5px"
                 },
-                onClick: (r) => r.stopPropagation(),
+                onClick: (c) => c.stopPropagation(),
                 children: [
                   {
-                    label: c("gantt.newAction.step", "Step"),
-                    icon: /* @__PURE__ */ t("div", { style: { width: 14, height: 14, borderRadius: 3, background: oe[0].bar, border: `1.5px solid ${oe[0].barBorder}`, flexShrink: 0 } }),
+                    label: p("gantt.newAction.step", "Step"),
+                    icon: /* @__PURE__ */ t("div", { style: { width: 14, height: 14, borderRadius: 3, background: ae[0].bar, border: `1.5px solid ${ae[0].barBorder}`, flexShrink: 0 } }),
                     action: () => {
-                      E(), C(!1);
+                      R(), M(!1);
                     }
                   },
                   {
-                    label: c("gantt.newAction.milestone", "Milestone"),
-                    icon: /* @__PURE__ */ t("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${e.milestoneRing}30`, border: `1.5px solid ${e.milestoneRing}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(Se, { size: 11, style: { color: e.milestone } }) }),
+                    label: p("gantt.newAction.milestone", "Milestone"),
+                    icon: /* @__PURE__ */ t("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${e.milestoneRing}30`, border: `1.5px solid ${e.milestoneRing}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(Te, { size: 11, style: { color: e.milestone } }) }),
                     action: () => {
-                      b?.(), C(!1);
+                      m?.(), M(!1);
                     }
                   },
                   {
-                    label: c("gantt.newAction.event", "Event"),
-                    icon: /* @__PURE__ */ t("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${e.event}18`, border: `1.5px solid ${e.event}55`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(ke, { size: 11, style: { color: e.event } }) }),
+                    label: p("gantt.newAction.event", "Event"),
+                    icon: /* @__PURE__ */ t("div", { style: { width: 22, height: 22, borderRadius: "50%", background: `${e.event}18`, border: `1.5px solid ${e.event}55`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(De, { size: 11, style: { color: e.event } }) }),
                     action: () => {
-                      F?.(), C(!1);
+                      A?.(), M(!1);
                     }
                   },
                   {
-                    label: c("gantt.newAction.note", "Note"),
+                    label: p("gantt.newAction.note", "Note"),
                     icon: /* @__PURE__ */ t("div", { style: { width: 16, height: 20, background: e.note, borderRadius: 2, boxShadow: "1px 1px 3px rgba(0,0,0,0.14)", position: "relative", overflow: "visible", flexShrink: 0 }, children: /* @__PURE__ */ t("div", { style: { position: "absolute", top: -2, left: "50%", transform: "translateX(-50%)", width: 10, height: 4, background: "rgba(255,255,255,0.55)", borderRadius: 1 } }) }),
                     action: () => {
-                      S?.(), C(!1);
+                      w?.(), M(!1);
                     }
                   }
-                ].map((r) => /* @__PURE__ */ o(
+                ].map((c) => /* @__PURE__ */ o(
                   "button",
                   {
-                    onClick: r.action,
+                    onClick: c.action,
                     style: {
                       display: "flex",
                       alignItems: "center",
@@ -282,18 +282,18 @@ function yt() {
                       textAlign: "left",
                       transition: "background 0.12s"
                     },
-                    onMouseEnter: (i) => {
-                      i.currentTarget.style.background = e.headerBg;
+                    onMouseEnter: (s) => {
+                      s.currentTarget.style.background = e.headerBg;
                     },
-                    onMouseLeave: (i) => {
-                      i.currentTarget.style.background = "transparent";
+                    onMouseLeave: (s) => {
+                      s.currentTarget.style.background = "transparent";
                     },
                     children: [
-                      r.icon,
-                      r.label
+                      c.icon,
+                      c.label
                     ]
                   },
-                  r.label
+                  c.label
                 ))
               }
             )
@@ -303,75 +303,78 @@ function yt() {
     }
   );
 }
-const Ge = 864e5, Z = (n, c) => new Date(n.getTime() + c * Ge), ye = (n, c) => Math.round((c.getTime() - n.getTime()) / Ge), Ye = (n) => new Date(n.getFullYear(), n.getMonth(), 1), We = (n) => new Date(n.getFullYear(), n.getMonth() + 1, 0), Q = (n) => `${String(n.getDate()).padStart(2, "0")}/${String(n.getMonth() + 1).padStart(2, "0")}/${n.getFullYear()}`, Oe = (n, c = "en") => new Intl.DateTimeFormat(c, { month: "long" }).format(n).toUpperCase();
-function xt() {
+const qe = 864e5, ee = (n, p) => new Date(n.getTime() + p * qe), be = (n, p) => Math.round((p.getTime() - n.getTime()) / qe), Xe = (n) => new Date(n.getFullYear(), n.getMonth(), 1), Be = (n) => new Date(n.getFullYear(), n.getMonth() + 1, 0), q = (n) => `${String(n.getDate()).padStart(2, "0")}/${String(n.getMonth() + 1).padStart(2, "0")}/${n.getFullYear()}`, _e = (n, p = "en") => new Intl.DateTimeFormat(p, { month: "long" }).format(n).toUpperCase();
+function mt() {
   const {
     props: n,
-    t: c,
-    displayRows: p,
-    leftBodyRef: T,
+    t: p,
+    displayRows: l,
+    leftBodyRef: I,
     handleLeftScroll: h,
-    toggleProject: w,
+    toggleProject: u,
     toggleGroup: x,
-    hoveredTaskId: C,
-    setHoveredTaskId: M,
+    hoveredTaskId: M,
+    setHoveredTaskId: D,
     selectedTaskId: f,
-    setSelectedTaskId: E,
-    delayedIds: b,
-    criticalIds: F,
-    relatedIds: S
-  } = Ie(), B = (r) => ({
-    id: r.id,
-    name: r.name,
-    start: r.start,
-    end: r.end,
-    type: r.originalType === "step" ? "task" : "milestone",
-    progress: r.progress
+    setSelectedTaskId: R,
+    delayedIds: m,
+    criticalIds: A,
+    relatedIds: w,
+    setActivePinboardTask: B
+  } = me(), c = (s) => ({
+    id: s.id,
+    name: s.name,
+    start: s.start,
+    end: s.end,
+    type: s.originalType === "step" ? "task" : "milestone",
+    progress: s.progress
   });
-  return /* @__PURE__ */ o("div", { style: { width: ht, flexShrink: 0, borderRight: `1px solid ${e.border}` }, children: [
+  return /* @__PURE__ */ o("div", { style: { width: ft, flexShrink: 0, borderRight: `1px solid ${e.border}`, display: "flex", flexDirection: "column", height: "100%" }, children: [
     /* @__PURE__ */ o(
       "div",
       {
         style: {
+          boxSizing: "border-box",
           display: "flex",
           alignItems: "center",
           padding: "0 16px",
-          height: gt,
+          height: ut,
           background: e.headerBg,
           borderBottom: `1px solid ${e.border}`
         },
         children: [
-          /* @__PURE__ */ t("div", { style: { flex: 1, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: e.textSecondary }, children: c("charts.gantt.stepName", "STEP NAME") }),
-          /* @__PURE__ */ t("div", { style: { width: 80, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", color: e.textSecondary }, children: c("charts.gantt.start", "START") }),
-          /* @__PURE__ */ t("div", { style: { width: 80, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", color: e.textSecondary }, children: c("charts.gantt.end", "END") })
+          /* @__PURE__ */ t("div", { style: { flex: 1, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: e.textSecondary }, children: p("charts.gantt.stepName", "STEP NAME") }),
+          /* @__PURE__ */ t("div", { style: { width: 80, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", color: e.textSecondary }, children: p("charts.gantt.start", "START") }),
+          /* @__PURE__ */ t("div", { style: { width: 80, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", color: e.textSecondary }, children: p("charts.gantt.end", "END") })
         ]
       }
     ),
     /* @__PURE__ */ t(
       "div",
       {
-        ref: T,
+        ref: I,
         onScroll: h,
         className: "zg-no-scrollbar",
         style: { overflowY: "auto", overflowX: "hidden", flex: 1 },
-        children: p.map((r) => {
-          if (r.kind === "projectHeader")
+        children: /* @__PURE__ */ t("div", { style: { height: Math.max(l.length * G, 400) + 80, position: "relative" }, children: l.map((s) => {
+          if (s.kind === "projectHeader")
             return /* @__PURE__ */ t(
               "div",
               {
                 style: {
+                  boxSizing: "border-box",
                   display: "flex",
                   alignItems: "center",
                   padding: "0 16px",
                   cursor: "pointer",
                   userSelect: "none",
-                  height: _,
+                  height: G,
                   borderBottom: `1.5px solid ${e.group}44`,
                   background: `${e.group}0E`
                 },
-                onClick: () => w(r.projectId),
+                onClick: () => u(s.projectId),
                 children: /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }, children: [
-                  r.collapsed ? /* @__PURE__ */ t(Pe, { size: 15, style: { color: e.group, flexShrink: 0 } }) : /* @__PURE__ */ t(Be, { size: 15, style: { color: e.group, flexShrink: 0 } }),
+                  s.collapsed ? /* @__PURE__ */ t(Ye, { size: 15, style: { color: e.group, flexShrink: 0 } }) : /* @__PURE__ */ t(Pe, { size: 15, style: { color: e.group, flexShrink: 0 } }),
                   /* @__PURE__ */ t("span", { style: {
                     fontSize: 12,
                     fontWeight: 700,
@@ -381,210 +384,216 @@ function xt() {
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap"
-                  }, children: r.projectTitle })
+                  }, children: s.projectTitle })
                 ] })
               },
-              `ph-${r.projectId}`
+              `ph-${s.projectId}`
             );
-          if (r.kind === "group") {
-            const A = r.projectId ? `${r.projectId}-${r.groupType}` : r.groupType;
+          if (s.kind === "group") {
+            const L = s.projectId ? `${s.projectId}-${s.groupType}` : s.groupType;
             return /* @__PURE__ */ t(
               "div",
               {
                 style: {
+                  boxSizing: "border-box",
                   display: "flex",
                   alignItems: "center",
                   padding: "0 16px",
                   cursor: "pointer",
                   userSelect: "none",
-                  height: _,
+                  height: G,
                   borderBottom: `1px solid ${e.border}`,
                   background: e.headerBg
                 },
-                onClick: () => x(A),
+                onClick: () => x(L),
                 children: /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 8, flex: 1, minWidth: 0 }, children: [
-                  r.collapsed ? /* @__PURE__ */ t(Pe, { size: 14, style: { color: e.textSecondary, flexShrink: 0 } }) : /* @__PURE__ */ t(Be, { size: 14, style: { color: e.textSecondary, flexShrink: 0 } }),
-                  /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: e.textTitle }, children: c(`gantt.group.${r.groupType}`, r.label) }),
-                  /* @__PURE__ */ t("span", { style: { fontSize: 10, fontWeight: 600, padding: "2px 6px", borderRadius: 9999, background: "rgba(0,0,0,0.06)", color: e.textSecondary }, children: r.count })
+                  s.collapsed ? /* @__PURE__ */ t(Ye, { size: 14, style: { color: e.textSecondary, flexShrink: 0 } }) : /* @__PURE__ */ t(Pe, { size: 14, style: { color: e.textSecondary, flexShrink: 0 } }),
+                  /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: e.textTitle }, children: p(`gantt.group.${s.groupType}`, s.label) }),
+                  /* @__PURE__ */ t("span", { style: { fontSize: 10, fontWeight: 600, padding: "2px 6px", borderRadius: 9999, background: "rgba(0,0,0,0.06)", color: e.textSecondary }, children: s.count })
                 ] })
               },
-              `g-${A}`
+              `g-${L}`
             );
           }
-          const i = r.task, I = f === i.id, l = C === i.id, $ = i.originalType !== "step", u = b.has(i.id), D = F.has(i.id), s = f !== null && i.id !== f && !S.has(i.id), y = f !== null && S.has(i.id), N = u ? "#FFF5F5" : I ? e.groupLight : y ? `${e.groupLight}99` : l ? e.pageBg : e.surface;
+          const g = s.task, d = f === g.id, C = M === g.id, v = g.originalType !== "step", k = m.has(g.id), T = A.has(g.id), a = f !== null && g.id !== f && !w.has(g.id), $ = f !== null && w.has(g.id), W = k ? "#FFF5F5" : d ? e.groupLight : $ ? `${e.groupLight}99` : C ? e.pageBg : e.surface;
           return /* @__PURE__ */ o(
             "div",
             {
               style: {
+                boxSizing: "border-box",
                 display: "flex",
                 alignItems: "center",
                 padding: "0 16px",
                 cursor: "pointer",
                 transition: "opacity 0.18s, background 0.15s",
-                height: _,
+                height: G,
                 borderBottom: `1px solid ${e.borderLight}`,
-                background: N,
-                borderLeft: I ? `3px solid ${e.group}` : y ? `3px solid ${e.group}66` : D ? `3px solid ${e.today}` : void 0,
-                opacity: s ? 0.3 : 1
+                background: W,
+                borderLeft: d ? `3px solid ${e.group}` : $ ? `3px solid ${e.group}66` : T ? `3px solid ${e.today}` : void 0,
+                opacity: a ? 0.3 : 1
               },
-              onClick: () => E((A) => A === i.id ? null : i.id),
-              onDoubleClick: () => n.onTaskClick?.(B(i)),
-              onMouseEnter: () => M(i.id),
-              onMouseLeave: () => M(null),
+              onClick: () => R((L) => L === g.id ? null : g.id),
+              onDoubleClick: () => n.onTaskClick?.(c(g)),
+              onMouseEnter: () => D(g.id),
+              onMouseLeave: () => D(null),
               children: [
                 /* @__PURE__ */ o("div", { style: { flex: 1, display: "flex", alignItems: "center", gap: 8, minWidth: 0, paddingRight: 8 }, children: [
-                  i.originalType === "step" && /* @__PURE__ */ t("div", { style: { flexShrink: 0, borderRadius: 4, width: 14, height: 14, background: oe[i.colorIdx ?? 0].bar, border: `1.5px solid ${oe[i.colorIdx ?? 0].barBorder}` } }),
-                  i.originalType === "milestone" && /* @__PURE__ */ t("div", { style: { flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", width: 22, height: 22, background: `${e.milestoneRing}30`, border: `1.5px solid ${e.milestoneRing}` }, children: /* @__PURE__ */ t(Se, { size: 11, style: { color: e.milestone } }) }),
-                  i.originalType === "event" && /* @__PURE__ */ t("div", { style: { flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", width: 22, height: 22, background: `${e.event}18`, border: `1.5px solid ${e.event}55` }, children: /* @__PURE__ */ t(ke, { size: 11, style: { color: e.event } }) }),
-                  i.originalType === "note" && /* @__PURE__ */ t("div", { style: { flexShrink: 0, width: 16, height: 20, background: i.noteColor || e.note, borderRadius: 2, boxShadow: "1px 1px 3px rgba(0,0,0,0.14)", position: "relative", overflow: "visible" }, children: /* @__PURE__ */ t("div", { style: { position: "absolute", top: -2, left: "50%", transform: "translateX(-50%)", width: 10, height: 4, background: "rgba(255,255,255,0.55)", borderRadius: 1 } }) }),
-                  /* @__PURE__ */ o("div", { style: { flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }, children: [
-                    /* @__PURE__ */ t(
-                      "span",
-                      {
-                        style: {
-                          fontSize: 13,
-                          fontWeight: 500,
-                          lineHeight: 1.25,
-                          color: I ? e.group : u ? e.today : e.textPrimary,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap"
-                        },
-                        children: i.name
-                      }
-                    ),
-                    i.originalType === "note" && i.noteProjectTitle && /* @__PURE__ */ t("span", { style: {
-                      fontSize: 10,
-                      color: e.textSecondary,
-                      marginTop: 1,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap"
-                    }, children: i.noteProjectTitle })
-                  ] }),
-                  i.originalType === "note" && (i.filesCount || 0) > 0 && /* @__PURE__ */ o("span", { style: {
-                    flexShrink: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                    fontSize: 10,
-                    padding: "2px 6px",
-                    borderRadius: 9999,
-                    color: e.textSecondary,
-                    background: e.headerBg,
-                    border: `1px solid ${e.borderLight}`
-                  }, children: [
-                    /* @__PURE__ */ t(Fe, { size: 9 }),
-                    i.filesCount
-                  ] }),
-                  u && /* @__PURE__ */ t(rt, { size: 12, style: { flexShrink: 0, color: e.today } })
+                  g.originalType === "step" && /* @__PURE__ */ t("div", { style: { flexShrink: 0, borderRadius: 4, width: 14, height: 14, background: ae[g.colorIdx ?? 0].bar, border: `1.5px solid ${ae[g.colorIdx ?? 0].barBorder}` } }),
+                  g.originalType === "milestone" && /* @__PURE__ */ t("div", { style: { flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", width: 22, height: 22, background: `${e.milestoneRing}30`, border: `1.5px solid ${e.milestoneRing}` }, children: /* @__PURE__ */ t(Te, { size: 11, style: { color: e.milestone } }) }),
+                  g.originalType === "event" && /* @__PURE__ */ t("div", { style: { flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", width: 22, height: 22, background: `${e.event}18`, border: `1.5px solid ${e.event}55` }, children: /* @__PURE__ */ t(De, { size: 11, style: { color: e.event } }) }),
+                  /* @__PURE__ */ t("div", { style: { flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }, children: /* @__PURE__ */ t(
+                    "span",
+                    {
+                      style: {
+                        fontSize: 13,
+                        fontWeight: 500,
+                        lineHeight: 1.25,
+                        color: d ? e.group : k ? e.today : e.textPrimary,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap"
+                      },
+                      children: g.name
+                    }
+                  ) }),
+                  (g.attachedNotes?.length || 0) > 0 && /* @__PURE__ */ o(
+                    "button",
+                    {
+                      style: {
+                        flexShrink: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 4,
+                        fontSize: 11,
+                        fontWeight: 700,
+                        padding: "4px 10px",
+                        borderRadius: 6,
+                        color: "#1A3C30",
+                        background: "#FACC15",
+                        border: "none",
+                        cursor: "pointer",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                        transition: "transform 0.1s ease"
+                      },
+                      onClick: (L) => {
+                        L.stopPropagation(), B(g);
+                      },
+                      onMouseEnter: (L) => L.currentTarget.style.transform = "scale(1.05)",
+                      onMouseLeave: (L) => L.currentTarget.style.transform = "scale(1)",
+                      children: [
+                        /* @__PURE__ */ t($e, { size: 12 }),
+                        g.attachedNotes?.length
+                      ]
+                    }
+                  ),
+                  k && /* @__PURE__ */ t(at, { size: 12, style: { flexShrink: 0, color: e.today } })
                 ] }),
-                /* @__PURE__ */ t("div", { style: { width: 80, fontSize: 11, fontWeight: 500, textAlign: "center", fontVariantNumeric: "tabular-nums", color: u ? e.today : e.textMuted }, children: Q(i.start) }),
-                /* @__PURE__ */ t("div", { style: { width: 80, fontSize: 11, fontWeight: 500, textAlign: "center", fontVariantNumeric: "tabular-nums", color: u ? e.today : e.textMuted }, children: $ ? "—" : Q(i.end) })
+                /* @__PURE__ */ t("div", { style: { width: 80, fontSize: 11, fontWeight: 500, textAlign: "center", fontVariantNumeric: "tabular-nums", color: k ? e.today : e.textMuted }, children: q(g.start) }),
+                /* @__PURE__ */ t("div", { style: { width: 80, fontSize: 11, fontWeight: 500, textAlign: "center", fontVariantNumeric: "tabular-nums", color: k ? e.today : e.textMuted }, children: v ? "—" : q(g.end) })
               ]
             },
-            i.id
+            g.id
           );
-        })
+        }) })
       }
     )
   ] });
 }
-function bt(n, c, p = "en") {
-  const T = c === "day" ? ut : ft, h = (r, i) => {
-    const I = [], l = (/* @__PURE__ */ new Date()).toDateString();
-    let $ = -1;
-    for (let u = 0; u < i; u++) {
-      const D = Z(r, u), s = D.toDateString() === l;
-      s && ($ = u), I.push({
-        date: D,
-        isToday: s,
-        isWeekend: D.getDay() === 0 || D.getDay() === 6
+function vt(n, p, l = "en") {
+  const I = p === "day" ? yt : xt, h = (c, s) => {
+    const g = [], d = (/* @__PURE__ */ new Date()).toDateString();
+    let C = -1;
+    for (let v = 0; v < s; v++) {
+      const k = ee(c, v), T = k.toDateString() === d;
+      T && (C = v), g.push({
+        date: k,
+        isToday: T,
+        isWeekend: k.getDay() === 0 || k.getDay() === 6
       });
     }
-    return { daysArr: I, todayIndex: $ };
+    return { daysArr: g, todayIndex: C };
   };
   if (n.length === 0) {
-    const r = /* @__PURE__ */ new Date(), i = Ye(r), I = We(r), l = ye(i, I) + 1, { daysArr: $, todayIndex: u } = h(i, l);
+    const c = /* @__PURE__ */ new Date(), s = Xe(c), g = Be(c), d = be(s, g) + 1, { daysArr: C, todayIndex: v } = h(s, d);
     return {
-      start: i,
-      end: I,
-      totalDays: l,
-      dayWidth: T,
-      totalWidth: l * T,
-      months: [{ date: i, label: `${Oe(i, p)} ${i.getFullYear()}`, startDay: 0, days: l, width: l * T }],
-      years: [{ label: i.getFullYear().toString(), width: l * T }],
-      days: $,
-      todayIndex: u
+      start: s,
+      end: g,
+      totalDays: d,
+      dayWidth: I,
+      totalWidth: d * I,
+      months: [{ date: s, label: `${_e(s, l)} ${s.getFullYear()}`, startDay: 0, days: d, width: d * I }],
+      years: [{ label: s.getFullYear().toString(), width: d * I }],
+      days: C,
+      todayIndex: v
     };
   }
-  let w = new Date(n[0].start), x = new Date(n[0].end);
-  n.forEach((r) => {
-    r.start < w && (w = new Date(r.start)), r.end > x && (x = new Date(r.end));
+  let u = new Date(n[0].start), x = new Date(n[0].end);
+  n.forEach((c) => {
+    c.start < u && (u = new Date(c.start)), c.end > x && (x = new Date(c.end));
   });
-  const C = Ye(Z(w, -14)), M = We(Z(x, 14)), f = ye(C, M) + 1, E = [];
-  let b = new Date(C);
-  for (; b <= M; ) {
-    const r = We(b), i = r > M ? M : r, I = ye(C, b), l = ye(b, i) + 1;
-    E.push({
-      date: new Date(b),
-      label: `${Oe(b, p)} ${b.getFullYear()}`,
-      startDay: I,
-      days: l,
-      width: l * T
-    }), b = new Date(b.getFullYear(), b.getMonth() + 1, 1);
+  const M = Xe(ee(u, -14)), D = Be(ee(x, 14)), f = be(M, D) + 1, R = [];
+  let m = new Date(M);
+  for (; m <= D; ) {
+    const c = Be(m), s = c > D ? D : c, g = be(M, m), d = be(m, s) + 1;
+    R.push({
+      date: new Date(m),
+      label: `${_e(m, l)} ${m.getFullYear()}`,
+      startDay: g,
+      days: d,
+      width: d * I
+    }), m = new Date(m.getFullYear(), m.getMonth() + 1, 1);
   }
-  const { daysArr: F, todayIndex: S } = h(C, f), B = [];
-  if (c === "month") {
-    let r = "", i = 0;
-    for (const I of E) {
-      const l = I.date.getFullYear().toString();
-      l !== r ? (r && B.push({ label: r, width: i * T }), r = l, i = I.days) : i += I.days;
+  const { daysArr: A, todayIndex: w } = h(M, f), B = [];
+  if (p === "month") {
+    let c = "", s = 0;
+    for (const g of R) {
+      const d = g.date.getFullYear().toString();
+      d !== c ? (c && B.push({ label: c, width: s * I }), c = d, s = g.days) : s += g.days;
     }
-    r && B.push({ label: r, width: i * T });
+    c && B.push({ label: c, width: s * I });
   }
-  return { start: C, end: M, totalDays: f, dayWidth: T, totalWidth: f * T, months: E, years: B, days: F, todayIndex: S };
+  return { start: M, end: D, totalDays: f, dayWidth: I, totalWidth: f * I, months: R, years: B, days: A, todayIndex: w };
 }
-function se(n, c) {
-  return ye(c.start, n) * c.dayWidth;
+function pe(n, p) {
+  return be(p.start, n) * p.dayWidth;
 }
-function mt({
+function wt({
   task: n,
-  x: c,
-  y: p,
-  w: T,
+  x: p,
+  y: l,
+  w: I,
   progW: h,
-  isHov: w,
+  isHov: u,
   isDrag: x,
-  isResize: C,
-  isCritical: M,
+  isResize: M,
+  isCritical: D,
   isDelayed: f,
-  isConnectTarget: E,
-  showDots: b,
-  isBarDimmed: F,
-  isBarHighlighted: S,
+  isConnectTarget: R,
+  showDots: m,
+  isBarDimmed: A,
+  isBarHighlighted: w,
   commonEvents: B,
-  handleResizeMouseDown: r,
-  handleConnectDotMouseDown: i
+  handleResizeMouseDown: c,
+  handleConnectDotMouseDown: s
 }) {
-  const { timeline: I, viewMode: l } = Ie();
+  const { timeline: g, viewMode: d } = me();
   if (n.originalType === "step") {
-    const $ = oe[n.colorIdx ?? 0], u = p + (_ - ne) / 2, D = !!(n.previsionStart && n.previsionEnd), s = D ? se(n.previsionStart, I) : 0, y = D ? Math.max(se(n.previsionEnd, I) - s, l === "month" ? I.dayWidth : 6) : 0, N = u + ne + 3;
-    return /* @__PURE__ */ o(de, { children: [
-      D && /* @__PURE__ */ t(
+    const C = ae[n.colorIdx ?? 0], v = l + (G - ie) / 2, k = !!(n.previsionStart && n.previsionEnd), T = k ? pe(n.previsionStart, g) : 0, a = k ? Math.max(pe(n.previsionEnd, g) - T, d === "month" ? g.dayWidth : 6) : 0, $ = v + ie + 3;
+    return /* @__PURE__ */ o(ce, { children: [
+      k && /* @__PURE__ */ t(
         "div",
         {
-          title: `Previsto: ${Q(n.previsionStart)} → ${Q(n.previsionEnd)}`,
+          title: `Previsto: ${q(n.previsionStart)} → ${q(n.previsionEnd)}`,
           style: {
             position: "absolute",
-            left: s,
-            top: N,
-            width: y,
+            left: T,
+            top: $,
+            width: a,
             height: 5,
             borderRadius: 3,
-            background: `${$.progress}33`,
-            border: `1.5px solid ${$.progress}66`,
-            boxShadow: `inset 0 0 0 1px ${$.progress}22`,
+            background: `${C.progress}33`,
+            border: `1.5px solid ${C.progress}66`,
+            boxShadow: `inset 0 0 0 1px ${C.progress}22`,
             pointerEvents: "none",
             zIndex: 5
           }
@@ -597,34 +606,34 @@ function mt({
           ...B,
           style: {
             position: "absolute",
-            left: c,
-            top: u,
-            width: T,
-            height: ne,
-            borderRadius: ne / 2,
-            background: f ? "linear-gradient(135deg, #fdd, #fee)" : $.bar,
-            border: M ? `2px solid ${e.today}` : f ? `1.5px solid ${e.today}88` : `1.5px solid ${$.barBorder}`,
-            cursor: x || C ? "grabbing" : "grab",
-            zIndex: w || E ? 20 : 10,
-            boxShadow: E ? `0 0 0 2px ${e.group}, 0 4px 16px ${e.group}33` : M ? `0 0 0 1px ${e.today}44, 0 3px 12px ${e.today}22` : S && !w ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : w ? `0 3px 12px ${$.progress}22` : "none",
-            transform: w ? "scaleY(1.06)" : "scaleY(1)",
-            opacity: F ? 0.15 : 1,
-            transition: x || C ? "none" : "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
+            left: p,
+            top: v,
+            width: I,
+            height: ie,
+            borderRadius: ie / 2,
+            background: f ? "linear-gradient(135deg, #fdd, #fee)" : C.bar,
+            border: D ? `2px solid ${e.today}` : f ? `1.5px solid ${e.today}88` : `1.5px solid ${C.barBorder}`,
+            cursor: x || M ? "grabbing" : "grab",
+            zIndex: u || R ? 20 : 10,
+            boxShadow: R ? `0 0 0 2px ${e.group}, 0 4px 16px ${e.group}33` : D ? `0 0 0 1px ${e.today}44, 0 3px 12px ${e.today}22` : w && !u ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : u ? `0 3px 12px ${C.progress}22` : "none",
+            transform: u ? "scaleY(1.06)" : "scaleY(1)",
+            opacity: A ? 0.15 : 1,
+            transition: x || M ? "none" : "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
             overflow: "visible"
           },
           children: [
-            /* @__PURE__ */ o("div", { style: { position: "absolute", left: 0, top: 0, width: T, height: "100%", borderRadius: ne / 2, overflow: "hidden", pointerEvents: "none" }, children: [
+            /* @__PURE__ */ o("div", { style: { position: "absolute", left: 0, top: 0, width: I, height: "100%", borderRadius: ie / 2, overflow: "hidden", pointerEvents: "none" }, children: [
               /* @__PURE__ */ t("div", { style: {
                 position: "absolute",
                 left: 0,
                 top: 0,
                 width: h,
                 height: "100%",
-                background: f ? `linear-gradient(90deg, ${e.today}cc, ${e.today}88)` : `linear-gradient(90deg, ${$.progress}, ${$.progress}cc)`,
-                borderRadius: `${ne / 2}px 0 0 ${ne / 2}px`,
-                transition: x || C ? "none" : "width 0.3s"
+                background: f ? `linear-gradient(90deg, ${e.today}cc, ${e.today}88)` : `linear-gradient(90deg, ${C.progress}, ${C.progress}cc)`,
+                borderRadius: `${ie / 2}px 0 0 ${ie / 2}px`,
+                transition: x || M ? "none" : "width 0.3s"
               } }),
-              T > 50 && /* @__PURE__ */ o("span", { style: {
+              I > 50 && /* @__PURE__ */ o("span", { style: {
                 position: "absolute",
                 inset: 0,
                 display: "flex",
@@ -633,7 +642,7 @@ function mt({
                 fontSize: 10,
                 fontWeight: 700,
                 letterSpacing: "0.05em",
-                color: n.progress > 50 ? "#fff" : f ? e.today : $.progress,
+                color: n.progress > 50 ? "#fff" : f ? e.today : C.progress,
                 zIndex: 1,
                 pointerEvents: "none"
               }, children: [
@@ -641,11 +650,11 @@ function mt({
                 "%"
               ] })
             ] }),
-            /* @__PURE__ */ t("div", { onMouseDown: (A) => r(A, n, "left"), style: { position: "absolute", left: 0, top: 0, width: 8, height: "100%", cursor: "col-resize", zIndex: 2, borderRadius: `${ne / 2}px 0 0 ${ne / 2}px` } }),
-            /* @__PURE__ */ t("div", { onMouseDown: (A) => r(A, n, "right"), style: { position: "absolute", right: 0, top: 0, width: 8, height: "100%", cursor: "col-resize", zIndex: 2, borderRadius: `0 ${ne / 2}px ${ne / 2}px 0` } }),
-            b && /* @__PURE__ */ o(de, { children: [
-              /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (A) => i(A, n, "left"), style: { position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } }),
-              /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (A) => i(A, n, "right"), style: { position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } })
+            /* @__PURE__ */ t("div", { onMouseDown: (W) => c(W, n, "left"), style: { position: "absolute", left: 0, top: 0, width: 8, height: "100%", cursor: "col-resize", zIndex: 2, borderRadius: `${ie / 2}px 0 0 ${ie / 2}px` } }),
+            /* @__PURE__ */ t("div", { onMouseDown: (W) => c(W, n, "right"), style: { position: "absolute", right: 0, top: 0, width: 8, height: "100%", cursor: "col-resize", zIndex: 2, borderRadius: `0 ${ie / 2}px ${ie / 2}px 0` } }),
+            m && /* @__PURE__ */ o(ce, { children: [
+              /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (W) => s(W, n, "left"), style: { position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } }),
+              /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (W) => s(W, n, "right"), style: { position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } })
             ] })
           ]
         }
@@ -653,7 +662,7 @@ function mt({
     ] });
   }
   if (n.originalType === "milestone") {
-    const $ = p + (_ - fe) / 2;
+    const C = l + (G - xe) / 2;
     return /* @__PURE__ */ o(
       "div",
       {
@@ -661,41 +670,41 @@ function mt({
         ...B,
         style: {
           position: "absolute",
-          left: c - 6,
-          top: $,
-          height: fe,
-          minWidth: Le,
-          borderRadius: fe / 2,
-          background: M ? "linear-gradient(135deg, #fee, #fff5f5)" : "linear-gradient(135deg, #e8f5ee, #f0f8f4)",
-          border: E ? `2px solid ${e.group}` : M ? `2px solid ${e.today}` : `1.5px solid ${e.milestoneRing}`,
+          left: p - 6,
+          top: C,
+          height: xe,
+          minWidth: Ne,
+          borderRadius: xe / 2,
+          background: D ? "linear-gradient(135deg, #fee, #fff5f5)" : "linear-gradient(135deg, #e8f5ee, #f0f8f4)",
+          border: R ? `2px solid ${e.group}` : D ? `2px solid ${e.today}` : `1.5px solid ${e.milestoneRing}`,
           display: "flex",
           alignItems: "center",
           gap: 6,
           paddingLeft: 4,
           paddingRight: 12,
           cursor: x ? "grabbing" : "grab",
-          zIndex: w || E ? 20 : 10,
-          boxShadow: E ? `0 0 0 2px ${e.group}, 0 4px 16px ${e.group}33` : M ? `0 0 0 1px ${e.today}44, 0 3px 12px ${e.today}22` : S && !w ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : w ? `0 3px 12px ${e.milestone}22` : "0 1px 3px rgba(0,0,0,0.06)",
-          opacity: F ? 0.15 : 1,
+          zIndex: u || R ? 20 : 10,
+          boxShadow: R ? `0 0 0 2px ${e.group}, 0 4px 16px ${e.group}33` : D ? `0 0 0 1px ${e.today}44, 0 3px 12px ${e.today}22` : w && !u ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : u ? `0 3px 12px ${e.milestone}22` : "0 1px 3px rgba(0,0,0,0.06)",
+          opacity: A ? 0.15 : 1,
           transition: "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
-          transform: w ? "translateY(-1px)" : "none",
+          transform: u ? "translateY(-1px)" : "none",
           whiteSpace: "nowrap",
           overflow: "visible"
         },
         children: [
-          /* @__PURE__ */ t("div", { style: { width: 20, height: 20, borderRadius: "50%", background: M ? e.today : e.milestone, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(Se, { size: 11, color: "#fff", strokeWidth: 2.5 }) }),
-          /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 600, color: M ? e.today : e.milestone, overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }, children: n.name }),
+          /* @__PURE__ */ t("div", { style: { width: 20, height: 20, borderRadius: "50%", background: D ? e.today : e.milestone, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(Te, { size: 11, color: "#fff", strokeWidth: 2.5 }) }),
+          /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 600, color: D ? e.today : e.milestone, overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }, children: n.name }),
           n.progress >= 100 && /* @__PURE__ */ t("span", { style: { fontSize: 9, fontWeight: 700, color: "#fff", background: e.milestoneRing, borderRadius: 6, padding: "1px 5px" }, children: "✓" }),
-          b && /* @__PURE__ */ o(de, { children: [
-            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (u) => i(u, n, "left"), style: { position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } }),
-            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (u) => i(u, n, "right"), style: { position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } })
+          m && /* @__PURE__ */ o(ce, { children: [
+            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (v) => s(v, n, "left"), style: { position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } }),
+            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (v) => s(v, n, "right"), style: { position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } })
           ] })
         ]
       }
     );
   }
   if (n.originalType === "event") {
-    const $ = p + (_ - fe) / 2;
+    const C = l + (G - xe) / 2;
     return /* @__PURE__ */ o(
       "div",
       {
@@ -703,41 +712,41 @@ function mt({
         ...B,
         style: {
           position: "absolute",
-          left: c - 6,
-          top: $,
-          height: fe,
-          minWidth: Le,
-          borderRadius: fe / 2,
-          background: M ? "linear-gradient(135deg, #fee, #fff5f5)" : "linear-gradient(135deg, #fff7ed, #ffedd5)",
-          border: E ? `2px solid ${e.group}` : M ? `2px solid ${e.today}` : `1.5px solid ${e.event}`,
+          left: p - 6,
+          top: C,
+          height: xe,
+          minWidth: Ne,
+          borderRadius: xe / 2,
+          background: D ? "linear-gradient(135deg, #fee, #fff5f5)" : "linear-gradient(135deg, #fff7ed, #ffedd5)",
+          border: R ? `2px solid ${e.group}` : D ? `2px solid ${e.today}` : `1.5px solid ${e.event}`,
           display: "flex",
           alignItems: "center",
           gap: 6,
           paddingLeft: 4,
           paddingRight: 12,
           cursor: x ? "grabbing" : "grab",
-          zIndex: w || E ? 20 : 10,
-          boxShadow: E ? `0 0 0 2px ${e.group}, 0 4px 16px ${e.group}33` : M ? `0 0 0 1px ${e.today}44, 0 3px 12px ${e.today}22` : S && !w ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : w ? `0 3px 12px ${e.event}33` : "0 1px 3px rgba(0,0,0,0.06)",
-          opacity: F ? 0.15 : 1,
+          zIndex: u || R ? 20 : 10,
+          boxShadow: R ? `0 0 0 2px ${e.group}, 0 4px 16px ${e.group}33` : D ? `0 0 0 1px ${e.today}44, 0 3px 12px ${e.today}22` : w && !u ? `0 0 0 2px ${e.group}99, 0 3px 14px ${e.group}33` : u ? `0 3px 12px ${e.event}33` : "0 1px 3px rgba(0,0,0,0.06)",
+          opacity: A ? 0.15 : 1,
           transition: "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
-          transform: w ? "translateY(-1px)" : "none",
+          transform: u ? "translateY(-1px)" : "none",
           whiteSpace: "nowrap",
           overflow: "visible"
         },
         children: [
-          /* @__PURE__ */ t("div", { style: { width: 20, height: 20, borderRadius: "50%", background: M ? e.today : e.event, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(ke, { size: 11, color: "#fff", strokeWidth: 2.5 }) }),
-          /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 600, color: M ? e.today : e.event, overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }, children: n.name }),
+          /* @__PURE__ */ t("div", { style: { width: 20, height: 20, borderRadius: "50%", background: D ? e.today : e.event, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(De, { size: 11, color: "#fff", strokeWidth: 2.5 }) }),
+          /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 600, color: D ? e.today : e.event, overflow: "hidden", textOverflow: "ellipsis", maxWidth: 130 }, children: n.name }),
           n.progress >= 100 && /* @__PURE__ */ t("span", { style: { fontSize: 9, fontWeight: 700, color: "#fff", background: e.event, borderRadius: 6, padding: "1px 5px" }, children: "✓" }),
-          b && /* @__PURE__ */ o(de, { children: [
-            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (u) => i(u, n, "left"), style: { position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } }),
-            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (u) => i(u, n, "right"), style: { position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } })
+          m && /* @__PURE__ */ o(ce, { children: [
+            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (v) => s(v, n, "left"), style: { position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } }),
+            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (v) => s(v, n, "right"), style: { position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } })
           ] })
         ]
       }
     );
   }
   if (n.originalType === "note") {
-    const u = p + 4, D = n.noteColor || "#FEF08A", s = n.filesCount || 0;
+    const v = l + 4, k = n.noteColor || "#FEF08A", T = n.filesCount || 0;
     return /* @__PURE__ */ o(
       "div",
       {
@@ -745,18 +754,18 @@ function mt({
         ...B,
         style: {
           position: "absolute",
-          left: c,
-          top: u,
+          left: p,
+          top: v,
           width: 148,
           minHeight: 72,
-          background: D,
+          background: k,
           borderRadius: 3,
           cursor: x ? "grabbing" : "grab",
-          zIndex: w || E ? 20 : 10,
-          boxShadow: E ? `0 0 0 2px ${e.group}, 4px 6px 16px rgba(0,0,0,0.22)` : S && !w ? `0 0 0 2px ${e.group}99, 3px 4px 14px rgba(0,0,0,0.18)` : w ? "4px 6px 18px rgba(0,0,0,0.22)" : "2px 3px 8px rgba(0,0,0,0.13)",
-          opacity: F ? 0.2 : 1,
+          zIndex: u || R ? 20 : 10,
+          boxShadow: R ? `0 0 0 2px ${e.group}, 4px 6px 16px rgba(0,0,0,0.22)` : w && !u ? `0 0 0 2px ${e.group}99, 3px 4px 14px rgba(0,0,0,0.18)` : u ? "4px 6px 18px rgba(0,0,0,0.22)" : "2px 3px 8px rgba(0,0,0,0.13)",
+          opacity: A ? 0.2 : 1,
           transition: x ? "none" : "box-shadow 0.2s, transform 0.15s, opacity 0.18s",
-          transform: w ? "rotate(-1.5deg) scale(1.03) translateY(-2px)" : "rotate(0deg)",
+          transform: u ? "rotate(-1.5deg) scale(1.03) translateY(-2px)" : "rotate(0deg)",
           border: "1px solid rgba(0,0,0,0.06)",
           padding: "12px 10px 10px",
           display: "flex",
@@ -796,22 +805,22 @@ function mt({
             whiteSpace: "nowrap"
           }, children: n.projectTitle }),
           /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 2 }, children: [
-            /* @__PURE__ */ t("span", { style: { fontSize: 9, fontWeight: 500, color: "rgba(0,0,0,0.45)" }, children: Q(n.start) }),
-            s > 0 && /* @__PURE__ */ o("span", { style: {
+            /* @__PURE__ */ t("span", { style: { fontSize: 9, fontWeight: 500, color: "rgba(0,0,0,0.45)" }, children: q(n.start) }),
+            T > 0 && /* @__PURE__ */ o("span", { style: {
               display: "flex",
               alignItems: "center",
               gap: 2,
               fontSize: 9,
               color: "rgba(0,0,0,0.45)"
             }, children: [
-              /* @__PURE__ */ t(Fe, { size: 8 }),
+              /* @__PURE__ */ t($e, { size: 8 }),
               " ",
-              s
+              T
             ] })
           ] }),
-          b && /* @__PURE__ */ o(de, { children: [
-            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (y) => i(y, n, "left"), style: { position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } }),
-            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (y) => i(y, n, "right"), style: { position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } })
+          m && /* @__PURE__ */ o(ce, { children: [
+            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (a) => s(a, n, "left"), style: { position: "absolute", left: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } }),
+            /* @__PURE__ */ t("div", { "data-task-id": n.id, onMouseDown: (a) => s(a, n, "right"), style: { position: "absolute", right: -7, top: "50%", transform: "translateY(-50%)", width: 14, height: 14, borderRadius: "50%", background: e.group, border: "2.5px solid #fff", boxShadow: "0 1px 4px rgba(0,0,0,0.25)", cursor: "crosshair", zIndex: 30 } })
           ] })
         ]
       }
@@ -819,23 +828,23 @@ function mt({
   }
   return null;
 }
-function vt() {
+function St() {
   const {
     arrows: n,
-    hoveredTaskId: c,
-    selectedTaskId: p,
-    relatedIds: T
-  } = Ie();
-  return /* @__PURE__ */ t(de, { children: n.map((h, w) => {
-    const x = c === h.predId || c === h.succId, C = !p || h.predId === p || h.succId === p || T.has(h.predId) || T.has(h.succId), M = p !== null && C, f = x ? e.arrowHover : M ? e.group : e.arrow;
-    return /* @__PURE__ */ o("g", { style: { opacity: C ? M ? 1 : void 0 : 0.08, transition: "opacity 0.18s" }, children: [
+    hoveredTaskId: p,
+    selectedTaskId: l,
+    relatedIds: I
+  } = me();
+  return /* @__PURE__ */ t(ce, { children: n.map((h, u) => {
+    const x = p === h.predId || p === h.succId, M = !l || h.predId === l || h.succId === l || I.has(h.predId) || I.has(h.succId), D = l !== null && M, f = x ? e.arrowHover : D ? e.group : e.arrow;
+    return /* @__PURE__ */ o("g", { style: { opacity: M ? D ? 1 : void 0 : 0.08, transition: "opacity 0.18s" }, children: [
       /* @__PURE__ */ t(
         "path",
         {
           d: h.path,
           fill: "none",
           stroke: f,
-          strokeWidth: M ? 2.5 : x ? 2 : 1.5,
+          strokeWidth: D ? 2.5 : x ? 2 : 1.5,
           style: { transition: "stroke 0.2s, stroke-width 0.2s" }
         }
       ),
@@ -847,88 +856,90 @@ function vt() {
           style: { transition: "fill 0.2s" }
         }
       )
-    ] }, w);
+    ] }, u);
   }) });
 }
-const ze = (n) => ({
+const Le = (n) => ({
   id: n.id,
   name: n.name,
   start: n.start,
   end: n.end,
   type: n.originalType === "step" ? "task" : n.originalType,
   progress: n.progress
-}), ve = (n, c) => {
+}), ke = (n, p) => {
   switch (n) {
     case "step":
-      return /* @__PURE__ */ t("div", { style: { width: 12, height: 12, borderRadius: 2, background: oe[c ?? 0].bar, border: `1.5px solid ${oe[c ?? 0].barBorder}`, flexShrink: 0 } });
+      return /* @__PURE__ */ t("div", { style: { width: 12, height: 12, borderRadius: 2, background: ae[p ?? 0].bar, border: `1.5px solid ${ae[p ?? 0].barBorder}`, flexShrink: 0 } });
     case "milestone":
-      return /* @__PURE__ */ t("div", { style: { width: 16, height: 16, borderRadius: "50%", background: e.milestone, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(Se, { size: 8, color: "#fff" }) });
+      return /* @__PURE__ */ t("div", { style: { width: 16, height: 16, borderRadius: "50%", background: e.milestone, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(Te, { size: 8, color: "#fff" }) });
     case "event":
-      return /* @__PURE__ */ t("div", { style: { width: 16, height: 16, borderRadius: "50%", background: e.event, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(ke, { size: 8, color: "#fff" }) });
+      return /* @__PURE__ */ t("div", { style: { width: 16, height: 16, borderRadius: "50%", background: e.event, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }, children: /* @__PURE__ */ t(De, { size: 8, color: "#fff" }) });
     case "note":
       return /* @__PURE__ */ t("div", { style: { width: 12, height: 14, background: e.note, borderRadius: 2, boxShadow: "1px 1px 2px rgba(0,0,0,0.1)", flexShrink: 0 } });
     default:
       return null;
   }
 };
-function wt() {
+function kt() {
   const {
     props: n,
-    viewMode: c,
-    timeline: p,
-    displayRows: T,
+    viewMode: p,
+    timeline: l,
+    displayRows: I,
     dragState: h,
-    resizeState: w,
+    resizeState: u,
     connectState: x,
-    pendingConnection: C,
-    setPendingConnection: M,
+    pendingConnection: M,
+    setPendingConnection: D,
     depModalType: f,
-    setDepModalType: E,
-    depModalLag: b,
-    setDepModalLag: F,
-    depCreating: S,
+    setDepModalType: R,
+    depModalLag: m,
+    setDepModalLag: A,
+    depCreating: w,
     deletingDepId: B,
-    setDeletingDepId: r,
-    chartMenu: i,
-    setChartMenu: I,
-    rightBodyRef: l,
-    timeHeaderRef: $,
-    handleChartMouseDown: u,
-    handleChartWheel: D,
-    openChartMenu: s,
-    hoveredTaskId: y,
-    setHoveredTaskId: N,
-    selectedTaskId: A,
-    setSelectedTaskId: ee,
-    tooltip: k,
-    setTooltip: g,
-    popupState: Y,
-    setPopupState: V,
-    criticalIds: q,
-    delayedIds: H,
-    relatedIds: ie,
-    handleBarMouseDown: xe,
-    handleResizeMouseDown: Te,
-    handleConnectDotMouseDown: be,
-    handleCreateDependency: Me
-  } = Ie(), {
-    translations: le,
-    onViewStage: me,
-    onEditStage: De,
-    onDeleteStage: j,
-    onDeleteDependency: X,
-    onAddNewStage: Re,
-    onAddMilestone: Ce,
-    onAddEvent: Ee,
-    onAddNote: $e
-  } = n, R = (m, a) => le ? typeof le == "function" ? le(m, a) : le[m] || a : a, he = (m, a) => Math.round((a.getTime() - m.getTime()) / 864e5) + 1, re = Math.max(T.length * _, 400) + 80, ue = () => V({ isOpen: !1, position: { x: 0, y: 0 }, task: null });
+    setDeletingDepId: c,
+    chartMenu: s,
+    setChartMenu: g,
+    rightBodyRef: d,
+    timeHeaderRef: C,
+    handleChartMouseDown: v,
+    handleChartWheel: k,
+    openChartMenu: T,
+    handleRightScroll: a,
+    hoveredTaskId: $,
+    setHoveredTaskId: W,
+    selectedTaskId: L,
+    setSelectedTaskId: X,
+    tooltip: r,
+    setTooltip: _,
+    popupState: V,
+    setPopupState: te,
+    criticalIds: K,
+    delayedIds: J,
+    relatedIds: se,
+    handleBarMouseDown: Me,
+    handleResizeMouseDown: ve,
+    handleConnectDotMouseDown: Re,
+    handleCreateDependency: we
+  } = me(), {
+    translations: ge,
+    onViewStage: Se,
+    onEditStage: Ce,
+    onDeleteStage: Fe,
+    onDeleteDependency: P,
+    onAddNewStage: H,
+    onAddMilestone: ze,
+    onAddEvent: Ae,
+    onAddNote: Ee
+  } = n, F = (b, j) => ge ? typeof ge == "function" ? ge(b, j) : ge[b] || j : j, de = (b, j) => Math.round((j.getTime() - b.getTime()) / 864e5) + 1, ne = Math.max(I.length * G, 400) + 80, fe = () => te({ isOpen: !1, position: { x: 0, y: 0 }, task: null });
   return /* @__PURE__ */ o("div", { style: { flex: 1, width: "100%", background: "#FAFAFA", display: "flex", flexDirection: "column", position: "relative", overflow: "hidden", borderLeft: `1px solid ${e.borderLight}` }, children: [
     /* @__PURE__ */ t(
       "div",
       {
-        ref: $,
+        ref: C,
         style: {
-          height: we * 2,
+          boxSizing: "border-box",
+          height: Ie * 2,
           background: e.headerBg,
           borderBottom: `1px solid ${e.borderLight}`,
           overflow: "hidden",
@@ -936,18 +947,18 @@ function wt() {
           flexShrink: 0,
           boxShadow: "0 1px 3px rgba(0,0,0,0.02)"
         },
-        onWheel: D,
-        children: /* @__PURE__ */ o("div", { style: { width: p.totalWidth, height: "100%", position: "relative" }, children: [
-          /* @__PURE__ */ o("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: we, display: "flex" }, children: [
-            c === "day" && p.months.map((m, a) => /* @__PURE__ */ t("div", { style: { width: m.width, position: "relative", height: "100%", borderRight: `1px solid ${e.borderLight}`, paddingLeft: 12, display: "flex", alignItems: "flex-end", paddingBottom: 6 }, children: /* @__PURE__ */ t("span", { style: { fontSize: 13, fontWeight: 700, color: e.textTitle, letterSpacing: "0.02em" }, children: m.label }) }, a)),
-            c === "month" && p.years?.map((m, a) => /* @__PURE__ */ t("div", { style: { width: m.width, position: "relative", height: "100%", borderRight: `1px solid ${e.borderLight}`, paddingLeft: 12, display: "flex", alignItems: "flex-end", paddingBottom: 6 }, children: /* @__PURE__ */ t("span", { style: { fontSize: 13, fontWeight: 700, color: e.textTitle, letterSpacing: "0.02em" }, children: m.label }) }, a))
+        onWheel: k,
+        children: /* @__PURE__ */ o("div", { style: { width: l.totalWidth, height: "100%", position: "relative" }, children: [
+          /* @__PURE__ */ o("div", { style: { position: "absolute", top: 0, left: 0, right: 0, height: Ie, display: "flex" }, children: [
+            p === "day" && l.months.map((b, j) => /* @__PURE__ */ t("div", { style: { width: b.width, position: "relative", height: "100%", borderRight: `1px solid ${e.borderLight}`, paddingLeft: 12, display: "flex", alignItems: "flex-end", paddingBottom: 6 }, children: /* @__PURE__ */ t("span", { style: { fontSize: 13, fontWeight: 700, color: e.textTitle, letterSpacing: "0.02em" }, children: b.label }) }, j)),
+            p === "month" && l.years?.map((b, j) => /* @__PURE__ */ t("div", { style: { width: b.width, position: "relative", height: "100%", borderRight: `1px solid ${e.borderLight}`, paddingLeft: 12, display: "flex", alignItems: "flex-end", paddingBottom: 6 }, children: /* @__PURE__ */ t("span", { style: { fontSize: 13, fontWeight: 700, color: e.textTitle, letterSpacing: "0.02em" }, children: b.label }) }, j))
           ] }),
-          /* @__PURE__ */ o("div", { style: { position: "absolute", top: we, left: 0, right: 0, height: we, display: "flex" }, children: [
-            c === "day" && p.days.map((m, a) => {
-              const d = m.isToday;
-              return /* @__PURE__ */ t("div", { style: { width: p.dayWidth, position: "relative", height: "100%", borderRight: `1px solid ${e.borderLight}`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }, children: /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: d ? 800 : 500, color: d ? e.today : e.textSecondary, letterSpacing: "-0.03em" }, children: m.date.getDate().toString().padStart(2, "0") }) }, a);
+          /* @__PURE__ */ o("div", { style: { position: "absolute", top: Ie, left: 0, right: 0, height: Ie, display: "flex" }, children: [
+            p === "day" && l.days.map((b, j) => {
+              const i = b.isToday;
+              return /* @__PURE__ */ t("div", { style: { width: l.dayWidth, position: "relative", height: "100%", borderRight: `1px solid ${e.borderLight}`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }, children: /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: i ? 800 : 500, color: i ? e.today : e.textSecondary, letterSpacing: "-0.03em" }, children: b.date.getDate().toString().padStart(2, "0") }) }, j);
             }),
-            c === "month" && p.months.map((m, a) => /* @__PURE__ */ t("div", { style: { width: m.width, position: "relative", height: "100%", borderRight: `1px solid ${e.borderLight}`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }, children: /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 600, color: e.textPrimary, textTransform: "uppercase", letterSpacing: "0.05em" }, children: m.label.substring(0, 3) }) }, a))
+            p === "month" && l.months.map((b, j) => /* @__PURE__ */ t("div", { style: { width: b.width, position: "relative", height: "100%", borderRight: `1px solid ${e.borderLight}`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }, children: /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 600, color: e.textPrimary, textTransform: "uppercase", letterSpacing: "0.05em" }, children: b.label.substring(0, 3) }) }, j))
           ] })
         ] })
       }
@@ -955,88 +966,90 @@ function wt() {
     /* @__PURE__ */ t(
       "div",
       {
-        ref: l,
+        ref: d,
         className: "zg-no-scrollbar",
         style: { flex: 1, overflow: "auto", background: "#fff", position: "relative" },
-        onMouseDown: u,
-        onWheel: D,
-        onContextMenu: s,
-        children: /* @__PURE__ */ o("div", { style: { width: p.totalWidth, height: re, position: "relative" }, children: [
-          /* @__PURE__ */ o("svg", { width: p.totalWidth, height: re, style: { position: "absolute", top: 0, left: 0, pointerEvents: "none" }, children: [
+        onScroll: a,
+        onMouseDown: v,
+        onWheel: k,
+        onContextMenu: T,
+        children: /* @__PURE__ */ o("div", { style: { width: l.totalWidth, height: ne, position: "relative" }, children: [
+          /* @__PURE__ */ o("svg", { width: l.totalWidth, height: ne, style: { position: "absolute", top: 0, left: 0, pointerEvents: "none" }, children: [
             /* @__PURE__ */ o("defs", { children: [
-              /* @__PURE__ */ t("pattern", { id: "gantt-y-lines", x: "0", y: "0", width: p.dayWidth, height: _, patternUnits: "userSpaceOnUse", children: /* @__PURE__ */ t("line", { x1: p.dayWidth, y1: "0", x2: p.dayWidth, y2: _, stroke: e.border, strokeWidth: "1", strokeDasharray: "4 4", opacity: "0.4" }) }),
-              /* @__PURE__ */ t("pattern", { id: "gantt-x-lines", x: "0", y: "0", width: p.dayWidth, height: _, patternUnits: "userSpaceOnUse", children: /* @__PURE__ */ t("line", { x1: "0", y1: _, x2: p.dayWidth, y2: _, stroke: e.borderLight, strokeWidth: "1" }) })
+              /* @__PURE__ */ t("pattern", { id: "gantt-y-lines", x: "0", y: "0", width: l.dayWidth, height: G, patternUnits: "userSpaceOnUse", children: /* @__PURE__ */ t("line", { x1: l.dayWidth, y1: "0", x2: l.dayWidth, y2: G, stroke: e.border, strokeWidth: "1", strokeDasharray: "4 4", opacity: "0.4" }) }),
+              /* @__PURE__ */ t("pattern", { id: "gantt-x-lines", x: "0", y: "0", width: l.dayWidth, height: G, patternUnits: "userSpaceOnUse", children: /* @__PURE__ */ t("line", { x1: "0", y1: G, x2: l.dayWidth, y2: G, stroke: e.borderLight, strokeWidth: "1" }) })
             ] }),
             /* @__PURE__ */ t("rect", { width: "100%", height: "100%", fill: "url(#gantt-x-lines)" }),
             /* @__PURE__ */ t("rect", { width: "100%", height: "100%", fill: "url(#gantt-y-lines)" }),
-            c === "day" && p.days.map((m, a) => m.isWeekend ? /* @__PURE__ */ t("rect", { x: a * p.dayWidth, y: 0, width: p.dayWidth, height: re, fill: e.weekendBg, opacity: 0.6 }, `we-${a}`) : null),
-            c === "month" && p.days.map((m, a) => m.isWeekend ? /* @__PURE__ */ t("rect", { x: a * p.dayWidth, y: 0, width: p.dayWidth, height: re, fill: e.weekendBg, opacity: 0.3 }, `wem-${a}`) : null),
-            p.todayIndex >= 0 && /* @__PURE__ */ o("g", { children: [
-              /* @__PURE__ */ t("rect", { x: p.todayIndex * p.dayWidth, y: 0, width: p.dayWidth, height: re, fill: e.todayBg }),
-              /* @__PURE__ */ t("line", { x1: (p.todayIndex + 0.5) * p.dayWidth, y1: 0, x2: (p.todayIndex + 0.5) * p.dayWidth, y2: re, stroke: e.today, strokeWidth: 2, strokeDasharray: "4 4", opacity: 0.3 })
+            p === "day" && l.days.map((b, j) => b.isWeekend ? /* @__PURE__ */ t("rect", { x: j * l.dayWidth, y: 0, width: l.dayWidth, height: ne, fill: e.weekendBg, opacity: 0.6 }, `we-${j}`) : null),
+            p === "month" && l.days.map((b, j) => b.isWeekend ? /* @__PURE__ */ t("rect", { x: j * l.dayWidth, y: 0, width: l.dayWidth, height: ne, fill: e.weekendBg, opacity: 0.3 }, `wem-${j}`) : null),
+            l.todayIndex >= 0 && /* @__PURE__ */ o("g", { children: [
+              /* @__PURE__ */ t("rect", { x: l.todayIndex * l.dayWidth, y: 0, width: l.dayWidth, height: ne, fill: e.todayBg }),
+              /* @__PURE__ */ t("line", { x1: (l.todayIndex + 0.5) * l.dayWidth, y1: 0, x2: (l.todayIndex + 0.5) * l.dayWidth, y2: ne, stroke: e.today, strokeWidth: 2, strokeDasharray: "4 4", opacity: 0.3 })
             ] })
           ] }),
-          T.map((m, a) => m.kind === "group" || m.kind === "projectHeader" ? /* @__PURE__ */ t("div", { style: {
+          I.map((b, j) => b.kind === "group" || b.kind === "projectHeader" ? /* @__PURE__ */ t("div", { style: {
+            boxSizing: "border-box",
             position: "absolute",
             left: 0,
-            top: a * _,
+            top: j * G,
             width: "100%",
-            height: _,
-            background: m.kind === "projectHeader" ? e.headerBg : `${e.groupLight}15`,
+            height: G,
+            background: b.kind === "projectHeader" ? e.headerBg : `${e.groupLight}15`,
             borderBottom: `1px solid ${e.borderLight}`,
             pointerEvents: "none"
-          } }, `bg-${a}`) : null),
+          } }, `bg-${j}`) : null),
           /* @__PURE__ */ o("div", { style: { position: "absolute", inset: 0 }, children: [
-            T.map((m, a) => {
-              if (m.kind !== "task") return null;
-              const d = m.task, v = h?.task.id === d.id, z = w?.task.id === d.id, L = v || z && w.edge === "left" ? Z(d.start, v ? h.offsetDays : w.offsetDays) : d.start, W = v || z && w.edge === "right" ? Z(d.end, v ? h.offsetDays : w.offsetDays) : d.end, O = d.originalType !== "step";
-              let ce = se(L, p), U = 0, te = 0;
-              O || (U = Math.max(se(W, p) - ce, p.dayWidth), te = U * (d.progress / 100));
-              const je = y === d.id, Ae = A === d.id, Ve = H.has(d.id), Ue = q.has(d.id), qe = !!A && !Ae && !ie.has(d.id), Ke = Ae || !!A && ie.has(d.id), Je = x?.hoverTargetId === d.id, Qe = je || Ae, Ze = a * _;
+            I.map((b, j) => {
+              if (b.kind !== "task") return null;
+              const i = b.task, y = h?.task.id === i.id, S = u?.task.id === i.id, E = y || S && u.edge === "left" ? ee(i.start, y ? h.offsetDays : u.offsetDays) : i.start, z = y || S && u.edge === "right" ? ee(i.end, y ? h.offsetDays : u.offsetDays) : i.end, N = i.originalType !== "step";
+              let O = pe(E, l), oe = 0, ye = 0;
+              N || (oe = Math.max(pe(z, l) - O, l.dayWidth), ye = oe * (i.progress / 100));
+              const re = $ === i.id, We = L === i.id, Ke = J.has(i.id), Je = K.has(i.id), Qe = !!L && !We && !se.has(i.id), Ze = We || !!L && se.has(i.id), et = x?.hoverTargetId === i.id, tt = re || We, nt = j * G;
               return /* @__PURE__ */ t(
-                mt,
+                wt,
                 {
-                  task: d,
-                  x: ce,
-                  y: Ze,
-                  w: U,
-                  progW: te,
-                  isHov: je,
-                  isDrag: v,
-                  isResize: z,
-                  isCritical: Ue,
-                  isDelayed: Ve,
-                  isConnectTarget: Je,
-                  showDots: Qe,
-                  isBarDimmed: qe,
-                  isBarHighlighted: Ke,
+                  task: i,
+                  x: O,
+                  y: nt,
+                  w: oe,
+                  progW: ye,
+                  isHov: re,
+                  isDrag: y,
+                  isResize: S,
+                  isCritical: Je,
+                  isDelayed: Ke,
+                  isConnectTarget: et,
+                  showDots: tt,
+                  isBarDimmed: Qe,
+                  isBarHighlighted: Ze,
                   commonEvents: {
-                    onMouseEnter: (K) => {
-                      N(d.id), !h && !w && g({ task: d, x: K.clientX, y: K.clientY });
+                    onMouseEnter: (Q) => {
+                      W(i.id), !h && !u && _({ task: i, x: Q.clientX, y: Q.clientY });
                     },
-                    onMouseMove: (K) => {
-                      y === d.id && !h && !w && g({ task: d, x: K.clientX, y: K.clientY });
+                    onMouseMove: (Q) => {
+                      $ === i.id && !h && !u && _({ task: i, x: Q.clientX, y: Q.clientY });
                     },
                     onMouseLeave: () => {
-                      N(null), g(null);
+                      W(null), _(null);
                     },
-                    onClick: (K) => {
-                      K.stopPropagation(), ee(d.id), K.detail === 2 && me?.(ze(d)), V(!Y.isOpen || Y.task?.id !== d.id ? {
+                    onClick: (Q) => {
+                      Q.stopPropagation(), X(i.id), Q.detail === 2 && Se?.(Le(i)), te(!V.isOpen || V.task?.id !== i.id ? {
                         isOpen: !0,
-                        position: { x: K.clientX, y: K.clientY },
-                        task: d
+                        position: { x: Q.clientX, y: Q.clientY },
+                        task: i
                       } : { isOpen: !1, position: { x: 0, y: 0 }, task: null });
                     },
-                    onMouseDown: (K) => xe(K, d)
+                    onMouseDown: (Q) => Me(Q, i)
                   },
-                  handleResizeMouseDown: Te,
-                  handleConnectDotMouseDown: be
+                  handleResizeMouseDown: ve,
+                  handleConnectDotMouseDown: Re
                 },
-                d.id
+                i.id
               );
             }),
-            /* @__PURE__ */ t("svg", { width: p.totalWidth, height: re, style: { position: "absolute", inset: 0, pointerEvents: "none" }, children: /* @__PURE__ */ t(vt, {}) }),
-            k && !h && /* @__PURE__ */ t("div", { style: { position: "fixed", left: k.x + 16, top: k.y - 10, zIndex: 9999, pointerEvents: "none" }, children: /* @__PURE__ */ o(
+            /* @__PURE__ */ t("svg", { width: l.totalWidth, height: ne, style: { position: "absolute", inset: 0, pointerEvents: "none" }, children: /* @__PURE__ */ t(St, {}) }),
+            r && !h && /* @__PURE__ */ t("div", { style: { position: "fixed", left: r.x + 16, top: r.y - 10, zIndex: 9999, pointerEvents: "none" }, children: /* @__PURE__ */ o(
               "div",
               {
                 style: {
@@ -1050,108 +1063,108 @@ function wt() {
                 },
                 children: [
                   /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }, children: [
-                    ve(k.task.originalType, k.task.colorIdx),
-                    /* @__PURE__ */ t("span", { style: { fontSize: 12, fontWeight: 700, color: e.textTitle, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: k.task.name })
+                    ke(r.task.originalType, r.task.colorIdx),
+                    /* @__PURE__ */ t("span", { style: { fontSize: 12, fontWeight: 700, color: e.textTitle, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: r.task.name })
                   ] }),
-                  /* @__PURE__ */ t("div", { style: { display: "flex", flexDirection: "column", gap: 4, fontSize: 11, color: e.textSecondary }, children: k.task.originalType === "step" ? /* @__PURE__ */ o(de, { children: [
-                    k.task.previsionStart && k.task.previsionEnd && /* @__PURE__ */ o("div", { style: { background: `${e.headerBg}`, borderRadius: 6, padding: "4px 6px", marginBottom: 2 }, children: [
+                  /* @__PURE__ */ t("div", { style: { display: "flex", flexDirection: "column", gap: 4, fontSize: 11, color: e.textSecondary }, children: r.task.originalType === "step" ? /* @__PURE__ */ o(ce, { children: [
+                    r.task.previsionStart && r.task.previsionEnd && /* @__PURE__ */ o("div", { style: { background: `${e.headerBg}`, borderRadius: 6, padding: "4px 6px", marginBottom: 2 }, children: [
                       /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 4, marginBottom: 4 }, children: [
                         /* @__PURE__ */ t("div", { style: { width: 20, height: 4, borderRadius: 2, background: `${e.textSecondary}44`, border: `1.5px solid ${e.textSecondary}66` } }),
-                        /* @__PURE__ */ t("span", { style: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: e.textSecondary }, children: R("gantt.tooltip.planned", "Planned") })
+                        /* @__PURE__ */ t("span", { style: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: e.textSecondary }, children: F("gantt.tooltip.planned", "Planned") })
                       ] }),
                       /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                         /* @__PURE__ */ o("span", { children: [
-                          R("gantt.tooltip.start", "Start"),
+                          F("gantt.tooltip.start", "Start"),
                           ":"
                         ] }),
-                        /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: Q(k.task.previsionStart) })
+                        /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: q(r.task.previsionStart) })
                       ] }),
                       /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                         /* @__PURE__ */ o("span", { children: [
-                          R("gantt.tooltip.end", "End"),
+                          F("gantt.tooltip.end", "End"),
                           ":"
                         ] }),
-                        /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: Q(k.task.previsionEnd) })
+                        /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: q(r.task.previsionEnd) })
                       ] }),
                       /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                         /* @__PURE__ */ o("span", { children: [
-                          R("gantt.tooltip.duration", "Duration"),
+                          F("gantt.tooltip.duration", "Duration"),
                           ":"
                         ] }),
                         /* @__PURE__ */ o("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: [
-                          he(k.task.previsionStart, k.task.previsionEnd),
+                          de(r.task.previsionStart, r.task.previsionEnd),
                           "d"
                         ] })
                       ] })
                     ] }),
-                    /* @__PURE__ */ o("div", { style: { background: k.task.hasActualDates ? `${e.groupLight}22` : "transparent", borderRadius: 6, padding: "4px 6px" }, children: [
+                    /* @__PURE__ */ o("div", { style: { background: r.task.hasActualDates ? `${e.groupLight}22` : "transparent", borderRadius: 6, padding: "4px 6px" }, children: [
                       /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 4, marginBottom: 4 }, children: [
-                        /* @__PURE__ */ t("div", { style: { width: 20, height: 4, borderRadius: 2, background: oe[k.task.colorIdx ?? 0].progress } }),
-                        /* @__PURE__ */ t("span", { style: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: k.task.hasActualDates ? e.group : e.textSecondary }, children: k.task.hasActualDates ? R("gantt.tooltip.actual", "Actual") : R("gantt.tooltip.plannedInUse", "Planned (in use)") })
+                        /* @__PURE__ */ t("div", { style: { width: 20, height: 4, borderRadius: 2, background: ae[r.task.colorIdx ?? 0].progress } }),
+                        /* @__PURE__ */ t("span", { style: { fontSize: 9, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: r.task.hasActualDates ? e.group : e.textSecondary }, children: r.task.hasActualDates ? F("gantt.tooltip.actual", "Actual") : F("gantt.tooltip.plannedInUse", "Planned (in use)") })
                       ] }),
                       /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                         /* @__PURE__ */ o("span", { children: [
-                          R("gantt.tooltip.start", "Start"),
+                          F("gantt.tooltip.start", "Start"),
                           ":"
                         ] }),
-                        /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: Q(k.task.start) })
+                        /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: q(r.task.start) })
                       ] }),
                       /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                         /* @__PURE__ */ o("span", { children: [
-                          R("gantt.tooltip.end", "End"),
+                          F("gantt.tooltip.end", "End"),
                           ":"
                         ] }),
-                        /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: Q(k.task.end) })
+                        /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: q(r.task.end) })
                       ] }),
                       /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                         /* @__PURE__ */ o("span", { children: [
-                          R("gantt.tooltip.duration", "Duration"),
+                          F("gantt.tooltip.duration", "Duration"),
                           ":"
                         ] }),
                         /* @__PURE__ */ o("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: [
-                          he(k.task.start, k.task.end),
+                          de(r.task.start, r.task.end),
                           "d"
                         ] })
                       ] })
                     ] }),
                     /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16, paddingTop: 4, marginTop: 4, borderTop: `1px solid ${e.borderLight}` }, children: [
                       /* @__PURE__ */ o("span", { children: [
-                        R("charts.gantt.progress", "Progress"),
+                        F("charts.gantt.progress", "Progress"),
                         ":"
                       ] }),
                       /* @__PURE__ */ o("span", { style: { fontWeight: 700, color: e.group }, children: [
-                        Math.round(k.task.progress),
+                        Math.round(r.task.progress),
                         "%"
                       ] })
                     ] })
-                  ] }) : k.task.originalType === "note" ? /* @__PURE__ */ o(de, { children: [
-                    k.task.noteProjectTitle && /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }, children: [
-                      /* @__PURE__ */ t("div", { style: { width: 8, height: 8, borderRadius: 2, background: k.task.noteColor || e.note, flexShrink: 0 } }),
-                      /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 600, color: e.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: k.task.noteProjectTitle })
+                  ] }) : r.task.originalType === "note" ? /* @__PURE__ */ o(ce, { children: [
+                    r.task.noteProjectTitle && /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }, children: [
+                      /* @__PURE__ */ t("div", { style: { width: 8, height: 8, borderRadius: 2, background: r.task.noteColor || e.note, flexShrink: 0 } }),
+                      /* @__PURE__ */ t("span", { style: { fontSize: 11, fontWeight: 600, color: e.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: r.task.noteProjectTitle })
                     ] }),
                     /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                       /* @__PURE__ */ o("span", { children: [
-                        R("gantt.tooltip.date", "Date"),
+                        F("gantt.tooltip.date", "Date"),
                         ":"
                       ] }),
-                      /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: Q(k.task.start) })
+                      /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: q(r.task.start) })
                     ] }),
-                    (k.task.filesCount || 0) > 0 && /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
+                    (r.task.filesCount || 0) > 0 && /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                       /* @__PURE__ */ o("span", { children: [
-                        R("gantt.tooltip.attachments", "Attachments"),
+                        F("gantt.tooltip.attachments", "Attachments"),
                         ":"
                       ] }),
                       /* @__PURE__ */ o("span", { style: { fontWeight: 600, display: "flex", alignItems: "center", gap: 4, color: e.textPrimary }, children: [
-                        /* @__PURE__ */ t(Fe, { size: 10 }),
-                        k.task.filesCount
+                        /* @__PURE__ */ t($e, { size: 10 }),
+                        r.task.filesCount
                       ] })
                     ] })
                   ] }) : /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", gap: 16 }, children: [
                     /* @__PURE__ */ o("span", { children: [
-                      R("charts.gantt.start", "Start"),
+                      F("charts.gantt.start", "Start"),
                       ":"
                     ] }),
-                    /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: Q(k.task.start) })
+                    /* @__PURE__ */ t("span", { style: { fontWeight: 600, fontVariantNumeric: "tabular-nums", color: e.textPrimary }, children: q(r.task.start) })
                   ] }) })
                 ]
               }
@@ -1160,89 +1173,89 @@ function wt() {
         ] })
       }
     ),
-    Y.task && Y.isOpen && (() => {
-      const m = Y.task, a = (n.dependencies || []).filter((W) => W.predecessorId === m.id || W.successorId === m.id), d = { FS: R("gantt.depType.fs", "Finish to Start"), SS: R("gantt.depType.ss", "Start to Start"), FF: R("gantt.depType.ff", "Finish to Finish"), SF: R("gantt.depType.sf", "Start to Finish") }, v = a.length > 0 ? 300 : 220, z = Math.min(Y.position.x, window.innerWidth - v - 16), L = Y.position.y + 8;
+    V.task && V.isOpen && (() => {
+      const b = V.task, j = (n.dependencies || []).filter((z) => z.predecessorId === b.id || z.successorId === b.id), i = { FS: F("gantt.depType.fs", "Finish to Start"), SS: F("gantt.depType.ss", "Start to Start"), FF: F("gantt.depType.ff", "Finish to Finish"), SF: F("gantt.depType.sf", "Start to Finish") }, y = j.length > 0 ? 300 : 220, S = Math.min(V.position.x, window.innerWidth - y - 16), E = V.position.y + 8;
       return /* @__PURE__ */ o(
         "div",
         {
           "data-popup": "gantt-action",
-          style: { position: "fixed", left: z, top: L, zIndex: 9999, background: "#fff", borderRadius: 4, boxShadow: "0 12px 40px rgba(0,0,0,0.14), 0 3px 10px rgba(0,0,0,0.07)", border: `1.5px solid ${e.borderLight}`, width: v, overflow: "hidden" },
-          onMouseDown: (W) => W.stopPropagation(),
+          style: { position: "fixed", left: S, top: E, zIndex: 9999, background: "#fff", borderRadius: 4, boxShadow: "0 12px 40px rgba(0,0,0,0.14), 0 3px 10px rgba(0,0,0,0.07)", border: `1.5px solid ${e.borderLight}`, width: y, overflow: "hidden" },
+          onMouseDown: (z) => z.stopPropagation(),
           children: [
-            /* @__PURE__ */ t("div", { style: { padding: "12px 14px 10px", borderBottom: `1px solid ${e.borderLight}` }, children: /* @__PURE__ */ t("p", { style: { fontSize: 13, fontWeight: 700, color: e.group, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, title: m.name, children: m.name }) }),
+            /* @__PURE__ */ t("div", { style: { padding: "12px 14px 10px", borderBottom: `1px solid ${e.borderLight}` }, children: /* @__PURE__ */ t("p", { style: { fontSize: 13, fontWeight: 700, color: e.group, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, title: b.name, children: b.name }) }),
             /* @__PURE__ */ o("div", { style: { display: "flex", flexDirection: "column", gap: 2, padding: "8px 6px" }, children: [
               /* @__PURE__ */ o("button", { onClick: () => {
-                me?.(ze(m)), ue();
-              }, className: "zg-popup-btn", children: [
-                /* @__PURE__ */ t(it, { size: 15 }),
-                " ",
-                /* @__PURE__ */ t("span", { children: R("gantt.popup.viewDetails", "View details") })
-              ] }),
-              /* @__PURE__ */ o("button", { onClick: () => {
-                De?.(ze(m)), ue();
-              }, className: "zg-popup-btn", children: [
-                /* @__PURE__ */ t(at, { size: 15 }),
-                " ",
-                /* @__PURE__ */ t("span", { children: R("gantt.popup.edit", "Edit") })
-              ] }),
-              /* @__PURE__ */ o("button", { onClick: () => {
-                j?.(m.id), ue();
-              }, className: "zg-popup-btn zg-popup-btn-danger", children: [
+                Se?.(Le(b)), fe();
+              }, className: "zg-popup-btn", style: { display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "8px 10px", borderRadius: 7, border: "none", background: "transparent", cursor: "pointer", fontSize: 13, fontWeight: 500, color: e.textPrimary, textAlign: "left" }, children: [
                 /* @__PURE__ */ t(st, { size: 15 }),
                 " ",
-                /* @__PURE__ */ t("span", { children: R("gantt.popup.delete", "Delete") })
+                /* @__PURE__ */ t("span", { style: { flex: 1, textAlign: "left" }, children: F("gantt.popup.viewDetails", "View details") })
+              ] }),
+              /* @__PURE__ */ o("button", { onClick: () => {
+                Ce?.(Le(b)), fe();
+              }, className: "zg-popup-btn", style: { display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "8px 10px", borderRadius: 7, border: "none", background: "transparent", cursor: "pointer", fontSize: 13, fontWeight: 500, color: e.textPrimary, textAlign: "left" }, children: [
+                /* @__PURE__ */ t(dt, { size: 15 }),
+                " ",
+                /* @__PURE__ */ t("span", { style: { flex: 1, textAlign: "left" }, children: F("gantt.popup.edit", "Edit") })
+              ] }),
+              /* @__PURE__ */ o("button", { onClick: () => {
+                Fe?.(b.id), fe();
+              }, className: "zg-popup-btn zg-popup-btn-danger", style: { display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "8px 10px", borderRadius: 7, border: "none", background: "transparent", cursor: "pointer", fontSize: 13, fontWeight: 500, color: "#ef4444", textAlign: "left" }, children: [
+                /* @__PURE__ */ t(lt, { size: 15 }),
+                " ",
+                /* @__PURE__ */ t("span", { style: { flex: 1, textAlign: "left" }, children: F("gantt.popup.delete", "Delete") })
               ] })
             ] }),
-            a.length > 0 && /* @__PURE__ */ o("div", { style: { borderTop: `1px solid ${e.borderLight}`, padding: "10px 14px 12px" }, children: [
+            j.length > 0 && /* @__PURE__ */ o("div", { style: { borderTop: `1px solid ${e.borderLight}`, padding: "10px 14px 12px" }, children: [
               /* @__PURE__ */ o("div", { style: { fontSize: 10, fontWeight: 700, color: e.textSecondary, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }, children: [
-                R("gantt.popup.relations", "Relations"),
+                F("gantt.popup.relations", "Relations"),
                 " (",
-                a.length,
+                j.length,
                 ")"
               ] }),
-              /* @__PURE__ */ t("div", { style: { display: "flex", flexDirection: "column", gap: 5 }, children: a.map((W) => {
-                const O = W.predecessorId === m.id, ce = O ? W.successorName : W.predecessorName, U = B === W.id;
+              /* @__PURE__ */ t("div", { style: { display: "flex", flexDirection: "column", gap: 5 }, children: j.map((z) => {
+                const N = z.predecessorId === b.id, O = N ? z.successorName : z.predecessorName, oe = B === z.id;
                 return /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 8, padding: "6px 8px", borderRadius: 8, background: "#f8fafb", border: `1px solid ${e.borderLight}` }, children: [
                   /* @__PURE__ */ o("div", { style: { flex: 1, minWidth: 0 }, children: [
                     /* @__PURE__ */ o("div", { style: { fontSize: 10, fontWeight: 700, color: e.group, marginBottom: 2 }, children: [
-                      /* @__PURE__ */ t("span", { style: { background: `${e.group}15`, borderRadius: 4, padding: "1px 5px" }, children: W.type }),
+                      /* @__PURE__ */ t("span", { style: { background: `${e.group}15`, borderRadius: 4, padding: "1px 5px" }, children: z.type }),
                       " ",
-                      /* @__PURE__ */ t("span", { style: { color: e.textSecondary, fontWeight: 500 }, children: O ? "→ " : "← " }),
-                      /* @__PURE__ */ t("span", { style: { color: e.textMuted, fontWeight: 400, fontSize: 9 }, children: d[W.type] ?? W.type })
+                      /* @__PURE__ */ t("span", { style: { color: e.textSecondary, fontWeight: 500 }, children: N ? "→ " : "← " }),
+                      /* @__PURE__ */ t("span", { style: { color: e.textMuted, fontWeight: 400, fontSize: 9 }, children: i[z.type] ?? z.type })
                     ] }),
-                    /* @__PURE__ */ t("div", { style: { fontSize: 11, color: e.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, title: ce, children: ce })
+                    /* @__PURE__ */ t("div", { style: { fontSize: 11, color: e.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, title: O, children: O })
                   ] }),
-                  X && /* @__PURE__ */ t(
+                  P && /* @__PURE__ */ t(
                     "button",
                     {
-                      disabled: !!U,
+                      disabled: !!oe,
                       onClick: async () => {
-                        r(W.id);
+                        c(z.id);
                         try {
-                          await X(W.id);
+                          await P(z.id);
                         } finally {
-                          r(null);
+                          c(null);
                         }
                       },
-                      style: { flexShrink: 0, padding: "4px 6px", borderRadius: 6, border: "none", background: U ? "#fee2e2" : "transparent", cursor: U ? "wait" : "pointer", color: "#ef4444", fontSize: 14, opacity: U ? 0.5 : 1, transition: "background 0.12s" },
-                      children: U ? "⟳" : "🗑"
+                      style: { flexShrink: 0, padding: "4px 6px", borderRadius: 6, border: "none", background: oe ? "#fee2e2" : "transparent", cursor: oe ? "wait" : "pointer", color: "#ef4444", fontSize: 14, opacity: oe ? 0.5 : 1, transition: "background 0.12s" },
+                      children: oe ? "⟳" : "🗑"
                     }
                   )
-                ] }, W.id);
+                ] }, z.id);
               }) })
             ] })
           ]
         }
       );
     })(),
-    i && /* @__PURE__ */ o(
+    s && /* @__PURE__ */ o(
       "div",
       {
         "data-menu": "chart-create",
         style: {
           position: "fixed",
-          left: Math.min(i.x, window.innerWidth - 220),
-          top: Math.min(i.y, window.innerHeight - 220),
+          left: Math.min(s.x, window.innerWidth - 220),
+          top: Math.min(s.y, window.innerHeight - 220),
           zIndex: 99999,
           background: "#fff",
           borderRadius: 10,
@@ -1251,39 +1264,39 @@ function wt() {
           width: 200,
           overflow: "hidden"
         },
-        onClick: (m) => m.stopPropagation(),
+        onClick: (b) => b.stopPropagation(),
         children: [
           /* @__PURE__ */ t("div", { style: { padding: "9px 13px 8px", borderBottom: `1px solid ${e.borderLight}`, background: e.headerBg }, children: /* @__PURE__ */ o("p", { style: { margin: 0, fontSize: 10, fontWeight: 700, color: e.textSecondary, textTransform: "uppercase", letterSpacing: "0.08em" }, children: [
-            R("gantt.chart.addOn", "Add on"),
+            F("gantt.chart.addOn", "Add on"),
             " ",
-            Q(i.date)
+            q(s.date)
           ] }) }),
           /* @__PURE__ */ t("div", { style: { padding: "5px 5px" }, children: [
-            { label: R("gantt.newAction.step", "Step"), icon: ve("step", 0), action: () => {
-              Re?.(i.date, i.projectId), I(null);
+            { label: F("gantt.newAction.step", "Step"), icon: ke("step", 0), action: () => {
+              H?.(s.date, s.projectId), g(null);
             } },
-            { label: R("gantt.newAction.milestone", "Milestone"), icon: ve("milestone"), action: () => {
-              Ce?.(i.date, i.projectId), I(null);
+            { label: F("gantt.newAction.milestone", "Milestone"), icon: ke("milestone"), action: () => {
+              ze?.(s.date, s.projectId), g(null);
             } },
-            { label: R("gantt.newAction.event", "Event"), icon: ve("event"), action: () => {
-              Ee?.(i.date, i.projectId), I(null);
+            { label: F("gantt.newAction.event", "Event"), icon: ke("event"), action: () => {
+              Ae?.(s.date, s.projectId), g(null);
             } },
-            { label: R("gantt.newAction.note", "Note"), icon: ve("note"), action: () => {
-              $e?.(i.date, i.projectId), I(null);
+            { label: F("gantt.newAction.note", "Note"), icon: ke("note"), action: () => {
+              Ee?.(s.date, s.projectId), g(null);
             } }
-          ].map((m) => /* @__PURE__ */ o(
+          ].map((b) => /* @__PURE__ */ o(
             "button",
             {
-              onClick: m.action,
+              onClick: b.action,
               className: "zg-popup-btn",
               style: { display: "flex", alignItems: "center", gap: 10, width: "100%", padding: "8px 10px", borderRadius: 7, border: "none", background: "transparent", cursor: "pointer", fontSize: 13, fontWeight: 500, color: e.textPrimary, textAlign: "left", transition: "background 0.12s" },
               children: [
-                m.icon,
+                b.icon,
                 " ",
-                m.label
+                b.label
               ]
             },
-            m.label
+            b.label
           )) })
         ]
       }
@@ -1292,551 +1305,698 @@ function wt() {
       /* @__PURE__ */ t("defs", { children: /* @__PURE__ */ t("marker", { id: "connect-arrow", markerWidth: "8", markerHeight: "8", refX: "6", refY: "3", orient: "auto", children: /* @__PURE__ */ t("path", { d: "M0,0 L0,6 L6,3 z", fill: e.group }) }) }),
       /* @__PURE__ */ t("line", { x1: x.fromScreenX, y1: x.fromScreenY, x2: x.currentScreenX, y2: x.currentScreenY, stroke: e.group, strokeWidth: 2.5, strokeDasharray: "8 5", markerEnd: "url(#connect-arrow)", opacity: 0.85, style: { animation: "zg-dash 0.5s linear infinite" } })
     ] }),
-    C && /* @__PURE__ */ t("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 99998 }, onClick: () => M(null), children: /* @__PURE__ */ o("div", { style: { background: "#fff", borderRadius: 20, padding: "32px 36px", width: 420, boxShadow: "0 24px 80px rgba(0,0,0,0.18), 0 6px 24px rgba(0,0,0,0.08)" }, onClick: (m) => m.stopPropagation(), children: [
+    M && /* @__PURE__ */ t("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 99998 }, onClick: () => D(null), children: /* @__PURE__ */ o("div", { style: { background: "#fff", borderRadius: 20, padding: "32px 36px", width: 420, boxShadow: "0 24px 80px rgba(0,0,0,0.18), 0 6px 24px rgba(0,0,0,0.08)" }, onClick: (b) => b.stopPropagation(), children: [
       /* @__PURE__ */ o("div", { style: { marginBottom: 20 }, children: [
-        /* @__PURE__ */ t("h3", { style: { fontSize: 18, fontWeight: 700, color: e.textTitle, marginBottom: 4 }, children: R("gantt.depModal.title", "Relation Type") }),
-        /* @__PURE__ */ t("p", { style: { fontSize: 13, color: e.textSecondary }, children: R("gantt.depModal.subtitle", "Choose how the two tasks relate") })
+        /* @__PURE__ */ t("h3", { style: { fontSize: 18, fontWeight: 700, color: e.textTitle, marginBottom: 4 }, children: F("gantt.depModal.title", "Relation Type") }),
+        /* @__PURE__ */ t("p", { style: { fontSize: 13, color: e.textSecondary }, children: F("gantt.depModal.subtitle", "Choose how the two tasks relate") })
       ] }),
       /* @__PURE__ */ t("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }, children: [
-        { type: "FS", label: R("gantt.depModal.fs", "Finish to Start"), desc: R("gantt.depModal.fsDesc", "B starts when A finishes") },
-        { type: "SS", label: R("gantt.depModal.ss", "Start to Start"), desc: R("gantt.depModal.ssDesc", "A and B start together") },
-        { type: "FF", label: R("gantt.depModal.ff", "Finish to Finish"), desc: R("gantt.depModal.ffDesc", "A and B finish together") },
-        { type: "SF", label: R("gantt.depModal.sf", "Start to Finish"), desc: R("gantt.depModal.sfDesc", "B finishes when A starts") }
-      ].map((m) => /* @__PURE__ */ o("button", { onClick: () => E(m.type), style: { border: f === m.type ? `2px solid ${e.group}` : `1.5px solid ${e.borderLight}`, borderRadius: 12, padding: "12px 14px", textAlign: "left", cursor: "pointer", background: f === m.type ? `${e.group}0d` : "#fafafa" }, children: [
-        /* @__PURE__ */ t("div", { style: { fontSize: 11, fontFamily: "monospace", fontWeight: 700, color: e.group, marginBottom: 4, background: f === m.type ? `${e.group}20` : `${e.group}0d`, borderRadius: 6, padding: "2px 6px", display: "inline-block" }, children: m.type }),
-        /* @__PURE__ */ t("div", { style: { fontSize: 13, fontWeight: 600, color: e.textTitle, marginBottom: 2 }, children: m.label }),
-        /* @__PURE__ */ t("div", { style: { fontSize: 11, color: e.textSecondary }, children: m.desc })
-      ] }, m.type)) }),
+        { type: "FS", label: F("gantt.depModal.fs", "Finish to Start"), desc: F("gantt.depModal.fsDesc", "B starts when A finishes") },
+        { type: "SS", label: F("gantt.depModal.ss", "Start to Start"), desc: F("gantt.depModal.ssDesc", "A and B start together") },
+        { type: "FF", label: F("gantt.depModal.ff", "Finish to Finish"), desc: F("gantt.depModal.ffDesc", "A and B finish together") },
+        { type: "SF", label: F("gantt.depModal.sf", "Start to Finish"), desc: F("gantt.depModal.sfDesc", "B finishes when A starts") }
+      ].map((b) => /* @__PURE__ */ o("button", { onClick: () => R(b.type), style: { border: f === b.type ? `2px solid ${e.group}` : `1.5px solid ${e.borderLight}`, borderRadius: 12, padding: "12px 14px", textAlign: "left", cursor: "pointer", background: f === b.type ? `${e.group}0d` : "#fafafa" }, children: [
+        /* @__PURE__ */ t("div", { style: { fontSize: 11, fontFamily: "monospace", fontWeight: 700, color: e.group, marginBottom: 4, background: f === b.type ? `${e.group}20` : `${e.group}0d`, borderRadius: 6, padding: "2px 6px", display: "inline-block" }, children: b.type }),
+        /* @__PURE__ */ t("div", { style: { fontSize: 13, fontWeight: 600, color: e.textTitle, marginBottom: 2 }, children: b.label }),
+        /* @__PURE__ */ t("div", { style: { fontSize: 11, color: e.textSecondary }, children: b.desc })
+      ] }, b.type)) }),
       /* @__PURE__ */ o("div", { style: { marginBottom: 24 }, children: [
-        /* @__PURE__ */ t("label", { style: { display: "block", fontSize: 13, fontWeight: 600, color: e.textTitle, marginBottom: 6 }, children: R("gantt.depModal.lagLabel", "Lag (days)") }),
-        /* @__PURE__ */ t("input", { type: "number", value: b, onChange: (m) => F(parseInt(m.target.value) || 0), style: { width: "100%", padding: "10px 12px", border: `1.5px solid ${e.borderLight}`, borderRadius: 8, fontSize: 14 } })
+        /* @__PURE__ */ t("label", { style: { display: "block", fontSize: 13, fontWeight: 600, color: e.textTitle, marginBottom: 6 }, children: F("gantt.depModal.lagLabel", "Lag (days)") }),
+        /* @__PURE__ */ t("input", { type: "number", value: m, onChange: (b) => A(parseInt(b.target.value) || 0), style: { width: "100%", padding: "10px 12px", border: `1.5px solid ${e.borderLight}`, borderRadius: 8, fontSize: 14 } })
       ] }),
       /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "flex-end", gap: 12 }, children: [
-        /* @__PURE__ */ t("button", { onClick: () => M(null), style: { padding: "10px 16px", borderRadius: 8, border: `1px solid ${e.borderLight}`, background: "#fff", cursor: "pointer", fontWeight: 600 }, children: R("gantt.depModal.cancel", "Cancel") }),
-        /* @__PURE__ */ t("button", { onClick: Me, disabled: S, style: { padding: "10px 16px", borderRadius: 8, border: "none", background: e.group, color: "#fff", cursor: S ? "wait" : "pointer", fontWeight: 600 }, children: S ? R("gantt.depModal.saving", "Saving...") : R("gantt.depModal.create", "Create Dependency") })
+        /* @__PURE__ */ t("button", { onClick: () => D(null), style: { padding: "10px 16px", borderRadius: 8, border: `1px solid ${e.borderLight}`, background: "#fff", cursor: "pointer", fontWeight: 600 }, children: F("gantt.depModal.cancel", "Cancel") }),
+        /* @__PURE__ */ t("button", { onClick: we, disabled: w, style: { padding: "10px 16px", borderRadius: 8, border: "none", background: e.group, color: "#fff", cursor: w ? "wait" : "pointer", fontWeight: 600 }, children: w ? F("gantt.depModal.saving", "Saving...") : F("gantt.depModal.create", "Create Dependency") })
       ] })
     ] }) })
   ] });
 }
-function St(n) {
-  const c = pe(null), p = pe(null), T = pe(null), h = pe(!1), w = J(() => {
+function It(n) {
+  const p = he(null), l = he(null), I = he(null), h = he(!1), u = Z(() => {
     if (h.current) return;
     h.current = !0;
-    const f = p.current;
-    f && c.current && (c.current.scrollTop = f.scrollTop), f && T.current && (T.current.scrollLeft = f.scrollLeft), h.current = !1;
-  }, []), x = J(() => {
-    h.current || (h.current = !0, c.current && p.current && (p.current.scrollTop = c.current.scrollTop), h.current = !1);
-  }, []), C = pe(!1);
-  ge(() => {
-    if (C.current || !n.totalWidth) return;
-    const f = p.current;
+    const f = l.current;
+    f && p.current && (p.current.scrollTop = f.scrollTop), f && I.current && (I.current.scrollLeft = f.scrollLeft), h.current = !1;
+  }, []), x = Z(() => {
+    h.current || (h.current = !0, p.current && l.current && (l.current.scrollTop = p.current.scrollTop), h.current = !1);
+  }, []), M = he(!1);
+  ue(() => {
+    if (M.current || !n.totalWidth) return;
+    const f = l.current;
     if (!f) return;
-    const E = se(/* @__PURE__ */ new Date(), n);
-    if (E >= 0 && E <= n.totalWidth) {
-      const b = E - f.clientWidth / 2;
-      f.scrollLeft = Math.max(0, b), T.current && (T.current.scrollLeft = f.scrollLeft), C.current = !0;
+    const R = pe(/* @__PURE__ */ new Date(), n);
+    if (R >= 0 && R <= n.totalWidth) {
+      const m = R - f.clientWidth / 2;
+      f.scrollLeft = Math.max(0, m), I.current && (I.current.scrollLeft = f.scrollLeft), M.current = !0;
     }
   }, [n]);
-  const M = J((f) => {
-    const E = p.current;
-    if (E)
+  const D = Z((f) => {
+    const R = l.current;
+    if (R)
       if (f.preventDefault(), f.shiftKey || Math.abs(f.deltaX) > Math.abs(f.deltaY)) {
-        const b = f.shiftKey ? f.deltaY : f.deltaX;
-        E.scrollLeft += b, T.current && (T.current.scrollLeft = E.scrollLeft);
+        const m = f.shiftKey ? f.deltaY : f.deltaX;
+        R.scrollLeft += m, I.current && (I.current.scrollLeft = R.scrollLeft);
       } else
-        E.scrollTop += f.deltaY, c.current && (c.current.scrollTop = E.scrollTop);
+        R.scrollTop += f.deltaY, p.current && (p.current.scrollTop = R.scrollTop);
   }, []);
   return {
-    leftBodyRef: c,
-    rightBodyRef: p,
-    timeHeaderRef: T,
-    handleRightScroll: w,
+    leftBodyRef: p,
+    rightBodyRef: l,
+    timeHeaderRef: I,
+    handleRightScroll: u,
     handleLeftScroll: x,
-    handleChartWheel: M
+    handleChartWheel: D
   };
 }
-function kt(n, c, p, T) {
+function Tt(n, p, l, I) {
   const h = /* @__PURE__ */ new Map();
-  return n.forEach((w) => h.set(w.id, w)), c.map((w) => {
-    const x = h.get(w.predecessorId), C = h.get(w.successorId);
-    if (!x || !C) return null;
-    const M = T.get(x.id), f = T.get(C.id);
-    if (M == null || f == null) return null;
-    const E = x.originalType !== "step", b = C.originalType !== "step", F = E ? se(x.start, p) + Le : se(x.end, p), S = M * _ + _ / 2, B = b ? se(C.start, p) - 10 : se(C.start, p), r = f * _ + _ / 2, i = 14, I = Math.max(F + i, B - i), l = S === r ? `M${F},${S} L${B - 6},${r}` : `M${F},${S} L${I},${S} L${I},${r} L${B - 6},${r}`;
-    return { predId: x.id, succId: C.id, path: l, headX: B - 6, headY: r };
+  return n.forEach((u) => h.set(u.id, u)), p.map((u) => {
+    const x = h.get(u.predecessorId), M = h.get(u.successorId);
+    if (!x || !M) return null;
+    const D = I.get(x.id), f = I.get(M.id);
+    if (D == null || f == null) return null;
+    const R = x.originalType !== "step", m = M.originalType !== "step", A = R ? pe(x.start, l) + Ne : pe(x.end, l), w = D * G + G / 2, B = m ? pe(M.start, l) - 10 : pe(M.start, l), c = f * G + G / 2, s = 14, g = Math.max(A + s, B - s), d = w === c ? `M${A},${w} L${B - 6},${c}` : `M${A},${w} L${g},${w} L${g},${c} L${B - 6},${c}`;
+    return { predId: x.id, succId: M.id, path: d, headX: B - 6, headY: c };
   }).filter(Boolean);
 }
-function It(n, c) {
-  if (n.length === 0 || c.length === 0) return /* @__PURE__ */ new Set();
-  const p = /* @__PURE__ */ new Map();
-  n.forEach((l) => p.set(l.id, l));
-  const T = new Set(n.map((l) => l.id)), h = c.filter((l) => T.has(l.predecessorId) && T.has(l.successorId));
+function Dt(n, p) {
+  if (n.length === 0 || p.length === 0) return /* @__PURE__ */ new Set();
+  const l = /* @__PURE__ */ new Map();
+  n.forEach((d) => l.set(d.id, d));
+  const I = new Set(n.map((d) => d.id)), h = p.filter((d) => I.has(d.predecessorId) && I.has(d.successorId));
   if (h.length === 0) return /* @__PURE__ */ new Set();
-  const w = /* @__PURE__ */ new Map(), x = /* @__PURE__ */ new Map();
-  h.forEach((l) => {
-    w.has(l.predecessorId) || w.set(l.predecessorId, []), w.get(l.predecessorId).push(l.successorId), x.has(l.successorId) || x.set(l.successorId, []), x.get(l.successorId).push(l.predecessorId);
+  const u = /* @__PURE__ */ new Map(), x = /* @__PURE__ */ new Map();
+  h.forEach((d) => {
+    u.has(d.predecessorId) || u.set(d.predecessorId, []), u.get(d.predecessorId).push(d.successorId), x.has(d.successorId) || x.set(d.successorId, []), x.get(d.successorId).push(d.predecessorId);
   });
-  const C = (l) => Math.max(1, ye(l.start, l.end)), M = /* @__PURE__ */ new Set(), f = [];
-  function E(l) {
-    M.has(l) || (M.add(l), (w.get(l) || []).forEach(E), f.unshift(l));
+  const M = (d) => Math.max(1, be(d.start, d.end)), D = /* @__PURE__ */ new Set(), f = [];
+  function R(d) {
+    D.has(d) || (D.add(d), (u.get(d) || []).forEach(R), f.unshift(d));
   }
-  n.forEach((l) => E(l.id));
-  const b = /* @__PURE__ */ new Map(), F = /* @__PURE__ */ new Map();
-  for (const l of f) {
-    const $ = p.get(l), u = x.get(l) || [];
-    let D = 0;
-    for (const y of u) D = Math.max(D, F.get(y) || 0);
-    const s = u.length > 0 ? D : 0;
-    b.set(l, s), F.set(l, s + C($));
+  n.forEach((d) => R(d.id));
+  const m = /* @__PURE__ */ new Map(), A = /* @__PURE__ */ new Map();
+  for (const d of f) {
+    const C = l.get(d), v = x.get(d) || [];
+    let k = 0;
+    for (const a of v) k = Math.max(k, A.get(a) || 0);
+    const T = v.length > 0 ? k : 0;
+    m.set(d, T), A.set(d, T + M(C));
   }
-  let S = 0;
-  F.forEach((l) => {
-    l > S && (S = l);
+  let w = 0;
+  A.forEach((d) => {
+    d > w && (w = d);
   });
-  const B = /* @__PURE__ */ new Map(), r = /* @__PURE__ */ new Map();
-  for (let l = f.length - 1; l >= 0; l--) {
-    const $ = f[l], u = p.get($), D = w.get($) || [];
-    let s = S;
-    for (const y of D) s = Math.min(s, B.get(y) ?? S);
-    r.set($, D.length > 0 ? s : S), B.set($, (r.get($) || 0) - C(u));
+  const B = /* @__PURE__ */ new Map(), c = /* @__PURE__ */ new Map();
+  for (let d = f.length - 1; d >= 0; d--) {
+    const C = f[d], v = l.get(C), k = u.get(C) || [];
+    let T = w;
+    for (const a of k) T = Math.min(T, B.get(a) ?? w);
+    c.set(C, k.length > 0 ? T : w), B.set(C, (c.get(C) || 0) - M(v));
   }
-  const i = /* @__PURE__ */ new Set();
-  h.forEach((l) => {
-    i.add(l.predecessorId), i.add(l.successorId);
+  const s = /* @__PURE__ */ new Set();
+  h.forEach((d) => {
+    s.add(d.predecessorId), s.add(d.successorId);
   });
-  const I = /* @__PURE__ */ new Set();
-  for (const l of f) {
-    if (!i.has(l)) continue;
-    const $ = (B.get(l) || 0) - (b.get(l) || 0);
-    Math.abs($) < 0.5 && I.add(l);
+  const g = /* @__PURE__ */ new Set();
+  for (const d of f) {
+    if (!s.has(d)) continue;
+    const C = (B.get(d) || 0) - (m.get(d) || 0);
+    Math.abs(C) < 0.5 && g.add(d);
   }
-  return I;
+  return g;
 }
-function Tt({
+function Mt({
   steps: n,
-  milestones: c,
-  events: p,
-  notes: T,
+  milestones: p,
+  events: l,
+  notes: I,
   dependencies: h,
-  viewMode: w,
+  viewMode: u,
   locale: x,
-  groupByProject: C,
-  visibleTypes: M,
+  groupByProject: M,
+  visibleTypes: D,
   collapsedGroups: f,
-  collapsedProjects: E,
-  selectedTaskId: b
+  collapsedProjects: R,
+  selectedTaskId: m
 }) {
-  const F = ae(() => {
-    const u = [];
-    let D = 0;
-    return n.forEach((s) => {
-      const y = !!(s.startDate && s.finishDate), N = s.startDate || s.previsionStartDate, A = s.finishDate || s.previsionFinishDate;
-      if (!N || !A) return;
-      const ee = new Date(N), k = new Date(A);
-      if (isNaN(ee.getTime()) || isNaN(k.getTime())) return;
-      k <= ee && k.setDate(k.getDate() + 1);
-      let g, Y;
-      if (s.previsionStartDate && s.previsionFinishDate) {
-        const H = new Date(s.previsionStartDate), ie = new Date(s.previsionFinishDate);
-        !isNaN(H.getTime()) && !isNaN(ie.getTime()) && (g = H, Y = ie <= H ? Z(H, 1) : ie);
+  const A = le(() => {
+    const v = [], k = /* @__PURE__ */ new Map();
+    I?.forEach((a) => {
+      let $ = a.targetId || a.predecessorId;
+      if (!$ && h) {
+        const L = h.find((X) => X.successorId === a.id);
+        L && ($ = L.predecessorId);
       }
-      const V = h?.filter((H) => H.successorId === s.id).map((H) => H.predecessorId) || [], q = s.conclusionPercent != null ? Number(s.conclusionPercent) : 0;
-      u.push({
-        id: s.id,
-        name: s.name,
-        start: ee,
-        end: k,
-        progress: q > 1 ? Math.min(q, 100) : q * 100,
+      if (!$) return;
+      const W = k.get($) || [];
+      k.set($, [...W, a]);
+    });
+    let T = 0;
+    return n.forEach((a) => {
+      const $ = !!(a.startDate && a.finishDate), W = a.startDate || a.previsionStartDate, L = a.finishDate || a.previsionFinishDate;
+      if (!W || !L) return;
+      const X = new Date(W), r = new Date(L);
+      if (isNaN(X.getTime()) || isNaN(r.getTime())) return;
+      r <= X && r.setDate(r.getDate() + 1);
+      let _, V;
+      if (a.previsionStartDate && a.previsionFinishDate) {
+        const J = new Date(a.previsionStartDate), se = new Date(a.previsionFinishDate);
+        !isNaN(J.getTime()) && !isNaN(se.getTime()) && (_ = J, V = se <= J ? ee(J, 1) : se);
+      }
+      const te = h?.filter((J) => J.successorId === a.id).map((J) => J.predecessorId) || [], K = a.conclusionPercent != null ? Number(a.conclusionPercent) : 0;
+      v.push({
+        id: a.id,
+        name: a.name,
+        start: X,
+        end: r,
+        progress: K > 1 ? Math.min(K, 100) : K * 100,
         originalType: "step",
-        deps: V,
-        colorIdx: D % oe.length,
-        previsionStart: g,
-        previsionEnd: Y,
-        hasActualDates: y,
-        projectId: s.projectId || void 0,
-        projectTitle: s.projectTitle || void 0
-      }), D++;
-    }), c?.forEach((s) => {
-      if (!s.date) return;
-      const y = new Date(s.date);
-      if (isNaN(y.getTime())) return;
-      const N = h?.filter((A) => A.successorId === s.id).map((A) => A.predecessorId) || [];
-      u.push({
-        id: s.id,
-        name: s.name,
-        start: y,
-        end: y,
-        progress: s.finished ? 100 : 0,
+        deps: te,
+        colorIdx: T % ae.length,
+        previsionStart: _,
+        previsionEnd: V,
+        hasActualDates: $,
+        projectId: a.projectId || void 0,
+        projectTitle: a.projectTitle || void 0,
+        attachedNotes: k.get(a.id)
+      }), T++;
+    }), p?.forEach((a) => {
+      if (!a.date) return;
+      const $ = new Date(a.date);
+      if (isNaN($.getTime())) return;
+      const W = h?.filter((L) => L.successorId === a.id).map((L) => L.predecessorId) || [];
+      v.push({
+        id: a.id,
+        name: a.name,
+        start: $,
+        end: $,
+        progress: a.finished ? 100 : 0,
         originalType: "milestone",
-        deps: N,
-        projectId: s.projectId || void 0,
-        projectTitle: s.projectTitle || void 0
+        deps: W,
+        projectId: a.projectId || void 0,
+        projectTitle: a.projectTitle || void 0,
+        attachedNotes: k.get(a.id)
       });
-    }), p?.forEach((s) => {
-      if (!s.date) return;
-      const y = new Date(s.date);
-      if (isNaN(y.getTime())) return;
-      const N = h?.filter((A) => A.successorId === s.id).map((A) => A.predecessorId) || [];
-      u.push({
-        id: s.id,
-        name: s.title,
-        start: y,
-        end: y,
-        progress: s.finished ? 100 : 0,
+    }), l?.forEach((a) => {
+      if (!a.date) return;
+      const $ = new Date(a.date);
+      if (isNaN($.getTime())) return;
+      const W = h?.filter((L) => L.successorId === a.id).map((L) => L.predecessorId) || [];
+      v.push({
+        id: a.id,
+        name: a.title,
+        start: $,
+        end: $,
+        progress: a.finished ? 100 : 0,
         originalType: "event",
-        deps: N,
-        projectId: s.projectId || void 0,
-        projectTitle: s.projectTitle || void 0
+        deps: W,
+        projectId: a.projectId || void 0,
+        projectTitle: a.projectTitle || void 0,
+        attachedNotes: k.get(a.id)
       });
-    }), T?.forEach((s) => {
-      if (!s.date) return;
-      const y = new Date(s.date);
-      isNaN(y.getTime()) || u.push({
-        id: s.id,
-        name: s.title || "Note",
-        start: y,
-        end: y,
-        progress: 0,
-        originalType: "note",
-        deps: [],
-        noteCount: 1,
-        noteColor: s.color || e.note,
-        filesCount: s.filesCount || 0,
-        noteProjectTitle: s.projectTitle || void 0,
-        projectId: s.projectId || void 0,
-        projectTitle: s.projectTitle || void 0
+    }), v;
+  }, [n, p, l, I, h]), w = le(() => vt(A, u, x), [A, u, x]), B = le(() => {
+    const v = [], k = ["step", "milestone", "event"];
+    if (M) {
+      const T = /* @__PURE__ */ new Map();
+      A.forEach((a) => {
+        a.projectId && !T.has(a.projectId) && T.set(a.projectId, a.projectTitle || a.projectId);
       });
-    }), u;
-  }, [n, c, p, T, h]), S = ae(() => bt(F, w, x), [F, w, x]), B = ae(() => {
-    const u = [], D = ["step", "milestone", "event", "note"];
-    if (C) {
-      const s = /* @__PURE__ */ new Map();
-      F.forEach((y) => {
-        y.projectId && !s.has(y.projectId) && s.set(y.projectId, y.projectTitle || y.projectId);
-      });
-      for (const [y, N] of Array.from(s.entries())) {
-        const A = E.has(y);
-        if (u.push({ kind: "projectHeader", projectId: y, projectTitle: N, collapsed: A }), !A) {
-          const ee = F.filter((k) => k.projectId === y);
-          for (const k of D) {
-            if (!M.has(k)) continue;
-            const g = ee.filter((q) => q.originalType === k);
-            if (g.length === 0) continue;
-            const Y = `${y}-${k}`, V = f.has(Y);
-            u.push({ kind: "group", groupType: k, label: Ne[k], count: g.length, collapsed: V, projectId: y }), V || g.forEach((q) => u.push({ kind: "task", task: q }));
+      for (const [a, $] of Array.from(T.entries())) {
+        const W = R.has(a);
+        if (v.push({ kind: "projectHeader", projectId: a, projectTitle: $, collapsed: W }), !W) {
+          const L = A.filter((X) => X.projectId === a);
+          for (const X of k) {
+            if (!D.has(X)) continue;
+            const r = L.filter((te) => te.originalType === X);
+            if (r.length === 0) continue;
+            const _ = `${a}-${X}`, V = f.has(_);
+            v.push({ kind: "group", groupType: X, label: Oe[X], count: r.length, collapsed: V, projectId: a }), V || r.forEach((te) => v.push({ kind: "task", task: te }));
           }
         }
       }
     } else
-      for (const s of D) {
-        if (!M.has(s)) continue;
-        const y = F.filter((A) => A.originalType === s);
-        if (y.length === 0) continue;
-        const N = f.has(s);
-        u.push({ kind: "group", groupType: s, label: Ne[s], count: y.length, collapsed: N }), N || y.forEach((A) => u.push({ kind: "task", task: A }));
+      for (const T of k) {
+        if (!D.has(T)) continue;
+        const a = A.filter((W) => W.originalType === T);
+        if (a.length === 0) continue;
+        const $ = f.has(T);
+        v.push({ kind: "group", groupType: T, label: Oe[T], count: a.length, collapsed: $ }), $ || a.forEach((W) => v.push({ kind: "task", task: W }));
       }
-    return u;
-  }, [F, M, f, E, C]), r = ae(() => {
-    const u = /* @__PURE__ */ new Map();
-    return B.forEach((D, s) => {
-      D.kind === "task" && u.set(D.task.id, s);
-    }), u;
-  }, [B]), i = ae(
-    () => kt(F, h || [], S, r),
-    [F, h, S, r]
-  ), I = ae(() => It(F, h || []), [F, h]), l = ae(() => {
-    const u = /* @__PURE__ */ new Set(), D = /* @__PURE__ */ new Date();
-    return F.forEach((s) => {
-      s.originalType === "step" && s.end < D && s.progress < 100 && u.add(s.id);
-    }), u;
-  }, [F]), $ = ae(() => {
-    if (!b || !h?.length) return /* @__PURE__ */ new Set();
-    const u = /* @__PURE__ */ new Set(), D = [b];
-    for (; D.length; ) {
-      const s = D.shift();
-      for (const y of h)
-        y.predecessorId === s && !u.has(y.successorId) && (u.add(y.successorId), D.push(y.successorId)), y.successorId === s && !u.has(y.predecessorId) && (u.add(y.predecessorId), D.push(y.predecessorId));
+    return v;
+  }, [A, D, f, R, M]), c = le(() => {
+    const v = /* @__PURE__ */ new Map();
+    return B.forEach((k, T) => {
+      k.kind === "task" && v.set(k.task.id, T);
+    }), v;
+  }, [B]), s = le(
+    () => Tt(A, h || [], w, c),
+    [A, h, w, c]
+  ), g = le(() => Dt(A, h || []), [A, h]), d = le(() => {
+    const v = /* @__PURE__ */ new Set(), k = /* @__PURE__ */ new Date();
+    return A.forEach((T) => {
+      T.originalType === "step" && T.end < k && T.progress < 100 && v.add(T.id);
+    }), v;
+  }, [A]), C = le(() => {
+    if (!m || !h?.length) return /* @__PURE__ */ new Set();
+    const v = /* @__PURE__ */ new Set(), k = [m];
+    for (; k.length; ) {
+      const T = k.shift();
+      for (const a of h)
+        a.predecessorId === T && !v.has(a.successorId) && (v.add(a.successorId), k.push(a.successorId)), a.successorId === T && !v.has(a.predecessorId) && (v.add(a.predecessorId), k.push(a.predecessorId));
     }
-    return u;
-  }, [b, h]);
+    return v;
+  }, [m, h]);
   return {
-    tasks: F,
-    timeline: S,
+    tasks: A,
+    timeline: w,
     displayRows: B,
-    taskRowIndex: r,
-    arrows: i,
-    criticalIds: I,
-    delayedIds: l,
-    relatedIds: $
+    taskRowIndex: c,
+    arrows: s,
+    criticalIds: g,
+    delayedIds: d,
+    relatedIds: C
   };
 }
+function Rt() {
+  const { activePinboardTask: n, setActivePinboardTask: p, t: l } = me(), I = !!n, h = () => p(null);
+  return /* @__PURE__ */ o(ce, { children: [
+    I && /* @__PURE__ */ t(
+      "div",
+      {
+        onClick: h,
+        style: {
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0,0,0,0.2)",
+          zIndex: 99,
+          backdropFilter: "blur(2px)",
+          transition: "opacity 0.3s ease"
+        }
+      }
+    ),
+    /* @__PURE__ */ o("div", { style: {
+      position: "fixed",
+      top: 0,
+      right: I ? 0 : -450,
+      width: 400,
+      height: "100vh",
+      backgroundColor: "var(--zg-surface, #FFFFFF)",
+      boxShadow: "-4px 0 24px rgba(0,0,0,0.1)",
+      borderLeft: "1px solid var(--zg-border, #D9D9D9)",
+      transition: "right 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+      display: "flex",
+      flexDirection: "column",
+      zIndex: 100
+    }, children: [
+      /* @__PURE__ */ o("div", { style: {
+        padding: "20px 24px",
+        backgroundColor: e.headerBg,
+        borderBottom: `1px solid ${e.borderLight}`,
+        display: "flex",
+        flexDirection: "column",
+        gap: 12
+      }, children: [
+        /* @__PURE__ */ o("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" }, children: [
+          /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
+            /* @__PURE__ */ t("span", { style: {
+              fontSize: 10,
+              fontWeight: 700,
+              backgroundColor: e.milestoneRing,
+              color: e.group,
+              padding: "2px 6px",
+              borderRadius: 4,
+              letterSpacing: "0.5px"
+            }, children: n?.originalType?.toUpperCase() || "" }),
+            /* @__PURE__ */ o("span", { style: { fontSize: 12, color: e.textSecondary, display: "flex", alignItems: "center", gap: 4 }, children: [
+              /* @__PURE__ */ t(ct, { size: 12 }),
+              n && q(n.start),
+              n?.originalType === "step" && ` - ${q(n.end)}`
+            ] })
+          ] }),
+          /* @__PURE__ */ t(
+            "button",
+            {
+              onClick: h,
+              style: { background: "transparent", border: "none", cursor: "pointer", padding: 4, borderRadius: 4 },
+              children: /* @__PURE__ */ t(Ge, { size: 18 })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ t("h2", { style: { margin: 0, fontSize: 18, fontWeight: 700, color: e.textTitle }, children: n?.name || "" }),
+        /* @__PURE__ */ t("p", { style: { margin: 0, fontSize: 13, color: e.textSecondary }, children: l("pinboard.description", "Quadro de anotações e arquivos vinculados a esta etapa.") })
+      ] }),
+      /* @__PURE__ */ o("div", { style: {
+        flex: 1,
+        overflowY: "auto",
+        padding: "24px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 20,
+        backgroundColor: "#FAFAFB"
+      }, children: [
+        n?.attachedNotes?.map((u, x) => /* @__PURE__ */ o(
+          "div",
+          {
+            style: {
+              background: u.color || e.note,
+              padding: "16px",
+              borderRadius: "2px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+              transform: `rotate(${x % 2 === 0 ? "-1deg" : "1deg"})`,
+              position: "relative"
+            },
+            children: [
+              /* @__PURE__ */ t("div", { style: {
+                position: "absolute",
+                top: 0,
+                left: "50%",
+                transform: "translateX(-50%)",
+                width: "40px",
+                height: "12px",
+                background: "rgba(255,255,255,0.3)",
+                borderRadius: "0 0 4px 4px"
+              } }),
+              /* @__PURE__ */ t("h3", { style: { margin: "0 0 8px 0", fontSize: 14, fontWeight: 700, color: "rgba(0,0,0,0.7)" }, children: u.title }),
+              /* @__PURE__ */ t("p", { style: { margin: 0, fontSize: 13, color: "rgba(0,0,0,0.6)", lineHeight: 1.4 }, children: u.description || "" }),
+              u.author && /* @__PURE__ */ o("div", { style: { marginTop: 12, fontSize: 11, fontWeight: 600, color: "rgba(0,0,0,0.4)", textAlign: "right" }, children: [
+                "— ",
+                u.author
+              ] })
+            ]
+          },
+          u.id
+        )),
+        (!n?.attachedNotes || n.attachedNotes.length === 0) && /* @__PURE__ */ o("div", { style: {
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          color: e.textMuted,
+          textAlign: "center",
+          gap: 12,
+          opacity: 0.6
+        }, children: [
+          /* @__PURE__ */ t("div", { style: { width: 60, height: 60, borderRadius: "50%", background: e.headerBg, display: "flex", alignItems: "center", justifyContent: "center" }, children: /* @__PURE__ */ t(je, { size: 32 }) }),
+          /* @__PURE__ */ t("p", { style: { margin: 0, fontSize: 14 }, children: l("pinboard.empty", "Nenhuma nota vinculada") })
+        ] })
+      ] }),
+      /* @__PURE__ */ t("div", { style: { padding: "16px 24px", backgroundColor: "var(--zg-surface, #FFFFFF)", borderTop: `1px solid ${e.borderLight}` }, children: /* @__PURE__ */ o("button", { style: {
+        width: "100%",
+        padding: "12px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 8,
+        backgroundColor: e.group,
+        color: "white",
+        border: "none",
+        borderRadius: 8,
+        fontSize: 14,
+        fontWeight: 600,
+        cursor: "pointer"
+      }, children: [
+        /* @__PURE__ */ t(je, { size: 18 }),
+        " ",
+        l("pinboard.newBtn", "Nova Nota nesta Etapa")
+      ] }) })
+    ] })
+  ] });
+}
 function $t(n) {
-  const [c, p] = P("day"), [T, h] = P(null), [w, x] = P(null), [C, M] = P(null), [f, E] = P({
+  const [p, l] = Y("day"), [I, h] = Y(null), [u, x] = Y(null), [M, D] = Y(null), [f, R] = Y({
     isOpen: !1,
     position: { x: 0, y: 0 },
     task: null
-  }), [b, F] = P(null), [S, B] = P(null), [r, i] = P(null), [I, l] = P(null), [$, u] = P("FS"), [D, s] = P(0), [y, N] = P(!1), [A, ee] = P(null), [k, g] = P(null), [Y, V] = P(!1), q = pe(null), [H, ie] = P(/* @__PURE__ */ new Set(["step", "milestone", "event", "note"])), [xe, Te] = P(/* @__PURE__ */ new Set()), [be, Me] = P(/* @__PURE__ */ new Set()), le = J((a) => {
-    ie((d) => {
-      const v = new Set(d);
-      return v.has(a) ? v.delete(a) : v.add(a), v;
+  }), [m, A] = Y(null), [w, B] = Y(null), [c, s] = Y(null), [g, d] = Y(null), [C, v] = Y("FS"), [k, T] = Y(0), [a, $] = Y(!1), [W, L] = Y(null), [X, r] = Y(null), [_, V] = Y(!1), te = he(null), [K, J] = Y(null), [se, Me] = Y(/* @__PURE__ */ new Set(["step", "milestone", "event", "note"])), [ve, Re] = Y(/* @__PURE__ */ new Set()), [we, ge] = Y(/* @__PURE__ */ new Set()), Se = Z((i) => {
+    Me((y) => {
+      const S = new Set(y);
+      return S.has(i) ? S.delete(i) : S.add(i), S;
     });
-  }, []), me = J((a) => {
-    Te((d) => {
-      const v = new Set(d);
-      return v.has(a) ? v.delete(a) : v.add(a), v;
+  }, []), Ce = Z((i) => {
+    Re((y) => {
+      const S = new Set(y);
+      return S.has(i) ? S.delete(i) : S.add(i), S;
     });
-  }, []), De = J((a) => {
-    Me((d) => {
-      const v = new Set(d);
-      return v.has(a) ? v.delete(a) : v.add(a), v;
+  }, []), Fe = Z((i) => {
+    ge((y) => {
+      const S = new Set(y);
+      return S.has(i) ? S.delete(i) : S.add(i), S;
     });
-  }, []), j = Tt({
+  }, []), P = Mt({
     steps: n.steps,
     milestones: n.milestones,
     events: n.events,
     notes: n.notes,
     dependencies: n.dependencies,
-    viewMode: c,
+    viewMode: p,
     locale: n.locale,
-    visibleTypes: H,
-    collapsedGroups: xe,
-    collapsedProjects: be,
+    visibleTypes: se,
+    collapsedGroups: ve,
+    collapsedProjects: we,
     groupByProject: n.groupByProject,
-    selectedTaskId: w || null
-  }), X = St(j.timeline), Re = J((a, d) => {
-    a.preventDefault(), a.stopPropagation(), F({ task: d, startMouseX: a.clientX, originalStart: new Date(d.start), originalEnd: new Date(d.end), offsetDays: 0 });
-  }, []), Ce = J((a, d, v) => {
-    a.preventDefault(), a.stopPropagation(), B({ task: d, edge: v, startMouseX: a.clientX, originalStart: new Date(d.start), originalEnd: new Date(d.end), offsetDays: 0 });
-  }, []), Ee = J((a, d, v) => {
-    a.preventDefault(), a.stopPropagation(), i({ fromTaskId: d.id, fromEdge: v, fromScreenX: a.clientX, fromScreenY: a.clientY, currentScreenX: a.clientX, currentScreenY: a.clientY, hoverTargetId: null });
-  }, []), $e = J(async () => {
-    if (!I || !n.onCreateDependency) return;
-    const a = new Map(j.tasks.map((O) => [O.id, O])), d = a.get(I.fromTaskId), v = a.get(I.toTaskId);
-    if (!d || !v) return;
-    const z = (O) => O.originalType === "step" ? "STEP" : "MILESTONE", L = I.fromEdge === "right" ? d : v, W = I.fromEdge === "right" ? v : d;
-    N(!0);
+    selectedTaskId: u || null
+  }), H = It(P.timeline), ze = Z((i, y) => {
+    i.preventDefault(), i.stopPropagation(), A({ task: y, startMouseX: i.clientX, originalStart: new Date(y.start), originalEnd: new Date(y.end), offsetDays: 0 });
+  }, []), Ae = Z((i, y, S) => {
+    i.preventDefault(), i.stopPropagation(), B({ task: y, edge: S, startMouseX: i.clientX, originalStart: new Date(y.start), originalEnd: new Date(y.end), offsetDays: 0 });
+  }, []), Ee = Z((i, y, S) => {
+    i.preventDefault(), i.stopPropagation(), s({ fromTaskId: y.id, fromEdge: S, fromScreenX: i.clientX, fromScreenY: i.clientY, currentScreenX: i.clientX, currentScreenY: i.clientY, hoverTargetId: null });
+  }, []), F = Z(async () => {
+    if (!g || !n.onCreateDependency) return;
+    const i = new Map(P.tasks.map((O) => [O.id, O])), y = i.get(g.fromTaskId), S = i.get(g.toTaskId);
+    if (!y || !S) return;
+    const E = (O) => O.originalType === "step" ? "STEP" : "MILESTONE", z = g.fromEdge === "right" ? y : S, N = g.fromEdge === "right" ? S : y;
+    $(!0);
     try {
-      await n.onCreateDependency({ predecessorId: L.id, predecessorType: z(L), successorId: W.id, successorType: z(W), type: $, lag: D }), l(null);
+      await n.onCreateDependency({ predecessorId: z.id, predecessorType: E(z), successorId: N.id, successorType: E(N), type: C, lag: k }), d(null);
     } finally {
-      N(!1);
+      $(!1);
     }
-  }, [I, j.tasks, n.onCreateDependency, $, D]);
-  ge(() => {
-    if (!b) return;
-    const a = (v) => {
-      const z = v.clientX - b.startMouseX, L = Math.round(z / j.timeline.dayWidth);
-      L !== b.offsetDays && F((W) => W ? { ...W, offsetDays: L } : null);
-    }, d = () => {
-      b.offsetDays !== 0 && n.onTaskChange && n.onTaskChange({
-        id: b.task.id,
-        name: b.task.name,
-        start: Z(b.originalStart, b.offsetDays),
-        end: Z(b.originalEnd, b.offsetDays),
-        type: b.task.originalType === "step" ? "task" : "milestone",
-        progress: b.task.progress
-      }), F(null);
+  }, [g, P.tasks, n.onCreateDependency, C, k]);
+  ue(() => {
+    if (!m) return;
+    const i = (S) => {
+      const E = S.clientX - m.startMouseX, z = Math.round(E / P.timeline.dayWidth);
+      z !== m.offsetDays && A((N) => N ? { ...N, offsetDays: z } : null);
+    }, y = () => {
+      m.offsetDays !== 0 && n.onTaskChange && n.onTaskChange({
+        id: m.task.id,
+        name: m.task.name,
+        start: ee(m.originalStart, m.offsetDays),
+        end: ee(m.originalEnd, m.offsetDays),
+        type: m.task.originalType === "step" ? "task" : "milestone",
+        progress: m.task.progress
+      }), A(null);
     };
-    return document.addEventListener("mousemove", a), document.addEventListener("mouseup", d), () => {
-      document.removeEventListener("mousemove", a), document.removeEventListener("mouseup", d);
+    return document.addEventListener("mousemove", i), document.addEventListener("mouseup", y), () => {
+      document.removeEventListener("mousemove", i), document.removeEventListener("mouseup", y);
     };
-  }, [b, j.timeline.dayWidth, n.onTaskChange]), ge(() => {
-    if (!S) return;
-    const a = (v) => {
-      const z = v.clientX - S.startMouseX, L = Math.round(z / j.timeline.dayWidth);
-      L !== S.offsetDays && B((W) => W ? { ...W, offsetDays: L } : null);
-    }, d = () => {
-      if (S.offsetDays !== 0 && n.onTaskChange) {
-        const v = S.edge === "left" ? Z(S.originalStart, S.offsetDays) : S.originalStart, z = S.edge === "right" ? Z(S.originalEnd, S.offsetDays) : S.originalEnd;
-        z > v && n.onTaskChange({ id: S.task.id, name: S.task.name, start: v, end: z, type: "task", progress: S.task.progress });
+  }, [m, P.timeline.dayWidth, n.onTaskChange]), ue(() => {
+    if (!w) return;
+    const i = (S) => {
+      const E = S.clientX - w.startMouseX, z = Math.round(E / P.timeline.dayWidth);
+      z !== w.offsetDays && B((N) => N ? { ...N, offsetDays: z } : null);
+    }, y = () => {
+      if (w.offsetDays !== 0 && n.onTaskChange) {
+        const S = w.edge === "left" ? ee(w.originalStart, w.offsetDays) : w.originalStart, E = w.edge === "right" ? ee(w.originalEnd, w.offsetDays) : w.originalEnd;
+        E > S && n.onTaskChange({ id: w.task.id, name: w.task.name, start: S, end: E, type: "task", progress: w.task.progress });
       }
       B(null);
     };
-    return document.addEventListener("mousemove", a), document.addEventListener("mouseup", d), () => {
-      document.removeEventListener("mousemove", a), document.removeEventListener("mouseup", d);
+    return document.addEventListener("mousemove", i), document.addEventListener("mouseup", y), () => {
+      document.removeEventListener("mousemove", i), document.removeEventListener("mouseup", y);
     };
-  }, [S, j.timeline.dayWidth, n.onTaskChange]), ge(() => {
-    if (!r) return;
-    const a = (v) => {
-      let z = null;
-      for (const L of document.elementsFromPoint(v.clientX, v.clientY)) {
-        const W = L.dataset?.taskId;
-        if (W && W !== r.fromTaskId) {
-          z = W;
+  }, [w, P.timeline.dayWidth, n.onTaskChange]), ue(() => {
+    if (!c) return;
+    const i = (S) => {
+      let E = null;
+      for (const z of document.elementsFromPoint(S.clientX, S.clientY)) {
+        const N = z.dataset?.taskId;
+        if (N && N !== c.fromTaskId) {
+          E = N;
           break;
         }
       }
-      i((L) => L ? { ...L, currentScreenX: v.clientX, currentScreenY: v.clientY, hoverTargetId: z } : null);
-    }, d = (v) => {
-      let z = null;
-      for (const L of document.elementsFromPoint(v.clientX, v.clientY)) {
-        const W = L.dataset?.taskId;
-        if (W && W !== r.fromTaskId) {
-          z = W;
+      s((z) => z ? { ...z, currentScreenX: S.clientX, currentScreenY: S.clientY, hoverTargetId: E } : null);
+    }, y = (S) => {
+      let E = null;
+      for (const z of document.elementsFromPoint(S.clientX, S.clientY)) {
+        const N = z.dataset?.taskId;
+        if (N && N !== c.fromTaskId) {
+          E = N;
           break;
         }
       }
-      z && n.onCreateDependency && (l({ fromTaskId: r.fromTaskId, fromEdge: r.fromEdge, toTaskId: z }), u("FS"), s(0)), i(null);
+      E && n.onCreateDependency && (d({ fromTaskId: c.fromTaskId, fromEdge: c.fromEdge, toTaskId: E }), v("FS"), T(0)), s(null);
     };
-    return document.addEventListener("mousemove", a), document.addEventListener("mouseup", d), () => {
-      document.removeEventListener("mousemove", a), document.removeEventListener("mouseup", d);
+    return document.addEventListener("mousemove", i), document.addEventListener("mouseup", y), () => {
+      document.removeEventListener("mousemove", i), document.removeEventListener("mouseup", y);
     };
-  }, [r?.fromTaskId, r?.fromEdge, n.onCreateDependency]);
-  const [R, he] = P(null), re = J((a) => {
-    if (S || b || a.button === 2) return;
-    const d = X.rightBodyRef.current;
-    d && (a.preventDefault(), he({ startX: a.clientX, startY: a.clientY, scrollLeft: d.scrollLeft, scrollTop: d.scrollTop }));
-  }, [S, b, X.rightBodyRef]);
-  ge(() => {
-    if (!R) return;
-    const a = (v) => {
-      const z = X.rightBodyRef.current;
-      z && (z.scrollLeft = R.scrollLeft - (v.clientX - R.startX), z.scrollTop = R.scrollTop - (v.clientY - R.startY), X.leftBodyRef.current && (X.leftBodyRef.current.scrollTop = z.scrollTop), X.timeHeaderRef.current && (X.timeHeaderRef.current.scrollLeft = z.scrollLeft));
-    }, d = () => he(null);
-    return document.addEventListener("mousemove", a), document.addEventListener("mouseup", d), () => {
-      document.removeEventListener("mousemove", a), document.removeEventListener("mouseup", d);
+  }, [c?.fromTaskId, c?.fromEdge, n.onCreateDependency]);
+  const [de, ne] = Y(null), fe = Z((i) => {
+    if (w || m || i.button === 2) return;
+    const y = H.rightBodyRef.current;
+    y && (i.preventDefault(), ne({ startX: i.clientX, startY: i.clientY, scrollLeft: y.scrollLeft, scrollTop: y.scrollTop }));
+  }, [w, m, H.rightBodyRef]);
+  ue(() => {
+    if (!de) return;
+    const i = (S) => {
+      const E = H.rightBodyRef.current;
+      E && (E.scrollLeft = de.scrollLeft - (S.clientX - de.startX), E.scrollTop = de.scrollTop - (S.clientY - de.startY), H.leftBodyRef.current && (H.leftBodyRef.current.scrollTop = E.scrollTop), H.timeHeaderRef.current && (H.timeHeaderRef.current.scrollLeft = E.scrollLeft));
+    }, y = () => ne(null);
+    return document.addEventListener("mousemove", i), document.addEventListener("mouseup", y), () => {
+      document.removeEventListener("mousemove", i), document.removeEventListener("mouseup", y);
     };
-  }, [R, X.rightBodyRef, X.leftBodyRef, X.timeHeaderRef]);
-  const ue = J((a) => {
-    a.preventDefault(), a.stopPropagation();
-    const d = (z) => {
-      const L = X.rightBodyRef.current;
-      if (!L) return /* @__PURE__ */ new Date();
-      const W = L.getBoundingClientRect(), O = z - W.left + L.scrollLeft;
-      return Z(j.timeline.start, Math.max(0, Math.floor(O / j.timeline.dayWidth)));
-    }, v = (z) => {
+  }, [de, H.rightBodyRef, H.leftBodyRef, H.timeHeaderRef]);
+  const b = Z((i) => {
+    i.preventDefault(), i.stopPropagation();
+    const y = (E) => {
+      const z = H.rightBodyRef.current;
+      if (!z) return /* @__PURE__ */ new Date();
+      const N = z.getBoundingClientRect(), O = E - N.left + z.scrollLeft;
+      return ee(P.timeline.start, Math.max(0, Math.floor(O / P.timeline.dayWidth)));
+    }, S = (E) => {
       if (!n.groupByProject) return;
-      const L = X.leftBodyRef.current;
-      if (!L) return;
-      const W = L.getBoundingClientRect(), O = z - W.top + L.scrollTop, ce = Math.max(0, Math.floor(O / 50));
-      for (let U = Math.min(ce, j.displayRows.length - 1); U >= 0; U--) {
-        const te = j.displayRows[U];
-        if (te.kind === "projectHeader") return te.projectId;
-        if (te.kind === "task" && te.task.projectId) return te.task.projectId;
-        if (te.kind === "group" && te.projectId) return te.projectId;
+      const z = H.leftBodyRef.current;
+      if (!z) return;
+      const N = z.getBoundingClientRect(), O = E - N.top + z.scrollTop, oe = Math.max(0, Math.floor(O / 50));
+      for (let ye = Math.min(oe, P.displayRows.length - 1); ye >= 0; ye--) {
+        const re = P.displayRows[ye];
+        if (re.kind === "projectHeader") return re.projectId;
+        if (re.kind === "task" && re.task.projectId) return re.task.projectId;
+        if (re.kind === "group" && re.projectId) return re.projectId;
       }
     };
-    g({ x: a.clientX, y: a.clientY, date: d(a.clientX), projectId: v(a.clientY) }), he(null);
-  }, [j.timeline, j.displayRows, n.groupByProject, X.rightBodyRef, X.leftBodyRef]);
-  ge(() => {
-    if (!k) return;
-    const a = (z) => {
-      z.key === "Escape" && g(null);
-    }, d = (z) => {
-      z.target.closest('[data-menu="chart-create"]') || g(null);
-    }, v = () => g(null);
-    return document.addEventListener("keydown", a), document.addEventListener("click", d), window.addEventListener("scroll", v, !0), () => {
-      document.removeEventListener("keydown", a), document.removeEventListener("click", d), window.removeEventListener("scroll", v, !0);
+    r({ x: i.clientX, y: i.clientY, date: y(i.clientX), projectId: S(i.clientY) }), ne(null);
+  }, [P.timeline, P.displayRows, n.groupByProject, H.rightBodyRef, H.leftBodyRef]);
+  ue(() => {
+    if (!X) return;
+    const i = (E) => {
+      E.key === "Escape" && r(null);
+    }, y = (E) => {
+      E.target.closest('[data-menu="chart-create"]') || r(null);
+    }, S = () => r(null);
+    return document.addEventListener("keydown", i), document.addEventListener("click", y), window.addEventListener("scroll", S, !0), () => {
+      document.removeEventListener("keydown", i), document.removeEventListener("click", y), window.removeEventListener("scroll", S, !0);
     };
-  }, [k]);
-  const m = ae(() => ({
+  }, [X]);
+  const j = le(() => ({
     props: n,
-    t: (a, d) => n.translations ? typeof n.translations == "function" ? n.translations(a, d) : n.translations[a] || d || "" : d || "",
-    viewMode: c,
-    setViewMode: p,
-    hoveredTaskId: T,
+    t: (i, y) => n.translations ? typeof n.translations == "function" ? n.translations(i, y) : n.translations[i] || y || "" : y || "",
+    viewMode: p,
+    setViewMode: l,
+    hoveredTaskId: I,
     setHoveredTaskId: h,
-    selectedTaskId: w,
+    selectedTaskId: u,
     setSelectedTaskId: x,
-    tooltip: C,
-    setTooltip: M,
+    tooltip: M,
+    setTooltip: D,
     popupState: f,
-    setPopupState: E,
-    dragState: b,
-    setDragState: F,
-    resizeState: S,
+    setPopupState: R,
+    dragState: m,
+    setDragState: A,
+    resizeState: w,
     setResizeState: B,
-    connectState: r,
-    setConnectState: i,
-    visibleTypes: H,
-    setVisibleTypes: ie,
-    toggleVisibility: le,
-    collapsedGroups: xe,
-    setCollapsedGroups: Te,
-    toggleGroup: me,
-    collapsedProjects: be,
-    setCollapsedProjects: Me,
-    toggleProject: De,
-    pendingConnection: I,
-    setPendingConnection: l,
-    depModalType: $,
-    setDepModalType: u,
-    depModalLag: D,
-    setDepModalLag: s,
-    depCreating: y,
-    setDepCreating: N,
-    deletingDepId: A,
-    setDeletingDepId: ee,
-    chartMenu: k,
-    setChartMenu: g,
-    newActionOpen: Y,
+    connectState: c,
+    setConnectState: s,
+    visibleTypes: se,
+    setVisibleTypes: Me,
+    toggleVisibility: Se,
+    collapsedGroups: ve,
+    setCollapsedGroups: Re,
+    toggleGroup: Ce,
+    collapsedProjects: we,
+    setCollapsedProjects: ge,
+    toggleProject: Fe,
+    pendingConnection: g,
+    setPendingConnection: d,
+    depModalType: C,
+    setDepModalType: v,
+    depModalLag: k,
+    setDepModalLag: T,
+    depCreating: a,
+    setDepCreating: $,
+    deletingDepId: W,
+    setDeletingDepId: L,
+    chartMenu: X,
+    setChartMenu: r,
+    newActionOpen: _,
     setNewActionOpen: V,
-    tasks: j.tasks,
-    timeline: j.timeline,
-    displayRows: j.displayRows,
-    taskRowIndex: j.taskRowIndex || /* @__PURE__ */ new Map(),
-    arrows: j.arrows,
-    criticalIds: j.criticalIds,
-    delayedIds: j.delayedIds,
-    relatedIds: j.relatedIds,
-    ...X,
-    newActionRef: q,
-    screenXToDate: (a) => {
-      const d = X.rightBodyRef.current;
-      if (!d) return /* @__PURE__ */ new Date();
-      const v = d.getBoundingClientRect(), z = a - v.left + d.scrollLeft;
-      return Z(j.timeline.start, Math.max(0, Math.floor(z / j.timeline.dayWidth)));
+    activePinboardTask: K,
+    setActivePinboardTask: J,
+    tasks: P.tasks,
+    timeline: P.timeline,
+    displayRows: P.displayRows,
+    taskRowIndex: P.taskRowIndex || /* @__PURE__ */ new Map(),
+    arrows: P.arrows,
+    criticalIds: P.criticalIds,
+    delayedIds: P.delayedIds,
+    relatedIds: P.relatedIds,
+    ...H,
+    newActionRef: te,
+    screenXToDate: (i) => {
+      const y = H.rightBodyRef.current;
+      if (!y) return /* @__PURE__ */ new Date();
+      const S = y.getBoundingClientRect(), E = i - S.left + y.scrollLeft;
+      return ee(P.timeline.start, Math.max(0, Math.floor(E / P.timeline.dayWidth)));
     },
-    screenYToProjectId: (a) => {
+    screenYToProjectId: (i) => {
       if (!n.groupByProject) return;
-      const d = X.leftBodyRef.current;
-      if (!d) return;
-      const v = d.getBoundingClientRect(), z = a - v.top + d.scrollTop, L = Math.max(0, Math.floor(z / 50));
-      for (let W = Math.min(L, j.displayRows.length - 1); W >= 0; W--) {
-        const O = j.displayRows[W];
+      const y = H.leftBodyRef.current;
+      if (!y) return;
+      const S = y.getBoundingClientRect(), E = i - S.top + y.scrollTop, z = Math.max(0, Math.floor(E / 50));
+      for (let N = Math.min(z, P.displayRows.length - 1); N >= 0; N--) {
+        const O = P.displayRows[N];
         if (O.kind === "projectHeader") return O.projectId;
         if (O.kind === "task" && O.task.projectId) return O.task.projectId;
         if (O.kind === "group" && O.projectId) return O.projectId;
       }
     },
-    handleChartMouseDown: re,
-    openChartMenu: ue,
-    handleBarMouseDown: Re,
-    handleResizeMouseDown: Ce,
+    handleChartMouseDown: fe,
+    openChartMenu: b,
+    handleBarMouseDown: ze,
+    handleResizeMouseDown: Ae,
     handleConnectDotMouseDown: Ee,
-    handleCreateDependency: $e
+    handleCreateDependency: F
   }), [
     n,
-    c,
-    T,
-    w,
-    C,
-    f,
-    b,
-    S,
-    r,
-    H,
-    xe,
-    be,
+    p,
     I,
-    $,
-    D,
-    y,
-    A,
+    u,
+    M,
+    f,
+    m,
+    w,
+    c,
+    se,
+    ve,
+    we,
+    g,
+    C,
     k,
-    Y,
-    j,
+    a,
+    W,
     X,
-    le,
-    me,
-    De,
-    re,
-    ue,
-    Re,
+    _,
+    K,
+    P,
+    H,
+    Se,
     Ce,
+    Fe,
+    fe,
+    b,
+    ze,
+    Ae,
     Ee,
-    $e
+    F
   ]);
-  return n.loading ? /* @__PURE__ */ t("div", { style: { padding: 48, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: e.textSecondary }, children: /* @__PURE__ */ t(_e, { size: 32, style: { animation: "zg-spin 1.5s linear infinite", color: e.group } }) }) : /* @__PURE__ */ t(pt, { value: m, children: /* @__PURE__ */ o(
+  return n.loading ? /* @__PURE__ */ t("div", { style: { padding: 48, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: e.textSecondary }, children: /* @__PURE__ */ t(Ve, { size: 32, style: { animation: "zg-spin 1.5s linear infinite", color: e.group } }) }) : /* @__PURE__ */ t(ht, { value: j, children: /* @__PURE__ */ o(
     "div",
     {
       style: {
@@ -1851,19 +2011,23 @@ function $t(n) {
         overflow: "hidden",
         height: "calc(100vh - 48px)",
         minHeight: 600,
-        border: `1px solid ${e.borderLight}`
+        border: `1px solid ${e.borderLight}`,
+        opacity: K ? 0.6 : 1,
+        transition: "opacity 0.3s ease",
+        pointerEvents: K ? "none" : "auto"
       },
       children: [
-        /* @__PURE__ */ t(yt, {}),
+        /* @__PURE__ */ t(bt, {}),
         /* @__PURE__ */ o("div", { style: { display: "flex", flex: 1, overflow: "hidden", position: "relative", background: e.surfaceAlt }, children: [
-          /* @__PURE__ */ t(xt, {}),
-          /* @__PURE__ */ t(wt, {})
-        ] })
+          /* @__PURE__ */ t(mt, {}),
+          /* @__PURE__ */ t(kt, {})
+        ] }),
+        /* @__PURE__ */ t(Rt, {})
       ]
     }
   ) });
 }
-const Mt = [
+const Ct = [
   { label: "Yellow", value: "#FEF08A" },
   { label: "Green", value: "#BBF7D0" },
   { label: "Blue", value: "#BFDBFE" },
@@ -1871,52 +2035,52 @@ const Mt = [
   { label: "Purple", value: "#E9D5FF" },
   { label: "Orange", value: "#FED7AA" },
   { label: "White", value: "#FFFFFF" }
-], Xe = {
+], He = {
   FS: "Finish → Start (FS)",
   SS: "Start → Start (SS)",
   FF: "Finish → Finish (FF)",
   SF: "Start → Finish (SF)"
 };
-function Ft({
+function Wt({
   isOpen: n,
-  onClose: c,
-  availableMilestones: p = [],
-  initialDate: T,
+  onClose: p,
+  availableMilestones: l = [],
+  initialDate: I,
   translations: h,
-  onSaveNote: w
+  onSaveNote: u
 }) {
-  const x = (g, Y) => h ? typeof h == "function" ? h(g, Y) : h[g] || Y : Y, [C, M] = P(""), [f, E] = P(""), [b, F] = P("#FEF08A"), [S, B] = P(""), [r, i] = P(""), [I, l] = P("FS"), [$, u] = P(!1), [D, s] = P([]), [y, N] = P(""), A = pe(null);
-  ge(() => {
-    n && (M(""), E(""), F("#FEF08A"), B(T ?? (/* @__PURE__ */ new Date()).toISOString().split("T")[0]), i(""), l("FS"), s([]), N(""));
-  }, [n, T]);
-  const ee = [
-    ...p.map((g) => ({ id: g.id, name: g.name, type: "MILESTONE" }))
-  ], k = async () => {
-    if (!C.trim() && !f.trim()) {
-      N(x("noteModal.errorEmpty", "Please provide a title or content for the note."));
+  const x = (r, _) => h ? typeof h == "function" ? h(r, _) : h[r] || _ : _, [M, D] = Y(""), [f, R] = Y(""), [m, A] = Y("#FEF08A"), [w, B] = Y(""), [c, s] = Y(""), [g, d] = Y("FS"), [C, v] = Y(!1), [k, T] = Y([]), [a, $] = Y(""), W = he(null);
+  ue(() => {
+    n && (D(""), R(""), A("#FEF08A"), B(I ?? (/* @__PURE__ */ new Date()).toISOString().split("T")[0]), s(""), d("FS"), T([]), $(""));
+  }, [n, I]);
+  const L = [
+    ...l.map((r) => ({ id: r.id, name: r.name, type: "MILESTONE" }))
+  ], X = async () => {
+    if (!M.trim() && !f.trim()) {
+      $(x("noteModal.errorEmpty", "Please provide a title or content for the note."));
       return;
     }
-    N("");
+    $("");
     try {
-      u(!0), await w({
-        title: C || x("noteModal.untitled", "Untitled"),
+      v(!0), await u({
+        title: M || x("noteModal.untitled", "Untitled"),
         description: f,
-        color: b,
-        date: S ? `${S}T00:00:00` : (/* @__PURE__ */ new Date()).toISOString(),
-        predecessorId: r,
-        dependencyType: I,
-        files: D
-      }), c();
-    } catch (g) {
-      console.error(g), N(x("noteModal.errorSave", "Error creating note."));
+        color: m,
+        date: w ? `${w}T00:00:00` : (/* @__PURE__ */ new Date()).toISOString(),
+        predecessorId: c,
+        dependencyType: g,
+        files: k
+      }), p();
+    } catch (r) {
+      console.error(r), $(x("noteModal.errorSave", "Error creating note."));
     } finally {
-      u(!1);
+      v(!1);
     }
   };
-  return n ? /* @__PURE__ */ t("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.2)", backdropFilter: "blur(2px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999, padding: 16 }, onClick: c, children: /* @__PURE__ */ o("div", { onClick: (g) => g.stopPropagation(), style: {
+  return n ? /* @__PURE__ */ t("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.2)", backdropFilter: "blur(2px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999, padding: 16 }, onClick: p, children: /* @__PURE__ */ o("div", { onClick: (r) => r.stopPropagation(), style: {
     width: 400,
     maxHeight: "90vh",
-    background: b || "#FFFACD",
+    background: m || "#FFFACD",
     borderRadius: 4,
     boxShadow: "4px 6px 20px rgba(0,0,0,0.18), 1px 1px 4px rgba(0,0,0,0.08)",
     transform: "rotate(-1deg)",
@@ -1931,21 +2095,21 @@ function Ft({
     /* @__PURE__ */ t(
       "button",
       {
-        onClick: c,
+        onClick: p,
         style: { position: "absolute", top: 10, right: 10, width: 24, height: 24, borderRadius: "50%", background: "rgba(0,0,0,0.08)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 14, color: "#3a3a3a" },
-        onMouseEnter: (g) => g.currentTarget.style.background = "rgba(0,0,0,0.15)",
-        onMouseLeave: (g) => g.currentTarget.style.background = "rgba(0,0,0,0.08)",
+        onMouseEnter: (r) => r.currentTarget.style.background = "rgba(0,0,0,0.15)",
+        onMouseLeave: (r) => r.currentTarget.style.background = "rgba(0,0,0,0.08)",
         children: "✕"
       }
     ),
     /* @__PURE__ */ o("div", { style: { padding: "28px 24px 20px", flex: 1, overflowY: "auto", display: "flex", flexDirection: "column" }, children: [
-      y && /* @__PURE__ */ t("div", { style: { background: "rgba(255,0,0,0.1)", color: "#d32f2f", padding: "8px 12px", borderRadius: 6, fontSize: 12, marginBottom: 12, border: "1px solid rgba(255,0,0,0.2)" }, children: y }),
+      a && /* @__PURE__ */ t("div", { style: { background: "rgba(255,0,0,0.1)", color: "#d32f2f", padding: "8px 12px", borderRadius: 6, fontSize: 12, marginBottom: 12, border: "1px solid rgba(255,0,0,0.2)" }, children: a }),
       /* @__PURE__ */ t(
         "input",
         {
           type: "text",
-          value: C,
-          onChange: (g) => M(g.target.value),
+          value: M,
+          onChange: (r) => D(r.target.value),
           placeholder: x("noteModal.titlePlaceholder", "Note title..."),
           style: {
             width: "100%",
@@ -1968,7 +2132,7 @@ function Ft({
         "textarea",
         {
           value: f,
-          onChange: (g) => E(g.target.value),
+          onChange: (r) => R(r.target.value),
           rows: 6,
           placeholder: x("noteModal.contentPlaceholder", "Write your note here..."),
           style: {
@@ -1992,12 +2156,12 @@ function Ft({
         /* @__PURE__ */ t(
           "input",
           {
-            ref: A,
+            ref: W,
             type: "file",
             multiple: !0,
-            onChange: (g) => {
-              const Y = g.target.files ? Array.from(g.target.files) : [];
-              Y.length > 0 && s((V) => [...V, ...Y]), A.current && (A.current.value = "");
+            onChange: (r) => {
+              const _ = r.target.files ? Array.from(r.target.files) : [];
+              _.length > 0 && T((V) => [...V, ..._]), W.current && (W.current.value = "");
             },
             style: { display: "none" }
           }
@@ -2006,7 +2170,7 @@ function Ft({
           "button",
           {
             type: "button",
-            onClick: () => A.current?.click(),
+            onClick: () => W.current?.click(),
             style: {
               display: "flex",
               alignItems: "center",
@@ -2023,15 +2187,15 @@ function Ft({
               width: "100%",
               justifyContent: "center"
             },
-            onMouseEnter: (g) => g.currentTarget.style.background = "rgba(0,0,0,0.08)",
-            onMouseLeave: (g) => g.currentTarget.style.background = "rgba(0,0,0,0.05)",
+            onMouseEnter: (r) => r.currentTarget.style.background = "rgba(0,0,0,0.08)",
+            onMouseLeave: (r) => r.currentTarget.style.background = "rgba(0,0,0,0.05)",
             children: [
-              /* @__PURE__ */ t(dt, { size: 13 }),
+              /* @__PURE__ */ t(pt, { size: 13 }),
               x("noteModal.attachFiles", "Attach files")
             ]
           }
         ),
-        D.length > 0 && /* @__PURE__ */ t("div", { style: { marginTop: 8, display: "flex", flexDirection: "column", gap: 4 }, children: D.map((g, Y) => /* @__PURE__ */ o("div", { style: {
+        k.length > 0 && /* @__PURE__ */ t("div", { style: { marginTop: 8, display: "flex", flexDirection: "column", gap: 4 }, children: k.map((r, _) => /* @__PURE__ */ o("div", { style: {
           display: "flex",
           alignItems: "center",
           gap: 6,
@@ -2041,31 +2205,31 @@ function Ft({
           fontSize: 11,
           color: "#3a3a3a"
         }, children: [
-          /* @__PURE__ */ t(Fe, { size: 10, style: { flexShrink: 0 } }),
-          /* @__PURE__ */ t("span", { style: { flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: g.name }),
+          /* @__PURE__ */ t($e, { size: 10, style: { flexShrink: 0 } }),
+          /* @__PURE__ */ t("span", { style: { flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: r.name }),
           /* @__PURE__ */ o("span", { style: { fontSize: 9, color: "rgba(58,58,58,0.4)", flexShrink: 0 }, children: [
-            (g.size / 1024).toFixed(0),
+            (r.size / 1024).toFixed(0),
             "KB"
           ] }),
           /* @__PURE__ */ t(
             "button",
             {
               type: "button",
-              onClick: () => s((V) => V.filter((q, H) => H !== Y)),
+              onClick: () => T((V) => V.filter((te, K) => K !== _)),
               style: { background: "none", border: "none", cursor: "pointer", padding: 2, display: "flex", color: "#ef4444" },
               title: x("noteModal.removeFile", "Remove"),
-              children: /* @__PURE__ */ t(lt, { size: 12 })
+              children: /* @__PURE__ */ t(Ge, { size: 12 })
             }
           )
-        ] }, `file-${Y}`)) })
+        ] }, `file-${_}`)) })
       ] }),
       /* @__PURE__ */ o("div", { style: { marginTop: 16, paddingTop: 12, borderTop: "1px solid rgba(0,0,0,0.08)", display: "flex", alignItems: "center", justifyItems: "flex-start", justifyContent: "space-between", gap: 12 }, children: [
         /* @__PURE__ */ t(
           "input",
           {
             type: "date",
-            value: S,
-            onChange: (g) => B(g.target.value),
+            value: w,
+            onChange: (r) => B(r.target.value),
             style: {
               background: "transparent",
               border: "none",
@@ -2080,38 +2244,38 @@ function Ft({
             }
           }
         ),
-        /* @__PURE__ */ t("div", { style: { display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }, children: Mt.map((g) => /* @__PURE__ */ t(
+        /* @__PURE__ */ t("div", { style: { display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }, children: Ct.map((r) => /* @__PURE__ */ t(
           "button",
           {
             type: "button",
-            onClick: () => F(g.value),
+            onClick: () => A(r.value),
             style: {
               width: 22,
               height: 22,
               borderRadius: "50%",
-              border: b === g.value ? "2px solid #1A3C30" : "1.5px solid rgba(0,0,0,0.12)",
-              backgroundColor: g.value,
+              border: m === r.value ? "2px solid #1A3C30" : "1.5px solid rgba(0,0,0,0.12)",
+              backgroundColor: r.value,
               cursor: "pointer",
               padding: 0,
-              transform: b === g.value ? "scale(1.15)" : "scale(1)",
+              transform: m === r.value ? "scale(1.15)" : "scale(1)",
               transition: "all 0.15s",
-              boxShadow: b === g.value ? "0 1px 4px rgba(0,0,0,0.15)" : "none"
+              boxShadow: m === r.value ? "0 1px 4px rgba(0,0,0,0.15)" : "none"
             },
-            title: g.label
+            title: r.label
           },
-          g.value
+          r.value
         )) })
       ] }),
-      ee.length > 0 && /* @__PURE__ */ o("div", { style: { marginTop: 12, paddingTop: 12, borderTop: "1px solid rgba(0,0,0,0.08)" }, children: [
+      L.length > 0 && /* @__PURE__ */ o("div", { style: { marginTop: 12, paddingTop: 12, borderTop: "1px solid rgba(0,0,0,0.08)" }, children: [
         /* @__PURE__ */ o("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }, children: [
-          /* @__PURE__ */ t(ct, { size: 14, style: { color: "rgba(58,58,58,0.5)" } }),
+          /* @__PURE__ */ t(gt, { size: 14, style: { color: "rgba(58,58,58,0.5)" } }),
           /* @__PURE__ */ t("span", { style: { fontSize: 11, color: "rgba(58,58,58,0.5)", fontWeight: 600 }, children: x("noteModal.dependency", "Dependency") })
         ] }),
         /* @__PURE__ */ o(
           "select",
           {
-            value: r,
-            onChange: (g) => i(g.target.value),
+            value: c,
+            onChange: (r) => s(r.target.value),
             style: {
               width: "100%",
               background: "rgba(255,255,255,0.3)",
@@ -2126,15 +2290,15 @@ function Ft({
             },
             children: [
               /* @__PURE__ */ t("option", { value: "", children: x("noteModal.none", "None") }),
-              p.length > 0 && /* @__PURE__ */ t("optgroup", { label: x("noteModal.milestones", "Milestones"), children: p.map((g) => /* @__PURE__ */ t("option", { value: g.id, children: g.name }, g.id)) })
+              l.length > 0 && /* @__PURE__ */ t("optgroup", { label: x("noteModal.milestones", "Milestones"), children: l.map((r) => /* @__PURE__ */ t("option", { value: r.id, children: r.name }, r.id)) })
             ]
           }
         ),
-        r && /* @__PURE__ */ t(
+        c && /* @__PURE__ */ t(
           "select",
           {
-            value: I,
-            onChange: (g) => l(g.target.value),
+            value: g,
+            onChange: (r) => d(r.target.value),
             style: {
               width: "100%",
               background: "rgba(255,255,255,0.3)",
@@ -2148,7 +2312,7 @@ function Ft({
               cursor: "pointer",
               marginTop: 6
             },
-            children: Object.keys(Xe).map((g) => /* @__PURE__ */ t("option", { value: g, children: Xe[g] }, g))
+            children: Object.keys(He).map((r) => /* @__PURE__ */ t("option", { value: r, children: He[r] }, r))
           }
         )
       ] }),
@@ -2156,7 +2320,7 @@ function Ft({
         /* @__PURE__ */ t(
           "button",
           {
-            onClick: c,
+            onClick: p,
             style: { padding: "8px 16px", fontSize: 13, color: "#3a3a3a", background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 8, cursor: "pointer" },
             children: x("noteModal.cancel", "Cancel")
           }
@@ -2164,11 +2328,11 @@ function Ft({
         /* @__PURE__ */ o(
           "button",
           {
-            onClick: k,
-            disabled: $,
-            style: { padding: "8px 20px", fontSize: 13, color: "#fff", background: "#1A3C30", border: "none", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, opacity: $ ? 0.5 : 1 },
+            onClick: X,
+            disabled: C,
+            style: { padding: "8px 20px", fontSize: 13, color: "#fff", background: "#1A3C30", border: "none", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, opacity: C ? 0.5 : 1 },
             children: [
-              $ && /* @__PURE__ */ t(_e, { size: 16, style: { animation: "zg-spin 1s linear infinite" } }),
+              C && /* @__PURE__ */ t(Ve, { size: 16, style: { animation: "zg-spin 1s linear infinite" } }),
               x("noteModal.create", "Create Note")
             ]
           }
@@ -2177,7 +2341,7 @@ function Ft({
     ] })
   ] }) }) : null;
 }
-const At = {
+const Bt = {
   // GanttHeader
   "planning.gantt": "PLANEJAMENTO DA OBRA",
   "charts.gantt.month": "Mês",
@@ -2251,7 +2415,7 @@ const At = {
   "noteModal.untitled": "Sem título"
 };
 export {
-  Ft as NoteModal,
+  Wt as NoteModal,
   $t as ProjectGantt,
-  At as ptBR
+  Bt as ptBR
 };

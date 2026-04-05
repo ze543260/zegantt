@@ -22,6 +22,7 @@ export function GanttGrid() {
         delayedIds,
         criticalIds,
         relatedIds,
+        setActivePinboardTask,
     } = useGanttContext();
 
     const toGanttTask = (task: InternalTask): GanttTask => ({
@@ -31,10 +32,11 @@ export function GanttGrid() {
     });
 
     return (
-        <div style={{ width: LEFT_W, flexShrink: 0, borderRight: `1px solid ${C.border}` }}>
+        <div style={{ width: LEFT_W, flexShrink: 0, borderRight: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column', height: '100%' }}>
             {/* Table header */}
             <div
                 style={{
+                    boxSizing: 'border-box',
                     display: 'flex', alignItems: 'center', padding: '0 16px',
                     height: HEADER_H, background: C.headerBg, borderBottom: `1px solid ${C.border}`,
                 }}
@@ -57,152 +59,151 @@ export function GanttGrid() {
                 className="zg-no-scrollbar"
                 style={{ overflowY: 'auto', overflowX: 'hidden', flex: 1 }}
             >
-                {displayRows.map((row) => {
-                    // Project header row
-                    if (row.kind === 'projectHeader') {
-                        return (
-                            <div
-                                key={`ph-${row.projectId}`}
-                                style={{
-                                    display: 'flex', alignItems: 'center', padding: '0 16px',
-                                    cursor: 'pointer', userSelect: 'none',
-                                    height: ROW_H, borderBottom: `1.5px solid ${C.group}44`, background: `${C.group}0E`,
-                                }}
-                                onClick={() => toggleProject(row.projectId)}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
-                                    {row.collapsed
-                                        ? <ChevronRight size={15} style={{ color: C.group, flexShrink: 0 }} />
-                                        : <ChevronDown size={15} style={{ color: C.group, flexShrink: 0 }} />}
-                                    <span style={{
-                                        fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
-                                        color: C.group, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                                    }}>
-                                        {row.projectTitle}
-                                    </span>
-                                </div>
-                            </div>
-                        );
-                    }
-                    if (row.kind === 'group') {
-                        const groupKey = row.projectId ? `${row.projectId}-${row.groupType}` : row.groupType;
-                        return (
-                            <div
-                                key={`g-${groupKey}`}
-                                style={{
-                                    display: 'flex', alignItems: 'center', padding: '0 16px',
-                                    cursor: 'pointer', userSelect: 'none',
-                                    height: ROW_H, borderBottom: `1px solid ${C.border}`, background: C.headerBg,
-                                }}
-                                onClick={() => toggleGroup(groupKey)}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
-                                    {row.collapsed
-                                        ? <ChevronRight size={14} style={{ color: C.textSecondary, flexShrink: 0 }} />
-                                        : <ChevronDown size={14} style={{ color: C.textSecondary, flexShrink: 0 }} />}
-                                    <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: C.textTitle }}>
-                                        {t(`gantt.group.${row.groupType}`, row.label)}
-                                    </span>
-                                    <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 6px', borderRadius: 9999, background: 'rgba(0,0,0,0.06)', color: C.textSecondary }}>
-                                        {row.count}
-                                    </span>
-                                </div>
-                            </div>
-                        );
-                    }
-
-                    const task = row.task;
-                    const isSel = selectedTaskId === task.id;
-                    const isHov = hoveredTaskId === task.id;
-                    const isPoint = task.originalType !== 'step';
-                    const isDelayed = delayedIds.has(task.id);
-                    const isCritical = criticalIds.has(task.id);
-                    const isLeftDimmed = selectedTaskId !== null && task.id !== selectedTaskId && !relatedIds.has(task.id);
-                    const isLeftRelated = selectedTaskId !== null && relatedIds.has(task.id);
-                    const rowBg = isDelayed ? '#FFF5F5' : isSel ? C.groupLight : isLeftRelated ? `${C.groupLight}99` : isHov ? C.pageBg : C.surface;
-
-                    return (
-                        <div
-                            key={task.id}
-                            style={{
-                                display: 'flex', alignItems: 'center', padding: '0 16px',
-                                cursor: 'pointer', transition: 'opacity 0.18s, background 0.15s',
-                                height: ROW_H,
-                                borderBottom: `1px solid ${C.borderLight}`,
-                                background: rowBg,
-                                borderLeft: isSel ? `3px solid ${C.group}` : isLeftRelated ? `3px solid ${C.group}66` : isCritical ? `3px solid ${C.today}` : undefined,
-                                opacity: isLeftDimmed ? 0.3 : 1,
-                            }}
-                            onClick={() => setSelectedTaskId(p => p === task.id ? null : task.id)}
-                            onDoubleClick={() => props.onTaskClick?.(toGanttTask(task))}
-                            onMouseEnter={() => setHoveredTaskId(task.id)}
-                            onMouseLeave={() => setHoveredTaskId(null)}
-                        >
-                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, paddingRight: 8 }}>
-                                {task.originalType === 'step' && (
-                                    <div style={{ flexShrink: 0, borderRadius: 4, width: 14, height: 14, background: STEP_PALETTE[task.colorIdx ?? 0].bar, border: `1.5px solid ${STEP_PALETTE[task.colorIdx ?? 0].barBorder}` }} />
-                                )}
-                                {task.originalType === 'milestone' && (
-                                    <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: `${C.milestoneRing}30`, border: `1.5px solid ${C.milestoneRing}` }}>
-                                        <Flag size={11} style={{ color: C.milestone }} />
-                                    </div>
-                                )}
-                                {task.originalType === 'event' && (
-                                    <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: `${C.event}18`, border: `1.5px solid ${C.event}55` }}>
-                                        <Clock size={11} style={{ color: C.event }} />
-                                    </div>
-                                )}
-                                {task.originalType === 'note' && (
-                                    <div style={{ flexShrink: 0, width: 16, height: 20, background: task.noteColor || C.note, borderRadius: 2, boxShadow: '1px 1px 3px rgba(0,0,0,0.14)', position: 'relative', overflow: 'visible' }}>
-                                        <div style={{ position: 'absolute', top: -2, left: '50%', transform: 'translateX(-50%)', width: 10, height: 4, background: 'rgba(255,255,255,0.55)', borderRadius: 1 }} />
-                                    </div>
-                                )}
-
-                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                                    <span
-                                        style={{
-                                            fontSize: 13, fontWeight: 500, lineHeight: 1.25,
-                                            color: isSel ? C.group : isDelayed ? C.today : C.textPrimary,
-                                            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                                        }}
-                                    >
-                                        {task.name}
-                                    </span>
-                                    {task.originalType === 'note' && task.noteProjectTitle && (
+                <div style={{ height: Math.max(displayRows.length * ROW_H, 400) + 80, position: 'relative' }}>
+                    {displayRows.map((row) => {
+                        // Project header row
+                        if (row.kind === 'projectHeader') {
+                            return (
+                                <div
+                                    key={`ph-${row.projectId}`}
+                                    style={{
+                                        boxSizing: 'border-box',
+                                        display: 'flex', alignItems: 'center', padding: '0 16px',
+                                        cursor: 'pointer', userSelect: 'none',
+                                        height: ROW_H, borderBottom: `1.5px solid ${C.group}44`, background: `${C.group}0E`,
+                                    }}
+                                    onClick={() => toggleProject(row.projectId)}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
+                                        {row.collapsed
+                                            ? <ChevronRight size={15} style={{ color: C.group, flexShrink: 0 }} />
+                                            : <ChevronDown size={15} style={{ color: C.group, flexShrink: 0 }} />}
                                         <span style={{
-                                            fontSize: 10, color: C.textSecondary, marginTop: 1,
-                                            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                                            fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
+                                            color: C.group, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                                         }}>
-                                            {task.noteProjectTitle}
+                                            {row.projectTitle}
                                         </span>
+                                    </div>
+                                </div>
+                            );
+                        }
+                        if (row.kind === 'group') {
+                            const groupKey = row.projectId ? `${row.projectId}-${row.groupType}` : row.groupType;
+                            return (
+                                <div
+                                    key={`g-${groupKey}`}
+                                    style={{
+                                        boxSizing: 'border-box',
+                                        display: 'flex', alignItems: 'center', padding: '0 16px',
+                                        cursor: 'pointer', userSelect: 'none',
+                                        height: ROW_H, borderBottom: `1px solid ${C.border}`, background: C.headerBg,
+                                    }}
+                                    onClick={() => toggleGroup(groupKey)}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
+                                        {row.collapsed
+                                            ? <ChevronRight size={14} style={{ color: C.textSecondary, flexShrink: 0 }} />
+                                            : <ChevronDown size={14} style={{ color: C.textSecondary, flexShrink: 0 }} />}
+                                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: C.textTitle }}>
+                                            {t(`gantt.group.${row.groupType}`, row.label)}
+                                        </span>
+                                        <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 6px', borderRadius: 9999, background: 'rgba(0,0,0,0.06)', color: C.textSecondary }}>
+                                            {row.count}
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                        }
+
+                        const task = row.task;
+                        const isSel = selectedTaskId === task.id;
+                        const isHov = hoveredTaskId === task.id;
+                        const isPoint = task.originalType !== 'step';
+                        const isDelayed = delayedIds.has(task.id);
+                        const isCritical = criticalIds.has(task.id);
+                        const isLeftDimmed = selectedTaskId !== null && task.id !== selectedTaskId && !relatedIds.has(task.id);
+                        const isLeftRelated = selectedTaskId !== null && relatedIds.has(task.id);
+                        const rowBg = isDelayed ? '#FFF5F5' : isSel ? C.groupLight : isLeftRelated ? `${C.groupLight}99` : isHov ? C.pageBg : C.surface;
+
+                        return (
+                            <div
+                                key={task.id}
+                                style={{
+                                    boxSizing: 'border-box',
+                                    display: 'flex', alignItems: 'center', padding: '0 16px',
+                                    cursor: 'pointer', transition: 'opacity 0.18s, background 0.15s',
+                                    height: ROW_H,
+                                    borderBottom: `1px solid ${C.borderLight}`,
+                                    background: rowBg,
+                                    borderLeft: isSel ? `3px solid ${C.group}` : isLeftRelated ? `3px solid ${C.group}66` : isCritical ? `3px solid ${C.today}` : undefined,
+                                    opacity: isLeftDimmed ? 0.3 : 1,
+                                }}
+                                onClick={() => setSelectedTaskId(p => p === task.id ? null : task.id)}
+                                onDoubleClick={() => props.onTaskClick?.(toGanttTask(task))}
+                                onMouseEnter={() => setHoveredTaskId(task.id)}
+                                onMouseLeave={() => setHoveredTaskId(null)}
+                            >
+                                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, paddingRight: 8 }}>
+                                    {task.originalType === 'step' && (
+                                        <div style={{ flexShrink: 0, borderRadius: 4, width: 14, height: 14, background: STEP_PALETTE[task.colorIdx ?? 0].bar, border: `1.5px solid ${STEP_PALETTE[task.colorIdx ?? 0].barBorder}` }} />
+                                    )}
+                                    {task.originalType === 'milestone' && (
+                                        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: `${C.milestoneRing}30`, border: `1.5px solid ${C.milestoneRing}` }}>
+                                            <Flag size={11} style={{ color: C.milestone }} />
+                                        </div>
+                                    )}
+                                    {task.originalType === 'event' && (
+                                        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: `${C.event}18`, border: `1.5px solid ${C.event}55` }}>
+                                            <Clock size={11} style={{ color: C.event }} />
+                                        </div>
+                                    )}
+
+                                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                                        <span
+                                            style={{
+                                                fontSize: 13, fontWeight: 500, lineHeight: 1.25,
+                                                color: isSel ? C.group : isDelayed ? C.today : C.textPrimary,
+                                                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                                            }}
+                                        >
+                                            {task.name}
+                                        </span>
+                                    </div>
+
+                                    {(task.attachedNotes?.length || 0) > 0 && (
+                                        <button
+                                            style={{
+                                                flexShrink: 0, display: 'flex', alignItems: 'center', gap: 4,
+                                                fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 6,
+                                                color: '#1A3C30', background: '#FACC15', border: 'none',
+                                                cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                                transition: 'transform 0.1s ease',
+                                            }}
+                                            onClick={(e) => { e.stopPropagation(); setActivePinboardTask(task); }}
+                                            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+                                            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                                        >
+                                            <Paperclip size={12} />
+                                            {task.attachedNotes?.length}
+                                        </button>
+                                    )}
+
+                                    {isDelayed && (
+                                        <AlertTriangle size={12} style={{ flexShrink: 0, color: C.today }} />
                                     )}
                                 </div>
 
-                                {task.originalType === 'note' && (task.filesCount || 0) > 0 && (
-                                    <span style={{
-                                        flexShrink: 0, display: 'flex', alignItems: 'center', gap: 2,
-                                        fontSize: 10, padding: '2px 6px', borderRadius: 9999,
-                                        color: C.textSecondary, background: C.headerBg, border: `1px solid ${C.borderLight}`,
-                                    }}>
-                                        <Paperclip size={9} />
-                                        {task.filesCount}
-                                    </span>
-                                )}
-
-                                {isDelayed && (
-                                    <AlertTriangle size={12} style={{ flexShrink: 0, color: C.today }} />
-                                )}
+                                <div style={{ width: 80, fontSize: 11, fontWeight: 500, textAlign: 'center', fontVariantNumeric: 'tabular-nums', color: isDelayed ? C.today : C.textMuted }}>
+                                    {fmtDateShort(task.start)}
+                                </div>
+                                <div style={{ width: 80, fontSize: 11, fontWeight: 500, textAlign: 'center', fontVariantNumeric: 'tabular-nums', color: isDelayed ? C.today : C.textMuted }}>
+                                    {isPoint ? '—' : fmtDateShort(task.end)}
+                                </div>
                             </div>
-
-                            <div style={{ width: 80, fontSize: 11, fontWeight: 500, textAlign: 'center', fontVariantNumeric: 'tabular-nums', color: isDelayed ? C.today : C.textMuted }}>
-                                {fmtDateShort(task.start)}
-                            </div>
-                            <div style={{ width: 80, fontSize: 11, fontWeight: 500, textAlign: 'center', fontVariantNumeric: 'tabular-nums', color: isDelayed ? C.today : C.textMuted }}>
-                                {isPoint ? '—' : fmtDateShort(task.end)}
-                            </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

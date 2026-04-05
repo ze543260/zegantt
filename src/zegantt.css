@@ -24,6 +24,7 @@
 .zg-popup-btn {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   width: 100%;
   padding: 8px 10px;
@@ -39,6 +40,10 @@
 }
 .zg-popup-btn:hover {
   background: #F2F5F3;
+}
+.zg-popup-btn span {
+  flex: 1;
+  text-align: left;
 }
 .zg-popup-btn-danger {
   color: #ef4444;

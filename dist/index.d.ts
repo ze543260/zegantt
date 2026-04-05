@@ -44,6 +44,10 @@ export declare interface GanttMilestone {
 export declare interface GanttNote {
     id: string;
     title: string;
+    targetId?: string;
+    predecessorId?: string;
+    description?: string;
+    author?: string;
     date?: Date | string;
     color?: string;
     filesCount?: number;

@@ -11,6 +11,7 @@ import { C } from './utils/constants';
 import { addDays } from './utils/date';
 import type { ProjectGanttProps, DependencyType } from './types';
 import type { OriginalType, InternalTask, ConnectState, PendingConnection, ViewMode } from './types/internal';
+import { PinboardDrawer } from './components/PinboardDrawer';
 
 export function ProjectGantt(props: ProjectGanttProps) {
     // State
@@ -38,6 +39,8 @@ export function ProjectGantt(props: ProjectGanttProps) {
     const [chartMenu, setChartMenu] = useState<{ x: number; y: number; date: Date; projectId?: string } | null>(null);
     const [newActionOpen, setNewActionOpen] = useState(false);
     const newActionRef = useRef<HTMLDivElement>(null);
+
+    const [activePinboardTask, setActivePinboardTask] = useState<InternalTask | null>(null);
 
     // Visibility and Grouping
     const [visibleTypes, setVisibleTypes] = useState<Set<OriginalType>>(new Set(['step', 'milestone', 'event', 'note']));
@@ -268,6 +271,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         deletingDepId, setDeletingDepId,
         chartMenu, setChartMenu,
         newActionOpen, setNewActionOpen,
+        activePinboardTask, setActivePinboardTask,
         tasks: data.tasks,
         timeline: data.timeline,
         displayRows: data.displayRows,
@@ -309,7 +313,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     }), [
         props, viewMode, hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
         visibleTypes, collapsedGroups, collapsedProjects, pendingConnection, depModalType, depModalLag, depCreating,
-        deletingDepId, chartMenu, newActionOpen, data, scroll, toggleVisibility, toggleGroup, toggleProject,
+        deletingDepId, chartMenu, newActionOpen, activePinboardTask, data, scroll, toggleVisibility, toggleGroup, toggleProject,
         handleChartMouseDown, openChartMenu, handleBarMouseDown, handleResizeMouseDown, handleConnectDotMouseDown, handleCreateDependency
     ]);
 
@@ -332,6 +336,9 @@ export function ProjectGantt(props: ProjectGanttProps) {
                     overflow: 'hidden',
                     height: 'calc(100vh - 48px)', minHeight: 600,
                     border: `1px solid ${C.borderLight}`,
+                    opacity: activePinboardTask ? 0.6 : 1,
+                    transition: 'opacity 0.3s ease',
+                    pointerEvents: activePinboardTask ? 'none' : 'auto',
                 }}
             >
                 <GanttHeader />
@@ -339,6 +346,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
                     <GanttGrid />
                     <GanttChart />
                 </div>
+                <PinboardDrawer />
             </div>
         </GanttProvider>
     );

@@ -5,7 +5,7 @@ import { computeTimeline } from '../utils/timeline';
 import { computeArrows } from '../utils/dependencies';
 import { computeCriticalPath } from '../utils/criticalPath';
 import { addDays } from '../utils/date';
-import { STEP_PALETTE, C, GROUP_LABELS } from '../utils/constants';
+import { STEP_PALETTE, GROUP_LABELS } from '../utils/constants';
 
 interface UseGanttDataProps {
     steps: GanttStep[];
@@ -38,6 +38,22 @@ export function useGanttData({
 }: UseGanttDataProps) {
     const tasks: InternalTask[] = useMemo(() => {
         const result: InternalTask[] = [];
+
+        // Map notes by target identifier
+        const notesMap = new Map<string, GanttNote[]>();
+        notes?.forEach(n => {
+            let tId = n.targetId || n.predecessorId;
+            
+            // Fallback: check dependencies if no direct ID
+            if (!tId && dependencies) {
+                const dep = dependencies.find(d => d.successorId === n.id);
+                if (dep) tId = dep.predecessorId;
+            }
+
+            if (!tId) return;
+            const existing = notesMap.get(tId) || [];
+            notesMap.set(tId, [...existing, n]);
+        });
 
         let stepColorCounter = 0;
         steps.forEach(step => {
@@ -80,6 +96,7 @@ export function useGanttData({
                 hasActualDates: hasActual,
                 projectId: step.projectId || undefined,
                 projectTitle: step.projectTitle || undefined,
+                attachedNotes: notesMap.get(step.id),
             });
             stepColorCounter++;
         });
@@ -97,6 +114,7 @@ export function useGanttData({
                 originalType: 'milestone', deps: mDeps,
                 projectId: m.projectId || undefined,
                 projectTitle: m.projectTitle || undefined,
+                attachedNotes: notesMap.get(m.id),
             });
         });
 
@@ -113,22 +131,7 @@ export function useGanttData({
                 originalType: 'event', deps: eDeps,
                 projectId: ev.projectId || undefined,
                 projectTitle: ev.projectTitle || undefined,
-            });
-        });
-
-        notes?.forEach(n => {
-            if (!n.date) return;
-            const d = new Date(n.date);
-            if (isNaN(d.getTime())) return;
-            result.push({
-                id: n.id, name: n.title || 'Note', start: d, end: d,
-                progress: 0, originalType: 'note', deps: [],
-                noteCount: 1,
-                noteColor: n.color || C.note,
-                filesCount: n.filesCount || 0,
-                noteProjectTitle: n.projectTitle || undefined,
-                projectId: n.projectId || undefined,
-                projectTitle: n.projectTitle || undefined,
+                attachedNotes: notesMap.get(ev.id),
             });
         });
 
@@ -139,7 +142,7 @@ export function useGanttData({
 
     const displayRows: DisplayRow[] = useMemo(() => {
         const rows: DisplayRow[] = [];
-        const typeOrder: OriginalType[] = ['step', 'milestone', 'event', 'note'];
+        const typeOrder: OriginalType[] = ['step', 'milestone', 'event'];
 
         if (groupByProject) {
             const projectsMap = new Map<string, string>();

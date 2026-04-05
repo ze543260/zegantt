@@ -38,6 +38,10 @@ export interface GanttEvent {
 export interface GanttNote {
     id: string;
     title: string;
+    targetId?: string;
+    predecessorId?: string;
+    description?: string;
+    author?: string;
     date?: Date | string;
     color?: string; // hex
     filesCount?: number;
