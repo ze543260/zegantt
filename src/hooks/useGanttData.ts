@@ -14,6 +14,7 @@ interface UseGanttDataProps {
     notes?: GanttNote[];
     dependencies?: GanttDependency[];
     viewMode: ViewMode;
+    dayWidth?: number;
     locale?: string;
     groupByProject?: boolean;
     visibleTypes: Set<OriginalType>;
@@ -29,6 +30,7 @@ export function useGanttData({
     notes,
     dependencies,
     viewMode,
+    dayWidth,
     locale,
     groupByProject,
     visibleTypes,
@@ -138,7 +140,7 @@ export function useGanttData({
         return result;
     }, [steps, milestones, events, notes, dependencies]);
 
-    const timeline = useMemo(() => computeTimeline(tasks, viewMode, locale), [tasks, viewMode, locale]);
+    const timeline = useMemo(() => computeTimeline(tasks, viewMode, locale, dayWidth), [tasks, viewMode, locale, dayWidth]);
 
     const displayRows: DisplayRow[] = useMemo(() => {
         const rows: DisplayRow[] = [];

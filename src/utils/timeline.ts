@@ -2,8 +2,8 @@ import type { InternalTask, TimelineInfo, ViewMode } from '../types/internal';
 import { addDays, diffDays, endOfMonth, getMonthName, startOfMonth } from './date';
 import { DAY_W_MONTH, DAY_W_YEAR } from './constants';
 
-export function computeTimeline(tasks: InternalTask[], mode: ViewMode, locale = 'en'): TimelineInfo {
-    const dayW = mode === 'day' ? DAY_W_MONTH : DAY_W_YEAR;
+export function computeTimeline(tasks: InternalTask[], mode: ViewMode, locale = 'en', dayWidthOverride?: number): TimelineInfo {
+    const dayW = dayWidthOverride ?? (mode === 'day' ? DAY_W_MONTH : DAY_W_YEAR);
 
     const buildDays = (s: Date, totalD: number) => {
         const daysArr: TimelineInfo['days'] = [];

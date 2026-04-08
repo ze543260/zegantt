@@ -1,11 +1,11 @@
 {
   "name": "zegantt",
   "private": false,
-  "version": "0.3.0",
+  "version": "1.0.0",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/josev/zegantt.git"
+    "url": "git+https://github.com/ze543260/zegantt.git"
   },
   "main": "./dist/zegantt.cjs",
   "module": "./dist/zegantt.js",

@@ -1,47 +1,196 @@
 .zg-story-shell {
   min-height: 100vh;
-  padding: 14px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
   background:
-    radial-gradient(circle at 12% 8%, rgba(35, 111, 170, 0.08), transparent 30%),
-    radial-gradient(circle at 88% 16%, rgba(166, 133, 95, 0.12), transparent 30%),
-    linear-gradient(180deg, #f8fafb 0%, #f1f5f7 100%);
+    radial-gradient(circle at 8% 4%, rgba(47, 120, 157, 0.2), transparent 32%),
+    radial-gradient(circle at 88% 6%, rgba(227, 148, 63, 0.18), transparent 34%),
+    linear-gradient(165deg, #ecf3f7 0%, #e8eff4 45%, #f2efe8 100%);
+}
+
+.zg-story-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(17, 53, 69, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 53, 69, 0.06) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.28), transparent 70%);
 }
 
 .zg-story-shell .zg-root {
   height: min(920px, calc(100vh - 28px));
   min-height: 620px;
+  max-width: 1600px;
+  margin: 0 auto;
+  animation: zg-story-rise 320ms ease-out;
 }
 
 .zg-theme-ocean .zg-root {
-  --zg-surface: #f5fafc;
-  --zg-surface-alt: #ebf4f8;
-  --zg-surface-frost: rgba(245, 250, 252, 0.97);
-  --zg-header-bg: #ddebf3;
-  --zg-border: #c6d9e5;
-  --zg-border-light: #d5e3ec;
-  --zg-primary-color: #0e4156;
-  --zg-group: #0e4156;
-  --zg-group-light: #4fa1bd;
-  --zg-event: #0f766e;
-  --zg-note-color: #f4b942;
-  --zg-note-badge-bg: #e6a318;
-  --zg-shadow-panel: 0 10px 28px rgba(14, 65, 86, 0.12);
-  --zg-shadow-popover: 0 14px 36px rgba(14, 65, 86, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --zg-surface: #f4fbff;
+  --zg-surface-alt: #e8f4fb;
+  --zg-surface-frost: rgba(244, 251, 255, 0.96);
+  --zg-header-bg: #daedf9;
+  --zg-border: #bed9ea;
+  --zg-border-light: #d2e4f0;
+  --zg-primary-color: #0e4360;
+  --zg-group: #0e4360;
+  --zg-group-light: #3ca7ca;
+  --zg-event: #0b7c70;
+  --zg-note-color: #ffbf47;
+  --zg-note-badge-bg: #f3a818;
+  --zg-shadow-panel: 0 14px 32px rgba(14, 67, 96, 0.14);
+  --zg-shadow-popover: 0 14px 36px rgba(14, 67, 96, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .zg-theme-terra .zg-root {
-  --zg-surface: #fffdf7;
-  --zg-surface-alt: #f8f3e8;
-  --zg-surface-frost: rgba(255, 253, 247, 0.97);
-  --zg-header-bg: #efe4ce;
-  --zg-border: #dccaae;
-  --zg-border-light: #e7d8c2;
-  --zg-primary-color: #5c3d22;
-  --zg-group: #5c3d22;
-  --zg-group-light: #b98a59;
-  --zg-event: #9a4d0d;
-  --zg-note-color: #f7c44f;
-  --zg-note-badge-bg: #d89e21;
-  --zg-shadow-panel: 0 10px 28px rgba(92, 61, 34, 0.12);
-  --zg-shadow-popover: 0 14px 36px rgba(92, 61, 34, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --zg-surface: #fffdf6;
+  --zg-surface-alt: #f8f0df;
+  --zg-surface-frost: rgba(255, 253, 246, 0.96);
+  --zg-header-bg: #efe1c3;
+  --zg-border: #dfc6a0;
+  --zg-border-light: #e8d7ba;
+  --zg-primary-color: #603b1c;
+  --zg-group: #603b1c;
+  --zg-group-light: #bd804a;
+  --zg-event: #9a4c11;
+  --zg-note-color: #f7c34a;
+  --zg-note-badge-bg: #df9d1f;
+  --zg-shadow-panel: 0 14px 32px rgba(96, 59, 28, 0.14);
+  --zg-shadow-popover: 0 14px 36px rgba(96, 59, 28, 0.2), 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.zg-theme-aurora .zg-root {
+  --zg-surface: #f7fff8;
+  --zg-surface-alt: #ebf8f0;
+  --zg-surface-frost: rgba(247, 255, 248, 0.96);
+  --zg-header-bg: #ddf2e4;
+  --zg-border: #bfdfcb;
+  --zg-border-light: #d5eadc;
+  --zg-primary-color: #154a34;
+  --zg-group: #154a34;
+  --zg-group-light: #4ab080;
+  --zg-milestone-ring: #8dd3b1;
+  --zg-event: #0f6f7b;
+  --zg-note-color: #f6cc52;
+  --zg-note-badge-bg: #e2b531;
+  --zg-shadow-panel: 0 14px 34px rgba(21, 74, 52, 0.14);
+}
+
+.zg-story-infinite-page {
+  min-height: 100vh;
+  padding: 12px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+  background:
+    radial-gradient(circle at 10% -5%, rgba(50, 133, 169, 0.2), transparent 34%),
+    radial-gradient(circle at 90% -8%, rgba(222, 169, 88, 0.18), transparent 28%),
+    linear-gradient(180deg, #eff4f7 0%, #e6edf2 100%);
+}
+
+.zg-story-infinite-topbar {
+  border: 1px solid rgba(18, 62, 80, 0.2);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.zg-story-infinite-topbar h2 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #163847;
+}
+
+.zg-story-infinite-topbar p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: #4c6773;
+}
+
+.zg-story-infinite-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.zg-story-pill {
+  border: 1px solid rgba(23, 71, 92, 0.2);
+  background: #ffffff;
+  color: #1c495a;
+  border-radius: 999px;
+  padding: 7px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.zg-story-action-btn {
+  border: 1px solid #1b5b72;
+  background: #1b5b72;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 9px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zg-story-infinite-canvas-shell {
+  border: 1px solid rgba(18, 62, 80, 0.18);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 34px rgba(20, 43, 54, 0.12);
+  min-height: 0;
+}
+
+.zg-story-infinite-canvas-shell .zg-root {
+  height: calc(100vh - 98px);
+}
+
+@keyframes zg-story-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 820px) {
+  .zg-story-shell {
+    padding: 10px;
+  }
+
+  .zg-story-shell .zg-root {
+    height: calc(100vh - 20px);
+    min-height: 540px;
+  }
+
+  .zg-story-infinite-page {
+    padding: 8px;
+  }
+
+  .zg-story-infinite-canvas-shell .zg-root {
+    height: calc(100vh - 130px);
+  }
 }

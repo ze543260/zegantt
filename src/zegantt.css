@@ -1,72 +1,145 @@
-/* ─── ZeGantt — base styles ─── */
+/* ZeGantt base styles */
 
 .zg-root {
+  --zg-font-ui: 'Manrope', 'Nunito Sans', 'Segoe UI', sans-serif;
+  --zg-font-accent: 'Space Grotesk', 'Bahnschrift', 'Trebuchet MS', sans-serif;
+  --zg-page-bg: #f2f6f8;
   --zg-surface: #ffffff;
-  --zg-surface-alt: #f7faf8;
-  --zg-surface-frost: rgba(255, 255, 255, 0.96);
-  --zg-header-bg: #f2f5f3;
-  --zg-border: #d9d9d9;
-  --zg-border-light: #ececec;
-  --zg-text-primary: #4f4f4f;
-  --zg-text-secondary: #7b7b7b;
-  --zg-text-secondary-soft: rgba(123, 123, 123, 0.27);
-  --zg-text-secondary-mid: rgba(123, 123, 123, 0.4);
-  --zg-text-muted: #d9d9d9;
-  --zg-primary-color: #1a3c30;
-  --zg-group: #1a3c30;
-  --zg-group-soft: rgba(26, 60, 48, 0.05);
-  --zg-group-soft-strong: rgba(26, 60, 48, 0.12);
-  --zg-group-border-weak: rgba(26, 60, 48, 0.27);
-  --zg-group-glow-soft: rgba(26, 60, 48, 0.2);
-  --zg-group-glow: rgba(26, 60, 48, 0.4);
-  --zg-group-glow-strong: rgba(26, 60, 48, 0.6);
-  --zg-primary-soft: #7ab7a3;
-  --zg-group-light: #7ab7a3;
-  --zg-group-light-soft: rgba(122, 183, 163, 0.13);
-  --zg-group-light-strong: rgba(122, 183, 163, 0.6);
-  --zg-milestone: #1a3c30;
-  --zg-milestone-ring: #a0d8a8;
-  --zg-milestone-ring-soft: rgba(160, 216, 168, 0.19);
-  --zg-event: #cd6200;
-  --zg-event-soft: rgba(205, 98, 0, 0.09);
-  --zg-event-border-soft: rgba(205, 98, 0, 0.33);
-  --zg-note-color: #ffbb1c;
-  --zg-note-badge-bg: #facc15;
-  --zg-note-badge-text: #1a3c30;
-  --zg-weekend-bg: #f4f6f5;
-  --zg-danger-color: #ff0000;
-  --zg-danger-soft: rgba(255, 0, 0, 0.13);
-  --zg-danger-mid: rgba(255, 0, 0, 0.27);
-  --zg-danger-strong: rgba(255, 0, 0, 0.53);
-  --zg-danger-text: #ef4444;
-  --zg-danger-bg-soft: #fee2e2;
-  --zg-today-bg: #ff000008;
-  --zg-arrow: #7b7b7b;
-  --zg-arrow-hover: #1a3c30;
-  --zg-overlay-soft: rgba(0, 0, 0, 0.2);
-  --zg-overlay-medium: rgba(0, 0, 0, 0.35);
+  --zg-surface-alt: #f4f8fa;
+  --zg-surface-frost: rgba(255, 255, 255, 0.94);
+  --zg-header-bg: #eaf2f4;
+  --zg-border: #cddce1;
+  --zg-border-light: #dde8ec;
+  --zg-text-primary: #2f3f45;
+  --zg-text-secondary: #617a82;
+  --zg-text-secondary-soft: rgba(97, 122, 130, 0.28);
+  --zg-text-secondary-mid: rgba(97, 122, 130, 0.44);
+  --zg-text-muted: #a2b4bb;
+  --zg-primary-color: #124457;
+  --zg-group: #124457;
+  --zg-group-soft: rgba(18, 68, 87, 0.06);
+  --zg-group-soft-strong: rgba(18, 68, 87, 0.14);
+  --zg-group-border-weak: rgba(18, 68, 87, 0.25);
+  --zg-group-glow-soft: rgba(18, 68, 87, 0.22);
+  --zg-group-glow: rgba(18, 68, 87, 0.44);
+  --zg-group-glow-strong: rgba(18, 68, 87, 0.64);
+  --zg-primary-soft: #6caec4;
+  --zg-group-light: #6caec4;
+  --zg-group-light-soft: rgba(108, 174, 196, 0.14);
+  --zg-group-light-strong: rgba(108, 174, 196, 0.58);
+  --zg-milestone: #124457;
+  --zg-milestone-ring: #8fcbad;
+  --zg-milestone-ring-soft: rgba(143, 203, 173, 0.23);
+  --zg-milestone-pill-bg: linear-gradient(135deg, #e8f6f0, #f5fbf8);
+  --zg-critical-pill-bg: linear-gradient(135deg, #ffebeb, #fff6f6);
+  --zg-event: #a25a12;
+  --zg-event-soft: rgba(162, 90, 18, 0.12);
+  --zg-event-border-soft: rgba(162, 90, 18, 0.34);
+  --zg-event-pill-bg: linear-gradient(135deg, #fff6ec, #fff0dc);
+  --zg-note-color: #ffca3a;
+  --zg-note-default-bg: #fff2a8;
+  --zg-note-badge-bg: #f8cd3f;
+  --zg-note-badge-text: #3e3211;
+  --zg-weekend-bg: #edf3f6;
+  --zg-danger-color: #ce2b3d;
+  --zg-danger-soft: rgba(206, 43, 61, 0.14);
+  --zg-danger-mid: rgba(206, 43, 61, 0.3);
+  --zg-danger-strong: rgba(206, 43, 61, 0.54);
+  --zg-danger-text: #ce2b3d;
+  --zg-danger-bg-soft: #ffe8ec;
+  --zg-delayed-task-bg: linear-gradient(135deg, #ffe6eb, #fff3f6);
+  --zg-today-bg: rgba(206, 43, 61, 0.05);
+  --zg-arrow: #6f8b94;
+  --zg-arrow-hover: #124457;
+  --zg-overlay-soft: rgba(6, 17, 24, 0.2);
+  --zg-overlay-medium: rgba(6, 17, 24, 0.35);
   --zg-contrast-high: #ffffff;
-  --zg-ink-strong: #1a1a1a;
-  --zg-ink-medium: #3a3a3a;
-  --zg-ink-soft: rgba(0, 0, 0, 0.7);
-  --zg-ink-soft-2: rgba(0, 0, 0, 0.6);
-  --zg-ink-soft-3: rgba(0, 0, 0, 0.55);
-  --zg-ink-soft-4: rgba(0, 0, 0, 0.45);
+  --zg-ink-strong: #1f2528;
+  --zg-ink-medium: #313f45;
+  --zg-ink-soft: rgba(31, 37, 40, 0.72);
+  --zg-ink-soft-2: rgba(31, 37, 40, 0.64);
+  --zg-ink-soft-3: rgba(31, 37, 40, 0.56);
+  --zg-ink-soft-4: rgba(31, 37, 40, 0.45);
   --zg-radius-sm: 8px;
   --zg-radius-md: 12px;
   --zg-radius-lg: 20px;
-  --zg-shadow-tiny: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --zg-shadow-small: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --zg-shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --zg-shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --zg-shadow-large: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --zg-shadow-sticky: 2px 3px 8px rgba(0, 0, 0, 0.13);
-  --zg-shadow-sticky-hover: 4px 6px 18px rgba(0, 0, 0, 0.22);
-  --zg-shadow-sticky-strong: 4px 6px 16px rgba(0, 0, 0, 0.22);
-  --zg-shadow-drawer: -4px 0 24px rgba(0, 0, 0, 0.1);
-  --zg-shadow-panel: 0 8px 30px rgba(0, 0, 0, 0.06);
-  --zg-shadow-popover: 0 12px 40px rgba(0, 0, 0, 0.14), 0 3px 10px rgba(0, 0, 0, 0.07);
-  --zg-sticky-tape: rgba(255, 255, 255, 0.55);
+  --zg-shadow-tiny: 0 1px 2px rgba(9, 31, 43, 0.1);
+  --zg-shadow-small: 0 3px 6px rgba(9, 31, 43, 0.12);
+  --zg-shadow-soft: 0 3px 10px rgba(9, 31, 43, 0.08);
+  --zg-shadow-medium: 0 6px 18px rgba(9, 31, 43, 0.1);
+  --zg-shadow-large: 0 10px 24px rgba(9, 31, 43, 0.14);
+  --zg-shadow-sticky: 2px 4px 10px rgba(9, 31, 43, 0.16);
+  --zg-shadow-sticky-hover: 6px 10px 26px rgba(9, 31, 43, 0.24);
+  --zg-shadow-sticky-strong: 6px 10px 22px rgba(9, 31, 43, 0.2);
+  --zg-shadow-drawer: -8px 0 30px rgba(9, 31, 43, 0.14);
+  --zg-shadow-panel: 0 18px 40px rgba(9, 31, 43, 0.14);
+  --zg-shadow-popover: 0 18px 36px rgba(9, 31, 43, 0.2), 0 4px 10px rgba(9, 31, 43, 0.1);
+  --zg-sticky-tape: rgba(255, 255, 255, 0.62);
+  --zg-connector-dot-border: #ffffff;
+
+  color: var(--zg-text-primary);
+  font-family: var(--zg-font-ui);
+  position: relative;
+  isolation: isolate;
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.zg-root,
+.zg-root * {
+  box-sizing: border-box;
+}
+
+.zg-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(108, 174, 196, 0.2), transparent 36%),
+    radial-gradient(circle at 90% 0%, rgba(143, 203, 173, 0.2), transparent 38%);
+  opacity: 0.72;
+  z-index: 0;
+}
+
+.zg-root--framed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  z-index: 0;
+}
+
+.zg-root > * {
+  position: relative;
+  z-index: 1;
+}
+
+.zg-root button,
+.zg-root [role='button'] {
+  font-family: inherit;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, filter 0.16s ease;
+}
+
+.zg-root button:hover,
+.zg-root [role='button']:hover {
+  filter: saturate(1.06);
+}
+
+.zg-root button:active,
+.zg-root [role='button']:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.zg-root button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .zg-root button:focus-visible,
@@ -78,10 +151,44 @@
   outline-offset: 2px;
 }
 
+.zg-header {
+  border-bottom: 1px solid var(--zg-border);
+}
+
+.zg-header-controls {
+  align-items: center;
+}
+
+.zg-control-group {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.zg-segment-btn.is-active {
+  transform: translateY(-1px);
+}
+
+.zg-segment-btn.is-inactive:hover {
+  opacity: 0.9;
+}
+
+.zg-control-btn:hover,
+.zg-new-action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.zg-new-action-btn {
+  box-shadow: var(--zg-shadow-small);
+}
+
+.zg-new-action-menu {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
 /* Spin animation for loading indicator */
 @keyframes zg-spin {
   from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Dash animation for dependency connector drag line */
@@ -91,11 +198,12 @@
 
 /* Hide scrollbar but keep scroll functionality */
 .zg-no-scrollbar {
-  scrollbar-width: none;          /* Firefox */
-  -ms-overflow-style: none;       /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
 .zg-no-scrollbar::-webkit-scrollbar {
-  display: none;                  /* Chrome/Safari/Opera */
+  display: none;
 }
 
 /* Popup action button base style */
@@ -114,18 +222,22 @@
   font-weight: 500;
   color: var(--zg-text-primary);
   text-align: left;
-  transition: background 0.12s;
 }
+
 .zg-popup-btn:hover {
   background: var(--zg-header-bg);
+  transform: translateX(1px);
 }
+
 .zg-popup-btn span {
   flex: 1;
   text-align: left;
 }
+
 .zg-popup-btn-danger {
   color: var(--zg-danger-text);
 }
+
 .zg-popup-btn-danger:hover {
   background: color-mix(in srgb, var(--zg-danger-text) 10%, transparent);
 }
@@ -136,4 +248,45 @@
 
 .zg-note-badge-btn:active {
   transform: scale(0.98);
+}
+
+@media (max-width: 1180px) {
+  .zg-header-controls {
+    justify-content: flex-start !important;
+    flex-basis: 100% !important;
+  }
+
+  .zg-control-group--filters {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 820px) {
+  .zg-header {
+    padding: 12px 12px !important;
+    gap: 10px !important;
+  }
+
+  .zg-header h3 {
+    font-size: 12px !important;
+  }
+
+  .zg-new-action-btn {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zg-root button,
+  .zg-root [role='button'],
+  .zg-popup-btn,
+  .zg-note-badge-btn {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .zg-root::before {
+    opacity: 0.42;
+  }
 }

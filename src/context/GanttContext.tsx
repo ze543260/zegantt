@@ -13,6 +13,12 @@ export interface GanttContextState {
 
     viewMode: ViewMode;
     setViewMode: (v: ViewMode) => void;
+    isInfiniteCanvas: boolean;
+    dayWidth: number;
+    zoomPercent: number;
+    zoomIn: () => void;
+    zoomOut: () => void;
+    fitToScreen: () => void;
     hoveredTaskId: string | null;
     setHoveredTaskId: (id: string | null) => void;
     selectedTaskId: string | null;

@@ -128,6 +128,12 @@ export declare interface ProjectGanttProps {
     translations?: Record<string, string> | ((key: string, fallback?: string) => string);
     /** When true renders one project-header row per project and groups tasks by project */
     groupByProject?: boolean;
+    /** Enables infinite-canvas interaction model (zoom + pan viewport). */
+    infiniteCanvas?: boolean;
+    /** Hides left task list/sidebar and keeps only timeline viewport. */
+    hideSidebar?: boolean;
+    /** Applies automatic fit-to-screen on first paint in infinite-canvas mode. */
+    initialFitToScreen?: boolean;
     onTaskChange?: (task: GanttTask) => void;
     onTaskClick?: (task: GanttTask) => void;
     onAddNewStage?: (date?: Date, projectId?: string) => void;

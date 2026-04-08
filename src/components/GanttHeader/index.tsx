@@ -9,6 +9,11 @@ export function GanttHeader() {
         t,
         viewMode,
         setViewMode,
+        isInfiniteCanvas,
+        zoomPercent,
+        zoomIn,
+        zoomOut,
+        fitToScreen,
         visibleTypes,
         setVisibleTypes,
         newActionOpen,
@@ -29,16 +34,19 @@ export function GanttHeader() {
 
     return (
         <div
+            className="zg-header"
             style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                padding: '20px 24px',
+                gap: 14,
+                flexWrap: 'wrap',
+                padding: '14px 18px',
                 borderBottom: `1px solid ${C.border}`,
                 background: `linear-gradient(180deg, ${C.headerBg} 0%, ${C.surface} 100%)`,
             }}
         >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div className="zg-header-brand" style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
                 <div>
-                    <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: C.textTitle }}>
+                    <h3 style={{ margin: 0, fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', color: C.textTitle, fontFamily: 'var(--zg-font-accent)' }}>
                         {t('planning.gantt', 'Project Planning')}
                     </h3>
                     <div style={{ height: 2.5, width: 64, marginTop: 6, borderRadius: 9999, background: `linear-gradient(90deg, ${C.group}, ${C.milestoneRing})` }} />
@@ -46,8 +54,10 @@ export function GanttHeader() {
                 {projectName && (
                     <span
                         style={{
-                            fontSize: 12, fontWeight: 500, padding: '4px 12px', borderRadius: 9999,
+                            fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
+                            padding: '6px 12px', borderRadius: 9999,
                             color: C.textSecondary, background: C.surface, border: `1px solid ${C.border}`,
+                            boxShadow: C.shadowTiny,
                         }}
                     >
                         {projectName}
@@ -55,28 +65,98 @@ export function GanttHeader() {
                 )}
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                {/* Segmented Control */}
-                <div style={{ display: 'flex', padding: 4, borderRadius: 8, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}` }}>
-                    {(['day', 'month'] as ViewMode[]).map(m => (
+            <div className="zg-header-controls" style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'flex-end', flex: '1 1 560px' }}>
+                {/* Viewport Controls / Segmented Mode */}
+                {isInfiniteCanvas ? (
+                    <div className="zg-control-group" style={{ display: 'flex', alignItems: 'center', gap: 6, padding: 4, borderRadius: 10, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}` }}>
                         <button
-                            key={m}
-                            onClick={() => setViewMode(m)}
+                            className="zg-control-btn zg-control-btn--icon"
+                            onClick={zoomOut}
                             style={{
-                                padding: '6px 20px', fontSize: 12, fontWeight: 600, borderRadius: 6,
-                                transition: 'all 0.2s', border: 'none', cursor: 'pointer',
-                                ...(viewMode === m
-                                    ? { background: C.surface, color: C.group, boxShadow: C.shadowTiny }
-                                    : { background: 'transparent', color: C.textSecondary }),
+                                width: 30,
+                                height: 30,
+                                borderRadius: 6,
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: 16,
+                                fontWeight: 700,
+                                color: C.group,
+                                background: C.surface,
+                                boxShadow: C.shadowTiny,
                             }}
+                            aria-label={t('gantt.viewport.zoomOut', 'Zoom out')}
+                            title={t('gantt.viewport.zoomOut', 'Zoom out')}
                         >
-                            {m === 'day' ? t('charts.gantt.month', 'Month') : t('charts.gantt.year', 'Year')}
+                            -
                         </button>
-                    ))}
-                </div>
+                        <span style={{ minWidth: 58, textAlign: 'center', fontSize: 11, fontWeight: 700, color: C.textSecondary }}>
+                            {zoomPercent}%
+                        </span>
+                        <button
+                            className="zg-control-btn zg-control-btn--icon"
+                            onClick={zoomIn}
+                            style={{
+                                width: 30,
+                                height: 30,
+                                borderRadius: 6,
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: 16,
+                                fontWeight: 700,
+                                color: C.group,
+                                background: C.surface,
+                                boxShadow: C.shadowTiny,
+                            }}
+                            aria-label={t('gantt.viewport.zoomIn', 'Zoom in')}
+                            title={t('gantt.viewport.zoomIn', 'Zoom in')}
+                        >
+                            +
+                        </button>
+                        <button
+                            className="zg-control-btn zg-control-btn--fit"
+                            onClick={fitToScreen}
+                            style={{
+                                padding: '0 12px',
+                                height: 30,
+                                borderRadius: 6,
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: 11,
+                                fontWeight: 700,
+                                color: C.group,
+                                background: C.surface,
+                                boxShadow: C.shadowTiny,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.04em',
+                            }}
+                            title={t('gantt.viewport.fit', 'Fit to screen')}
+                        >
+                            {t('gantt.viewport.fit', 'Fit')}
+                        </button>
+                    </div>
+                ) : (
+                    <div className="zg-control-group" style={{ display: 'flex', padding: 4, borderRadius: 10, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}` }}>
+                        {(['day', 'month'] as ViewMode[]).map(m => (
+                            <button
+                                key={m}
+                                className={`zg-segment-btn ${viewMode === m ? 'is-active' : 'is-inactive'}`}
+                                onClick={() => setViewMode(m)}
+                                style={{
+                                    padding: '6px 20px', fontSize: 12, fontWeight: 600, borderRadius: 6,
+                                    transition: 'all 0.2s', border: 'none', cursor: 'pointer',
+                                    ...(viewMode === m
+                                        ? { background: C.surface, color: C.group, boxShadow: C.shadowTiny }
+                                        : { background: 'transparent', color: C.textSecondary }),
+                                }}
+                            >
+                                {m === 'day' ? t('charts.gantt.month', 'Month') : t('charts.gantt.year', 'Year')}
+                            </button>
+                        ))}
+                    </div>
+                )}
 
                 {/* Type Filters */}
-                <div style={{ display: 'flex', padding: 4, borderRadius: 8, gap: 2, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}` }}>
+                <div className="zg-control-group zg-control-group--filters" style={{ display: 'flex', padding: 4, borderRadius: 10, gap: 2, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}`, flexWrap: 'wrap' }}>
                     {([
                         { type: 'step' as OriginalType, label: t('gantt.filter.steps', 'Steps'), icon: <div style={{ width: 10, height: 10, borderRadius: 2, background: STEP_PALETTE[0].bar, border: `1px solid ${STEP_PALETTE[0].barBorder}` }} /> },
                         { type: 'milestone' as OriginalType, label: t('gantt.filter.milestones', 'Milestones'), icon: <Flag size={11} style={{ color: C.milestone }} /> },
@@ -87,6 +167,7 @@ export function GanttHeader() {
                         return (
                             <button
                                 key={f.type}
+                                className={`zg-segment-btn ${active ? 'is-active' : 'is-inactive'}`}
                                 onClick={() => toggleVisibility(f.type)}
                                 style={{
                                     display: 'flex', alignItems: 'center', gap: 6,
@@ -94,7 +175,7 @@ export function GanttHeader() {
                                     transition: 'all 0.2s', border: 'none', cursor: 'pointer',
                                     ...(active
                                         ? { background: C.surface, color: C.group, boxShadow: C.shadowTiny }
-                                        : { background: 'transparent', color: C.textMuted, opacity: 0.5 }),
+                                        : { background: 'transparent', color: C.textSecondary, opacity: 0.58 }),
                                 }}
                             >
                                 {f.icon}
@@ -107,6 +188,7 @@ export function GanttHeader() {
                 {onAddNewStage && (
                     <div ref={newActionRef} style={{ position: 'relative' }}>
                         <button
+                            className="zg-new-action-btn"
                             onClick={() => setNewActionOpen(p => !p)}
                             style={{
                                 display: 'flex', alignItems: 'center', gap: 8,
@@ -122,6 +204,7 @@ export function GanttHeader() {
                         </button>
                         {newActionOpen && (
                             <div
+                                className="zg-new-action-menu"
                                 style={{
                                     position: 'absolute', top: 'calc(100% + 6px)', right: 0,
                                     zIndex: 99999,
@@ -160,6 +243,7 @@ export function GanttHeader() {
                                     <button
                                         key={opt.label}
                                         onClick={opt.action}
+                                        className="zg-popup-btn"
                                         style={{
                                             display: 'flex', alignItems: 'center', gap: 10,
                                             width: '100%', padding: '8px 10px',
@@ -168,10 +252,7 @@ export function GanttHeader() {
                                             cursor: 'pointer',
                                             fontSize: 13, fontWeight: 500, color: C.textPrimary,
                                             textAlign: 'left',
-                                            transition: 'background 0.12s',
                                         }}
-                                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = C.headerBg; }}
-                                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                                     >
                                         {opt.icon}
                                         {opt.label}

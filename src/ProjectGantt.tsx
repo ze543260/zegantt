@@ -7,18 +7,46 @@ import { GanttChart } from './components/GanttChart';
 import { useGanttScroll } from './hooks/useGanttScroll';
 import { useGanttData } from './hooks/useGanttData';
 import { Loader2 } from 'lucide-react';
-import { C } from './utils/constants';
-import { addDays } from './utils/date';
+import { C, DAY_W_MONTH, DAY_W_YEAR } from './utils/constants';
+import { addDays, diffDays } from './utils/date';
 import type { ProjectGanttProps, DependencyType } from './types';
 import type { OriginalType, InternalTask, ConnectState, PendingConnection, ViewMode } from './types/internal';
 import { PinboardDrawer } from './components/PinboardDrawer';
 import { resolveTranslation } from './translations';
 import { wouldCreateDependencyCycle } from './utils/dependencies';
 
+const MIN_DAY_WIDTH = 1.6;
+const MAX_DAY_WIDTH = 140;
+const ZOOM_IN_RATIO = 1.2;
+const ZOOM_OUT_RATIO = 1 / ZOOM_IN_RATIO;
+
 const getTouchClient = (event: TouchEvent | React.TouchEvent) => {
     const touch = event.touches[0] || event.changedTouches[0];
     return touch ? { clientX: touch.clientX, clientY: touch.clientY } : { clientX: 0, clientY: 0 };
 };
+
+const getTouchDistance = (touches: TouchList | React.TouchList) => {
+    if (touches.length < 2) return 0;
+    const a = touches[0];
+    const b = touches[1];
+    return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+};
+
+const getTouchCenter = (touches: TouchList | React.TouchList) => {
+    if (touches.length < 2) {
+        return touches.length === 1
+            ? { clientX: touches[0].clientX, clientY: touches[0].clientY }
+            : { clientX: 0, clientY: 0 };
+    }
+    const a = touches[0];
+    const b = touches[1];
+    return {
+        clientX: (a.clientX + b.clientX) / 2,
+        clientY: (a.clientY + b.clientY) / 2,
+    };
+};
+
+const clampDayWidth = (value: number) => Math.min(MAX_DAY_WIDTH, Math.max(MIN_DAY_WIDTH, value));
 
 export function ProjectGantt(props: ProjectGanttProps) {
     const {
@@ -28,9 +56,12 @@ export function ProjectGantt(props: ProjectGanttProps) {
         dependencies,
         translations,
     } = props;
+    const isInfiniteCanvas = !!props.infiniteCanvas;
 
     // State
-    const [viewMode, setViewMode] = useState<ViewMode>('day');
+    const [viewModeState, setViewModeState] = useState<ViewMode>('day');
+    const [dayWidth, setDayWidth] = useState<number>(DAY_W_MONTH);
+    const dayWidthRef = useRef(dayWidth);
     const [hoveredTaskId, setHoveredTaskId] = useState<string | null>(null);
     const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
     const [tooltip, setTooltip] = useState<{ task: InternalTask; x: number; y: number } | null>(null);
@@ -62,6 +93,24 @@ export function ProjectGantt(props: ProjectGanttProps) {
     const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
     const [collapsedProjects, setCollapsedProjects] = useState<Set<string>>(new Set());
 
+    useEffect(() => {
+        dayWidthRef.current = dayWidth;
+    }, [dayWidth]);
+
+    const inferViewModeFromWidth = useCallback((width: number, currentMode: ViewMode) => {
+        if (!isInfiniteCanvas) return currentMode;
+        if (currentMode === 'day' && width <= 7) return 'month';
+        if (currentMode === 'month' && width >= 10) return 'day';
+        return currentMode;
+    }, [isInfiniteCanvas]);
+
+    const setViewMode = useCallback((nextMode: ViewMode) => {
+        setViewModeState(nextMode);
+        if (!isInfiniteCanvas) {
+            setDayWidth(nextMode === 'day' ? DAY_W_MONTH : DAY_W_YEAR);
+        }
+    }, [isInfiniteCanvas]);
+
     // Toggles
     const toggleVisibility = useCallback((type: OriginalType) => {
         setVisibleTypes(prev => { const next = new Set(prev); if (next.has(type)) next.delete(type); else next.add(type); return next; });
@@ -80,7 +129,8 @@ export function ProjectGantt(props: ProjectGanttProps) {
         events: props.events,
         notes: props.notes,
         dependencies: props.dependencies,
-        viewMode,
+        viewMode: viewModeState,
+        dayWidth,
         locale: props.locale,
         visibleTypes,
         collapsedGroups,
@@ -89,6 +139,89 @@ export function ProjectGantt(props: ProjectGanttProps) {
         selectedTaskId: selectedTaskId || null
     });
     const scroll = useGanttScroll(data.timeline);
+
+    const setDayWidthWithModeSync = useCallback((nextWidth: number) => {
+        const clamped = clampDayWidth(nextWidth);
+        setDayWidth(clamped);
+        if (isInfiniteCanvas) {
+            setViewModeState(prev => inferViewModeFromWidth(clamped, prev));
+        }
+        return clamped;
+    }, [inferViewModeFromWidth, isInfiniteCanvas]);
+
+    const applyZoomAtClientPoint = useCallback((clientX: number, nextWidth: number) => {
+        const rb = scroll.rightBodyRef.current;
+        if (!rb) {
+            setDayWidthWithModeSync(nextWidth);
+            return;
+        }
+
+        const rect = rb.getBoundingClientRect();
+        const localX = clientX - rect.left;
+        const safeLocalX = Number.isFinite(localX) ? localX : rb.clientWidth / 2;
+        const currentWidth = dayWidthRef.current || DAY_W_MONTH;
+        const worldX = rb.scrollLeft + safeLocalX;
+        const clamped = setDayWidthWithModeSync(nextWidth);
+        const ratio = clamped / currentWidth;
+
+        requestAnimationFrame(() => {
+            const body = scroll.rightBodyRef.current;
+            if (!body) return;
+            body.scrollLeft = Math.max(0, worldX * ratio - safeLocalX);
+            if (scroll.timeHeaderRef.current) scroll.timeHeaderRef.current.scrollLeft = body.scrollLeft;
+        });
+    }, [scroll.rightBodyRef, scroll.timeHeaderRef, setDayWidthWithModeSync]);
+
+    const zoomByFactor = useCallback((factor: number, clientX?: number) => {
+        const rb = scroll.rightBodyRef.current;
+        const anchorX = clientX ?? (rb ? rb.getBoundingClientRect().left + rb.clientWidth / 2 : 0);
+        applyZoomAtClientPoint(anchorX, dayWidthRef.current * factor);
+    }, [applyZoomAtClientPoint, scroll.rightBodyRef]);
+
+    const zoomIn = useCallback(() => {
+        zoomByFactor(ZOOM_IN_RATIO);
+    }, [zoomByFactor]);
+
+    const zoomOut = useCallback(() => {
+        zoomByFactor(ZOOM_OUT_RATIO);
+    }, [zoomByFactor]);
+
+    const fitToScreen = useCallback(() => {
+        const rb = scroll.rightBodyRef.current;
+        if (!rb || data.tasks.length === 0) return;
+
+        let minStart = data.tasks[0].start;
+        let maxEnd = data.tasks[0].end;
+        for (const task of data.tasks) {
+            if (task.start < minStart) minStart = task.start;
+            if (task.end > maxEnd) maxEnd = task.end;
+        }
+
+        const totalTaskDays = Math.max(1, diffDays(minStart, maxEnd) + 1);
+        const horizontalPadding = 40;
+        const availableWidth = Math.max(80, rb.clientWidth - horizontalPadding * 2);
+        const fittedWidth = setDayWidthWithModeSync(availableWidth / totalTaskDays);
+
+        requestAnimationFrame(() => {
+            const body = scroll.rightBodyRef.current;
+            if (!body) return;
+
+            const startOffsetDays = diffDays(data.timeline.start, minStart);
+            body.scrollLeft = Math.max(0, startOffsetDays * fittedWidth - horizontalPadding);
+            body.scrollTop = 0;
+            if (scroll.leftBodyRef.current) scroll.leftBodyRef.current.scrollTop = body.scrollTop;
+            if (scroll.timeHeaderRef.current) scroll.timeHeaderRef.current.scrollLeft = body.scrollLeft;
+        });
+    }, [data.tasks, data.timeline.start, scroll.rightBodyRef, scroll.leftBodyRef, scroll.timeHeaderRef, setDayWidthWithModeSync]);
+
+    const didInitialFit = useRef(false);
+    useEffect(() => {
+        if (!isInfiniteCanvas || !props.initialFitToScreen || didInitialFit.current || data.tasks.length === 0) return;
+        const rb = scroll.rightBodyRef.current;
+        if (!rb || rb.clientWidth <= 0) return;
+        fitToScreen();
+        didInitialFit.current = true;
+    }, [isInfiniteCanvas, props.initialFitToScreen, data.tasks.length, fitToScreen, scroll.rightBodyRef]);
 
     // Event Handlers for UI Interactions
     const handleBarMouseDown = useCallback((e: React.MouseEvent, task: InternalTask) => {
@@ -318,6 +451,8 @@ export function ProjectGantt(props: ProjectGanttProps) {
 
     // Pan (grab-drag)
     const [panState, setPanState] = useState<{ startX: number; startY: number; scrollLeft: number; scrollTop: number } | null>(null);
+    const [pinchState, setPinchState] = useState<{ startDistance: number; startDayWidth: number; centerClientY: number; startScrollTop: number } | null>(null);
+
     const handleChartMouseDown = useCallback((e: React.MouseEvent) => {
         if (resizeState || dragState || e.button === 2) return;
         const rb = scroll.rightBodyRef.current;
@@ -330,9 +465,39 @@ export function ProjectGantt(props: ProjectGanttProps) {
         if (resizeState || dragState || connectState) return;
         const rb = scroll.rightBodyRef.current;
         if (!rb) return;
+
+        if (isInfiniteCanvas && e.touches.length >= 2) {
+            if (e.cancelable) e.preventDefault();
+            setPanState(null);
+            const distance = getTouchDistance(e.touches);
+            const center = getTouchCenter(e.touches);
+            setPinchState({
+                startDistance: Math.max(1, distance),
+                startDayWidth: dayWidthRef.current,
+                centerClientY: center.clientY,
+                startScrollTop: rb.scrollTop,
+            });
+            return;
+        }
+
         const point = getTouchClient(e);
         setPanState({ startX: point.clientX, startY: point.clientY, scrollLeft: rb.scrollLeft, scrollTop: rb.scrollTop });
-    }, [resizeState, dragState, connectState, scroll.rightBodyRef]);
+    }, [resizeState, dragState, connectState, scroll.rightBodyRef, isInfiniteCanvas]);
+
+    const handleChartWheel = useCallback((e: React.WheelEvent) => {
+        if (!isInfiniteCanvas) {
+            scroll.handleChartWheel(e);
+            return;
+        }
+
+        const rb = scroll.rightBodyRef.current;
+        if (!rb) return;
+        e.preventDefault();
+
+        const delta = Math.abs(e.deltaY) > 0 ? e.deltaY : e.deltaX;
+        const factor = Math.exp(-delta * 0.0015);
+        applyZoomAtClientPoint(e.clientX, dayWidthRef.current * factor);
+    }, [isInfiniteCanvas, scroll, applyZoomAtClientPoint]);
 
     useEffect(() => {
         if (!panState) return;
@@ -368,6 +533,42 @@ export function ProjectGantt(props: ProjectGanttProps) {
             document.removeEventListener('touchend', onTouchEnd);
         };
     }, [panState, scroll.rightBodyRef, scroll.leftBodyRef, scroll.timeHeaderRef]);
+
+    useEffect(() => {
+        if (!pinchState || !isInfiniteCanvas) return;
+        const nonPassive = { passive: false } as AddEventListenerOptions;
+
+        const onTouchMove = (e: TouchEvent) => {
+            if (e.touches.length < 2) return;
+            if (e.cancelable) e.preventDefault();
+
+            const rb = scroll.rightBodyRef.current;
+            if (!rb) return;
+
+            const distance = getTouchDistance(e.touches);
+            const center = getTouchCenter(e.touches);
+            const ratio = Math.max(0.1, distance / pinchState.startDistance);
+            applyZoomAtClientPoint(center.clientX, pinchState.startDayWidth * ratio);
+
+            rb.scrollTop = pinchState.startScrollTop - (center.clientY - pinchState.centerClientY);
+            if (scroll.leftBodyRef.current) scroll.leftBodyRef.current.scrollTop = rb.scrollTop;
+        };
+
+        const onTouchEnd = (e: TouchEvent) => {
+            if (e.touches.length < 2) {
+                setPinchState(null);
+            }
+        };
+
+        document.addEventListener('touchmove', onTouchMove, nonPassive);
+        document.addEventListener('touchend', onTouchEnd);
+        document.addEventListener('touchcancel', onTouchEnd);
+        return () => {
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+            document.removeEventListener('touchcancel', onTouchEnd);
+        };
+    }, [pinchState, isInfiniteCanvas, scroll.rightBodyRef, scroll.leftBodyRef, applyZoomAtClientPoint]);
 
     // Chart Context Menu
     const openChartMenu = useCallback((e: React.MouseEvent) => {
@@ -423,7 +624,14 @@ export function ProjectGantt(props: ProjectGanttProps) {
     const contextValue = useMemo(() => ({
         props,
         t: (k: string, d?: string) => resolveTranslation(props.translations, k, d),
-        viewMode, setViewMode,
+        viewMode: viewModeState,
+        setViewMode,
+        isInfiniteCanvas,
+        dayWidth,
+        zoomPercent: Math.round((dayWidth / DAY_W_MONTH) * 100),
+        zoomIn,
+        zoomOut,
+        fitToScreen,
         hoveredTaskId, setHoveredTaskId,
         selectedTaskId, setSelectedTaskId,
         tooltip, setTooltip,
@@ -476,6 +684,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         },
         handleChartMouseDown,
         handleChartTouchStart,
+        handleChartWheel,
         openChartMenu,
         handleBarMouseDown,
         handleBarTouchStart,
@@ -485,10 +694,11 @@ export function ProjectGantt(props: ProjectGanttProps) {
         handleConnectDotTouchStart,
         handleCreateDependency
     }), [
-        props, viewMode, hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
+        props, viewModeState, isInfiniteCanvas, dayWidth, zoomIn, zoomOut, fitToScreen,
+        hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
         visibleTypes, collapsedGroups, collapsedProjects, pendingConnection, depModalType, depModalLag, depCreating,
         deletingDepId, chartMenu, newActionOpen, activePinboardTask, data, scroll, toggleVisibility, toggleGroup, toggleProject,
-        handleChartMouseDown, handleChartTouchStart, openChartMenu,
+        handleChartMouseDown, handleChartTouchStart, handleChartWheel, openChartMenu,
         handleBarMouseDown, handleBarTouchStart,
         handleResizeMouseDown, handleResizeTouchStart,
         handleConnectDotMouseDown, handleConnectDotTouchStart,
@@ -506,23 +716,24 @@ export function ProjectGantt(props: ProjectGanttProps) {
     return (
         <GanttProvider value={contextValue}>
             <div
-                className="zg-root"
+                className={`zg-root ${isInfiniteCanvas ? 'zg-root--infinite' : 'zg-root--framed'} ${activePinboardTask ? 'zg-root--muted' : ''}`}
                 style={{
                     width: '100%', display: 'flex', flexDirection: 'column',
                     marginLeft: 'auto', marginRight: 'auto',
-                    background: 'var(--zg-surface)', borderRadius: 12,
-                    boxShadow: 'var(--zg-shadow-panel)',
+                    background: isInfiniteCanvas ? 'transparent' : 'var(--zg-surface)',
+                    borderRadius: isInfiniteCanvas ? 0 : 12,
+                    boxShadow: isInfiniteCanvas ? 'none' : 'var(--zg-shadow-panel)',
                     overflow: 'hidden',
-                    height: 'calc(100vh - 48px)', minHeight: 600,
-                    border: `1px solid ${C.borderLight}`,
-                    opacity: activePinboardTask ? 0.6 : 1,
+                    height: isInfiniteCanvas ? '100%' : 'calc(100vh - 48px)',
+                    minHeight: isInfiniteCanvas ? 0 : 600,
+                    border: isInfiniteCanvas ? 'none' : `1px solid ${C.borderLight}`,
+                    opacity: 1,
                     transition: 'opacity 0.3s ease',
-                    pointerEvents: activePinboardTask ? 'none' : 'auto',
                 }}
             >
                 <GanttHeader />
                 <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative', background: C.surfaceAlt }}>
-                    <GanttGrid />
+                    {!props.hideSidebar && <GanttGrid />}
                     <GanttChart />
                 </div>
                 <PinboardDrawer />

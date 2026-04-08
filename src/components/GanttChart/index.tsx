@@ -36,6 +36,7 @@ export function GanttChart() {
         props,
         t,
         viewMode,
+        isInfiniteCanvas,
         timeline,
         displayRows,
         dragState,
@@ -107,7 +108,7 @@ export function GanttChart() {
     const closePopup = () => setPopupState({ isOpen: false, position: { x: 0, y: 0 }, task: null });
 
     return (
-        <div style={{ flex: 1, width: '100%', background: 'var(--zg-surface-alt)', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden', borderLeft: `1px solid ${C.borderLight}` }}>
+        <div style={{ flex: 1, width: '100%', background: 'var(--zg-surface-alt)', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden', borderLeft: props.hideSidebar ? 'none' : `1px solid ${C.borderLight}` }}>
 
             {/* ── TIME HEADER ── */}
             <div
@@ -184,7 +185,15 @@ export function GanttChart() {
             <div
                 ref={rightBodyRef}
                 className="zg-no-scrollbar"
-                style={{ flex: 1, overflow: 'auto', background: 'var(--zg-surface)', position: 'relative' }}
+                style={{
+                    flex: 1,
+                    overflow: 'auto',
+                    background: 'var(--zg-surface)',
+                    position: 'relative',
+                    cursor: isInfiniteCanvas ? 'grab' : 'default',
+                    transform: 'translate3d(0,0,0)',
+                    willChange: 'scroll-position',
+                }}
                 onScroll={handleRightScroll}
                 onMouseDown={handleChartMouseDown}
                 onTouchStart={handleChartTouchStart}
