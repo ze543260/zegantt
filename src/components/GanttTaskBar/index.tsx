@@ -90,7 +90,7 @@ export function GanttTaskBar({
                     <div style={{ position: 'absolute', left: 0, top: 0, width: w, height: '100%', borderRadius: BAR_H / 2, overflow: 'hidden', pointerEvents: 'none' }}>
                         <div style={{
                             position: 'absolute', left: 0, top: 0, width: progW, height: '100%',
-                            background: isDelayed ? `linear-gradient(90deg, ${C.today}, ${C.todayStrong})` : `linear-gradient(90deg, ${pal.progress}, ${pal.progress}cc)`,
+                            background: isDelayed ? C.today : pal.progress,
                             borderRadius: `${BAR_H / 2}px 0 0 ${BAR_H / 2}px`,
                             transition: isDrag || isResize ? 'none' : 'width 0.3s',
                         }} />

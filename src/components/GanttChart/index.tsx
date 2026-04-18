@@ -582,7 +582,7 @@ export function GanttChart() {
 
             {/* ── DEPENDENCY MODAL ── */}
             {pendingConnection && (
-                <div style={{ position: 'fixed', inset: 0, background: C.overlayMedium, backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99998 }} onClick={() => setPendingConnection(null)}>
+                <div style={{ position: 'fixed', inset: 0, background: C.overlayMedium, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99998 }} onClick={() => setPendingConnection(null)}>
                     <div style={{ background: 'var(--zg-surface)', borderRadius: 20, padding: '32px 36px', width: 420, boxShadow: 'var(--zg-shadow-popover)' }} onClick={e => e.stopPropagation()}>
                         <div style={{ marginBottom: 20 }}>
                             <h3 style={{ fontSize: 18, fontWeight: 700, color: C.textTitle, marginBottom: 4 }}>{t('gantt.depModal.title', 'Relation Type')}</h3>

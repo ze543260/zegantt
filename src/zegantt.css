@@ -6,7 +6,7 @@
   --zg-page-bg: #f2f6f8;
   --zg-surface: #ffffff;
   --zg-surface-alt: #f4f8fa;
-  --zg-surface-frost: rgba(255, 255, 255, 0.94);
+  --zg-surface-frost: #ffffff;
   --zg-header-bg: #eaf2f4;
   --zg-border: #cddce1;
   --zg-border-light: #dde8ec;
@@ -17,9 +17,9 @@
   --zg-text-muted: #a2b4bb;
   --zg-primary-color: #124457;
   --zg-group: #124457;
-  --zg-group-soft: rgba(18, 68, 87, 0.06);
-  --zg-group-soft-strong: rgba(18, 68, 87, 0.14);
-  --zg-group-border-weak: rgba(18, 68, 87, 0.25);
+  --zg-group-soft: #eaf2f4;
+  --zg-group-soft-strong: #dbe9ee;
+  --zg-group-border-weak: #aac4ce;
   --zg-group-glow-soft: rgba(18, 68, 87, 0.22);
   --zg-group-glow: rgba(18, 68, 87, 0.44);
   --zg-group-glow-strong: rgba(18, 68, 87, 0.64);
@@ -30,12 +30,12 @@
   --zg-milestone: #124457;
   --zg-milestone-ring: #8fcbad;
   --zg-milestone-ring-soft: rgba(143, 203, 173, 0.23);
-  --zg-milestone-pill-bg: linear-gradient(135deg, #e8f6f0, #f5fbf8);
-  --zg-critical-pill-bg: linear-gradient(135deg, #ffebeb, #fff6f6);
+  --zg-milestone-pill-bg: #edf8f2;
+  --zg-critical-pill-bg: #ffeaed;
   --zg-event: #a25a12;
   --zg-event-soft: rgba(162, 90, 18, 0.12);
   --zg-event-border-soft: rgba(162, 90, 18, 0.34);
-  --zg-event-pill-bg: linear-gradient(135deg, #fff6ec, #fff0dc);
+  --zg-event-pill-bg: #fff4e6;
   --zg-note-color: #ffca3a;
   --zg-note-default-bg: #fff2a8;
   --zg-note-badge-bg: #f8cd3f;
@@ -47,7 +47,7 @@
   --zg-danger-strong: rgba(206, 43, 61, 0.54);
   --zg-danger-text: #ce2b3d;
   --zg-danger-bg-soft: #ffe8ec;
-  --zg-delayed-task-bg: linear-gradient(135deg, #ffe6eb, #fff3f6);
+  --zg-delayed-task-bg: #ffe8ee;
   --zg-today-bg: rgba(206, 43, 61, 0.05);
   --zg-arrow: #6f8b94;
   --zg-arrow-hover: #124457;
@@ -81,8 +81,6 @@
   font-family: var(--zg-font-ui);
   position: relative;
   isolation: isolate;
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -93,26 +91,11 @@
 }
 
 .zg-root::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(108, 174, 196, 0.2), transparent 36%),
-    radial-gradient(circle at 90% 0%, rgba(143, 203, 173, 0.2), transparent 38%);
-  opacity: 0.72;
-  z-index: 0;
+  content: none;
 }
 
 .zg-root--framed::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  z-index: 0;
+  content: none;
 }
 
 .zg-root > * {
@@ -181,8 +164,8 @@
 }
 
 .zg-new-action-menu {
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* Spin animation for loading indicator */

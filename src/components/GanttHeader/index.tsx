@@ -41,7 +41,7 @@ export function GanttHeader() {
                 flexWrap: 'wrap',
                 padding: '14px 18px',
                 borderBottom: `1px solid ${C.border}`,
-                background: `linear-gradient(180deg, ${C.headerBg} 0%, ${C.surface} 100%)`,
+                background: C.headerBg,
             }}
         >
             <div className="zg-header-brand" style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
@@ -49,7 +49,7 @@ export function GanttHeader() {
                     <h3 style={{ margin: 0, fontSize: 13, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', color: C.textTitle, fontFamily: 'var(--zg-font-accent)' }}>
                         {t('planning.gantt', 'Project Planning')}
                     </h3>
-                    <div style={{ height: 2.5, width: 64, marginTop: 6, borderRadius: 9999, background: `linear-gradient(90deg, ${C.group}, ${C.milestoneRing})` }} />
+                    <div style={{ height: 2.5, width: 64, marginTop: 6, borderRadius: 9999, background: C.group }} />
                 </div>
                 {projectName && (
                     <span
@@ -194,7 +194,7 @@ export function GanttHeader() {
                                 display: 'flex', alignItems: 'center', gap: 8,
                                 padding: '10px 20px', borderRadius: 8,
                                 fontSize: 14, fontWeight: 600, color: C.white, border: 'none', cursor: 'pointer',
-                                background: `linear-gradient(135deg, ${C.group}, ${C.groupGlowStrong})`,
+                                background: C.group,
                                 transition: 'all 0.2s',
                             }}
                         >

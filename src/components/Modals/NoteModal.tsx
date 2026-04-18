@@ -111,7 +111,7 @@ export function NoteModal({
     if (!isOpen) return null;
 
     return (
-        <div style={{ position: 'fixed', inset: 0, background: C.overlaySoft, backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 16 }} onClick={onClose}>
+        <div style={{ position: 'fixed', inset: 0, background: C.overlaySoft, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 16 }} onClick={onClose}>
             <div onClick={(e) => e.stopPropagation()} style={{
                 width: 400, maxHeight: '90vh', background: formColor || C.noteDefaultBg, borderRadius: 4,
                 boxShadow: 'var(--zg-shadow-popover)',

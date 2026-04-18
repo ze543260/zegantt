@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { X, Plus, Calendar, Grip, RotateCcw } from 'lucide-react';
+import { X, Plus, Calendar, RotateCcw } from 'lucide-react';
 import { useGanttContext } from '../../context/GanttContext';
 import { C } from '../../utils/constants';
 import { fmtDateShort } from '../../utils/date';
@@ -167,7 +167,6 @@ export function PinboardDrawer() {
                         inset: 0,
                         backgroundColor: C.overlaySoft,
                         zIndex: 999,
-                        backdropFilter: 'blur(5px)',
                         transition: 'opacity 0.3s ease',
                     }}
                 />
@@ -268,12 +267,7 @@ export function PinboardDrawer() {
                             position: 'relative',
                             flex: 1,
                             overflow: 'hidden',
-                            background: `linear-gradient(180deg, ${C.surfaceAlt} 0%, ${C.surface} 100%)`,
-                            backgroundImage: `
-                              linear-gradient(${C.borderLight} 1px, transparent 1px),
-                              linear-gradient(90deg, ${C.borderLight} 1px, transparent 1px)
-                            `,
-                            backgroundSize: '28px 28px',
+                            background: C.surface,
                             cursor: dragState ? 'grabbing' : 'default',
                         }}
                     >
@@ -329,12 +323,11 @@ export function PinboardDrawer() {
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 8 }}>
                                         <h3 style={{ margin: 0, fontSize: 14, fontWeight: 700, color: C.inkSoft, lineHeight: 1.3 }}>{note.title}</h3>
                                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, color: C.inkSoft4 }}>
-                                            <Grip size={12} />
-                                            {t('pinboard.drag', 'Drag')}
+                                            {t('pinboard.noteBadge', 'NOTA')}
                                         </span>
                                     </div>
 
-                                    <p style={{ margin: 0, fontSize: 13, color: C.inkSoft2, lineHeight: 1.4 }}>
+                                    <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: C.inkSoft2, whiteSpace: 'pre-wrap' }}>
                                         {note.description || ''}
                                     </p>
 
