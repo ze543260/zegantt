@@ -1,3 +1,5 @@
+import type { GanttTheme } from './utils/theme';
+
 export type PredecessorType = "STEP" | "MILESTONE";
 export type DependencyType = "FS" | "SS" | "FF" | "SF";
 
@@ -12,6 +14,12 @@ export interface GanttStep {
     conclusionPercent?: number | string; // 0-1 or 0-100 depending on mapper
     projectId?: string;
     projectTitle?: string;
+    /** Custom color for the task bar (Hex, RGB or CSS Var) */
+    barColor?: string;
+    /** Custom color for the progress part of the task bar */
+    progressColor?: string;
+    /** Custom color for the task bar border */
+    borderColor?: string;
 }
 
 // Generic Gantt milestone
@@ -100,6 +108,8 @@ export interface ProjectGanttProps {
     locale?: string;
     /** Object containing localized strings or a translation function */
     translations?: Record<string, string> | ((key: string, fallback?: string) => string);
+    /** Global theme customization */
+    theme?: GanttTheme;
     /** When true renders one project-header row per project and groups tasks by project */
     groupByProject?: boolean;
     /** Enables infinite-canvas interaction model (zoom + pan viewport). */

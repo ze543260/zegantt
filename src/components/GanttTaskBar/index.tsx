@@ -41,6 +41,10 @@ export function GanttTaskBar({
         const pal = STEP_PALETTE[task.colorIdx ?? 0];
         const barY = y + (ROW_H - BAR_H) / 2;
 
+        const finalBarColor = task.barColor || pal.bar;
+        const finalProgressColor = task.progressColor || pal.progress;
+        const finalBorderColor = task.borderColor || pal.barBorder;
+
         // ── Prevision / planned baseline bar ──
         const showBaseline = !!(task.previsionStart && task.previsionEnd);
         const baseX = showBaseline ? dateToX(task.previsionStart!, timeline) : 0;
@@ -57,8 +61,11 @@ export function GanttTaskBar({
                         title={`Previsto: ${fmtDateShort(task.previsionStart!, props.locale)} → ${fmtDateShort(task.previsionEnd!, props.locale)}`}
                         style={{
                             position: 'absolute', left: baseX, top: baseY, width: baseW, height: 5,
-                            borderRadius: 3, background: `${pal.progress}33`, border: `1.5px solid ${pal.progress}66`,
-                            boxShadow: `inset 0 0 0 1px ${pal.progress}22`, pointerEvents: 'none', zIndex: 5,
+                            borderRadius: 3, 
+                            background: `color-mix(in srgb, ${finalProgressColor}, transparent 80%)`, 
+                            border: `1.5px solid color-mix(in srgb, ${finalProgressColor}, transparent 60%)`,
+                            boxShadow: `inset 0 0 0 1px color-mix(in srgb, ${finalProgressColor}, transparent 85%)`, 
+                            pointerEvents: 'none', zIndex: 5,
                         }}
                     />
                 )}
@@ -71,8 +78,8 @@ export function GanttTaskBar({
                     style={{
                         position: 'absolute', left: x, top: barY, width: w, height: BAR_H,
                         borderRadius: BAR_H / 2,
-                        background: isDelayed ? C.delayedTaskBg : pal.bar,
-                        border: isCritical ? `2px solid ${C.today}` : isDelayed ? `1.5px solid ${C.todayStrong}` : `1.5px solid ${pal.barBorder}`,
+                        background: isDelayed ? C.delayedTaskBg : finalBarColor,
+                        border: isCritical ? `2px solid ${C.today}` : isDelayed ? `1.5px solid ${C.todayStrong}` : `1.5px solid ${finalBorderColor}`,
                         cursor: isDrag || isResize ? 'grabbing' : 'grab',
                         zIndex: isHov || isConnectTarget ? 20 : 10,
                         boxShadow: isConnectTarget
@@ -80,7 +87,7 @@ export function GanttTaskBar({
                             : isCritical
                                 ? `0 0 0 1px ${C.todayMid}, 0 3px 12px ${C.todaySoft}`
                                 : isBarHighlighted && !isHov ? `0 0 0 2px ${C.groupGlowStrong}, 0 3px 14px ${C.groupGlowSoft}`
-                                    : isHov ? `0 3px 12px ${pal.progress}22` : 'none',
+                                    : isHov ? `0 3px 12px color-mix(in srgb, ${finalProgressColor}, transparent 85%)` : 'none',
                         transform: isHov ? 'scaleY(1.06)' : 'scaleY(1)',
                         opacity: isBarDimmed ? 0.15 : 1,
                         transition: isDrag || isResize ? 'none' : 'box-shadow 0.2s, transform 0.15s, opacity 0.18s',
@@ -90,7 +97,7 @@ export function GanttTaskBar({
                     <div style={{ position: 'absolute', left: 0, top: 0, width: w, height: '100%', borderRadius: BAR_H / 2, overflow: 'hidden', pointerEvents: 'none' }}>
                         <div style={{
                             position: 'absolute', left: 0, top: 0, width: progW, height: '100%',
-                            background: isDelayed ? C.today : pal.progress,
+                            background: isDelayed ? C.today : finalProgressColor,
                             borderRadius: `${BAR_H / 2}px 0 0 ${BAR_H / 2}px`,
                             transition: isDrag || isResize ? 'none' : 'width 0.3s',
                         }} />
@@ -98,7 +105,7 @@ export function GanttTaskBar({
                             <span style={{
                                 position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 fontSize: 10, fontWeight: 700, letterSpacing: '0.05em',
-                                color: task.progress > 50 ? C.white : isDelayed ? C.today : pal.progress, zIndex: 1, pointerEvents: 'none',
+                                color: task.progress > 50 ? C.white : isDelayed ? C.today : finalProgressColor, zIndex: 1, pointerEvents: 'none',
                             }}>
                                 {Math.round(task.progress)}%
                             </span>

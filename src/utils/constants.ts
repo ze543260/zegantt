@@ -1,17 +1,3 @@
-export const tw = {
-    white: '#FFFFFF',
-    dark_gray: '#4F4F4F',
-    gray: '#7B7B7B',
-    light_gray: '#D9D9D9',
-    dark_green: '#1A3C30',
-    water_green: '#7ab7a3',
-    light_yellow: '#D1D8A0',
-    light_green: '#A0D8A8',
-    orange: '#CD6200',
-    yellow: '#FFBB1C',
-    red: '#FF0000',
-};
-
 export const C = {
     pageBg: 'var(--zg-page-bg, #F8FAFB)',
     surface: 'var(--zg-surface, #FFFFFF)',
@@ -36,8 +22,8 @@ export const C = {
     groupLightSoft: 'var(--zg-group-light-soft, rgba(122,183,163,0.13))',
     groupLightStrong: 'var(--zg-group-light-strong, rgba(122,183,163,0.6))',
     task: 'var(--zg-group, #1A3C30)',
-    taskLight: tw.light_yellow,  // #D1D8A0 (bar bg)
-    taskMuted: tw.light_green,   // #A0D8A8 (bar border)
+    taskLight: 'var(--zg-task-light, #D1D8A0)',
+    taskMuted: 'var(--zg-task-muted, #A0D8A8)',
     milestone: 'var(--zg-milestone, #1A3C30)',
     milestoneRing: 'var(--zg-milestone-ring, #A0D8A8)',
     milestoneRingSoft: 'var(--zg-milestone-ring-soft, rgba(160,216,168,0.19))',
@@ -47,7 +33,7 @@ export const C = {
     eventSoft: 'var(--zg-event-soft, rgba(205,98,0,0.09))',
     eventBorderSoft: 'var(--zg-event-border-soft, rgba(205,98,0,0.33))',
     eventPillBg: 'var(--zg-event-pill-bg, #fff4e6)',
-    eventLight: `${tw.yellow}33`,
+    eventLight: 'var(--zg-event-light, rgba(255, 187, 28, 0.2))',
     note: 'var(--zg-note-color, #FFBB1C)',
     noteDefaultBg: 'var(--zg-note-default-bg, #FEF08A)',
     noteBadgeBg: 'var(--zg-note-badge-bg, #FACC15)',
@@ -107,16 +93,16 @@ export const DAY_W_MONTH = 40;
 export const DAY_W_YEAR = 3.5;
 
 export const STEP_PALETTE: { bar: string; barBorder: string; progress: string }[] = [
-    { bar: '#D1D8A0', barBorder: '#A0D8A8', progress: '#1A3C30' },   // sistema (light_yellow)
-    { bar: '#A0D8C8', barBorder: '#6BBFA8', progress: '#14534A' },   // teal
-    { bar: '#B8C9E8', barBorder: '#8AAAD6', progress: '#2C4A70' },   // blue
-    { bar: '#E8C9A0', barBorder: '#D6AA7A', progress: '#6B4510' },   // amber
-    { bar: '#D8A0C8', barBorder: '#C47AAE', progress: '#6B2058' },   // pink
-    { bar: '#A0C8D8', barBorder: '#74ACBF', progress: '#1A4F60' },   // sky
-    { bar: '#C8D8A0', barBorder: '#A8BF74', progress: '#3F5014' },   // lime
-    { bar: '#D8B0A0', barBorder: '#C4907A', progress: '#6B3020' },   // coral
-    { bar: '#B0A0D8', barBorder: '#937ACE', progress: '#3A2070' },   // violet
-    { bar: '#A0D8B0', barBorder: '#70C888', progress: '#1A5030' },   // mint
+    { bar: 'var(--zg-step-1-bar, #D1D8A0)', barBorder: 'var(--zg-step-1-border, #A0D8A8)', progress: 'var(--zg-step-1-progress, #1A3C30)' },
+    { bar: 'var(--zg-step-2-bar, #A0D8C8)', barBorder: 'var(--zg-step-2-border, #6BBFA8)', progress: 'var(--zg-step-2-progress, #14534A)' },
+    { bar: 'var(--zg-step-3-bar, #B8C9E8)', barBorder: 'var(--zg-step-3-border, #8AAAD6)', progress: 'var(--zg-step-3-progress, #2C4A70)' },
+    { bar: 'var(--zg-step-4-bar, #E8C9A0)', barBorder: 'var(--zg-step-4-border, #D6AA7A)', progress: 'var(--zg-step-4-progress, #6B4510)' },
+    { bar: 'var(--zg-step-5-bar, #D8A0C8)', barBorder: 'var(--zg-step-5-border, #C47AAE)', progress: 'var(--zg-step-5-progress, #6B2058)' },
+    { bar: 'var(--zg-step-6-bar, #A0C8D8)', barBorder: 'var(--zg-step-6-border, #74ACBF)', progress: 'var(--zg-step-6-progress, #1A4F60)' },
+    { bar: 'var(--zg-step-7-bar, #C8D8A0)', barBorder: 'var(--zg-step-7-border, #A8BF74)', progress: 'var(--zg-step-7-progress, #3F5014)' },
+    { bar: 'var(--zg-step-8-bar, #D8B0A0)', barBorder: 'var(--zg-step-8-border, #C4907A)', progress: 'var(--zg-step-8-progress, #6B3020)' },
+    { bar: 'var(--zg-step-9-bar, #B0A0D8)', barBorder: 'var(--zg-step-9-border, #937ACE)', progress: 'var(--zg-step-9-progress, #3A2070)' },
+    { bar: 'var(--zg-step-10-bar, #A0D8B0)', barBorder: 'var(--zg-step-10-border, #70C888)', progress: 'var(--zg-step-10-progress, #1A5030)' },
 ];
 
 export const GROUP_LABELS: Record<string, string> = {

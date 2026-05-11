@@ -27,6 +27,8 @@
   --zg-group-light: #6caec4;
   --zg-group-light-soft: rgba(108, 174, 196, 0.14);
   --zg-group-light-strong: rgba(108, 174, 196, 0.58);
+  --zg-task-light: #D1D8A0;
+  --zg-task-muted: #A0D8A8;
   --zg-milestone: #124457;
   --zg-milestone-ring: #8fcbad;
   --zg-milestone-ring-soft: rgba(143, 203, 173, 0.23);
@@ -36,10 +38,24 @@
   --zg-event-soft: rgba(162, 90, 18, 0.12);
   --zg-event-border-soft: rgba(162, 90, 18, 0.34);
   --zg-event-pill-bg: #fff4e6;
+  --zg-event-light: rgba(255, 187, 28, 0.2);
   --zg-note-color: #ffca3a;
   --zg-note-default-bg: #fff2a8;
   --zg-note-badge-bg: #f8cd3f;
   --zg-note-badge-text: #3e3211;
+
+  /* Step Palette */
+  --zg-step-1-bar: #D1D8A0; --zg-step-1-border: #A0D8A8; --zg-step-1-progress: #1A3C30;
+  --zg-step-2-bar: #A0D8C8; --zg-step-2-border: #6BBFA8; --zg-step-2-progress: #14534A;
+  --zg-step-3-bar: #B8C9E8; --zg-step-3-border: #8AAAD6; --zg-step-3-progress: #2C4A70;
+  --zg-step-4-bar: #E8C9A0; --zg-step-4-border: #D6AA7A; --zg-step-4-progress: #6B4510;
+  --zg-step-5-bar: #D8A0C8; --zg-step-5-border: #C47AAE; --zg-step-5-progress: #6B2058;
+  --zg-step-6-bar: #A0C8D8; --zg-step-6-border: #74ACBF; --zg-step-6-progress: #1A4F60;
+  --zg-step-7-bar: #C8D8A0; --zg-step-7-border: #A8BF74; --zg-step-7-progress: #3F5014;
+  --zg-step-8-bar: #D8B0A0; --zg-step-8-border: #C4907A; --zg-step-8-progress: #6B3020;
+  --zg-step-9-bar: #B0A0D8; --zg-step-9-border: #937ACE; --zg-step-9-progress: #3A2070;
+  --zg-step-10-bar: #A0D8B0; --zg-step-10-border: #70C888; --zg-step-10-progress: #1A5030;
+
   --zg-weekend-bg: #edf3f6;
   --zg-danger-color: #ce2b3d;
   --zg-danger-soft: rgba(206, 43, 61, 0.14);

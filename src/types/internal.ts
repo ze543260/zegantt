@@ -10,6 +10,9 @@ export interface InternalTask {
     deps: string[];
     noteCount?: number;
     colorIdx?: number;
+    barColor?: string;
+    progressColor?: string;
+    borderColor?: string;
     noteColor?: string;
     filesCount?: number;
     noteProjectTitle?: string;

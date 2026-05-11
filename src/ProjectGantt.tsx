@@ -14,6 +14,7 @@ import type { OriginalType, InternalTask, ConnectState, PendingConnection, ViewM
 import { PinboardDrawer } from './components/PinboardDrawer';
 import { resolveTranslation } from './translations';
 import { wouldCreateDependencyCycle } from './utils/dependencies';
+import { generateGanttTheme } from './utils/theme';
 
 const MIN_DAY_WIDTH = 1.6;
 const MAX_DAY_WIDTH = 140;
@@ -729,6 +730,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
                     border: isInfiniteCanvas ? 'none' : `1px solid ${C.borderLight}`,
                     opacity: 1,
                     transition: 'opacity 0.3s ease',
+                    ...generateGanttTheme(props.theme),
                 }}
             >
                 <GanttHeader />

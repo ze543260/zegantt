@@ -5,6 +5,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { useGanttContext } from '../../context/GanttContext';
 import { GanttTaskBar } from '../GanttTaskBar';
 import { GanttArrows } from '../GanttArrows';
+import { GanttTooltip } from '../GanttTooltip';
 import { C, HEADER_ROW_H, ROW_H, STEP_PALETTE } from '../../utils/constants';
 import { fmtDateShort, addDays } from '../../utils/date';
 import { dateToX } from '../../utils/timeline';
@@ -359,103 +360,7 @@ export function GanttChart() {
 
                         {/* ── Hover Tooltip ── */}
                         {tooltip && !dragState && (
-                            <div style={{ position: 'fixed', left: tooltip.x + 16, top: tooltip.y - 10, zIndex: 9999, pointerEvents: 'none' }}>
-                                <div
-                                    style={{
-                                        borderRadius: 12, padding: '12px 16px', minWidth: 220, maxWidth: 340,
-                                        background: C.surfaceFrost, border: `1px solid ${C.borderLight}`,
-                                        boxShadow: 'var(--zg-shadow-popover)',
-                                    }}
-                                >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                                        {task_icon(tooltip.task.originalType, tooltip.task.colorIdx)}
-                                        <span style={{ fontSize: 12, fontWeight: 700, color: C.textTitle, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                            {tooltip.task.name}
-                                        </span>
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 11, color: C.textSecondary }}>
-                                        {tooltip.task.originalType === 'step' ? (
-                                            <>
-                                                {/* Planned / Prevision row */}
-                                                {tooltip.task.previsionStart && tooltip.task.previsionEnd && (
-                                                    <div style={{ background: `${C.headerBg}`, borderRadius: 6, padding: '4px 6px', marginBottom: 2 }}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 4 }}>
-                                                            <div style={{ width: 20, height: 4, borderRadius: 2, background: C.textSecondarySoft, border: `1.5px solid ${C.textSecondaryMid}` }} />
-                                                            <span style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: C.textSecondary }}>{t('gantt.tooltip.planned', 'Planned')}</span>
-                                                        </div>
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                            <span>{t('gantt.tooltip.start', 'Start')}:</span>
-                                                            <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.previsionStart, props.locale)}</span>
-                                                        </div>
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                            <span>{t('gantt.tooltip.end', 'End')}:</span>
-                                                            <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.previsionEnd, props.locale)}</span>
-                                                        </div>
-                                                        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                            <span>{t('gantt.tooltip.duration', 'Duration')}:</span>
-                                                            <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{diffDays(tooltip.task.previsionStart, tooltip.task.previsionEnd)}d</span>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {/* Actual / Real row */}
-                                                <div style={{ background: tooltip.task.hasActualDates ? C.groupLightSoft : 'transparent', borderRadius: 6, padding: '4px 6px' }}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 4 }}>
-                                                        <div style={{ width: 20, height: 4, borderRadius: 2, background: STEP_PALETTE[tooltip.task.colorIdx ?? 0].progress }} />
-                                                        <span style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: tooltip.task.hasActualDates ? C.group : C.textSecondary }}>
-                                                            {tooltip.task.hasActualDates ? t('gantt.tooltip.actual', 'Actual') : t('gantt.tooltip.plannedInUse', 'Planned (in use)')}
-                                                        </span>
-                                                    </div>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                        <span>{t('gantt.tooltip.start', 'Start')}:</span>
-                                                        <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.start, props.locale)}</span>
-                                                    </div>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                        <span>{t('gantt.tooltip.end', 'End')}:</span>
-                                                        <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.end, props.locale)}</span>
-                                                    </div>
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                        <span>{t('gantt.tooltip.duration', 'Duration')}:</span>
-                                                        <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{diffDays(tooltip.task.start, tooltip.task.end)}d</span>
-                                                    </div>
-                                                </div>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, paddingTop: 4, marginTop: 4, borderTop: `1px solid ${C.borderLight}` }}>
-                                                    <span>{t('charts.gantt.progress', 'Progress')}:</span>
-                                                    <span style={{ fontWeight: 700, color: C.group }}>{Math.round(tooltip.task.progress)}%</span>
-                                                </div>
-                                            </>
-                                        ) : tooltip.task.originalType === 'note' ? (
-                                            <>
-                                                {tooltip.task.noteProjectTitle && (
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                                                        <div style={{ width: 8, height: 8, borderRadius: 2, background: tooltip.task.noteColor || C.note, flexShrink: 0 }} />
-                                                        <span style={{ fontSize: 11, fontWeight: 600, color: C.textPrimary, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                                            {tooltip.task.noteProjectTitle}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                    <span>{t('gantt.tooltip.date', 'Date')}:</span>
-                                                    <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.start, props.locale)}</span>
-                                                </div>
-                                                {(tooltip.task.filesCount || 0) > 0 && (
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                        <span>{t('gantt.tooltip.attachments', 'Attachments')}:</span>
-                                                        <span style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, color: C.textPrimary }}>
-                                                            <Paperclip size={10} />
-                                                            {tooltip.task.filesCount}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-                                                <span>{t('charts.gantt.start', 'Start')}:</span>
-                                                <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: C.textPrimary }}>{fmtDateShort(tooltip.task.start, props.locale)}</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
+                            <GanttTooltip task={tooltip.task} x={tooltip.x} y={tooltip.y} />
                         )}
                     </div>
                 </div>
