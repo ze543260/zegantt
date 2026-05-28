@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type React from 'react';
 import { Flag, Clock, Eye, Edit2, Trash2 } from 'lucide-react';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -72,6 +72,8 @@ export function GanttChart() {
         onViewStage, onEditStage, onDeleteStage, onDeleteDependency,
         onAddNewStage, onAddMilestone, onAddEvent, onAddNote
     } = props;
+
+    const [localProgress, setLocalProgress] = useState<number | null>(null);
 
 
 
@@ -439,6 +441,42 @@ export function GanttChart() {
                                 <Trash2 size={15} /> <span style={{ flex: 1, textAlign: 'left' }}>{t('gantt.popup.delete', 'Delete')}</span>
                             </button>
                         </div>
+
+                        {/* Progress Slider */}
+                        {t2.originalType === 'step' && props.onProgressChange && (
+                            <div style={{ padding: '10px 14px', borderTop: `1px solid ${C.borderLight}` }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                                    <span style={{ fontSize: 11, fontWeight: 700, color: C.textTitle }}>
+                                        {t('charts.gantt.progress', 'Progress')}
+                                    </span>
+                                    <span style={{ fontSize: 13, fontWeight: 800, color: C.group }}>
+                                        {localProgress ?? Math.round(t2.progress)}%
+                                    </span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min={0}
+                                    max={100}
+                                    step={1}
+                                    defaultValue={Math.round(t2.progress)}
+                                    onChange={(e) => setLocalProgress(Number(e.target.value))}
+                                    onMouseUp={(e) => {
+                                        const val = Number((e.target as HTMLInputElement).value);
+                                        props.onProgressChange?.(t2.id, val);
+                                        setLocalProgress(null);
+                                        setPopupState({ isOpen: false, position: { x: 0, y: 0 }, task: null });
+                                    }}
+                                    style={{
+                                        width: '100%',
+                                        accentColor: C.group,
+                                        cursor: 'pointer',
+                                    }}
+                                />
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 9, color: C.textMuted, marginTop: 2 }}>
+                                    <span>0%</span><span>100%</span>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Relation block */}
 
