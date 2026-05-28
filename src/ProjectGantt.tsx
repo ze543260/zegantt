@@ -13,6 +13,7 @@ import { addDays, diffDays } from './utils/date';
 import type { ProjectGanttProps, DependencyType } from './types';
 import type { OriginalType, InternalTask, ConnectState, PendingConnection, ViewMode } from './types/internal';
 import { PinboardDrawer } from './components/PinboardDrawer';
+import { BulkActionBar } from './components/BulkActionBar';
 import { resolveTranslation } from './translations';
 import { wouldCreateDependencyCycle } from './utils/dependencies';
 import { generateGanttTheme } from './utils/theme';
@@ -68,7 +69,9 @@ export function ProjectGantt(props: ProjectGanttProps) {
     const [dayWidth, setDayWidth] = useState<number>(DAY_W_MONTH);
     const dayWidthRef = useRef(dayWidth);
     const [hoveredTaskId, setHoveredTaskId] = useState<string | null>(null);
-    const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+    const [selectedTaskIds, setSelectedTaskIds] = useState<Set<string>>(new Set());
+    // Backward-compat: last selected task
+    const selectedTaskId = selectedTaskIds.size > 0 ? ([...selectedTaskIds].at(-1) ?? null) : null;
     const [tooltip, setTooltip] = useState<{ task: InternalTask; x: number; y: number } | null>(null);
     const [popupState, setPopupState] = useState<{ isOpen: boolean; position: { x: number; y: number }; task: InternalTask | null }>({
         isOpen: false, position: { x: 0, y: 0 }, task: null
@@ -314,7 +317,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         if (isDraggingRef.current) return;
         e.stopPropagation();
         const isAlreadySelected = selectedTaskId === task.id;
-        setSelectedTaskId(isAlreadySelected ? null : task.id);
+        setSelectedTaskIds(isAlreadySelected ? new Set() : new Set([task.id]));
         setPopupState(prev => {
             const popupShowingThis = prev.isOpen && prev.task?.id === task.id;
             if (isAlreadySelected || popupShowingThis) {
@@ -322,7 +325,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
             }
             return { isOpen: true, position: { x: e.clientX, y: e.clientY }, task };
         });
-    }, [selectedTaskId]);
+    }, [selectedTaskId, setSelectedTaskIds]);
 
     const handleCreateDependency = useCallback(async () => {
         if (!pendingConnection || !onCreateDependency) return;
@@ -774,7 +777,13 @@ export function ProjectGantt(props: ProjectGanttProps) {
         zoomOut,
         fitToScreen,
         hoveredTaskId, setHoveredTaskId,
-        selectedTaskId, setSelectedTaskId,
+        selectedTaskIds,
+        setSelectedTaskIds,
+        selectedTaskId,   // computed above — keep for compat
+        setSelectedTaskId: (v: string | null | ((prev: string | null) => string | null)) => {
+            const next = typeof v === 'function' ? v(selectedTaskId) : v;
+            setSelectedTaskIds(next ? new Set([next]) : new Set());
+        },
         tooltip, setTooltip,
         popupState, setPopupState,
         dragState, setDragState,
@@ -855,7 +864,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         redo: undoHistory.redo,
     }), [
         props, viewModeState, isInfiniteCanvas, dayWidth, zoomIn, zoomOut, fitToScreen,
-        hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
+        hoveredTaskId, selectedTaskId, selectedTaskIds, tooltip, popupState, dragState, resizeState, connectState,
         visibleTypes, collapsedGroups, collapsedProjects, pendingConnection, depModalType, depModalLag, depCreating,
         deletingDepId, chartMenu, newActionOpen, activePinboardTask, data, scroll, sidebarW, toggleVisibility, toggleGroup, toggleProject,
         searchQuery, exportPng,
@@ -997,6 +1006,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
                     )}
                     <GanttChart />
                 </div>
+                <BulkActionBar />
                 <PinboardDrawer />
             </div>
         </GanttProvider>

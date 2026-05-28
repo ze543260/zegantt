@@ -23,6 +23,8 @@ export interface GanttContextState {
     setHoveredTaskId: (id: string | null) => void;
     selectedTaskId: string | null;
     setSelectedTaskId: (v: string | null | ((prev: string | null) => string | null)) => void;
+    selectedTaskIds: Set<string>;
+    setSelectedTaskIds: (v: Set<string> | ((prev: Set<string>) => Set<string>)) => void;
     tooltip: { task: InternalTask; x: number; y: number } | null;
     setTooltip: (v: { task: InternalTask; x: number; y: number } | null) => void;
     popupState: { isOpen: boolean; position: { x: number; y: number }; task: InternalTask | null };
