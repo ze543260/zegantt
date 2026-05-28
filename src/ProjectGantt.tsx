@@ -7,7 +7,7 @@ import { GanttChart } from './components/GanttChart';
 import { useGanttScroll } from './hooks/useGanttScroll';
 import { useGanttData } from './hooks/useGanttData';
 import { useGanttExport } from './hooks/useGanttExport';
-import { C, DAY_W_MONTH, DAY_W_YEAR, LEFT_W } from './utils/constants';
+import { C, DAY_W_MONTH, DAY_W_WEEK, DAY_W_YEAR } from './utils/constants';
 import { addDays, diffDays } from './utils/date';
 import type { ProjectGanttProps, DependencyType } from './types';
 import type { OriginalType, InternalTask, ConnectState, PendingConnection, ViewMode } from './types/internal';
@@ -132,7 +132,12 @@ export function ProjectGantt(props: ProjectGanttProps) {
     const setViewMode = useCallback((nextMode: ViewMode) => {
         setViewModeState(nextMode);
         if (!isInfiniteCanvas) {
-            setDayWidth(nextMode === 'day' ? DAY_W_MONTH : DAY_W_YEAR);
+            const widthMap: Record<ViewMode, number> = {
+                day: DAY_W_MONTH,
+                week: DAY_W_WEEK,
+                month: DAY_W_YEAR,
+            };
+            setDayWidth(widthMap[nextMode]);
         }
     }, [isInfiniteCanvas]);
 
@@ -786,7 +791,16 @@ export function ProjectGantt(props: ProjectGanttProps) {
         handleResizeTouchStart,
         handleConnectDotMouseDown,
         handleConnectDotTouchStart,
-        handleCreateDependency
+        handleCreateDependency,
+        scrollToToday: () => {
+            const rb = scroll.rightBodyRef.current;
+            const th = scroll.timeHeaderRef.current;
+            if (!rb || data.timeline.todayIndex < 0) return;
+            const targetScrollLeft = Math.max(0, data.timeline.todayIndex * data.timeline.dayWidth - rb.clientWidth / 2);
+            rb.scrollTo({ left: targetScrollLeft, behavior: 'smooth' });
+            if (th) th.scrollLeft = targetScrollLeft;
+        },
+        isTodayVisible: data.timeline.todayIndex >= 0,
     }), [
         props, viewModeState, isInfiniteCanvas, dayWidth, zoomIn, zoomOut, fitToScreen,
         hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,

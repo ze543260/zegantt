@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fmtDateShort, getMonthName, normalizeLocale } from './date';
+import { fmtDateShort, getMonthName, normalizeLocale, getWeekNumber } from './date';
 
 describe('date utils', () => {
   it('formats date using provided locale', () => {
@@ -18,5 +18,20 @@ describe('date utils', () => {
     const d = new Date(2026, 2, 15);
     expect(getMonthName(d, 'en-US')).toBe('MARCH');
     expect(getMonthName(d, 'pt-BR')).toContain('MAR');
+  });
+});
+
+describe('getWeekNumber', () => {
+  it('returns 2 for Jan 5 2026 (W02)', () => {
+    expect(getWeekNumber(new Date(2026, 0, 5))).toBe(2);
+  });
+  it('returns 1 for Jan 1 2026 (Thursday)', () => {
+    expect(getWeekNumber(new Date(2026, 0, 1))).toBe(1);
+  });
+  it('returns 53 for Dec 31 2020 (Thursday)', () => {
+    expect(getWeekNumber(new Date(2020, 11, 31))).toBe(53);
+  });
+  it('returns week on monday boundary', () => {
+    expect(getWeekNumber(new Date(2026, 0, 12))).toBe(3); // Jan 12 = Monday of W03
   });
 });

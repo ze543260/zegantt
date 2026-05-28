@@ -18,7 +18,9 @@ export function GanttHeader() {
         setVisibleTypes,
         newActionOpen,
         setNewActionOpen,
-        newActionRef
+        newActionRef,
+        scrollToToday,
+        isTodayVisible,
     } = useGanttContext();
 
     const { projectName, onAddNewStage, onAddMilestone, onAddEvent, onAddNote } = props;
@@ -135,24 +137,44 @@ export function GanttHeader() {
                         </button>
                     </div>
                 ) : (
-                    <div className="zg-control-group" style={{ display: 'flex', padding: 4, borderRadius: 10, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}` }}>
-                        {(['day', 'month'] as ViewMode[]).map(m => (
+                    <>
+                        {isTodayVisible && (
                             <button
-                                key={m}
-                                className={`zg-segment-btn ${viewMode === m ? 'is-active' : 'is-inactive'}`}
-                                onClick={() => setViewMode(m)}
+                                onClick={scrollToToday}
                                 style={{
-                                    padding: '6px 20px', fontSize: 12, fontWeight: 600, borderRadius: 6,
-                                    transition: 'all 0.2s', border: 'none', cursor: 'pointer',
-                                    ...(viewMode === m
-                                        ? { background: C.surface, color: C.group, boxShadow: C.shadowTiny }
-                                        : { background: 'transparent', color: C.textSecondary }),
+                                    display: 'flex', alignItems: 'center', gap: 6,
+                                    padding: '8px 14px', borderRadius: 8,
+                                    border: `1.5px solid ${C.group}`, background: 'transparent',
+                                    color: C.group, cursor: 'pointer',
+                                    fontSize: 12, fontWeight: 700,
+                                    transition: 'all 0.18s',
                                 }}
+                                title={t('gantt.viewport.today', 'Scroll to today')}
                             >
-                                {m === 'day' ? t('charts.gantt.month', 'Month') : t('charts.gantt.year', 'Year')}
+                                📍 {t('gantt.viewport.today', 'Hoje')}
                             </button>
-                        ))}
-                    </div>
+                        )}
+                        <div className="zg-control-group" style={{ display: 'flex', padding: 4, borderRadius: 10, background: C.groupSoftStrong, border: `1px solid ${C.borderLight}` }}>
+                            {(['day', 'week', 'month'] as ViewMode[]).map(m => (
+                                <button
+                                    key={m}
+                                    className={`zg-segment-btn ${viewMode === m ? 'is-active' : 'is-inactive'}`}
+                                    onClick={() => setViewMode(m)}
+                                    style={{
+                                        padding: '6px 16px', fontSize: 12, fontWeight: 600, borderRadius: 6,
+                                        transition: 'all 0.2s', border: 'none', cursor: 'pointer',
+                                        ...(viewMode === m
+                                            ? { background: C.surface, color: C.group, boxShadow: C.shadowTiny }
+                                            : { background: 'transparent', color: C.textSecondary }),
+                                    }}
+                                >
+                                    {m === 'day' ? t('charts.gantt.month', 'Mês')
+                                        : m === 'week' ? t('charts.gantt.week', 'Semana')
+                                        : t('charts.gantt.year', 'Ano')}
+                                </button>
+                            ))}
+                        </div>
+                    </>
                 )}
 
                 {/* Type Filters */}

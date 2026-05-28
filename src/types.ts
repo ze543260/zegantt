@@ -150,4 +150,6 @@ export interface ProjectGanttProps {
     nonWorkingDays?: GanttNonWorkingDay[];
     /** Controlled sidebar width in px. Uncontrolled default reads from localStorage. */
     sidebarWidth?: number;
+    /** When true, shows ISO week numbers in day/week view header */
+    showWeekNumbers?: boolean;
 }

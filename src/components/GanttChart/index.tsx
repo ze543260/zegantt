@@ -7,7 +7,7 @@ import { GanttTaskBar } from '../GanttTaskBar';
 import { GanttArrows } from '../GanttArrows';
 import { GanttTooltip } from '../GanttTooltip';
 import { C, HEADER_ROW_H, ROW_H, STEP_PALETTE } from '../../utils/constants';
-import { fmtDateShort, addDays } from '../../utils/date';
+import { fmtDateShort, addDays, getWeekNumber } from '../../utils/date';
 import { dateToX } from '../../utils/timeline';
 import type { GanttTask, DependencyType } from '../../types';
 import type { InternalTask } from '../../types/internal';
@@ -130,7 +130,7 @@ export function GanttChart() {
                 <div style={{ width: timeline.totalWidth, height: '100%', position: 'relative' }}>
                     {/* Top row (Months/Years) */}
                     <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: HEADER_ROW_H, display: 'flex' }}>
-                        {viewMode === 'day' && timeline.months.map((m, i) => (
+                        {(viewMode === 'day' || viewMode === 'week') && timeline.months.map((m, i) => (
                             <div key={i} style={{ width: m.width, position: 'relative', height: '100%', borderRight: `1px solid ${C.borderLight}`, paddingLeft: 12, display: 'flex', alignItems: 'flex-end', paddingBottom: 6 }}>
                                 <span style={{ fontSize: 13, fontWeight: 700, color: C.textTitle, letterSpacing: '0.02em' }}>{m.label}</span>
                             </div>
@@ -143,12 +143,16 @@ export function GanttChart() {
                     </div>
                     {/* Bottom row (Days/Months) */}
                     <div style={{ position: 'absolute', top: HEADER_ROW_H, left: 0, right: 0, height: HEADER_ROW_H, display: 'flex' }}>
-                        {viewMode === 'day' && (
+                        {(viewMode === 'day' || viewMode === 'week') && (
                             <div style={{ width: timeline.totalWidth, height: '100%', position: 'relative' }}>
                                 {virtualDays.map((virtualDay) => {
                                     const d = timeline.days[virtualDay.index];
                                     if (!d) return null;
                                     const isTd = d.isToday;
+                                    const isMonday = d.date.getDay() === 1;
+                                    const weekNum = isMonday && props.showWeekNumbers
+                                        ? getWeekNumber(d.date)
+                                        : null;
                                     return (
                                         <div
                                             key={`day-${virtualDay.index}`}
@@ -164,6 +168,16 @@ export function GanttChart() {
                                                 justifyContent: 'center'
                                             }}
                                         >
+                                            {weekNum !== null && (
+                                                <span style={{
+                                                    fontSize: 8, fontWeight: 800, color: C.group,
+                                                    background: 'rgba(26,60,48,0.1)',
+                                                    borderRadius: 3, padding: '0 3px',
+                                                    marginBottom: 1, letterSpacing: '0.02em',
+                                                }}>
+                                                    W{String(weekNum).padStart(2, '0')}
+                                                </span>
+                                            )}
                                             <span style={{ fontSize: 11, fontWeight: isTd ? 800 : 500, color: isTd ? C.today : C.textSecondary, letterSpacing: '-0.03em' }}>
                                                 {d.date.getDate().toString().padStart(2, '0')}
                                             </span>
@@ -221,7 +235,7 @@ export function GanttChart() {
                         <rect width="100%" height="100%" fill="url(#gantt-x-lines)" />
                         <rect width="100%" height="100%" fill="url(#gantt-y-lines)" />
 
-                        {viewMode === 'day' && virtualDays.map((virtualDay) => {
+                        {(viewMode === 'day' || viewMode === 'week') && virtualDays.map((virtualDay) => {
                             const d = timeline.days[virtualDay.index];
                             return d?.isWeekend
                                 ? <rect key={`we-${virtualDay.index}`} x={virtualDay.start} y={0} width={virtualDay.size} height={contentH} fill={C.weekendBg} opacity={0.6} />

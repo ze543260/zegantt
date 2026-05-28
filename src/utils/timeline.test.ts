@@ -27,3 +27,20 @@ describe('timeline utils', () => {
     expect(x2).toBeGreaterThanOrEqual(x1);
   });
 });
+
+describe('timeline week view', () => {
+  it('produces ~90 day span for week view with no tasks', () => {
+    const tl = computeTimeline([], 'week', 'en', 18);
+    expect(tl.days.length).toBeGreaterThan(60);
+    expect(tl.days.length).toBeLessThan(120);
+  });
+  it('uses DAY_W_WEEK as dayWidth', () => {
+    const tl = computeTimeline([], 'week', 'en', 18);
+    expect(tl.dayWidth).toBe(18);
+  });
+  it('produces reasonable span for week view with tasks', () => {
+    const tl = computeTimeline([baseTask], 'week', 'en', 18);
+    expect(tl.days.length).toBeGreaterThan(60);
+    expect(tl.totalWidth).toBe(tl.totalDays * tl.dayWidth);
+  });
+});

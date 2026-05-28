@@ -90,6 +90,7 @@ export const PILL_MIN_W = 120;
 export const POSTIT_W = 90;
 export const POSTIT_H = 44;
 export const DAY_W_MONTH = 40;
+export const DAY_W_WEEK = 18; // px per day in week view (~90 day span visible)
 export const DAY_W_YEAR = 3.5;
 
 export const STEP_PALETTE: { bar: string; barBorder: string; progress: string }[] = [
