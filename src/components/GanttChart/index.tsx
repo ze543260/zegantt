@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import type React from 'react';
-import { Flag, Clock, Eye, Edit2, Trash2, Paperclip } from 'lucide-react';
+import { Flag, Clock, Eye, Edit2, Trash2 } from 'lucide-react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useGanttContext } from '../../context/GanttContext';
 import { GanttTaskBar } from '../GanttTaskBar';
@@ -55,6 +55,7 @@ export function GanttChart() {
         selectedTaskId, setSelectedTaskId,
         tooltip, setTooltip,
         popupState, setPopupState,
+        handleBarClick,
         arrows,
         criticalIds, delayedIds, relatedIds,
         handleBarMouseDown,
@@ -71,7 +72,7 @@ export function GanttChart() {
         onAddNewStage, onAddMilestone, onAddEvent, onAddNote
     } = props;
 
-    const diffDays = (start: Date, end: Date) => Math.round((end.getTime() - start.getTime()) / 86400000) + 1;
+
 
     const rowVirtualizer = useVirtualizer({
         count: displayRows.length,
@@ -200,6 +201,10 @@ export function GanttChart() {
                 onTouchStart={handleChartTouchStart}
                 onWheel={handleChartWheel}
                 onContextMenu={openChartMenu}
+                onClick={() => {
+                    setSelectedTaskId(null);
+                    setPopupState({ isOpen: false, position: { x: 0, y: 0 }, task: null });
+                }}
             >
                 <div style={{ width: timeline.totalWidth, height: contentH, position: 'relative' }}>
 
@@ -306,17 +311,10 @@ export function GanttChart() {
                                     setHoveredTaskId(null);
                                     setTooltip(null);
                                 },
-                                onClick: (ev: React.MouseEvent) => {
+                                onClick: (ev: React.MouseEvent) => handleBarClick(ev, task),
+                                onDoubleClick: (ev: React.MouseEvent) => {
                                     ev.stopPropagation();
-                                    setSelectedTaskId(task.id);
-                                    if (ev.detail === 2) {
-                                        onViewStage?.(toGanttTask(task));
-                                    }
-                                    setPopupState((!popupState.isOpen || popupState.task?.id !== task.id) ? {
-                                        isOpen: true,
-                                        position: { x: ev.clientX, y: ev.clientY },
-                                        task
-                                    } : { isOpen: false, position: { x: 0, y: 0 }, task: null });
+                                    onViewStage?.(toGanttTask(task));
                                 },
                                 onMouseDown: (ev: React.MouseEvent) => handleBarMouseDown(ev, task),
                                 onTouchStart: (ev: React.TouchEvent) => handleBarTouchStart(ev, task),
@@ -359,7 +357,7 @@ export function GanttChart() {
                         </svg>
 
                         {/* ── Hover Tooltip ── */}
-                        {tooltip && !dragState && (
+                        {tooltip && !dragState && !popupState.isOpen && (
                             <GanttTooltip task={tooltip.task} x={tooltip.x} y={tooltip.y} />
                         )}
                     </div>
@@ -372,8 +370,9 @@ export function GanttChart() {
                 const taskDeps = (props.dependencies || []).filter(d => d.predecessorId === t2.id || d.successorId === t2.id);
                 const depTypeLabel: Record<string, string> = { FS: t('gantt.depType.fs', 'Finish to Start'), SS: t('gantt.depType.ss', 'Start to Start'), FF: t('gantt.depType.ff', 'Finish to Finish'), SF: t('gantt.depType.sf', 'Start to Finish') };
                 const PW = taskDeps.length > 0 ? 300 : 220;
+                const estimatedPopupH = 200 + taskDeps.length * 68;
                 const left = Math.min(popupState.position.x, window.innerWidth - PW - 16);
-                const top = popupState.position.y + 8;
+                const top = Math.min(Math.max(8, popupState.position.y + 8), window.innerHeight - estimatedPopupH - 16);
 
                 return (
                     <div
