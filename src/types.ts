@@ -154,4 +154,8 @@ export interface ProjectGanttProps {
     showWeekNumbers?: boolean;
     /** Called when progress is updated via inline slider */
     onProgressChange?: (taskId: string, percent: number) => void;
+    /** Called when multiple tasks are deleted in bulk */
+    onBulkDelete?: (taskIds: string[]) => Promise<void>;
+    /** Called when progress is updated in bulk for multiple tasks */
+    onBulkProgressChange?: (taskIds: string[], percent: number) => Promise<void>;
 }
