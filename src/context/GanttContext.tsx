@@ -110,6 +110,10 @@ export interface GanttContextState {
     handleCreateDependency: () => void;
     scrollToToday: () => void;
     isTodayVisible: boolean;
+    canUndo: boolean;
+    canRedo: boolean;
+    undo: () => void;
+    redo: () => void;
 }
 
 const GanttContext = createContext<GanttContextState | undefined>(undefined);
