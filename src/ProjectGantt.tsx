@@ -7,7 +7,7 @@ import { GanttChart } from './components/GanttChart';
 import { useGanttScroll } from './hooks/useGanttScroll';
 import { useGanttData } from './hooks/useGanttData';
 import { Loader2 } from 'lucide-react';
-import { C, DAY_W_MONTH, DAY_W_YEAR } from './utils/constants';
+import { C, DAY_W_MONTH, DAY_W_WEEK, DAY_W_YEAR } from './utils/constants';
 import { addDays, diffDays } from './utils/date';
 import type { ProjectGanttProps, DependencyType } from './types';
 import type { OriginalType, InternalTask, ConnectState, PendingConnection, ViewMode } from './types/internal';
@@ -108,7 +108,12 @@ export function ProjectGantt(props: ProjectGanttProps) {
     const setViewMode = useCallback((nextMode: ViewMode) => {
         setViewModeState(nextMode);
         if (!isInfiniteCanvas) {
-            setDayWidth(nextMode === 'day' ? DAY_W_MONTH : DAY_W_YEAR);
+            const widthMap: Record<ViewMode, number> = {
+                day: DAY_W_MONTH,
+                week: DAY_W_WEEK,
+                month: DAY_W_YEAR,
+            };
+            setDayWidth(widthMap[nextMode]);
         }
     }, [isInfiniteCanvas]);
 

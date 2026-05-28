@@ -24,7 +24,7 @@ export interface InternalTask {
     projectTitle?: string;
 }
 
-export type ViewMode = 'day' | 'month';
+export type ViewMode = 'day' | 'week' | 'month';
 
 export interface TimelineInfo {
     start: Date;
