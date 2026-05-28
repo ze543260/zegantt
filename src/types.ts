@@ -139,4 +139,6 @@ export interface ProjectGanttProps {
         dependencyType: DependencyType;
         files: File[];
     }) => Promise<void>;
+    /** When true, shows ISO week numbers in day/week view header */
+    showWeekNumbers?: boolean;
 }
