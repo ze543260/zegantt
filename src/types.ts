@@ -152,4 +152,6 @@ export interface ProjectGanttProps {
     sidebarWidth?: number;
     /** When true, shows ISO week numbers in day/week view header */
     showWeekNumbers?: boolean;
+    /** Called when progress is updated via inline slider */
+    onProgressChange?: (taskId: string, percent: number) => void;
 }
