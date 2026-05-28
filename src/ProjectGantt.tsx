@@ -7,6 +7,7 @@ import { GanttChart } from './components/GanttChart';
 import { useGanttScroll } from './hooks/useGanttScroll';
 import { useGanttData } from './hooks/useGanttData';
 import { useGanttExport } from './hooks/useGanttExport';
+import { useUndoHistory } from './hooks/useUndoHistory';
 import { C, DAY_W_MONTH, DAY_W_WEEK, DAY_W_YEAR } from './utils/constants';
 import { addDays, diffDays } from './utils/date';
 import type { ProjectGanttProps, DependencyType } from './types';
@@ -171,6 +172,18 @@ export function ProjectGantt(props: ProjectGanttProps) {
         searchQuery,
     });
     const scroll = useGanttScroll(data.timeline);
+
+    // Undo/Redo
+    const undoHistory = useUndoHistory((taskId, start, end) => {
+        const task = data.tasks.find(t => t.id === taskId);
+        if (!task) return;
+        props.onTaskChange?.({
+            id: taskId, name: task.name,
+            start, end,
+            type: task.originalType === 'step' ? 'task' : 'milestone',
+            progress: task.progress,
+        });
+    });
 
     const setDayWidthWithModeSync = useCallback((nextWidth: number) => {
         const clamped = clampDayWidth(nextWidth);
@@ -385,6 +398,13 @@ export function ProjectGantt(props: ProjectGanttProps) {
                     type: dragState.task.originalType === 'step' ? 'task' : 'milestone',
                     progress: dragState.task.progress,
                 });
+                undoHistory.push({
+                    taskId: dragState.task.id,
+                    prevStart: dragState.originalStart,
+                    prevEnd: dragState.originalEnd,
+                    nextStart: addDays(dragState.originalStart, dragState.offsetDays),
+                    nextEnd: addDays(dragState.originalEnd, dragState.offsetDays),
+                });
             }
             setDragState(null);
             requestAnimationFrame(() => { isDraggingRef.current = false; });
@@ -399,7 +419,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
             document.removeEventListener('touchmove', onTouchMove);
             document.removeEventListener('touchend', onTouchEnd);
         };
-    }, [dragState, data.timeline.dayWidth, onTaskChange]);
+    }, [dragState, data.timeline.dayWidth, onTaskChange, undoHistory]);
 
     // Resize
     useEffect(() => {
@@ -422,7 +442,16 @@ export function ProjectGantt(props: ProjectGanttProps) {
             if (resizeState.offsetDays !== 0 && onTaskChange) {
                 const newStart = resizeState.edge === 'left' ? addDays(resizeState.originalStart, resizeState.offsetDays) : resizeState.originalStart;
                 const newEnd = resizeState.edge === 'right' ? addDays(resizeState.originalEnd, resizeState.offsetDays) : resizeState.originalEnd;
-                if (newEnd > newStart) onTaskChange({ id: resizeState.task.id, name: resizeState.task.name, start: newStart, end: newEnd, type: 'task', progress: resizeState.task.progress });
+                if (newEnd > newStart) {
+                    onTaskChange({ id: resizeState.task.id, name: resizeState.task.name, start: newStart, end: newEnd, type: 'task', progress: resizeState.task.progress });
+                    undoHistory.push({
+                        taskId: resizeState.task.id,
+                        prevStart: resizeState.originalStart,
+                        prevEnd: resizeState.originalEnd,
+                        nextStart: newStart,
+                        nextEnd: newEnd,
+                    });
+                }
             }
             setResizeState(null);
         };
@@ -436,7 +465,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
             document.removeEventListener('touchmove', onTouchMove);
             document.removeEventListener('touchend', onTouchEnd);
         };
-    }, [resizeState, data.timeline.dayWidth, onTaskChange]);
+    }, [resizeState, data.timeline.dayWidth, onTaskChange, undoHistory]);
 
     // Connect
     const connectFromTaskId = connectState?.fromTaskId;
@@ -694,6 +723,25 @@ export function ProjectGantt(props: ProjectGanttProps) {
         };
     }, [popupState.isOpen]);
 
+    // Undo/Redo keyboard handler
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => {
+            const isMac = navigator.platform.toUpperCase().includes('MAC');
+            const ctrlOrCmd = isMac ? e.metaKey : e.ctrlKey;
+            if (!ctrlOrCmd) return;
+            if (e.key === 'z' && !e.shiftKey) {
+                e.preventDefault();
+                undoHistory.undo();
+            }
+            if ((e.key === 'z' && e.shiftKey) || e.key === 'y') {
+                e.preventDefault();
+                undoHistory.redo();
+            }
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [undoHistory]);
+
     // Close newAction dropdown on outside click / escape
     useEffect(() => {
         if (!newActionOpen) return;
@@ -801,6 +849,10 @@ export function ProjectGantt(props: ProjectGanttProps) {
             if (th) th.scrollLeft = targetScrollLeft;
         },
         isTodayVisible: data.timeline.todayIndex >= 0,
+        canUndo: undoHistory.canUndo,
+        canRedo: undoHistory.canRedo,
+        undo: undoHistory.undo,
+        redo: undoHistory.redo,
     }), [
         props, viewModeState, isInfiniteCanvas, dayWidth, zoomIn, zoomOut, fitToScreen,
         hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
@@ -811,7 +863,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         handleBarClick, handleBarMouseDown, handleBarTouchStart,
         handleResizeMouseDown, handleResizeTouchStart,
         handleConnectDotMouseDown, handleConnectDotTouchStart,
-        handleCreateDependency
+        handleCreateDependency, undoHistory
     ]);
 
     if (props.loading) {
