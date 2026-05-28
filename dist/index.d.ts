@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react';
 import { JSX } from 'react/jsx-runtime';
 
 export declare interface CreateDependencyParams {
@@ -51,6 +52,11 @@ export declare interface GanttMilestone {
     projectTitle?: string;
 }
 
+export declare interface GanttNonWorkingDay {
+    date: Date | string;
+    label?: string;
+}
+
 export declare interface GanttNote {
     id: string;
     title: string;
@@ -75,6 +81,12 @@ export declare interface GanttStep {
     conclusionPercent?: number | string;
     projectId?: string;
     projectTitle?: string;
+    /** Custom color for the task bar (Hex, RGB or CSS Var) */
+    barColor?: string;
+    /** Custom color for the progress part of the task bar */
+    progressColor?: string;
+    /** Custom color for the task bar border */
+    borderColor?: string;
 }
 
 /** Compatible task shape exposed through callbacks */
@@ -86,6 +98,35 @@ export declare interface GanttTask {
     type: string;
     progress: number;
 }
+
+/**
+ * High-level theme definition for ZeGantt.
+ * Any property provided here will override the default CSS variables.
+ */
+export declare interface GanttTheme {
+    primary?: string;
+    primaryContrast?: string;
+    surface?: string;
+    surfaceAlt?: string;
+    headerBg?: string;
+    border?: string;
+    borderLight?: string;
+    textPrimary?: string;
+    textSecondary?: string;
+    textMuted?: string;
+    milestone?: string;
+    event?: string;
+    note?: string;
+    today?: string;
+    weekendBg?: string;
+    customVariables?: Record<string, string>;
+}
+
+/**
+ * Converts a GanttTheme object into a React CSSProperties object
+ * containing the corresponding --zg-* CSS variables.
+ */
+export declare function generateGanttTheme(theme?: GanttTheme): CSSProperties;
 
 export declare function NoteModal({ isOpen, onClose, availableMilestones, initialDate, translations, onSaveNote }: NoteModalProps): JSX.Element | null;
 
@@ -126,6 +167,8 @@ export declare interface ProjectGanttProps {
     locale?: string;
     /** Object containing localized strings or a translation function */
     translations?: Record<string, string> | ((key: string, fallback?: string) => string);
+    /** Global theme customization */
+    theme?: GanttTheme;
     /** When true renders one project-header row per project and groups tasks by project */
     groupByProject?: boolean;
     /** Enables infinite-canvas interaction model (zoom + pan viewport). */
@@ -155,6 +198,12 @@ export declare interface ProjectGanttProps {
         dependencyType: DependencyType;
         files: File[];
     }) => Promise<void>;
+    /** When true (default), renders task name to the right of bars narrower than 55px */
+    showLabelOutside?: boolean;
+    /** Dates to mark as non-working (holidays, shutdowns). Distinct from weekends. */
+    nonWorkingDays?: GanttNonWorkingDay[];
+    /** Controlled sidebar width in px. Uncontrolled default reads from localStorage. */
+    sidebarWidth?: number;
 }
 
 /** Portuguese (Brazil) translation strings for ZeGantt */
