@@ -276,6 +276,17 @@
   }
 }
 
+@keyframes zg-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.zg-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: zg-shimmer 1.4s ease-in-out infinite;
+  border-radius: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .zg-root button,
   .zg-root [role='button'],
@@ -287,5 +298,10 @@
 
   .zg-root::before {
     opacity: 0.42;
+  }
+
+  .zg-skeleton {
+    animation: none !important;
+    background: #e8e8e8 !important;
   }
 }

@@ -62,6 +62,16 @@ export interface GanttContextState {
     activePinboardTask: InternalTask | null;
     setActivePinboardTask: (task: InternalTask | null) => void;
 
+    // Search
+    searchQuery: string;
+    setSearchQuery: (q: string) => void;
+
+    // Non-working days
+    nonWorkingDaySet: Set<string>;
+
+    // Export
+    exportPng: (options?: { filename?: string; scale?: number }) => Promise<void>;
+
     // Computed Data
     tasks: InternalTask[];
     timeline: TimelineInfo;
@@ -71,6 +81,11 @@ export interface GanttContextState {
     criticalIds: Set<string>;
     delayedIds: Set<string>;
     relatedIds: Set<string>;
+    groupProgress: {
+        byType: Map<string, number>;
+        byProject: Map<string, number>;
+    };
+    sidebarW: number;
 
     // Refs and Callbacks from Scroll hook
     leftBodyRef: RefObject<HTMLDivElement | null>;
@@ -85,6 +100,7 @@ export interface GanttContextState {
     screenXToDate: (x: number) => Date;
     screenYToProjectId: (y: number) => string | undefined;
     openChartMenu: (e: React.MouseEvent) => void;
+    handleBarClick: (e: React.MouseEvent, task: InternalTask) => void;
     handleBarMouseDown: (e: React.MouseEvent, task: InternalTask) => void;
     handleBarTouchStart: (e: React.TouchEvent, task: InternalTask) => void;
     handleResizeMouseDown: (e: React.MouseEvent, task: InternalTask, edge: 'left' | 'right') => void;

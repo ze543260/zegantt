@@ -6,8 +6,8 @@ import { GanttGrid } from './components/GanttGrid';
 import { GanttChart } from './components/GanttChart';
 import { useGanttScroll } from './hooks/useGanttScroll';
 import { useGanttData } from './hooks/useGanttData';
-import { Loader2 } from 'lucide-react';
-import { C, DAY_W_MONTH, DAY_W_YEAR } from './utils/constants';
+import { useGanttExport } from './hooks/useGanttExport';
+import { C, DAY_W_MONTH, DAY_W_YEAR, LEFT_W } from './utils/constants';
 import { addDays, diffDays } from './utils/date';
 import type { ProjectGanttProps, DependencyType } from './types';
 import type { OriginalType, InternalTask, ConnectState, PendingConnection, ViewMode } from './types/internal';
@@ -17,6 +17,9 @@ import { wouldCreateDependencyCycle } from './utils/dependencies';
 import { generateGanttTheme } from './utils/theme';
 
 const MIN_DAY_WIDTH = 1.6;
+const SIDEBAR_MIN = 200;
+const SIDEBAR_MAX = 700;
+const SIDEBAR_STORAGE_KEY = 'zg-sidebar-w';
 const MAX_DAY_WIDTH = 140;
 const ZOOM_IN_RATIO = 1.2;
 const ZOOM_OUT_RATIO = 1 / ZOOM_IN_RATIO;
@@ -88,6 +91,27 @@ export function ProjectGantt(props: ProjectGanttProps) {
     const newActionRef = useRef<HTMLDivElement>(null);
 
     const [activePinboardTask, setActivePinboardTask] = useState<InternalTask | null>(null);
+    const isDraggingRef = useRef(false);
+
+    const [sidebarW, setSidebarW] = useState<number>(() => {
+        if (props.sidebarWidth) return props.sidebarWidth;
+        try {
+            const stored = localStorage.getItem(SIDEBAR_STORAGE_KEY);
+            return stored ? Number(stored) : LEFT_W;
+        } catch {
+            return LEFT_W;
+        }
+    });
+
+    useEffect(() => {
+        if (props.sidebarWidth !== undefined) setSidebarW(props.sidebarWidth);
+    }, [props.sidebarWidth]);
+
+    // Search
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Export
+    const { exportRef, exportPng } = useGanttExport();
 
     // Visibility and Grouping
     const [visibleTypes, setVisibleTypes] = useState<Set<OriginalType>>(new Set(['step', 'milestone', 'event', 'note']));
@@ -137,7 +161,9 @@ export function ProjectGantt(props: ProjectGanttProps) {
         collapsedGroups,
         collapsedProjects,
         groupByProject: props.groupByProject,
-        selectedTaskId: selectedTaskId || null
+        selectedTaskId: selectedTaskId || null,
+        nonWorkingDays: props.nonWorkingDays,
+        searchQuery,
     });
     const scroll = useGanttScroll(data.timeline);
 
@@ -266,6 +292,20 @@ export function ProjectGantt(props: ProjectGanttProps) {
         });
     }, []);
 
+    const handleBarClick = useCallback((e: React.MouseEvent, task: InternalTask) => {
+        if (isDraggingRef.current) return;
+        e.stopPropagation();
+        const isAlreadySelected = selectedTaskId === task.id;
+        setSelectedTaskId(isAlreadySelected ? null : task.id);
+        setPopupState(prev => {
+            const popupShowingThis = prev.isOpen && prev.task?.id === task.id;
+            if (isAlreadySelected || popupShowingThis) {
+                return { isOpen: false, position: { x: 0, y: 0 }, task: null };
+            }
+            return { isOpen: true, position: { x: e.clientX, y: e.clientY }, task };
+        });
+    }, [selectedTaskId]);
+
     const handleCreateDependency = useCallback(async () => {
         if (!pendingConnection || !onCreateDependency) return;
         const taskMap = new Map(data.tasks.map(t => [t.id, t]));
@@ -316,14 +356,20 @@ export function ProjectGantt(props: ProjectGanttProps) {
         const onMove = (e: MouseEvent) => {
             const dx = e.clientX - dragState.startMouseX;
             const d = Math.round(dx / data.timeline.dayWidth);
-            if (d !== dragState.offsetDays) setDragState(prev => prev ? { ...prev, offsetDays: d } : null);
+            if (d !== dragState.offsetDays) {
+                if (d !== 0) isDraggingRef.current = true;
+                setDragState(prev => prev ? { ...prev, offsetDays: d } : null);
+            }
         };
         const onTouchMove = (e: TouchEvent) => {
             if (e.cancelable) e.preventDefault();
             const touch = getTouchClient(e);
             const dx = touch.clientX - dragState.startMouseX;
             const d = Math.round(dx / data.timeline.dayWidth);
-            if (d !== dragState.offsetDays) setDragState(prev => prev ? { ...prev, offsetDays: d } : null);
+            if (d !== dragState.offsetDays) {
+                if (d !== 0) isDraggingRef.current = true;
+                setDragState(prev => prev ? { ...prev, offsetDays: d } : null);
+            }
         };
         const onUp = () => {
             if (dragState.offsetDays !== 0 && onTaskChange) {
@@ -336,6 +382,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
                 });
             }
             setDragState(null);
+            requestAnimationFrame(() => { isDraggingRef.current = false; });
         };
         const onTouchEnd = () => onUp();
         document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp);
@@ -574,6 +621,8 @@ export function ProjectGantt(props: ProjectGanttProps) {
     // Chart Context Menu
     const openChartMenu = useCallback((e: React.MouseEvent) => {
         e.preventDefault(); e.stopPropagation();
+        setPopupState({ isOpen: false, position: { x: 0, y: 0 }, task: null });
+        setNewActionOpen(false);
 
         const screenXToDate = (screenX: number): Date => {
             const rb = scroll.rightBodyRef.current;
@@ -621,6 +670,44 @@ export function ProjectGantt(props: ProjectGanttProps) {
         };
     }, [chartMenu]);
 
+    // Close popup on outside click / escape
+    useEffect(() => {
+        if (!popupState.isOpen) return;
+        const onMouseDown = (e: MouseEvent) => {
+            if (!(e.target as HTMLElement).closest('[data-popup="gantt-action"]')) {
+                setPopupState({ isOpen: false, position: { x: 0, y: 0 }, task: null });
+            }
+        };
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setPopupState({ isOpen: false, position: { x: 0, y: 0 }, task: null });
+        };
+        document.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.removeEventListener('mousedown', onMouseDown);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [popupState.isOpen]);
+
+    // Close newAction dropdown on outside click / escape
+    useEffect(() => {
+        if (!newActionOpen) return;
+        const onMouseDown = (e: MouseEvent) => {
+            if (newActionRef.current && !newActionRef.current.contains(e.target as Node)) {
+                setNewActionOpen(false);
+            }
+        };
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setNewActionOpen(false);
+        };
+        document.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.removeEventListener('mousedown', onMouseDown);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [newActionOpen]);
+
     // Construct Context Value
     const contextValue = useMemo(() => ({
         props,
@@ -651,6 +738,9 @@ export function ProjectGantt(props: ProjectGanttProps) {
         chartMenu, setChartMenu,
         newActionOpen, setNewActionOpen,
         activePinboardTask, setActivePinboardTask,
+        searchQuery, setSearchQuery,
+        nonWorkingDaySet: data.nonWorkingDaySet,
+        exportPng,
         tasks: data.tasks,
         timeline: data.timeline,
         displayRows: data.displayRows,
@@ -659,6 +749,8 @@ export function ProjectGantt(props: ProjectGanttProps) {
         criticalIds: data.criticalIds,
         delayedIds: data.delayedIds,
         relatedIds: data.relatedIds,
+        groupProgress: data.groupProgress,
+        sidebarW,
         ...scroll,
         newActionRef,
         screenXToDate: (screenX: number) => {
@@ -687,6 +779,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         handleChartTouchStart,
         handleChartWheel,
         openChartMenu,
+        handleBarClick,
         handleBarMouseDown,
         handleBarTouchStart,
         handleResizeMouseDown,
@@ -698,9 +791,9 @@ export function ProjectGantt(props: ProjectGanttProps) {
         props, viewModeState, isInfiniteCanvas, dayWidth, zoomIn, zoomOut, fitToScreen,
         hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
         visibleTypes, collapsedGroups, collapsedProjects, pendingConnection, depModalType, depModalLag, depCreating,
-        deletingDepId, chartMenu, newActionOpen, activePinboardTask, data, scroll, toggleVisibility, toggleGroup, toggleProject,
+        deletingDepId, chartMenu, newActionOpen, activePinboardTask, data, scroll, sidebarW, toggleVisibility, toggleGroup, toggleProject,
         handleChartMouseDown, handleChartTouchStart, handleChartWheel, openChartMenu,
-        handleBarMouseDown, handleBarTouchStart,
+        handleBarClick, handleBarMouseDown, handleBarTouchStart,
         handleResizeMouseDown, handleResizeTouchStart,
         handleConnectDotMouseDown, handleConnectDotTouchStart,
         handleCreateDependency
@@ -708,8 +801,71 @@ export function ProjectGantt(props: ProjectGanttProps) {
 
     if (props.loading) {
         return (
-            <div role="status" aria-live="polite" style={{ padding: 48, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: C.textSecondary }}>
-                <Loader2 size={32} style={{ animation: 'zg-spin 1.5s linear infinite', color: C.group }} />
+            <div
+                role="status"
+                aria-label="Loading Gantt chart"
+                aria-live="polite"
+                style={{
+                    width: '100%', display: 'flex', flexDirection: 'column',
+                    background: 'var(--zg-surface, #fff)',
+                    borderRadius: 12, overflow: 'hidden',
+                    boxShadow: 'var(--zg-shadow-panel)',
+                    border: `1px solid var(--zg-border-light, #ECECEC)`,
+                    height: 'calc(100vh - 48px)', minHeight: 600,
+                    ...generateGanttTheme(props.theme),
+                }}
+            >
+                {/* Header skeleton */}
+                <div style={{ padding: '14px 18px', borderBottom: `1px solid var(--zg-border, #D9D9D9)`, background: 'var(--zg-header-bg, #F2F5F3)', display: 'flex', gap: 12, alignItems: 'center' }}>
+                    <div className="zg-skeleton" style={{ width: 140, height: 20 }} />
+                    <div style={{ flex: 1 }} />
+                    <div className="zg-skeleton" style={{ width: 80, height: 30, borderRadius: 8 }} />
+                    <div className="zg-skeleton" style={{ width: 200, height: 30, borderRadius: 8 }} />
+                    <div className="zg-skeleton" style={{ width: 120, height: 36, borderRadius: 8 }} />
+                </div>
+                {/* Body skeleton */}
+                <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+                    {/* Sidebar skeleton */}
+                    <div style={{ width: 460, flexShrink: 0, borderRight: `1px solid var(--zg-border, #D9D9D9)`, padding: '0 16px' }}>
+                        {/* Column headers */}
+                        <div style={{ height: 64, display: 'flex', alignItems: 'center', gap: 8, borderBottom: `1px solid var(--zg-border, #D9D9D9)` }}>
+                            <div className="zg-skeleton" style={{ flex: 1, height: 12 }} />
+                            <div className="zg-skeleton" style={{ width: 60, height: 12 }} />
+                            <div className="zg-skeleton" style={{ width: 60, height: 12 }} />
+                        </div>
+                        {/* Row skeletons */}
+                        {Array.from({ length: 8 }, (_, i) => (
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, height: 50, borderBottom: `1px solid var(--zg-border-light, #ECECEC)` }}>
+                                <div className="zg-skeleton" style={{ width: 14, height: 14, borderRadius: 3, flexShrink: 0 }} />
+                                <div className="zg-skeleton" style={{ width: `${45 + (i % 4) * 10}%`, height: 12 }} />
+                                <div style={{ flex: 1 }} />
+                                <div className="zg-skeleton" style={{ width: 50, height: 11 }} />
+                                <div className="zg-skeleton" style={{ width: 50, height: 11 }} />
+                            </div>
+                        ))}
+                    </div>
+                    {/* Chart skeleton */}
+                    <div style={{ flex: 1, padding: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
+                            {Array.from({ length: 8 }, (_, i) => (
+                                <div key={i} className="zg-skeleton" style={{ flex: 1, height: 30, borderRadius: 4 }} />
+                            ))}
+                        </div>
+                        {Array.from({ length: 8 }, (_, i) => (
+                            <div key={i} style={{ height: 50, display: 'flex', alignItems: 'center' }}>
+                                <div
+                                    className="zg-skeleton"
+                                    style={{
+                                        marginLeft: `${(i * 17) % 35}%`,
+                                        width: `${20 + (i % 5) * 8}%`,
+                                        height: 26,
+                                        borderRadius: 13,
+                                    }}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }
@@ -717,6 +873,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     return (
         <GanttProvider value={contextValue}>
             <div
+                ref={exportRef}
                 className={`zg-root ${isInfiniteCanvas ? 'zg-root--infinite' : 'zg-root--framed'} ${activePinboardTask ? 'zg-root--muted' : ''}`}
                 style={{
                     width: '100%', display: 'flex', flexDirection: 'column',
@@ -735,7 +892,42 @@ export function ProjectGantt(props: ProjectGanttProps) {
             >
                 <GanttHeader />
                 <div style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative', background: C.surfaceAlt }}>
-                    {!props.hideSidebar && <GanttGrid />}
+                    {!props.hideSidebar && (
+                        <>
+                            <div style={{ width: sidebarW, flexShrink: 0 }}>
+                                <GanttGrid />
+                            </div>
+                            <div
+                                style={{
+                                    width: 5,
+                                    flexShrink: 0,
+                                    background: 'transparent',
+                                    cursor: 'col-resize',
+                                    position: 'relative',
+                                    zIndex: 10,
+                                    transition: 'background 0.15s',
+                                }}
+                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = C.groupGlowSoft; }}
+                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                                onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    const startX = e.clientX;
+                                    const startW = sidebarW;
+                                    const onMove = (ev: MouseEvent) => {
+                                        const next = Math.min(SIDEBAR_MAX, Math.max(SIDEBAR_MIN, startW + ev.clientX - startX));
+                                        setSidebarW(next);
+                                        try { localStorage.setItem(SIDEBAR_STORAGE_KEY, String(next)); } catch { /* ignore */ }
+                                    };
+                                    const onUp = () => {
+                                        document.removeEventListener('mousemove', onMove);
+                                        document.removeEventListener('mouseup', onUp);
+                                    };
+                                    document.addEventListener('mousemove', onMove);
+                                    document.addEventListener('mouseup', onUp);
+                                }}
+                            />
+                        </>
+                    )}
                     <GanttChart />
                 </div>
                 <PinboardDrawer />

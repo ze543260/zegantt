@@ -1,9 +1,9 @@
 
 import { useCallback, useMemo } from 'react';
-import { ChevronDown, ChevronRight, Clock, Flag, AlertTriangle, Paperclip } from 'lucide-react';
+import { ChevronDown, ChevronRight, Clock, Flag, AlertTriangle, Paperclip, MessageCircle } from 'lucide-react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useGanttContext } from '../../context/GanttContext';
-import { C, HEADER_H, LEFT_W, ROW_H, STEP_PALETTE } from '../../utils/constants';
+import { C, HEADER_H, ROW_H, STEP_PALETTE } from '../../utils/constants';
 import { fmtDateShort } from '../../utils/date';
 import type { InternalTask } from '../../types/internal';
 import type { GanttTask } from '../../types';
@@ -25,6 +25,8 @@ export function GanttGrid() {
         criticalIds,
         relatedIds,
         setActivePinboardTask,
+        groupProgress,
+        sidebarW,
     } = useGanttContext();
 
     const toGanttTask = (task: InternalTask): GanttTask => ({
@@ -59,7 +61,7 @@ export function GanttGrid() {
     }, [orderedTaskIds, setSelectedTaskId]);
 
     return (
-        <div style={{ width: LEFT_W, flexShrink: 0, borderRight: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div style={{ width: sidebarW, flexShrink: 0, borderRight: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column', height: '100%' }}>
             {/* Table header */}
             <div
                 style={{
@@ -83,6 +85,7 @@ export function GanttGrid() {
             <div
                 ref={leftBodyRef}
                 onScroll={handleLeftScroll}
+                onClick={() => setSelectedTaskId(null)}
                 className="zg-no-scrollbar"
                 style={{ overflowY: 'auto', overflowX: 'hidden', flex: 1 }}
                 role="grid"
@@ -130,10 +133,25 @@ export function GanttGrid() {
                                             : <ChevronDown size={15} style={{ color: C.group, flexShrink: 0 }} />}
                                         <span style={{
                                             fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
-                                            color: C.group, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                                            color: C.group, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flexShrink: 1,
                                         }}>
                                             {row.projectTitle}
                                         </span>
+                                        {groupProgress.byProject.has(row.projectId) && (
+                                            <>
+                                                <div style={{ flex: 1, height: 4, background: 'rgba(26,60,48,0.2)', borderRadius: 2, overflow: 'hidden', minWidth: 40 }}>
+                                                    <div style={{
+                                                        width: `${groupProgress.byProject.get(row.projectId)}%`,
+                                                        height: '100%',
+                                                        background: C.group,
+                                                        borderRadius: 2,
+                                                    }} />
+                                                </div>
+                                                <span style={{ fontSize: 10, fontWeight: 700, color: C.group, flexShrink: 0, marginRight: 4 }}>
+                                                    {groupProgress.byProject.get(row.projectId)}%
+                                                </span>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             );
@@ -166,12 +184,28 @@ export function GanttGrid() {
                                         {row.collapsed
                                             ? <ChevronRight size={14} style={{ color: C.textSecondary, flexShrink: 0 }} />
                                             : <ChevronDown size={14} style={{ color: C.textSecondary, flexShrink: 0 }} />}
-                                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: C.textTitle }}>
+                                        <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: C.textTitle, flexShrink: 0 }}>
                                             {t(`gantt.group.${row.groupType}`, row.label)}
                                         </span>
-                                        <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 6px', borderRadius: 9999, background: C.groupSoftStrong, color: C.textSecondary }}>
+                                        <span style={{ fontSize: 10, fontWeight: 600, padding: '2px 6px', borderRadius: 9999, background: C.groupSoftStrong, color: C.textSecondary, flexShrink: 0 }}>
                                             {row.count}
                                         </span>
+                                        {row.groupType === 'step' && groupProgress.byType.has('step') && (
+                                            <>
+                                                <div style={{ flex: 1, height: 4, background: C.borderLight, borderRadius: 2, overflow: 'hidden', minWidth: 40 }}>
+                                                    <div style={{
+                                                        width: `${groupProgress.byType.get('step')}%`,
+                                                        height: '100%',
+                                                        background: C.group,
+                                                        borderRadius: 2,
+                                                        transition: 'width 0.3s',
+                                                    }} />
+                                                </div>
+                                                <span style={{ fontSize: 10, fontWeight: 700, color: C.textSecondary, flexShrink: 0 }}>
+                                                    {groupProgress.byType.get('step')}%
+                                                </span>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             );
@@ -200,7 +234,7 @@ export function GanttGrid() {
                                     borderLeft: isSel ? `3px solid ${C.group}` : isLeftRelated ? `3px solid ${C.groupGlow}` : isCritical ? `3px solid ${C.today}` : undefined,
                                     opacity: isLeftDimmed ? 0.3 : 1,
                                 }}
-                                onClick={() => setSelectedTaskId(p => p === task.id ? null : task.id)}
+                                onClick={(e) => { e.stopPropagation(); setSelectedTaskId(p => p === task.id ? null : task.id); }}
                                 onDoubleClick={() => props.onTaskClick?.(toGanttTask(task))}
                                 onMouseEnter={() => setHoveredTaskId(task.id)}
                                 onMouseLeave={() => setHoveredTaskId(null)}
@@ -242,6 +276,11 @@ export function GanttGrid() {
                                     {task.originalType === 'event' && (
                                         <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', width: 22, height: 22, background: C.eventSoft, border: `1.5px solid ${C.eventBorderSoft}` }}>
                                             <Clock size={11} style={{ color: C.event }} />
+                                        </div>
+                                    )}
+                                    {task.originalType === 'note' && (
+                                        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 4, width: 22, height: 22, background: 'rgba(254,240,138,0.4)', border: `1.5px solid rgba(250,204,21,0.5)` }}>
+                                            <MessageCircle size={11} style={{ color: C.note }} />
                                         </div>
                                     )}
 
