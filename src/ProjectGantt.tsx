@@ -97,9 +97,9 @@ export function ProjectGantt(props: ProjectGanttProps) {
         if (props.sidebarWidth) return props.sidebarWidth;
         try {
             const stored = localStorage.getItem(SIDEBAR_STORAGE_KEY);
-            return stored ? Number(stored) : LEFT_W;
+            return stored ? Number(stored) : 460;
         } catch {
-            return LEFT_W;
+            return 460;
         }
     });
 
@@ -806,6 +806,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
         visibleTypes, collapsedGroups, collapsedProjects, pendingConnection, depModalType, depModalLag, depCreating,
         deletingDepId, chartMenu, newActionOpen, activePinboardTask, data, scroll, sidebarW, toggleVisibility, toggleGroup, toggleProject,
+        searchQuery, exportPng,
         handleChartMouseDown, handleChartTouchStart, handleChartWheel, openChartMenu,
         handleBarClick, handleBarMouseDown, handleBarTouchStart,
         handleResizeMouseDown, handleResizeTouchStart,

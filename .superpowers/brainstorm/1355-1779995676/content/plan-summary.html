@@ -1,0 +1,182 @@
+<h2>Planos de Implementação — Estrutura de Subagents</h2>
+<p class="subtitle">7 arquivos criados em <code>docs/superpowers/plans/</code></p>
+
+<style>
+  .timeline { display: flex; flex-direction: column; gap: 0; margin: 18px 0; }
+  .phase { display: flex; gap: 14px; margin-bottom: 0; }
+  .phase-connector { display: flex; flex-direction: column; align-items: center; width: 32px; flex-shrink: 0; }
+  .phase-dot { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+  .phase-line { flex: 1; width: 2px; background: #e0e0e0; }
+  .phase-content { flex: 1; padding-bottom: 20px; }
+  .phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .phase-title { font-size: 14px; font-weight: 700; }
+  .phase-tag { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .batch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .batch-card { border-radius: 8px; border: 1.5px solid #e0e0e0; overflow: hidden; }
+  .batch-header { padding: 8px 12px; font-size: 11px; font-weight: 700; }
+  .batch-body { padding: 8px 12px; font-size: 11px; color: #5a5a5a; line-height: 1.6; }
+  .batch-body ul { margin: 0; padding-left: 14px; }
+  .file-tag { display: inline-block; font-size: 9px; background: #f3f4f6; color: #374151; border-radius: 4px; padding: 1px 5px; font-family: monospace; margin-top: 4px; }
+
+  .dep-badge { font-size: 9px; font-weight: 700; background: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 10px; }
+  .par-badge { font-size: 9px; font-weight: 700; background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 10px; }
+</style>
+
+<div class="timeline">
+
+  <!-- FASE 1: Paralela -->
+  <div class="phase">
+    <div class="phase-connector">
+      <div class="phase-dot" style="background:#d1fae5;color:#065f46;">1</div>
+      <div class="phase-line"></div>
+    </div>
+    <div class="phase-content">
+      <div class="phase-header">
+        <span class="phase-title">Fase 1 — Execução paralela</span>
+        <span class="par-badge">4 agents em paralelo</span>
+      </div>
+      <div class="batch-grid">
+
+        <div class="batch-card">
+          <div class="batch-header" style="background:#e8f4ff;color:#1e40af;">Batch 1 · Timeline & Header</div>
+          <div class="batch-body">
+            <ul>
+              <li>📍 Botão "Ir para Hoje"</li>
+              <li>📅 Números de semana (ISO W01–W53)</li>
+              <li>🗓️ View mode "Semana"</li>
+            </ul>
+            <div style="margin-top:6px;">
+              <span class="file-tag">GanttHeader</span>
+              <span class="file-tag">timeline.ts</span>
+              <span class="file-tag">date.ts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="batch-card">
+          <div class="batch-header" style="background:#f0fdf4;color:#166534;">Batch 2 · Task Bars & Arrows</div>
+          <div class="batch-body">
+            <ul>
+              <li>🏷️ Label fora de barras estreitas</li>
+              <li>🎨 Setas por tipo (FS/SS/FF/SF)</li>
+              <li>💬 Lag visível nas setas</li>
+            </ul>
+            <div style="margin-top:6px;">
+              <span class="file-tag">GanttTaskBar</span>
+              <span class="file-tag">GanttArrows</span>
+              <span class="file-tag">dependencies.ts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="batch-card">
+          <div class="batch-header" style="background:#fef3c7;color:#92400e;">Batch 3 · Grid & Sidebar</div>
+          <div class="batch-body">
+            <ul>
+              <li>📊 Progresso agregado nos grupos</li>
+              <li>↔️ Sidebar redimensionável</li>
+              <li>🦴 Skeleton loading state</li>
+            </ul>
+            <div style="margin-top:6px;">
+              <span class="file-tag">GanttGrid</span>
+              <span class="file-tag">ProjectGantt</span>
+              <span class="file-tag">zegantt.css</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="batch-card">
+          <div class="batch-header" style="background:#fdf4ff;color:#7e22ce;">Batch 6 · Global Features</div>
+          <div class="batch-body">
+            <ul>
+              <li>🗓️ Feriados customizáveis</li>
+              <li>🔍 Busca por texto (Ctrl+F)</li>
+              <li>🌙 Dark mode preset</li>
+              <li>🖨️ Export PNG</li>
+            </ul>
+            <div style="margin-top:6px;">
+              <span class="file-tag">theme.ts</span>
+              <span class="file-tag">useGanttExport</span>
+              <span class="file-tag">types.ts</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 2: Batch 4 -->
+  <div class="phase">
+    <div class="phase-connector">
+      <div class="phase-dot" style="background:#fee2e2;color:#b91c1c;">2</div>
+      <div class="phase-line"></div>
+    </div>
+    <div class="phase-content">
+      <div class="phase-header">
+        <span class="phase-title">Fase 2 — Após merge da Fase 1</span>
+        <span class="dep-badge">aguardar fase 1</span>
+      </div>
+      <div class="batch-grid" style="grid-template-columns:1fr;">
+        <div class="batch-card">
+          <div class="batch-header" style="background:#fff1f2;color:#9f1239;">Batch 4 · Interactions</div>
+          <div class="batch-body">
+            <ul>
+              <li>↩️ Undo/Redo de drag/resize (Ctrl+Z / Ctrl+Y)</li>
+              <li>🎛️ Edição inline de progresso (slider no popup)</li>
+            </ul>
+            <div style="margin-top:6px;">
+              <span class="file-tag">useUndoHistory (novo)</span>
+              <span class="file-tag">GanttChart (popup)</span>
+              <span class="file-tag">GanttContext</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASE 3: Batch 5 -->
+  <div class="phase">
+    <div class="phase-connector">
+      <div class="phase-dot" style="background:#fee2e2;color:#b91c1c;">3</div>
+    </div>
+    <div class="phase-content">
+      <div class="phase-header">
+        <span class="phase-title">Fase 3 — Após merge do Batch 4</span>
+        <span class="dep-badge">depende do batch 4</span>
+      </div>
+      <div class="batch-grid" style="grid-template-columns:1fr;">
+        <div class="batch-card">
+          <div class="batch-header" style="background:#fdf2f8;color:#831843;">Batch 5 · Multi-select</div>
+          <div class="batch-body">
+            <ul>
+              <li>☑️ Ctrl+Click para seleção múltipla</li>
+              <li>☑️ Shift+Click para range selection</li>
+              <li>⚡ Barra de ações em lote (deletar, progresso em lote)</li>
+            </ul>
+            <div style="margin-top:6px;">
+              <span class="file-tag">BulkActionBar (novo)</span>
+              <span class="file-tag">GanttContext (Set)</span>
+              <span class="file-tag">GanttGrid</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="background:#f8fafb;border-radius:10px;padding:14px 18px;margin-top:8px;border:1.5px solid #e0e0e0;">
+  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#1a3c30;margin-bottom:8px;">Arquivos criados</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;">
+    <span class="file-tag" style="font-size:10px;">docs/superpowers/plans/2026-05-28-master-coordination.md</span>
+    <span class="file-tag" style="font-size:10px;">2026-05-28-batch1-timeline.md</span>
+    <span class="file-tag" style="font-size:10px;">2026-05-28-batch2-bars.md</span>
+    <span class="file-tag" style="font-size:10px;">2026-05-28-batch3-grid.md</span>
+    <span class="file-tag" style="font-size:10px;">2026-05-28-batch4-interactions.md</span>
+    <span class="file-tag" style="font-size:10px;">2026-05-28-batch5-multiselect.md</span>
+    <span class="file-tag" style="font-size:10px;">2026-05-28-batch6-global.md</span>
+  </div>
+</div>

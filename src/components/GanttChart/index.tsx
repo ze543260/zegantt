@@ -64,7 +64,8 @@ export function GanttChart() {
         handleResizeTouchStart,
         handleConnectDotMouseDown,
         handleConnectDotTouchStart,
-        handleCreateDependency
+        handleCreateDependency,
+        nonWorkingDaySet,
     } = useGanttContext();
 
     const {
@@ -153,9 +154,18 @@ export function GanttChart() {
                                     const weekNum = isMonday && props.showWeekNumbers
                                         ? getWeekNumber(d.date)
                                         : null;
+                                    const dayKey = `${d.date.getFullYear()}-${d.date.getMonth()}-${d.date.getDate()}`;
+                                    const isHoliday = nonWorkingDaySet.has(dayKey);
+                                    const holidayLabel = isHoliday
+                                        ? (props.nonWorkingDays?.find(n => {
+                                            const nd = n.date instanceof Date ? n.date : new Date(n.date);
+                                            return `${nd.getFullYear()}-${nd.getMonth()}-${nd.getDate()}` === dayKey;
+                                        })?.label ?? 'Holiday')
+                                        : undefined;
                                     return (
                                         <div
                                             key={`day-${virtualDay.index}`}
+                                            title={holidayLabel}
                                             style={{
                                                 position: 'absolute',
                                                 left: virtualDay.start,
@@ -165,7 +175,8 @@ export function GanttChart() {
                                                 display: 'flex',
                                                 flexDirection: 'column',
                                                 alignItems: 'center',
-                                                justifyContent: 'center'
+                                                justifyContent: 'center',
+                                                background: isHoliday ? 'rgba(205,98,0,0.08)' : undefined,
                                             }}
                                         >
                                             {weekNum !== null && (
@@ -246,6 +257,24 @@ export function GanttChart() {
                             return d?.isWeekend
                                 ? <rect key={`wem-${virtualDay.index}`} x={virtualDay.start} y={0} width={virtualDay.size} height={contentH} fill={C.weekendBg} opacity={0.3} />
                                 : null;
+                        })}
+
+                        {/* Holiday overlay */}
+                        {viewMode === 'day' && virtualDays.map((virtualDay) => {
+                            const d = timeline.days[virtualDay.index];
+                            if (!d) return null;
+                            const key = `${d.date.getFullYear()}-${d.date.getMonth()}-${d.date.getDate()}`;
+                            if (!nonWorkingDaySet.has(key)) return null;
+                            return (
+                                <rect
+                                    key={`hol-${virtualDay.index}`}
+                                    x={virtualDay.start}
+                                    y={0}
+                                    width={virtualDay.size}
+                                    height={contentH}
+                                    fill="rgba(205,98,0,0.12)"
+                                />
+                            );
                         })}
 
                         {timeline.todayIndex >= 0 && (

@@ -1,0 +1,785 @@
+<h2>Melhorias de UI & Novas Funcionalidades</h2>
+<p class="subtitle">Detalhamento técnico e visual de cada item</p>
+
+<style>
+  .section-title {
+    font-size: 13px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; padding: 10px 16px; border-radius: 10px;
+    margin: 28px 0 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-ui { background: #e8f4ff; color: #1e40af; }
+  .section-feat { background: #fef3c7; color: #92400e; }
+
+  .detail-card {
+    border: 1.5px solid #e8e8e8; border-radius: 12px;
+    overflow: hidden; margin-bottom: 14px;
+    background: #fff;
+  }
+  .detail-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; border-bottom: 1px solid #f0f0f0;
+    background: #fafafa;
+  }
+  .detail-icon { font-size: 22px; }
+  .detail-title { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+  .detail-badge { font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em; margin-left: auto; white-space: nowrap; }
+  .badge-high { background: #fee2e2; color: #b91c1c; }
+  .badge-med { background: #fef3c7; color: #92400e; }
+  .badge-low { background: #f0f9ff; color: #0369a1; }
+
+  .detail-body { padding: 14px 16px; display: flex; gap: 18px; flex-wrap: wrap; }
+  .detail-text { flex: 1; min-width: 220px; }
+  .detail-text p { margin: 0 0 10px; font-size: 13px; color: #4a4a4a; line-height: 1.6; }
+  .detail-text ul { margin: 0; padding-left: 18px; font-size: 12px; color: #5a5a5a; line-height: 1.7; }
+  .detail-text code { background: #f3f4f6; border-radius: 4px; padding: 1px 5px; font-size: 11px; color: #374151; }
+
+  .mockup-box {
+    flex: 1; min-width: 240px; border-radius: 10px;
+    border: 1.5px solid #e0e0e0; overflow: hidden;
+    background: #f8fafb; font-size: 11px;
+  }
+  .mockup-label {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #9ca3af; padding: 6px 10px;
+    border-bottom: 1px solid #e8e8e8; background: #f2f2f2;
+  }
+  .mockup-inner { padding: 10px; }
+
+  /* ── MOCKUP ELEMENTS ── */
+  .gantt-bar { height: 20px; border-radius: 10px; position: relative; overflow: hidden; }
+  .gantt-bar-fill { height: 100%; border-radius: 10px; }
+  .gantt-label-outside { font-size: 10px; font-weight: 600; color: #1a3c30; margin-left: 4px; }
+
+  .sidebar-row { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-bottom: 1px solid #f0f0f0; font-size: 11px; }
+  .sidebar-divider { width: 4px; height: 32px; background: #d1d5db; border-radius: 2px; cursor: col-resize; margin: 0 2px; flex-shrink: 0; }
+  .sidebar-divider:hover { background: #1a3c30; }
+
+  .search-bar { display: flex; align-items: center; gap: 8px; border: 1.5px solid #d1d5db; border-radius: 8px; padding: 6px 10px; font-size: 12px; color: #9ca3af; background: #fff; }
+
+  .week-header { display: flex; }
+  .week-cell { text-align: center; border-right: 1px solid #e0e0e0; padding: 4px; }
+  .week-num { font-size: 8px; font-weight: 800; color: #1a3c30; background: #d1f5e8; border-radius: 3px; padding: 1px 4px; }
+  .day-num { font-size: 10px; color: #7b7b7b; margin-top: 2px; }
+
+  .dep-arrow-fs { stroke: #1a3c30; }
+  .dep-arrow-ss { stroke: #CD6200; }
+  .dep-arrow-ff { stroke: #7c3aed; }
+  .dep-arrow-sf { stroke: #0369a1; }
+
+  .group-row { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #f2f5f3; border-bottom: 1px solid #e0e0e0; font-size: 11px; font-weight: 700; color: #1a3c30; }
+  .group-progress { flex: 1; height: 5px; background: #e0e0e0; border-radius: 3px; overflow: hidden; }
+  .group-progress-fill { height: 100%; background: #1a3c30; border-radius: 3px; }
+
+  .skeleton-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; }
+  .skel { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 4px; }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  .undo-row { display: flex; align-items: center; gap: 6px; padding: 4px 8px; }
+  .undo-btn { border: 1.5px solid #d1d5db; background: #fff; border-radius: 6px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+
+  .multi-sel { position: relative; }
+  .multi-sel-bar { height: 20px; border-radius: 10px; background: #D1D8A0; border: 2px solid #1a3c30; }
+  .multi-sel-check { position: absolute; left: -8px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; border-radius: 3px; background: #1a3c30; border: 2px solid #fff; display: grid; place-items: center; color: #fff; font-size: 9px; }
+
+  .progress-popup { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 12px; }
+  .progress-slider { width: 100%; height: 6px; background: #e0e0e0; border-radius: 3px; position: relative; margin: 8px 0; }
+  .progress-fill { height: 100%; width: 65%; background: #1a3c30; border-radius: 3px; }
+  .progress-thumb { position: absolute; left: 65%; top: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: 50%; background: #1a3c30; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+  .export-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; border: 1.5px solid #e0e0e0; background: #fff; cursor: pointer; }
+  .export-png { border-color: #1a3c30; color: #1a3c30; }
+  .export-pdf { border-color: #CD6200; color: #CD6200; }
+
+  .tag-holiday { display: inline-block; font-size: 9px; font-weight: 700; background: #fee2e2; color: #b91c1c; border-radius: 4px; padding: 1px 5px; }
+
+  .dark-preview { background: #1a2332; border-radius: 8px; padding: 10px; }
+  .dark-bar { background: #2d4a3e; border: 1px solid #3d6b5a; border-radius: 10px; height: 18px; }
+  .dark-text { color: #a3b8b0; font-size: 10px; font-weight: 600; }
+  .dark-header { background: #141f2e; border-radius: 6px; padding: 6px 10px; margin-bottom: 6px; }
+</style>
+
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-title section-ui">🎨 Melhorias de UI Existente</div>
+
+<!-- 1. Sidebar redimensionável -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">↔️</div>
+    <div class="detail-title">Sidebar Redimensionável</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>A sidebar esquerda (lista de tarefas) tem largura fixa de <code>LEFT_W = 460px</code> definida em <code>constants.ts</code>. Usuários com nomes de tarefa longos precisam de mais espaço; usuários com datasets simples preferem menos.</p>
+      <ul>
+        <li>Adicionar um divider arrastável entre GanttGrid e GanttChart</li>
+        <li>Salvar preferência no localStorage</li>
+        <li>Expor prop <code>sidebarWidth</code> para controle externo</li>
+        <li>Limites mínimo (200px) e máximo (700px) para evitar layout quebrado</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Antes / Depois</div>
+      <div class="mockup-inner">
+        <div style="font-size:10px;color:#9ca3af;margin-bottom:6px;">Atual — largura fixa</div>
+        <div style="display:flex;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;height:60px;">
+          <div style="width:55%;background:#f2f5f3;padding:8px;font-size:10px;color:#1a3c30;font-weight:600;">Lista de tarefas (460px fixo)</div>
+          <div style="flex:1;background:#f8fafb;padding:8px;font-size:10px;color:#7b7b7b;">Gráfico</div>
+        </div>
+        <div style="font-size:10px;color:#9ca3af;margin:10px 0 6px;">Com divider arrastável</div>
+        <div style="display:flex;align-items:stretch;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;height:60px;">
+          <div style="width:45%;background:#f2f5f3;padding:8px;font-size:10px;color:#1a3c30;font-weight:600;">Lista</div>
+          <div class="sidebar-divider" style="background:#1a3c30;opacity:0.5;width:5px;cursor:col-resize;"></div>
+          <div style="flex:1;background:#f8fafb;padding:8px;font-size:10px;color:#7b7b7b;">Gráfico</div>
+        </div>
+        <div style="font-size:9px;color:#1a3c30;margin-top:4px;">▲ Linha verde = divider arrastável</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Dark mode -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🌙</div>
+    <div class="detail-title">Dark Mode Nativo</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>O sistema de temas já usa 100% CSS variables (<code>--zg-surface</code>, <code>--zg-header-bg</code>, etc.) mas não há paleta escura definida. Implementar dark mode é apenas adicionar um segundo conjunto de valores para as variáveis.</p>
+      <ul>
+        <li>Adicionar preset <code>darkTheme</code> exportado da lib</li>
+        <li>Suporte a <code>data-theme="dark"</code> no wrapper</li>
+        <li>Respeitar <code>prefers-color-scheme: dark</code> automaticamente quando <code>theme="auto"</code></li>
+        <li>Prop <code>theme="dark" | "light" | "auto"</code> no <code>ProjectGantt</code></li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Preview Dark Mode</div>
+      <div class="mockup-inner">
+        <div class="dark-preview">
+          <div class="dark-header">
+            <span class="dark-text">PROJECT PLANNING</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-direction:column;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:90px;font-size:10px;color:#6b8fa0;">Foundation</div>
+              <div style="flex:1;"><div style="background:#2a4a3a;height:16px;border-radius:8px;border:1px solid #3d6b5a;position:relative;"><div style="width:45%;background:#4a7a5a;height:100%;border-radius:8px;"></div></div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:90px;font-size:10px;color:#6b8fa0;">Structure</div>
+              <div style="flex:1;"><div style="background:#2a4a3a;height:16px;border-radius:8px;border:1px solid #3d6b5a;margin-left:30%;position:relative;"><div style="width:70%;background:#4a7a5a;height:100%;border-radius:8px;"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Label fora da barra -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🏷️</div>
+    <div class="detail-title">Label Fora de Barras Estreitas</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Quando <code>w &lt; 50px</code> a label de progresso (%) some. Em view mode mês/ano, tarefas curtas ficam sem qualquer texto identificador na área do gráfico, forçando o usuário a procurar na sidebar.</p>
+      <ul>
+        <li>Quando <code>w &lt; threshold</code>, renderizar o nome à direita da barra</li>
+        <li>Clip do texto com ellipsis se não couber</li>
+        <li>Cor do texto adaptada ao estado (crítico, atrasado, normal)</li>
+        <li>Prop <code>showLabelOutside: boolean</code> para controle</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Comparação</div>
+      <div class="mockup-inner">
+        <div style="font-size:10px;color:#9ca3af;margin-bottom:6px;">Atual — sem label</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:12px;">
+          <div style="width:28px;height:18px;border-radius:9px;background:#D1D8A0;border:1.5px solid #A0D8A8;"></div>
+          <span style="font-size:10px;color:#ccc;">← sem texto</span>
+        </div>
+        <div style="font-size:10px;color:#9ca3af;margin-bottom:6px;">Melhoria — label à direita</div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="width:28px;height:18px;border-radius:9px;background:#D1D8A0;border:1.5px solid #A0D8A8;"></div>
+          <span style="font-size:11px;font-weight:600;color:#1a3c30;">Fundação</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
+          <div style="width:18px;height:18px;border-radius:9px;background:#ffe8ee;border:1.5px solid rgba(255,0,0,0.4);"></div>
+          <span style="font-size:11px;font-weight:600;color:#FF0000;">Estrutura</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Números de semana -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">📅</div>
+    <div class="detail-title">Números de Semana no Header</div>
+    <span class="detail-badge badge-med">Médio</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>No header de dias (day view), mostrar o número da semana ISO (W01–W53) no topo de cada segunda-feira. Muito comum em planejamento de construção e engenharia para referência rápida.</p>
+      <ul>
+        <li>Número de semana ISO 8601 calculado via <code>date.ts</code></li>
+        <li>Aparece apenas no início de cada semana (segunda-feira)</li>
+        <li>Badge colorido discreto no header inferior</li>
+        <li>Controlável via prop <code>showWeekNumbers: boolean</code></li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Header com semanas</div>
+      <div class="mockup-inner">
+        <div style="border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
+          <div style="display:flex;background:#f2f5f3;border-bottom:1px solid #e0e0e0;padding:4px 8px;font-size:10px;font-weight:700;color:#1a3c30;">Janeiro 2026</div>
+          <div style="display:flex;">
+            <div style="flex:1;text-align:center;padding:4px 2px;border-right:1px solid #eee;">
+              <div class="week-num">W01</div>
+              <div style="display:flex;gap:1px;margin-top:3px;">
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">05</div>
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">06</div>
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">07</div>
+              </div>
+            </div>
+            <div style="flex:1;text-align:center;padding:4px 2px;border-right:1px solid #eee;">
+              <div class="week-num">W02</div>
+              <div style="display:flex;gap:1px;margin-top:3px;">
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">12</div>
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">13</div>
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">14</div>
+              </div>
+            </div>
+            <div style="flex:1;text-align:center;padding:4px 2px;">
+              <div class="week-num">W03</div>
+              <div style="display:flex;gap:1px;margin-top:3px;">
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">19</div>
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">20</div>
+                <div style="width:14px;font-size:8px;text-align:center;color:#7b7b7b;">21</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Setas coloridas -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🎨</div>
+    <div class="detail-title">Setas de Dependência por Tipo</div>
+    <span class="detail-badge badge-med">Médio</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Todas as setas usam a mesma cor <code>C.arrow</code> (#7B7B7B). Em projetos com muitas dependências mistas (FS, SS, FF, SF), é difícil distinguir a relação sem clicar na tarefa.</p>
+      <ul>
+        <li>FS (Finish→Start) — verde escuro (padrão, mais comum)</li>
+        <li>SS (Start→Start) — laranja</li>
+        <li>FF (Finish→Finish) — roxo</li>
+        <li>SF (Start→Finish) — azul</li>
+        <li>Legenda pequena no header ou tooltip ao passar em cima</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Diferenciação visual</div>
+      <div class="mockup-inner">
+        <svg width="100%" height="100" viewBox="0 0 230 100">
+          <!-- FS -->
+          <text x="5" y="15" font-size="9" fill="#1a3c30" font-weight="700">FS</text>
+          <line x1="25" y1="12" x2="100" y2="12" stroke="#1a3c30" stroke-width="2" marker-end="url(#arr-green)"/>
+          <defs>
+            <marker id="arr-green" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#1a3c30"/>
+            </marker>
+            <marker id="arr-orange" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#CD6200"/>
+            </marker>
+            <marker id="arr-purple" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#7c3aed"/>
+            </marker>
+            <marker id="arr-blue" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#0369a1"/>
+            </marker>
+          </defs>
+
+          <!-- SS -->
+          <text x="5" y="42" font-size="9" fill="#CD6200" font-weight="700">SS</text>
+          <line x1="25" y1="39" x2="100" y2="39" stroke="#CD6200" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arr-orange)"/>
+
+          <!-- FF -->
+          <text x="5" y="69" font-size="9" fill="#7c3aed" font-weight="700">FF</text>
+          <line x1="25" y1="66" x2="100" y2="66" stroke="#7c3aed" stroke-width="2" stroke-dasharray="2 2" marker-end="url(#arr-purple)"/>
+
+          <!-- SF -->
+          <text x="5" y="96" font-size="9" fill="#0369a1" font-weight="700">SF</text>
+          <line x1="25" y1="93" x2="100" y2="93" stroke="#0369a1" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+          <!-- legenda -->
+          <text x="115" y="15" font-size="9" fill="#4a4a4a">Finish to Start</text>
+          <text x="115" y="42" font-size="9" fill="#4a4a4a">Start to Start</text>
+          <text x="115" y="69" font-size="9" fill="#4a4a4a">Finish to Finish</text>
+          <text x="115" y="96" font-size="9" fill="#4a4a4a">Start to Finish</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Progress agregado nos grupos -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">📊</div>
+    <div class="detail-title">Progresso Agregado nos Grupos</div>
+    <span class="detail-badge badge-med">Médio</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Os grupos ("Steps", "Milestones") exibem apenas um badge com contagem. Adicionar a média ponderada de progresso das tarefas do grupo dá uma visão rápida sem precisar expandir.</p>
+      <ul>
+        <li>Mini progress bar horizontal no grupo colapsado</li>
+        <li>Percentual médio ao lado do badge de count</li>
+        <li>Cor da barra seguindo a paleta do tipo</li>
+        <li>Aplica-se também às linhas de projeto no <code>groupByProject</code></li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Grupo com progresso</div>
+      <div class="mockup-inner">
+        <div style="border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
+          <div class="group-row">
+            <span style="font-size:12px;">›</span>
+            <span>Steps</span>
+            <span style="font-size:10px;background:#e0f0e8;color:#1a3c30;padding:1px 6px;border-radius:10px;">8</span>
+            <div class="group-progress"><div class="group-progress-fill" style="width:62%;"></div></div>
+            <span style="font-size:11px;font-weight:700;color:#1a3c30;">62%</span>
+          </div>
+          <div class="group-row" style="background:#fff4e6;color:#CD6200;">
+            <span style="font-size:12px;">›</span>
+            <span>Milestones</span>
+            <span style="font-size:10px;background:#ffe8cc;color:#CD6200;padding:1px 6px;border-radius:10px;">3</span>
+            <div class="group-progress"><div class="group-progress-fill" style="width:33%;background:#CD6200;"></div></div>
+            <span style="font-size:11px;font-weight:700;color:#CD6200;">33%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Lag nas setas -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">💬</div>
+    <div class="detail-title">Lag Visível nas Setas de Dependência</div>
+    <span class="detail-badge badge-med">Médio</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>O lag (atraso em dias entre tarefas dependentes) só é visível ao clicar na tarefa e abrir o popup de relações. Em projetos com muitas dependências com lag, o usuário não sabe visualmente que há uma folga.</p>
+      <ul>
+        <li>Renderizar label "+Xd" ou "-Xd" no meio da seta SVG</li>
+        <li>Apenas quando lag ≠ 0</li>
+        <li>Fundo branco/surface para legibilidade sobre o grid</li>
+        <li>Tamanho pequeno para não poluir o gráfico</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Label de lag na seta</div>
+      <div class="mockup-inner">
+        <svg width="100%" height="60" viewBox="0 0 200 60">
+          <defs>
+            <marker id="arr-lag" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#1a3c30"/>
+            </marker>
+          </defs>
+          <!-- tarefa A -->
+          <rect x="5" y="15" width="60" height="18" rx="9" fill="#D1D8A0" stroke="#A0D8A8" stroke-width="1.5"/>
+          <text x="35" y="27" font-size="9" fill="#1a3c30" text-anchor="middle" font-weight="600">Tarefa A</text>
+          <!-- seta com lag -->
+          <line x1="65" y1="24" x2="130" y2="24" stroke="#1a3c30" stroke-width="1.5" marker-end="url(#arr-lag)"/>
+          <!-- lag badge -->
+          <rect x="84" y="16" width="28" height="14" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
+          <text x="98" y="26" font-size="9" fill="#1a3c30" text-anchor="middle" font-weight="700">+3d</text>
+          <!-- tarefa B -->
+          <rect x="130" y="15" width="60" height="18" rx="9" fill="#A0D8C8" stroke="#6BBFA8" stroke-width="1.5"/>
+          <text x="160" y="27" font-size="9" fill="#14534A" text-anchor="middle" font-weight="600">Tarefa B</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Skeleton loading -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🦴</div>
+    <div class="detail-title">Skeleton Loading State</div>
+    <span class="detail-badge badge-med">Médio</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>A prop <code>loading={true}</code> existe no <code>ProjectGanttProps</code> mas nenhuma UI de skeleton foi encontrada no codebase. Ao carregar dados, o usuário vê uma tela em branco.</p>
+      <ul>
+        <li>Skeleton animado para sidebar (linhas de nome/data)</li>
+        <li>Skeleton de barras no gráfico em posições aleatórias</li>
+        <li>Animação shimmer com CSS</li>
+        <li>Sem dependência de biblioteca externa</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Estado de loading</div>
+      <div class="mockup-inner">
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div class="skeleton-row">
+            <div class="skel" style="width:14px;height:14px;border-radius:3px;flex-shrink:0;"></div>
+            <div class="skel" style="width:65%;height:12px;"></div>
+            <div class="skel" style="width:40px;height:10px;margin-left:auto;"></div>
+          </div>
+          <div class="skeleton-row">
+            <div class="skel" style="width:14px;height:14px;border-radius:3px;flex-shrink:0;"></div>
+            <div class="skel" style="width:45%;height:12px;"></div>
+            <div class="skel" style="width:40px;height:10px;margin-left:auto;"></div>
+          </div>
+          <div class="skeleton-row">
+            <div class="skel" style="width:14px;height:14px;border-radius:3px;flex-shrink:0;"></div>
+            <div class="skel" style="width:80%;height:12px;"></div>
+            <div class="skel" style="width:40px;height:10px;margin-left:auto;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 9. Hint teclado -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">⌨️</div>
+    <div class="detail-title">Hints de Atalhos de Teclado</div>
+    <span class="detail-badge badge-low">Baixo</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>A lib tem navegação por teclado implementada (<code>Enter</code>, <code>Space</code>, <code>↑↓</code>) mas não há nenhuma indicação visual para o usuário de que esses atalhos existem. Impacta especialmente usuários de desktop corporativo.</p>
+      <ul>
+        <li>Tooltip de <code>?</code> no header com lista de atalhos</li>
+        <li>Ou painel de ajuda ativado por <code>Shift+?</code></li>
+        <li>Badges de tecla discretos nos botões quando relevante</li>
+      </ul>
+    </div>
+    <div class="detail-text">
+      <div style="background:#f8fafb;border:1px solid #e0e0e0;border-radius:8px;padding:10px;font-size:11px;">
+        <div style="font-weight:700;color:#1a3c30;margin-bottom:8px;">Atalhos disponíveis</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;justify-content:space-between;">
+            <span style="color:#4a4a4a;">Selecionar tarefa</span>
+            <kbd style="background:#e0e0e0;padding:2px 6px;border-radius:4px;font-size:10px;">Space</kbd>
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <span style="color:#4a4a4a;">Ver detalhes</span>
+            <kbd style="background:#e0e0e0;padding:2px 6px;border-radius:4px;font-size:10px;">Enter</kbd>
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <span style="color:#4a4a4a;">Navegar tarefas</span>
+            <kbd style="background:#e0e0e0;padding:2px 6px;border-radius:4px;font-size:10px;">↑ ↓</kbd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section-title section-feat">✨ Novas Funcionalidades</div>
+
+<!-- 1. Botão "Ir para hoje" -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">📍</div>
+    <div class="detail-title">Botão "Ir para Hoje"</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Quando o dataset cobre meses ou anos, o marcador de "hoje" pode estar fora da viewport. Não há como voltar para ele sem scrollar manualmente. Botão simples no header resolve isso.</p>
+      <ul>
+        <li>Botão no header ao lado dos controles de view mode</li>
+        <li>Animação de scroll suave (<code>scrollIntoView</code> com <code>behavior: "smooth"</code>)</li>
+        <li>Aparece apenas quando "hoje" está fora da viewport atual</li>
+        <li>Texto: "Hoje" com ícone de calendar ou target</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Botão no header</div>
+      <div class="mockup-inner">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <div style="display:flex;background:#e8f0ec;border:1px solid #d0ddd8;border-radius:8px;padding:3px;">
+            <div style="padding:5px 14px;background:#fff;border-radius:5px;font-size:11px;font-weight:600;color:#1a3c30;box-shadow:0 1px 2px rgba(0,0,0,0.08);">Mês</div>
+            <div style="padding:5px 14px;font-size:11px;font-weight:600;color:#7b7b7b;">Ano</div>
+          </div>
+          <button style="display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:7px;border:1.5px solid #1a3c30;background:transparent;color:#1a3c30;font-size:11px;font-weight:700;cursor:pointer;">
+            📍 Hoje
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Busca por texto -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🔍</div>
+    <div class="detail-title">Barra de Busca / Filtro por Texto</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Atualmente o único filtro disponível é por tipo (Steps/Milestones/Events/Notes). Em projetos com 50+ tarefas, encontrar uma específica requer scroll manual. Uma busca por nome resolve isso.</p>
+      <ul>
+        <li>Input de busca no header com debounce (300ms)</li>
+        <li>Filtra por nome em todos os tipos visíveis</li>
+        <li>Destaca o texto encontrado na sidebar</li>
+        <li>Mantém agrupamento, apenas esconde não-matches</li>
+        <li>Ativado por <code>Ctrl+F</code> ou <code>Cmd+F</code></li>
+        <li>Badge no botão mostrando total de resultados</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Campo de busca</div>
+      <div class="mockup-inner">
+        <div class="search-bar">
+          🔍 <span>Buscar tarefas...</span>
+          <span style="margin-left:auto;font-size:9px;color:#ccc;">Ctrl+F</span>
+        </div>
+        <div style="margin-top:8px;font-size:10px;color:#9ca3af;">Com resultado:</div>
+        <div class="search-bar" style="margin-top:4px;border-color:#1a3c30;">
+          🔍 <span style="color:#1a1a1a;">fund</span>
+          <span style="margin-left:auto;font-size:9px;background:#d1f5e8;color:#1a3c30;padding:2px 6px;border-radius:10px;font-weight:700;">3 resultados</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. View mode semana -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🗓️</div>
+    <div class="detail-title">View Mode "Semana"</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Atualmente existem dois zoom levels: Day (cada coluna = 1 dia, span mensal) e Month (cada coluna = 1 mês, span anual). Falta um nível intermediário: Semana (cada coluna = 1 dia, span de ~3 meses com mais espaço por dia).</p>
+      <ul>
+        <li>Segmented control: <strong>Semana | Mês | Ano</strong></li>
+        <li>Header superior: mês/ano</li>
+        <li>Header inferior: dias agrupados por semana</li>
+        <li>Mais espaço por dia que o day mode atual</li>
+        <li>Ideal para planejamento de sprints (2–3 semanas)</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Segmented control expandido</div>
+      <div class="mockup-inner">
+        <div style="display:flex;background:#e8f0ec;border:1px solid #d0ddd8;border-radius:10px;padding:3px;gap:2px;">
+          <div style="padding:6px 16px;background:#fff;border-radius:7px;font-size:11px;font-weight:600;color:#1a3c30;box-shadow:0 1px 2px rgba(0,0,0,0.08);">Semana</div>
+          <div style="padding:6px 16px;font-size:11px;font-weight:600;color:#7b7b7b;">Mês</div>
+          <div style="padding:6px 16px;font-size:11px;font-weight:600;color:#7b7b7b;">Ano</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Undo/Redo -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">↩️</div>
+    <div class="detail-title">Undo / Redo de Operações de Drag</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Ao arrastar ou redimensionar uma tarefa, a mudança é chamada imediatamente em <code>onTaskChange</code>. Não há como desfazer. Um usuário que arrastou acidentalmente precisa ir ao backend para corrigir.</p>
+      <ul>
+        <li>Stack de histórico local com até 20 operações</li>
+        <li>Undo com <code>Ctrl+Z</code> / Redo com <code>Ctrl+Shift+Z</code></li>
+        <li>Botões de undo/redo discretos no header</li>
+        <li><code>onTaskChange</code> chamado apenas no redo/finalização</li>
+        <li>Stack limpo ao receber novos dados via props</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Controles de histórico</div>
+      <div class="mockup-inner">
+        <div class="undo-row">
+          <button class="undo-btn">↩ Ctrl+Z</button>
+          <button class="undo-btn" style="opacity:0.4;">↪ Ctrl+Y</button>
+          <span style="font-size:9px;color:#9ca3af;margin-left:6px;">1 ação</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Seleção múltipla -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">☑️</div>
+    <div class="detail-title">Seleção Múltipla de Tarefas</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Atualmente apenas uma tarefa pode ser selecionada por vez (<code>selectedTaskId: string | null</code>). Para mover um conjunto de tarefas ou aplicar uma ação em lote, o usuário precisa repetir a operação manualmente para cada uma.</p>
+      <ul>
+        <li><code>Ctrl+Click</code> para adicionar à seleção</li>
+        <li><code>Shift+Click</code> para selecionar range</li>
+        <li>Barra de ações em lote aparece quando há 2+ selecionadas</li>
+        <li>Ações: mover em bloco, deletar em lote, atualizar progresso</li>
+        <li>Callback <code>onBulkChange(tasks[])</code></li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Barra de seleção múltipla</div>
+      <div class="mockup-inner">
+        <div style="background:#1a3c30;color:#fff;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px;font-size:11px;">
+          <span style="font-weight:700;">3 selecionadas</span>
+          <button style="background:rgba(255,255,255,0.15);border:none;color:#fff;padding:4px 10px;border-radius:5px;font-size:11px;cursor:pointer;">Mover</button>
+          <button style="background:rgba(255,255,255,0.15);border:none;color:#fff;padding:4px 10px;border-radius:5px;font-size:11px;cursor:pointer;">Progresso</button>
+          <button style="background:rgba(255,0,0,0.3);border:none;color:#fff;padding:4px 10px;border-radius:5px;font-size:11px;cursor:pointer;margin-left:auto;">Deletar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Export -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🖨️</div>
+    <div class="detail-title">Export para Imagem / PDF</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Gerentes de projeto precisam incluir o Gantt em apresentações e relatórios. Atualmente o único jeito é um print screen manual. Uma exportação nativa seria muito valorizada.</p>
+      <ul>
+        <li>Export PNG via <code>html-to-image</code> ou <code>dom-to-image</code></li>
+        <li>Export PDF via <code>jsPDF</code> + captura de canvas</li>
+        <li>Opção de exportar apenas o range visível ou o projeto inteiro</li>
+        <li>Esconde controles de UI na captura (botões, popups)</li>
+        <li>Callbacks: <code>onExportStart</code> / <code>onExportEnd</code></li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Dropdown de export</div>
+      <div class="mockup-inner">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <button class="export-btn export-png">🖼️ Exportar como PNG</button>
+          <button class="export-btn export-pdf">📄 Exportar como PDF</button>
+          <div style="font-size:9px;color:#9ca3af;display:flex;gap:10px;margin-top:2px;">
+            <label style="display:flex;align-items:center;gap:4px;"><input type="radio" checked/> Visível</label>
+            <label style="display:flex;align-items:center;gap:4px;"><input type="radio"/> Projeto completo</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Edição inline de progresso -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🎛️</div>
+    <div class="detail-title">Edição Inline de Progresso</div>
+    <span class="detail-badge badge-high">Alto impacto</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>O progresso (<code>conclusionPercent</code>) é apenas lido da prop e exibido. Para atualizar, o usuário precisa usar o sistema externo. Um slider inline no popup de ação tornaria o Gantt muito mais interativo.</p>
+      <ul>
+        <li>Slider ou input numérico no popup de tarefa existente</li>
+        <li>Preview em tempo real na barra enquanto arrasta</li>
+        <li>Callback <code>onProgressChange(taskId, percent)</code></li>
+        <li>Confirmação com Enter ou blur do input</li>
+        <li>Cancela com Escape</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Slider no popup</div>
+      <div class="mockup-inner">
+        <div class="progress-popup">
+          <div style="font-size:11px;font-weight:700;color:#1a3c30;margin-bottom:8px;">Progresso</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div class="progress-slider" style="flex:1;">
+              <div class="progress-fill"></div>
+              <div class="progress-thumb"></div>
+            </div>
+            <div style="font-size:14px;font-weight:800;color:#1a3c30;min-width:36px;text-align:right;">65%</div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px;">
+            <button style="padding:5px 12px;border-radius:6px;border:1px solid #e0e0e0;background:#fff;font-size:11px;cursor:pointer;">Cancelar</button>
+            <button style="padding:5px 12px;border-radius:6px;border:none;background:#1a3c30;color:#fff;font-size:11px;cursor:pointer;">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Feriados customizáveis -->
+<div class="detail-card">
+  <div class="detail-header">
+    <div class="detail-icon">🗓️</div>
+    <div class="detail-title">Feriados e Dias Não-Úteis Customizáveis</div>
+    <span class="detail-badge badge-med">Médio</span>
+  </div>
+  <div class="detail-body">
+    <div class="detail-text">
+      <p>Atualmente apenas finais de semana têm fundo diferenciado (<code>isWeekend</code> no grid SVG). Projetos de construção frequentemente têm feriados nacionais, paradas programadas, e períodos de obra suspensa que precisam ser sinalizados.</p>
+      <ul>
+        <li>Prop <code>holidays: Date[]</code> ou <code>nonWorkingDays: Date[]</code></li>
+        <li>Renderizar fundo vermelho claro nesses dias (como weekends, mas distinto)</li>
+        <li>Tooltip ao passar sobre o dia com o motivo (se fornecido)</li>
+        <li>Integra com cálculo de critical path (ignora dias não-úteis)</li>
+      </ul>
+    </div>
+    <div class="mockup-box">
+      <div class="mockup-label">Dia de feriado no grid</div>
+      <div class="mockup-inner">
+        <div style="display:flex;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;">
+          <div style="flex:1;padding:6px;text-align:center;background:#f8fafb;border-right:1px solid #eee;">
+            <div style="font-size:11px;font-weight:600;color:#7b7b7b;">06</div>
+            <div style="font-size:8px;color:#aaa;">Seg</div>
+          </div>
+          <div style="flex:1;padding:6px;text-align:center;background:#fff4e6;border-right:1px solid #eee;" title="Feriado: Carnaval">
+            <div style="font-size:11px;font-weight:700;color:#CD6200;">07</div>
+            <div class="tag-holiday">Feriado</div>
+          </div>
+          <div style="flex:1;padding:6px;text-align:center;background:#fff4e6;border-right:1px solid #eee;">
+            <div style="font-size:11px;font-weight:700;color:#CD6200;">08</div>
+            <div class="tag-holiday">Feriado</div>
+          </div>
+          <div style="flex:1;padding:6px;text-align:center;background:#f8fafb;">
+            <div style="font-size:11px;font-weight:600;color:#7b7b7b;">09</div>
+            <div style="font-size:8px;color:#aaa;">Qui</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

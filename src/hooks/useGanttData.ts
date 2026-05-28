@@ -259,6 +259,7 @@ export function useGanttData({
         };
     }, [tasks]);
 
+
     const nonWorkingDaySet = useMemo(() => {
         const set = new Set<string>();
         for (const nwd of (nonWorkingDays ?? [])) {

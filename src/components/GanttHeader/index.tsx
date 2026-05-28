@@ -1,4 +1,5 @@
-import { ChevronDown, Clock, Flag, MessageCircle, Plus } from 'lucide-react';
+import { useRef, useEffect } from 'react';
+import { ChevronDown, Clock, Flag, MessageCircle, Plus, Search, X, Download } from 'lucide-react';
 import { useGanttContext } from '../../context/GanttContext';
 import { C, STEP_PALETTE } from '../../utils/constants';
 import type { ViewMode, OriginalType } from '../../types/internal';
@@ -21,7 +22,24 @@ export function GanttHeader() {
         newActionRef,
         scrollToToday,
         isTodayVisible,
+        searchQuery,
+        setSearchQuery,
+        exportPng,
     } = useGanttContext();
+
+    const searchInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => {
+            const isMac = navigator.platform.toUpperCase().includes('MAC');
+            if ((isMac ? e.metaKey : e.ctrlKey) && e.key === 'f') {
+                e.preventDefault();
+                searchInputRef.current?.focus();
+            }
+        };
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, []);
 
     const { projectName, onAddNewStage, onAddMilestone, onAddEvent, onAddNote } = props;
 
@@ -206,6 +224,62 @@ export function GanttHeader() {
                         );
                     })}
                 </div>
+
+                {/* Search */}
+                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <Search
+                        size={13}
+                        style={{ position: 'absolute', left: 10, color: C.textSecondary, pointerEvents: 'none' }}
+                    />
+                    <input
+                        ref={searchInputRef}
+                        type="text"
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                        placeholder={t('gantt.search.placeholder', 'Buscar...')}
+                        style={{
+                            paddingLeft: 30, paddingRight: searchQuery ? 28 : 10,
+                            paddingTop: 7, paddingBottom: 7,
+                            border: `1.5px solid ${searchQuery ? C.group : C.borderLight}`,
+                            borderRadius: 8, fontSize: 12, outline: 'none',
+                            background: C.surface, color: C.textPrimary,
+                            width: 160, transition: 'border-color 0.18s, width 0.2s',
+                        }}
+                        onFocus={e => { e.currentTarget.style.width = '220px'; }}
+                        onBlur={e => { if (!searchQuery) e.currentTarget.style.width = '160px'; }}
+                    />
+                    {searchQuery && (
+                        <button
+                            onClick={() => setSearchQuery('')}
+                            style={{
+                                position: 'absolute', right: 6,
+                                background: 'none', border: 'none',
+                                cursor: 'pointer', color: C.textSecondary,
+                                display: 'grid', placeItems: 'center',
+                                padding: 2,
+                            }}
+                        >
+                            <X size={12} />
+                        </button>
+                    )}
+                </div>
+
+                {/* Export PNG */}
+                <button
+                    onClick={() => exportPng({ filename: props.projectName || 'gantt' })}
+                    title={t('gantt.export.png', 'Export PNG')}
+                    style={{
+                        display: 'flex', alignItems: 'center', gap: 6,
+                        padding: '8px 12px', borderRadius: 8,
+                        border: `1.5px solid ${C.borderLight}`, background: C.surface,
+                        color: C.textPrimary, cursor: 'pointer',
+                        fontSize: 12, fontWeight: 600,
+                        transition: 'all 0.18s',
+                    }}
+                >
+                    <Download size={14} />
+                    PNG
+                </button>
 
                 {onAddNewStage && (
                     <div ref={newActionRef} style={{ position: 'relative' }}>

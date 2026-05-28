@@ -1,0 +1,312 @@
+<h2>Roadmap Completo — ZeGantt</h2>
+<p class="subtitle">Todas as melhorias de UI e novas funcionalidades identificadas no codebase</p>
+
+<style>
+  .roadmap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+  .category { border-radius: 12px; border: 1.5px solid #e0e0e0; overflow: hidden; }
+  .cat-header { padding: 12px 16px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 8px; }
+  .cat-body { padding: 10px 14px 14px; background: #fff; display: flex; flex-direction: column; gap: 6px; }
+  .item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 8px; border: 1px solid #f0f0f0; background: #fafafa; }
+  .item-icon { font-size: 16px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+  .item-text { flex: 1; }
+  .item-title { font-size: 13px; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+  .item-desc { font-size: 11px; color: #7b7b7b; margin-top: 2px; line-height: 1.4; }
+  .badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+  .badge-high { background: #fee2e2; color: #b91c1c; }
+  .badge-med { background: #fef3c7; color: #92400e; }
+  .badge-low { background: #f0f9ff; color: #0369a1; }
+
+  /* Category colors */
+  .cat-ui .cat-header { background: #e8f4ff; color: #1e40af; }
+  .cat-nav .cat-header { background: #f0fdf4; color: #166534; }
+  .cat-feat .cat-header { background: #fef3c7; color: #92400e; }
+  .cat-dx .cat-header { background: #fdf4ff; color: #7e22ce; }
+</style>
+
+<div class="roadmap-grid">
+
+  <!-- MELHORIAS DE UI -->
+  <div class="category cat-ui">
+    <div class="cat-header">🎨 Melhorias de UI Existente</div>
+    <div class="cat-body">
+
+      <div class="item">
+        <div class="item-icon">↔️</div>
+        <div class="item-text">
+          <div class="item-title">Sidebar redimensionável</div>
+          <div class="item-desc">Divider arrastável entre a lista de tarefas (LEFT_W fixo em 460px) e o gráfico</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🌙</div>
+        <div class="item-text">
+          <div class="item-title">Dark mode nativo</div>
+          <div class="item-desc">Suporte a <code>data-theme="dark"</code> via CSS variables; o sistema já usa tokens mas não tem paleta escura</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🏷️</div>
+        <div class="item-text">
+          <div class="item-title">Label fora da barra estreita</div>
+          <div class="item-desc">Quando w &lt; 50px o nome da tarefa não aparece; renderizar label à direita da barra</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">📅</div>
+        <div class="item-text">
+          <div class="item-title">Números de semana no header</div>
+          <div class="item-desc">Mostrar Wxx no header de dias (modo day view) para referência rápida</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🎨</div>
+        <div class="item-text">
+          <div class="item-title">Setas de dependência coloridas por tipo</div>
+          <div class="item-desc">FS/SS/FF/SF com cores distintas; atualmente todas usam a mesma cor <code>C.arrow</code></div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">📊</div>
+        <div class="item-text">
+          <div class="item-title">Barra de progresso agregada nos grupos</div>
+          <div class="item-desc">Grupo "Steps" mostra count badge; adicionar mini progress bar com média do grupo</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">💬</div>
+        <div class="item-text">
+          <div class="item-title">Lag visível nas setas</div>
+          <div class="item-desc">Mostrar o valor de lag (dias) como label na arrow de dependência no SVG</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🦴</div>
+        <div class="item-text">
+          <div class="item-title">Skeleton loading state</div>
+          <div class="item-desc">A prop <code>loading</code> existe mas o estado de carregamento não tem UI definida no codebase</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">⌨️</div>
+        <div class="item-text">
+          <div class="item-title">Hint de atalhos de teclado</div>
+          <div class="item-desc">Atalhos existem (Enter, Space, Arrow keys) mas não há indicação visual de que existem</div>
+          <span class="badge badge-low">Baixo</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO -->
+  <div class="category cat-nav">
+    <div class="cat-header">🧭 Navegação & Viewport</div>
+    <div class="cat-body">
+
+      <div class="item">
+        <div class="item-icon">📍</div>
+        <div class="item-text">
+          <div class="item-title">Botão "Ir para Hoje"</div>
+          <div class="item-desc">Scroll rápido para o marcador de hoje na timeline; essencial quando o dataset é grande</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🔍</div>
+        <div class="item-text">
+          <div class="item-title">Barra de busca/filtro por texto</div>
+          <div class="item-desc">Filtrar tarefas/milestones/notas por nome; atualmente só há filtro por tipo</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🗓️</div>
+        <div class="item-text">
+          <div class="item-title">View mode "Semana"</div>
+          <div class="item-desc">Atualmente: Day (mensal) e Month (anual). Adicionar Week para visão de 7 dias granular</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">📐</div>
+        <div class="item-text">
+          <div class="item-title">Controle de range da timeline</div>
+          <div class="item-desc">Permitir definir data de início/fim do range visível; útil para focar em sprints</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">↩️</div>
+        <div class="item-text">
+          <div class="item-title">Modo sidebar mini/compacto</div>
+          <div class="item-desc">Alternativa entre sidebar completa, ícones-only e oculta (<code>hideSidebar</code>)</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">📏</div>
+        <div class="item-text">
+          <div class="item-title">Modo compact (row height menor)</div>
+          <div class="item-desc">ROW_H fixo em 50px; permitir prop <code>compact</code> para datasets muito grandes</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOVAS FUNCIONALIDADES -->
+  <div class="category cat-feat">
+    <div class="cat-header">✨ Novas Funcionalidades</div>
+    <div class="cat-body">
+
+      <div class="item">
+        <div class="item-icon">↩️</div>
+        <div class="item-text">
+          <div class="item-title">Undo/Redo de operações de drag</div>
+          <div class="item-desc">Histórico de drag/resize com Ctrl+Z para reverter; mudanças são permanentes hoje</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">☑️</div>
+        <div class="item-text">
+          <div class="item-title">Seleção múltipla de tarefas</div>
+          <div class="item-desc">Ctrl+click para selecionar várias tasks; ações em lote (mover, deletar, atualizar progresso)</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🖨️</div>
+        <div class="item-text">
+          <div class="item-title">Export para imagem/PDF</div>
+          <div class="item-desc">Captura do Gantt como PNG ou PDF para relatórios; muito pedido em gestão de projetos</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🎛️</div>
+        <div class="item-text">
+          <div class="item-title">Edição inline de progresso</div>
+          <div class="item-desc">Slider ou input no popup de tarefa para atualizar <code>conclusionPercent</code> diretamente</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">👤</div>
+        <div class="item-text">
+          <div class="item-title">Coluna de responsável/assignee</div>
+          <div class="item-desc">Campo no GanttStep para assignee; exibir avatar/nome na sidebar como nova coluna</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">📎</div>
+        <div class="item-text">
+          <div class="item-title">Lista de arquivos no Pinboard</div>
+          <div class="item-desc">Notes têm <code>filesCount</code> mas não há UI para visualizar/abrir os anexos no drawer</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🗓️</div>
+        <div class="item-text">
+          <div class="item-title">Feriados e dias não-úteis customizáveis</div>
+          <div class="item-desc">Prop para marcar datas específicas como bloqueadas (feriados, paradas); hoje só finais de semana</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🖨️</div>
+        <div class="item-text">
+          <div class="item-title">Print CSS (@media print)</div>
+          <div class="item-desc">Stylesheet otimizado para impressão; esconde controles, ajusta layout para papel</div>
+          <span class="badge badge-low">Baixo</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DEVELOPER EXPERIENCE -->
+  <div class="category cat-dx">
+    <div class="cat-header">🔧 API & Developer Experience</div>
+    <div class="cat-body">
+
+      <div class="item">
+        <div class="item-icon">🧩</div>
+        <div class="item-text">
+          <div class="item-title">Colunas customizáveis na sidebar</div>
+          <div class="item-desc">Prop <code>columns</code> para o consumidor renderizar colunas extras além de nome/início/fim</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🎨</div>
+        <div class="item-text">
+          <div class="item-title">Dark mode via prop/tema</div>
+          <div class="item-desc">Expor paleta dark no <code>GanttTheme</code>; consumidor não precisa sobrescrever CSS variables manualmente</div>
+          <span class="badge badge-high">Alto impacto</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🪝</div>
+        <div class="item-text">
+          <div class="item-title">Hook <code>useGanttRef</code> público</div>
+          <div class="item-desc">API imperativa para scroll-to-task, zoom, fit programaticamente de fora do componente</div>
+          <span class="badge badge-med">Médio</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">🌐</div>
+        <div class="item-text">
+          <div class="item-title">Mais idiomas built-in</div>
+          <div class="item-desc">Apenas <code>ptBR</code> exportado; adicionar <code>es</code>, <code>fr</code>, <code>de</code> como named exports</div>
+          <span class="badge badge-low">Baixo</span>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-icon">📦</div>
+        <div class="item-text">
+          <div class="item-title">Callback <code>onRangeChange</code></div>
+          <div class="item-desc">Notificar consumidor quando o range visível da timeline mudar (scroll, zoom)</div>
+          <span class="badge badge-low">Baixo</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

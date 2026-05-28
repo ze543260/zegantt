@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
 import { JSX } from 'react/jsx-runtime';
+import { RefObject } from 'react';
 
 export declare interface CreateDependencyParams {
     predecessorId: string;
@@ -9,6 +10,8 @@ export declare interface CreateDependencyParams {
     type: DependencyType;
     lag: number;
 }
+
+export declare const darkTheme: GanttTheme;
 
 export declare type DependencyType = "FS" | "SS" | "FF" | "SF";
 
@@ -41,6 +44,11 @@ export declare interface GanttEvent {
     finished?: boolean;
     projectId?: string;
     projectTitle?: string;
+}
+
+export declare interface GanttExportOptions {
+    filename?: string;
+    scale?: number;
 }
 
 export declare interface GanttMilestone {
@@ -204,9 +212,16 @@ export declare interface ProjectGanttProps {
     nonWorkingDays?: GanttNonWorkingDay[];
     /** Controlled sidebar width in px. Uncontrolled default reads from localStorage. */
     sidebarWidth?: number;
+    /** When true, shows ISO week numbers in day/week view header */
+    showWeekNumbers?: boolean;
 }
 
 /** Portuguese (Brazil) translation strings for ZeGantt */
 export declare const ptBR: Record<string, string>;
+
+export declare function useGanttExport(): {
+    exportRef: RefObject<HTMLDivElement | null>;
+    exportPng: (options?: GanttExportOptions) => Promise<void>;
+};
 
 export { }
