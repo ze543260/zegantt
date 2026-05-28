@@ -52,7 +52,8 @@ export function GanttChart() {
         rightBodyRef, timeHeaderRef,
         handleChartMouseDown, handleChartTouchStart, handleChartWheel, openChartMenu, handleRightScroll,
         hoveredTaskId, setHoveredTaskId,
-        selectedTaskId, setSelectedTaskId,
+        setSelectedTaskId,
+        selectedTaskIds,
         tooltip, setTooltip,
         popupState, setPopupState,
         handleBarClick,
@@ -330,12 +331,12 @@ export function GanttChart() {
                             }
 
                             const isHov = hoveredTaskId === task.id;
-                            const isSel = selectedTaskId === task.id;
+                            const isSel = selectedTaskIds.has(task.id);
                             const isDelayed = delayedIds.has(task.id);
                             const isCritical = criticalIds.has(task.id);
 
-                            const isBarDimmed = !!selectedTaskId && !isSel && !relatedIds.has(task.id);
-                            const isBarHighlighted = isSel || (!!selectedTaskId && relatedIds.has(task.id));
+                            const isBarDimmed = selectedTaskIds.size > 0 && !isSel && !relatedIds.has(task.id);
+                            const isBarHighlighted = isSel || (selectedTaskIds.size > 0 && relatedIds.has(task.id));
                             const isConnectTarget = connectState?.hoverTargetId === task.id;
                             const showDots = isHov || isSel;
                             const y = virtualRow.start;
