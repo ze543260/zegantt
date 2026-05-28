@@ -92,6 +92,8 @@ export interface GanttContextState {
     handleConnectDotMouseDown: (e: React.MouseEvent, task: InternalTask, edge: 'left' | 'right') => void;
     handleConnectDotTouchStart: (e: React.TouchEvent, task: InternalTask, edge: 'left' | 'right') => void;
     handleCreateDependency: () => void;
+    scrollToToday: () => void;
+    isTodayVisible: boolean;
 }
 
 const GanttContext = createContext<GanttContextState | undefined>(undefined);

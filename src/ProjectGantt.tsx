@@ -698,7 +698,16 @@ export function ProjectGantt(props: ProjectGanttProps) {
         handleResizeTouchStart,
         handleConnectDotMouseDown,
         handleConnectDotTouchStart,
-        handleCreateDependency
+        handleCreateDependency,
+        scrollToToday: () => {
+            const rb = scroll.rightBodyRef.current;
+            const th = scroll.timeHeaderRef.current;
+            if (!rb || data.timeline.todayIndex < 0) return;
+            const targetScrollLeft = Math.max(0, data.timeline.todayIndex * data.timeline.dayWidth - rb.clientWidth / 2);
+            rb.scrollTo({ left: targetScrollLeft, behavior: 'smooth' });
+            if (th) th.scrollLeft = targetScrollLeft;
+        },
+        isTodayVisible: data.timeline.todayIndex >= 0,
     }), [
         props, viewModeState, isInfiniteCanvas, dayWidth, zoomIn, zoomOut, fitToScreen,
         hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
