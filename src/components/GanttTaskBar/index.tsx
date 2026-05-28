@@ -45,6 +45,10 @@ export function GanttTaskBar({
         const finalProgressColor = task.progressColor || pal.progress;
         const finalBorderColor = task.borderColor || pal.barBorder;
 
+        const LABEL_THRESHOLD = 55;
+        const showOutsideLabel = (props.showLabelOutside !== false) && w < LABEL_THRESHOLD;
+        const outsideLabelColor = isCritical || isDelayed ? C.today : C.textPrimary;
+
         // ── Prevision / planned baseline bar ──
         const showBaseline = !!(task.previsionStart && task.previsionEnd);
         const baseX = showBaseline ? dateToX(task.previsionStart!, timeline) : 0;
@@ -120,6 +124,31 @@ export function GanttTaskBar({
                         </>
                     )}
                 </div>
+                {showOutsideLabel && (
+                    <span
+                        style={{
+                            position: 'absolute',
+                            left: x + w + 6,
+                            top: barY,
+                            height: BAR_H,
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: 11,
+                            fontWeight: 600,
+                            color: outsideLabelColor,
+                            whiteSpace: 'nowrap',
+                            pointerEvents: 'none',
+                            maxWidth: 120,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            opacity: isBarDimmed ? 0.15 : 1,
+                            transition: 'opacity 0.18s',
+                        }}
+                        title={task.name}
+                    >
+                        {task.name}
+                    </span>
+                )}
             </>
         );
     }
