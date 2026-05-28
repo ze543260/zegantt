@@ -25,6 +25,10 @@ export function GanttHeader() {
         searchQuery,
         setSearchQuery,
         exportPng,
+        canUndo,
+        canRedo,
+        undo,
+        redo,
     } = useGanttContext();
 
     const searchInputRef = useRef<HTMLInputElement>(null);
@@ -193,6 +197,40 @@ export function GanttHeader() {
                             ))}
                         </div>
                     </>
+                )}
+
+                {/* Undo / Redo */}
+                {!isInfiniteCanvas && (
+                    <div style={{ display: 'flex', gap: 4 }}>
+                        <button
+                            onClick={undo}
+                            disabled={!canUndo}
+                            title="Desfazer (Ctrl+Z)"
+                            style={{
+                                width: 30, height: 30, borderRadius: 6, border: `1px solid ${C.borderLight}`,
+                                background: C.surface, cursor: canUndo ? 'pointer' : 'default',
+                                opacity: canUndo ? 1 : 0.35, display: 'grid', placeItems: 'center',
+                                fontSize: 14, color: C.textPrimary, transition: 'opacity 0.15s',
+                            }}
+                            aria-label="Undo"
+                        >
+                            ↩
+                        </button>
+                        <button
+                            onClick={redo}
+                            disabled={!canRedo}
+                            title="Refazer (Ctrl+Shift+Z)"
+                            style={{
+                                width: 30, height: 30, borderRadius: 6, border: `1px solid ${C.borderLight}`,
+                                background: C.surface, cursor: canRedo ? 'pointer' : 'default',
+                                opacity: canRedo ? 1 : 0.35, display: 'grid', placeItems: 'center',
+                                fontSize: 14, color: C.textPrimary, transition: 'opacity 0.15s',
+                            }}
+                            aria-label="Redo"
+                        >
+                            ↪
+                        </button>
+                    </div>
                 )}
 
                 {/* Type Filters */}
