@@ -19,8 +19,8 @@ export function GanttGrid() {
         toggleGroup,
         hoveredTaskId,
         setHoveredTaskId,
-        selectedTaskId,
-        setSelectedTaskId,
+        selectedTaskIds,
+        setSelectedTaskIds,
         delayedIds,
         criticalIds,
         relatedIds,
@@ -57,8 +57,8 @@ export function GanttGrid() {
         if (idx < 0) return;
         const nextIdx = Math.min(Math.max(0, idx + delta), orderedTaskIds.length - 1);
         const nextTaskId = orderedTaskIds[nextIdx];
-        if (nextTaskId) setSelectedTaskId(nextTaskId);
-    }, [orderedTaskIds, setSelectedTaskId]);
+        if (nextTaskId) setSelectedTaskIds(new Set([nextTaskId]));
+    }, [orderedTaskIds, setSelectedTaskIds]);
 
     return (
         <div style={{ width: sidebarW, flexShrink: 0, borderRight: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -85,7 +85,7 @@ export function GanttGrid() {
             <div
                 ref={leftBodyRef}
                 onScroll={handleLeftScroll}
-                onClick={() => setSelectedTaskId(null)}
+                onClick={() => setSelectedTaskIds(new Set())}
                 className="zg-no-scrollbar"
                 style={{ overflowY: 'auto', overflowX: 'hidden', flex: 1 }}
                 role="grid"
@@ -212,13 +212,13 @@ export function GanttGrid() {
                         }
 
                         const task = row.task;
-                        const isSel = selectedTaskId === task.id;
+                        const isSel = selectedTaskIds.has(task.id);
                         const isHov = hoveredTaskId === task.id;
                         const isPoint = task.originalType !== 'step';
                         const isDelayed = delayedIds.has(task.id);
                         const isCritical = criticalIds.has(task.id);
-                        const isLeftDimmed = selectedTaskId !== null && task.id !== selectedTaskId && !relatedIds.has(task.id);
-                        const isLeftRelated = selectedTaskId !== null && relatedIds.has(task.id);
+                        const isLeftDimmed = selectedTaskIds.size > 0 && !isSel && !relatedIds.has(task.id);
+                        const isLeftRelated = selectedTaskIds.size > 0 && !isSel && relatedIds.has(task.id);
                         const rowBg = isDelayed ? C.dangerBgSoft : isSel ? C.groupLight : isLeftRelated ? C.groupLightStrong : isHov ? C.pageBg : C.surface;
 
                         return (
@@ -234,7 +234,28 @@ export function GanttGrid() {
                                     borderLeft: isSel ? `3px solid ${C.group}` : isLeftRelated ? `3px solid ${C.groupGlow}` : isCritical ? `3px solid ${C.today}` : undefined,
                                     opacity: isLeftDimmed ? 0.3 : 1,
                                 }}
-                                onClick={(e) => { e.stopPropagation(); setSelectedTaskId(p => p === task.id ? null : task.id); }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const taskId = task.id;
+                                    if (e.ctrlKey || e.metaKey) {
+                                        setSelectedTaskIds(prev => {
+                                            const next = new Set(prev);
+                                            if (next.has(taskId)) next.delete(taskId);
+                                            else next.add(taskId);
+                                            return next;
+                                        });
+                                    } else if (e.shiftKey && selectedTaskIds.size > 0) {
+                                        const lastId = [...selectedTaskIds].at(-1);
+                                        if (!lastId) { setSelectedTaskIds(new Set([taskId])); return; }
+                                        const fromIdx = orderedTaskIds.indexOf(lastId);
+                                        const toIdx = orderedTaskIds.indexOf(taskId);
+                                        if (fromIdx < 0 || toIdx < 0) { setSelectedTaskIds(new Set([taskId])); return; }
+                                        const [start, end] = fromIdx < toIdx ? [fromIdx, toIdx] : [toIdx, fromIdx];
+                                        setSelectedTaskIds(new Set(orderedTaskIds.slice(start, end + 1)));
+                                    } else {
+                                        setSelectedTaskIds(prev => prev.size === 1 && prev.has(taskId) ? new Set() : new Set([taskId]));
+                                    }
+                                }}
                                 onDoubleClick={() => props.onTaskClick?.(toGanttTask(task))}
                                 onMouseEnter={() => setHoveredTaskId(task.id)}
                                 onMouseLeave={() => setHoveredTaskId(null)}
@@ -246,7 +267,12 @@ export function GanttGrid() {
                                     }
                                     if (e.key === ' ') {
                                         e.preventDefault();
-                                        setSelectedTaskId(p => p === task.id ? null : task.id);
+                                        setSelectedTaskIds(prev => {
+                                            const next = new Set(prev);
+                                            if (next.has(task.id)) next.delete(task.id);
+                                            else next.add(task.id);
+                                            return next;
+                                        });
                                         return;
                                     }
                                     if (e.key === 'ArrowDown') {
