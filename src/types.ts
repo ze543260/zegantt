@@ -96,6 +96,11 @@ export interface DependencyValidationError {
     successorId: string;
 }
 
+export interface GanttNonWorkingDay {
+    date: Date | string;
+    label?: string;
+}
+
 export interface ProjectGanttProps {
     steps: GanttStep[];
     milestones?: GanttMilestone[];
@@ -139,4 +144,6 @@ export interface ProjectGanttProps {
         dependencyType: DependencyType;
         files: File[];
     }) => Promise<void>;
+    /** Dates to mark as non-working (holidays, shutdowns). Distinct from weekends. */
+    nonWorkingDays?: GanttNonWorkingDay[];
 }

@@ -6,6 +6,7 @@ import { GanttGrid } from './components/GanttGrid';
 import { GanttChart } from './components/GanttChart';
 import { useGanttScroll } from './hooks/useGanttScroll';
 import { useGanttData } from './hooks/useGanttData';
+import { useGanttExport } from './hooks/useGanttExport';
 import { Loader2 } from 'lucide-react';
 import { C, DAY_W_MONTH, DAY_W_YEAR } from './utils/constants';
 import { addDays, diffDays } from './utils/date';
@@ -89,6 +90,12 @@ export function ProjectGantt(props: ProjectGanttProps) {
 
     const [activePinboardTask, setActivePinboardTask] = useState<InternalTask | null>(null);
 
+    // Search
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Export
+    const { exportRef, exportPng } = useGanttExport();
+
     // Visibility and Grouping
     const [visibleTypes, setVisibleTypes] = useState<Set<OriginalType>>(new Set(['step', 'milestone', 'event', 'note']));
     const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
@@ -137,7 +144,9 @@ export function ProjectGantt(props: ProjectGanttProps) {
         collapsedGroups,
         collapsedProjects,
         groupByProject: props.groupByProject,
-        selectedTaskId: selectedTaskId || null
+        selectedTaskId: selectedTaskId || null,
+        nonWorkingDays: props.nonWorkingDays,
+        searchQuery,
     });
     const scroll = useGanttScroll(data.timeline);
 
@@ -651,6 +660,9 @@ export function ProjectGantt(props: ProjectGanttProps) {
         chartMenu, setChartMenu,
         newActionOpen, setNewActionOpen,
         activePinboardTask, setActivePinboardTask,
+        searchQuery, setSearchQuery,
+        nonWorkingDaySet: data.nonWorkingDaySet,
+        exportPng,
         tasks: data.tasks,
         timeline: data.timeline,
         displayRows: data.displayRows,
@@ -699,6 +711,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
         hoveredTaskId, selectedTaskId, tooltip, popupState, dragState, resizeState, connectState,
         visibleTypes, collapsedGroups, collapsedProjects, pendingConnection, depModalType, depModalLag, depCreating,
         deletingDepId, chartMenu, newActionOpen, activePinboardTask, data, scroll, toggleVisibility, toggleGroup, toggleProject,
+        searchQuery, exportPng,
         handleChartMouseDown, handleChartTouchStart, handleChartWheel, openChartMenu,
         handleBarMouseDown, handleBarTouchStart,
         handleResizeMouseDown, handleResizeTouchStart,
@@ -717,6 +730,7 @@ export function ProjectGantt(props: ProjectGanttProps) {
     return (
         <GanttProvider value={contextValue}>
             <div
+                ref={exportRef}
                 className={`zg-root ${isInfiniteCanvas ? 'zg-root--infinite' : 'zg-root--framed'} ${activePinboardTask ? 'zg-root--muted' : ''}`}
                 style={{
                     width: '100%', display: 'flex', flexDirection: 'column',

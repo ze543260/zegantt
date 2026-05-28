@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { GanttDependency, GanttEvent, GanttMilestone, GanttNote, GanttStep } from '../types';
+import type { GanttDependency, GanttEvent, GanttMilestone, GanttNote, GanttStep, GanttNonWorkingDay } from '../types';
 import type { InternalTask, OriginalType, DisplayRow, ViewMode } from '../types/internal';
 import { computeTimeline } from '../utils/timeline';
 import { computeArrows } from '../utils/dependencies';
@@ -21,6 +21,8 @@ interface UseGanttDataProps {
     collapsedGroups: Set<string>;
     collapsedProjects: Set<string>;
     selectedTaskId: string | null;
+    nonWorkingDays?: GanttNonWorkingDay[];
+    searchQuery?: string;
 }
 
 export function useGanttData({
@@ -36,7 +38,9 @@ export function useGanttData({
     visibleTypes,
     collapsedGroups,
     collapsedProjects,
-    selectedTaskId
+    selectedTaskId,
+    nonWorkingDays,
+    searchQuery,
 }: UseGanttDataProps) {
     const tasks: InternalTask[] = useMemo(() => {
         const result: InternalTask[] = [];
@@ -226,14 +230,35 @@ export function useGanttData({
         return set;
     }, [selectedTaskId, dependencies]);
 
+    const nonWorkingDaySet = useMemo(() => {
+        const set = new Set<string>();
+        for (const nwd of (nonWorkingDays ?? [])) {
+            const d = nwd.date instanceof Date ? nwd.date : new Date(nwd.date);
+            if (!isNaN(d.getTime())) {
+                set.add(`${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`);
+            }
+        }
+        return set;
+    }, [nonWorkingDays]);
+
+    const filteredDisplayRows: DisplayRow[] = useMemo(() => {
+        const normalizedQuery = (searchQuery || '').toLowerCase().trim();
+        if (!normalizedQuery) return displayRows;
+        return displayRows.filter(row => {
+            if (row.kind !== 'task') return true;
+            return row.task.name.toLowerCase().includes(normalizedQuery);
+        });
+    }, [displayRows, searchQuery]);
+
     return {
         tasks,
         timeline,
-        displayRows,
+        displayRows: filteredDisplayRows,
         taskRowIndex,
         arrows,
         criticalIds,
         delayedIds,
-        relatedIds
+        relatedIds,
+        nonWorkingDaySet,
     };
 }

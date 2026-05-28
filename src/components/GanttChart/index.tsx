@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import type React from 'react';
-import { Flag, Clock, Eye, Edit2, Trash2, Paperclip } from 'lucide-react';
+import { Flag, Clock, Eye, Edit2, Trash2 } from 'lucide-react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useGanttContext } from '../../context/GanttContext';
 import { GanttTaskBar } from '../GanttTaskBar';
@@ -63,15 +63,14 @@ export function GanttChart() {
         handleResizeTouchStart,
         handleConnectDotMouseDown,
         handleConnectDotTouchStart,
-        handleCreateDependency
+        handleCreateDependency,
+        nonWorkingDaySet,
     } = useGanttContext();
 
     const {
         onViewStage, onEditStage, onDeleteStage, onDeleteDependency,
         onAddNewStage, onAddMilestone, onAddEvent, onAddNote
     } = props;
-
-    const diffDays = (start: Date, end: Date) => Math.round((end.getTime() - start.getTime()) / 86400000) + 1;
 
     const rowVirtualizer = useVirtualizer({
         count: displayRows.length,
@@ -148,9 +147,18 @@ export function GanttChart() {
                                     const d = timeline.days[virtualDay.index];
                                     if (!d) return null;
                                     const isTd = d.isToday;
+                                    const dayKey = `${d.date.getFullYear()}-${d.date.getMonth()}-${d.date.getDate()}`;
+                                    const isHoliday = nonWorkingDaySet.has(dayKey);
+                                    const holidayLabel = isHoliday
+                                        ? (props.nonWorkingDays?.find(n => {
+                                            const nd = n.date instanceof Date ? n.date : new Date(n.date);
+                                            return `${nd.getFullYear()}-${nd.getMonth()}-${nd.getDate()}` === dayKey;
+                                        })?.label ?? 'Holiday')
+                                        : undefined;
                                     return (
                                         <div
                                             key={`day-${virtualDay.index}`}
+                                            title={holidayLabel}
                                             style={{
                                                 position: 'absolute',
                                                 left: virtualDay.start,
@@ -160,7 +168,8 @@ export function GanttChart() {
                                                 display: 'flex',
                                                 flexDirection: 'column',
                                                 alignItems: 'center',
-                                                justifyContent: 'center'
+                                                justifyContent: 'center',
+                                                background: isHoliday ? 'rgba(205,98,0,0.08)' : undefined,
                                             }}
                                         >
                                             <span style={{ fontSize: 11, fontWeight: isTd ? 800 : 500, color: isTd ? C.today : C.textSecondary, letterSpacing: '-0.03em' }}>
@@ -227,6 +236,24 @@ export function GanttChart() {
                             return d?.isWeekend
                                 ? <rect key={`wem-${virtualDay.index}`} x={virtualDay.start} y={0} width={virtualDay.size} height={contentH} fill={C.weekendBg} opacity={0.3} />
                                 : null;
+                        })}
+
+                        {/* Holiday overlay */}
+                        {viewMode === 'day' && virtualDays.map((virtualDay) => {
+                            const d = timeline.days[virtualDay.index];
+                            if (!d) return null;
+                            const key = `${d.date.getFullYear()}-${d.date.getMonth()}-${d.date.getDate()}`;
+                            if (!nonWorkingDaySet.has(key)) return null;
+                            return (
+                                <rect
+                                    key={`hol-${virtualDay.index}`}
+                                    x={virtualDay.start}
+                                    y={0}
+                                    width={virtualDay.size}
+                                    height={contentH}
+                                    fill="rgba(205,98,0,0.12)"
+                                />
+                            );
                         })}
 
                         {timeline.todayIndex >= 0 && (

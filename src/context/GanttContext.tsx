@@ -62,6 +62,16 @@ export interface GanttContextState {
     activePinboardTask: InternalTask | null;
     setActivePinboardTask: (task: InternalTask | null) => void;
 
+    // Search
+    searchQuery: string;
+    setSearchQuery: (q: string) => void;
+
+    // Non-working days
+    nonWorkingDaySet: Set<string>;
+
+    // Export
+    exportPng: (options?: { filename?: string; scale?: number }) => Promise<void>;
+
     // Computed Data
     tasks: InternalTask[];
     timeline: TimelineInfo;

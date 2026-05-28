@@ -1,4 +1,3 @@
-import type React from 'react';
 import { Flag, Clock, Paperclip, Calendar, Info } from 'lucide-react';
 import { C, STEP_PALETTE } from '../../utils/constants';
 import { fmtDateShort } from '../../utils/date';
