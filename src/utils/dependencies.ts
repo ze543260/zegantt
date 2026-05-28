@@ -9,6 +9,8 @@ export interface ArrowPath {
     path: string;
     headX: number;
     headY: number;
+    depType: import('../types').DependencyType;
+    lag: number;
 }
 
 export function computeArrows(
@@ -50,7 +52,7 @@ export function computeArrows(
             ? `M${px},${py} L${sx - 6},${sy}`
             : `M${px},${py} L${midX},${py} L${midX},${sy} L${sx - 6},${sy}`;
 
-        return { predId: pred.id, succId: succ.id, path: d, headX: sx - 6, headY: sy };
+        return { predId: pred.id, succId: succ.id, path: d, headX: sx - 6, headY: sy, depType: dep.type, lag: dep.lag };
     }).filter(Boolean) as ArrowPath[];
 }
 
