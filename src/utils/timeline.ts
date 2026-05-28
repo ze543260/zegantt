@@ -1,9 +1,10 @@
 import type { InternalTask, TimelineInfo, ViewMode } from '../types/internal';
 import { addDays, diffDays, endOfMonth, getMonthName, startOfMonth } from './date';
-import { DAY_W_MONTH, DAY_W_YEAR } from './constants';
+import { DAY_W_MONTH, DAY_W_WEEK, DAY_W_YEAR } from './constants';
 
 export function computeTimeline(tasks: InternalTask[], mode: ViewMode, locale = 'en', dayWidthOverride?: number): TimelineInfo {
-    const dayW = dayWidthOverride ?? (mode === 'day' ? DAY_W_MONTH : DAY_W_YEAR);
+    const defaultDayW = mode === 'day' ? DAY_W_MONTH : mode === 'week' ? DAY_W_WEEK : DAY_W_YEAR;
+    const dayW = dayWidthOverride ?? defaultDayW;
 
     const buildDays = (s: Date, totalD: number) => {
         const daysArr: TimelineInfo['days'] = [];
@@ -24,6 +25,38 @@ export function computeTimeline(tasks: InternalTask[], mode: ViewMode, locale = 
 
     if (tasks.length === 0) {
         const now = new Date();
+        if (mode === 'week') {
+            // ~90 day span centered on today: 45 days before and after
+            const s = addDays(now, -45);
+            const e = addDays(now, 45);
+            const totalD = diffDays(s, e) + 1;
+            const { daysArr, todayIndex } = buildDays(s, totalD);
+            const months: TimelineInfo['months'] = [];
+            let cursor = new Date(s.getFullYear(), s.getMonth(), 1);
+            while (cursor <= e) {
+                const mEnd = endOfMonth(cursor);
+                const clampedEnd = mEnd > e ? e : mEnd;
+                const clampedStart = cursor < s ? s : cursor;
+                const startDay = diffDays(s, clampedStart);
+                const days = diffDays(clampedStart, clampedEnd) + 1;
+                months.push({
+                    date: new Date(cursor),
+                    label: `${getMonthName(cursor, locale)} ${cursor.getFullYear()}`,
+                    startDay,
+                    days,
+                    width: days * dayW,
+                });
+                cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+            }
+            return {
+                start: s, end: e, totalDays: totalD, dayWidth: dayW,
+                totalWidth: totalD * dayW,
+                months,
+                years: [],
+                days: daysArr,
+                todayIndex
+            };
+        }
         const s = startOfMonth(now);
         const e = endOfMonth(now);
         const totalD = diffDays(s, e) + 1;
@@ -45,8 +78,10 @@ export function computeTimeline(tasks: InternalTask[], mode: ViewMode, locale = 
         if (t.end > maxD) maxD = new Date(t.end);
     });
 
-    const s = startOfMonth(addDays(minD, -14));
-    const e = endOfMonth(addDays(maxD, 14));
+    const spanPaddingBefore = mode === 'month' ? 180 : mode === 'week' ? 45 : 30;
+    const spanPaddingAfter = mode === 'month' ? 180 : mode === 'week' ? 45 : 30;
+    const s = startOfMonth(addDays(minD, -spanPaddingBefore));
+    const e = endOfMonth(addDays(maxD, spanPaddingAfter));
     const totalD = diffDays(s, e) + 1;
 
     const months: TimelineInfo['months'] = [];
