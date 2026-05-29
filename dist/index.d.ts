@@ -214,6 +214,12 @@ export declare interface ProjectGanttProps {
     sidebarWidth?: number;
     /** When true, shows ISO week numbers in day/week view header */
     showWeekNumbers?: boolean;
+    /** Called when progress is updated via inline slider */
+    onProgressChange?: (taskId: string, percent: number) => void;
+    /** Called when multiple tasks are deleted in bulk */
+    onBulkDelete?: (taskIds: string[]) => Promise<void>;
+    /** Called when progress is updated in bulk for multiple tasks */
+    onBulkProgressChange?: (taskIds: string[], percent: number) => Promise<void>;
 }
 
 /** Portuguese (Brazil) translation strings for ZeGantt */
